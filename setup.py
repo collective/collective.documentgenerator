@@ -43,6 +43,7 @@ setup(
     install_requires=[
         'five.grok',
         'plone.api',
+        'plone.app.dexterity',
         'setuptools',
     ],
     extras_require={
