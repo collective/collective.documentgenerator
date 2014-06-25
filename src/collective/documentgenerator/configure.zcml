@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.documentgenerator">
+
+    <i18n:registerTranslations directory="locales" />
+
+    <five:registerPackage package="." initialize=".initialize" />
+    
+    <include package="five.grok" />
+    <include package="plone.api" />
+
+    <include package=".browser" />
+    <include package=".content" />
+
+    <grok:grok package="." />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="collective.documentgenerator"
+        directory="profiles/default"
+        description="Installs the collective.documentgenerator add-on."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:importStep
+        name="collectivedocumentgenerator-postInstall"
+        title="collective.documentgenerator post_install import step"
+        description="Post install import step from collective.documentgenerator"
+        handler=".setuphandlers.post_install">
+    </genericsetup:importStep>
+
+</configure>
