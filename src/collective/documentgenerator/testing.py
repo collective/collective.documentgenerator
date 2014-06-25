@@ -18,19 +18,37 @@ import unittest2 as unittest
 import collective.documentgenerator
 
 
-class CollectiveDocumentgeneratorLayer(PloneSandboxLayer):
+class NakedPloneLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
-    products = ('collective.documentgenerator',
-               )
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
         self.loadZCML(package=collective.documentgenerator,
                       name='testing.zcml')
-        for p in self.products:
-            z2.installProduct(app, p)
+        z2.installProduct(app, 'collective.documentgenerator')
+
+    def tearDownZope(self, app):
+        """Tear down Zope."""
+        z2.uninstallProduct(app, 'collective.documentgenerator')
+
+NAKED_PLONE_FIXTURE = NakedPloneLayer(
+    name="NAKED_PLONE_FIXTURE"
+)
+
+NAKED_PLONE_INTEGRATION = IntegrationTesting(
+    bases=(NAKED_PLONE_FIXTURE,),
+    name="NAKED_PLONE_INTEGRATION"
+)
+
+
+class CollectiveDocumentgeneratorLayer(NakedPloneLayer):
+
+    defaultBases = (PLONE_FIXTURE,)
+    products = (
+        'collective.documentgenerator',
+    )
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -47,27 +65,22 @@ class CollectiveDocumentgeneratorLayer(PloneSandboxLayer):
         import transaction
         transaction.commit()
 
-    def tearDownZope(self, app):
-        """Tear down Zope."""
-        for p in reversed(self.products):
-            z2.uninstallProduct(app, p)
-
 
 FIXTURE = CollectiveDocumentgeneratorLayer(
     name="FIXTURE"
-    )
+)
 
 
 INTEGRATION = IntegrationTesting(
     bases=(FIXTURE,),
     name="INTEGRATION"
-    )
+)
 
 
 FUNCTIONAL = FunctionalTesting(
     bases=(FIXTURE,),
     name="FUNCTIONAL"
-    )
+)
 
 
 ACCEPTANCE = FunctionalTesting(bases=(FIXTURE,
