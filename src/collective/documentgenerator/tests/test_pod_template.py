@@ -5,12 +5,12 @@ from collective.documentgenerator.testing import IntegrationTestCase
 from plone import api
 
 
-class TestODTTemplate(IntegrationTestCase):
+class TestPODTemplate(IntegrationTestCase):
     """
-    Test ODTTemplate content type
+    Test PODTemplate content type
     """
 
-    def test_ODTTemplate_portal_type_is_registered(self):
+    def test_PODTemplate_portal_type_is_registered(self):
         portal_types = api.portal.get_tool('portal_types')
         registered_types = portal_types.listContentTypes()
-        self.assertTrue('ODTTemplate' in registered_types)
+        self.assertTrue('PODTemplate' in registered_types)

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<object name="ODTTemplate" meta_type="Dexterity FTI" i18n:domain="collective.documentgenerator"
+<object name="PODTemplate" meta_type="Dexterity FTI" i18n:domain="collective.documentgenerator"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">ODTTemplate</property>
+ <property name="title" i18n:translate="">PODTemplate</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
- <property name="factory">ODTTemplate</property>
+ <property name="factory">PODTemplate</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++ODTTemplate</property>
+    name="add_view_expr">string:${folder_url}/++add++PODTemplate</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -17,11 +17,11 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">collective.documentgenerator.content.odt_template.ODTTemplate</property>
+ <property name="klass">collective.documentgenerator.content.pod_template.PODTemplate</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
- <property name="schema">collective.documentgenerator.content.odt_template.IODTTemplate</property>
+ <property name="schema">collective.documentgenerator.content.pod_template.IPODTemplate</property>
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

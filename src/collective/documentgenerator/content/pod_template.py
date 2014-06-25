@@ -6,15 +6,15 @@ from plone.supermodel import model
 from zope.interface import implements
 
 
-class IODTTemplate(model.Schema):
+class IPODTemplate(model.Schema):
     """
-    ODTTemplate dexterity schema.
-    """
-
-
-class ODTTemplate(Item):
-    """
-    ODTTemplate dexterity class.
+    PODTemplate dexterity schema.
     """
 
-    implements(IODTTemplate)
+
+class PODTemplate(Item):
+    """
+    PODTemplate dexterity class.
+    """
+
+    implements(IPODTemplate)
