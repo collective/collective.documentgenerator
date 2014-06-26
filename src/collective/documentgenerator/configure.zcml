@@ -9,6 +9,7 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
+    <include package="imio.helpers" />
     <include package="plone.api" />
     <include package="plone.app.dexterity" />
 
