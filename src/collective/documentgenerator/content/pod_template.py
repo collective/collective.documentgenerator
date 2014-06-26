@@ -3,7 +3,7 @@
 from collective.documentgenerator import _
 
 from plone.autoform import directives as form
-from plone.dexterity.content import Container
+from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
@@ -22,7 +22,7 @@ class IPODTemplate(model.Schema):
     )
 
 
-class PODTemplate(Container):
+class PODTemplate(Item):
     """
     PODTemplate dexterity class.
     """
