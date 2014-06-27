@@ -28,3 +28,6 @@ class PODTemplate(Item):
     """
 
     implements(IPODTemplate)
+
+    def get_file(self):
+        return self.odt_file

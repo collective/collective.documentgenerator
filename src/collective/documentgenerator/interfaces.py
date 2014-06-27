@@ -6,3 +6,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 class ICollectiveDocumentgeneratorLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
+
+
+class PODTemplateNotFoundError(Exception):
+    """ """

@@ -10,4 +10,11 @@
       directory="static"
       />
 
+    <browser:page
+        for="*"
+        name="document-generation"
+        class="collective.documentgenerator.browser.generation_view.DocumentGenerationView"
+        permission="zope2.View"
+     />
+
 </configure>
