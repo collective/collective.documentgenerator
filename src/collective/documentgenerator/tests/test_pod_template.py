@@ -23,7 +23,7 @@ class TestPODTemplate(unittest.TestCase):
         self.assertTrue('PODTemplate' in registered_types)
 
 
-class TesPODTemplateFields(PODTemplateIntegrationBrowserTest):
+class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
     """
     Test schema fields declaration.
     """
@@ -54,3 +54,39 @@ class TesPODTemplateFields(PODTemplateIntegrationBrowserTest):
         contents = self.browser.contents
         msg = "field 'odt_file' is not editable"
         self.assertTrue('Document odt' in contents, msg)
+
+    def test_pod_permission_attribute(self):
+        test_podtemplate = aq_base(self.test_podtemplate)
+        self.assertTrue(hasattr(test_podtemplate, 'pod_permission'))
+
+    def test_pod_permission_field_display(self):
+        self.browser.open(self.test_podtemplate.absolute_url())
+        contents = self.browser.contents
+        msg = "field 'pod_permission' is not displayed"
+        self.assertTrue('id="form-widgets-pod_permission"' in contents, msg)
+        msg = "field 'pod_permission' is not translated"
+        self.assertTrue('Permission' in contents, msg)
+
+    def test_pod_permission_field_edit(self):
+        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
+        contents = self.browser.contents
+        msg = "field 'pod_permission' is not editable"
+        self.assertTrue('Permission' in contents, msg)
+
+    def test_pod_expression_attribute(self):
+        test_podtemplate = aq_base(self.test_podtemplate)
+        self.assertTrue(hasattr(test_podtemplate, 'pod_expression'))
+
+    def test_pod_expression_field_display(self):
+        self.browser.open(self.test_podtemplate.absolute_url())
+        contents = self.browser.contents
+        msg = "field 'pod_expression' is not displayed"
+        self.assertTrue('id="form-widgets-pod_expression"' in contents, msg)
+        msg = "field 'pod_expression' is not translated"
+        self.assertTrue('Expression TAL' in contents, msg)
+
+    def test_pod_expression_field_edit(self):
+        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
+        contents = self.browser.contents
+        msg = "field 'pod_expression' is not editable"
+        self.assertTrue('Expression TAL' in contents, msg)

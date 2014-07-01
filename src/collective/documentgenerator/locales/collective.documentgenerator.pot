@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-26 12:23+0000\n"
+"POT-Creation-Date: 2014-07-01 08:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,19 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:21
+#: ../content/pod_template.py:29
 msgid "ODT File"
 msgstr ""
 
 #: ../profiles/default/types/PODTemplate.xml
 msgid "PODTemplate"
+msgstr ""
+
+#: ../content/pod_template.py:33
+msgid "Permission"
+msgstr ""
+
+#: ../content/pod_template.py:39
+msgid "TAL expression"
 msgstr ""
 

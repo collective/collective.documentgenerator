@@ -2,4 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="collective.documentgenerator">
 
+    <include file="vocabulary.zcml" />
+
 </configure>
