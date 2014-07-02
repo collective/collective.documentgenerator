@@ -19,6 +19,7 @@
  <property name="add_permission">cmf.AddPortalContent</property>
  <property name="klass">collective.documentgenerator.content.pod_template.PODTemplate</property>
  <property name="behaviors">
+  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
  <property name="schema">collective.documentgenerator.content.pod_template.IPODTemplate</property>
