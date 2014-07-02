@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Products.CMFCore.Expression import Expression
+from Products.CMFCore.utils import _checkPermission
 from Products.PageTemplates.Expressions import getEngine
 
 from collective.documentgenerator import _
@@ -13,7 +14,6 @@ from plone.supermodel import model
 
 from zope import schema
 from zope.interface import implements
-from zope.security import checkPermission
 
 import logging
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
@@ -60,10 +60,13 @@ class PODTemplate(Item):
         if not TAL_context:
             TAL_context = {}
 
-        has_permission = checkPermission(self.pod_permission, context)
+        has_permission = self.check_pod_permission(context)
         can_generate = self.evaluate_pod_condition(context, TAL_context)
 
         return has_permission and can_generate
+
+    def check_pod_permission(self, context):
+        return _checkPermission(self.pod_permission, context)
 
     def evaluate_pod_condition(self, obj, TAL_context):
         """
@@ -71,8 +74,10 @@ class PODTemplate(Item):
         """
         result = True  # At least for now
 
-        TAL_condition = self.pod_condition.strip()
+        TAL_condition = self.pod_expression
+
         if TAL_condition:
+            TAL_condition = TAL_condition.strip()
             TAL_context = getEngine().getContext(TAL_context)
             result = Expression(TAL_condition)(TAL_context)
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from AccessControl import Unauthorized
+
 from Products.Five import BrowserView
 
 from StringIO import StringIO
@@ -29,13 +31,19 @@ class DocumentGenerationView(BrowserView):
         return self.generate_doc()
 
     def generate_doc(self):
-        document_template = self.get_document_template()
+        pod_template = self.get_pod_template()
+        # Raise Unauthorized if current user has not the permission to generate
+        # this PODTemplate
+        self.check_permission(pod_template)
+
+        document_template = pod_template.get_file()
         file_type = self.get_generation_mimetype()
+
         rendered_document = self.render_document(document_template, file_type)
         self.set_header_response(file_type)
         return rendered_document
 
-    def get_document_template(self):
+    def get_pod_template(self):
         template_uid = self.get_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
@@ -46,15 +54,26 @@ class DocumentGenerationView(BrowserView):
             )
 
         pod_template = template_brains[0].getObject()
-        document_template = pod_template.get_file()
-        return document_template
+        return pod_template
+
+    def check_permission(self, pod_template):
+        if not pod_template.check_pod_permission(self.context):
+            raise  Unauthorized(
+                "You need '{permission}' on context '{context}' to generate pod_template"
+                " '{template}'".format(
+                    permission=pod_template.pod_permission,
+                    context=self.context,
+                    template=pod_template,
+                )
+            )
 
     def get_template_uid(self):
         template_uid = self.request.get('doc_uid', None)
         return template_uid
 
     def get_generation_mimetype(self):
-        return 'odt'
+        mimetype = self.request.get('output_format', 'odt')
+        return mimetype
 
     def render_document(self, document_obj, file_type):
         temp_filename = '%s/%s_%f.%s' % (get_tmp_folder(), document_obj.size, time.time(), file_type)
