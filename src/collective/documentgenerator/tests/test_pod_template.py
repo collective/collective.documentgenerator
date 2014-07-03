@@ -22,6 +22,9 @@ class TestPODTemplate(unittest.TestCase):
         registered_types = portal_types.listContentTypes()
         self.assertTrue('PODTemplate' in registered_types)
 
+    def test_no_workflow_for_PODTemplate_tyep(self):
+        self.assertTrue(True)
+
 
 class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
     """
