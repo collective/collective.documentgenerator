@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-07-01 08:42+0000\n"
+"POT-Creation-Date: 2014-07-04 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,20 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
+#: ../profiles/default/types/ConfigurablePODTemplate.xml
+msgid "ConfigurablePODTemplate"
+msgstr ""
+
+#: ../content/pod_template.py:79
+msgid "Enabled"
+msgstr ""
+
+#: ../profiles/default/types/ConfigurablePODTemplate.xml
 #: ../profiles/default/types/PODTemplate.xml
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:29
+#: ../content/pod_template.py:36
 msgid "ODT File"
 msgstr ""
 
@@ -29,11 +38,11 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:33
+#: ../content/pod_template.py:67
 msgid "Permission"
 msgstr ""
 
-#: ../content/pod_template.py:39
+#: ../content/pod_template.py:74
 msgid "TAL expression"
 msgstr ""
 

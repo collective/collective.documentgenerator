@@ -104,12 +104,6 @@ EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
 )
 
 
-EXAMPLE_POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
-    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name="EXAMPLE_POD_TEMPLATE_FUNCTIONAL"
-)
-
-
 class PODTemplateIntegrationBrowserTest(BrowserTest):
     """Base class for integration tests."""
 
@@ -117,5 +111,43 @@ class PODTemplateIntegrationBrowserTest(BrowserTest):
 
     def setUp(self):
         super(PODTemplateIntegrationBrowserTest, self).setUp()
+        self.test_podtemplate = self.portal.get('test_podtemplate')
+        self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+
+class ExampleConfigurablePODTemplateLayer(TestInstallDocumentgeneratorLayer):
+
+    def setUpPloneSite(self, portal):
+        super(ExampleConfigurablePODTemplateLayer, self).setUpPloneSite(portal)
+
+        # Create some test content
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_podtemplate',
+            container=portal,
+        )
+
+        # Commit so that the test browser sees these objects
+        import transaction
+        transaction.commit()
+
+
+EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE = ExampleConfigurablePODTemplateLayer(
+    name="EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE"
+)
+
+EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
+    bases=(EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE,),
+    name="EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION"
+)
+
+
+class ConfigurablePODTemplateIntegrationBrowserTest(BrowserTest):
+    """Base class for integration tests."""
+
+    layer = EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION
+
+    def setUp(self):
+        super(ConfigurablePODTemplateIntegrationBrowserTest, self).setUp()
         self.test_podtemplate = self.portal.get('test_podtemplate')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)

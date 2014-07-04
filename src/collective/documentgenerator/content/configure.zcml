@@ -4,4 +4,11 @@
 
     <include file="vocabulary.zcml" />
 
+    <adapter
+      for="collective.documentgenerator.content.pod_template.IPODTemplate
+           zope.interface.Interface"
+      factory=".condition.PODTemplateCondition"
+      name="default-generation-condition"
+    />
+
 </configure>

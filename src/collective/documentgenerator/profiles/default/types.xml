@@ -2,5 +2,6 @@
 <object name="portal_types" meta_type="Plone Types Tool">
  <property name="title">Controls the available content types in your portal</property>
  <object name="PODTemplate" meta_type="Dexterity FTI"/>
+ <object name="ConfigurablePODTemplate" meta_type="Dexterity FTI"/>
  <!-- -*- extra stuff goes here -*- -->
 </object>

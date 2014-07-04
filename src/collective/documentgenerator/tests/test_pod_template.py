@@ -2,10 +2,18 @@
 
 from Acquisition import aq_base
 
+from collective.documentgenerator.content.condition import PODTemplateCondition
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationBrowserTest
 
 from plone import api
+from plone.namedfile.file import NamedBlobFile
+
+from zope.component import getGlobalSiteManager
+from zope.component import queryMultiAdapter
+from zope.interface import Interface
 
 import unittest
 
@@ -21,9 +29,6 @@ class TestPODTemplate(unittest.TestCase):
         portal_types = api.portal.get_tool('portal_types')
         registered_types = portal_types.listContentTypes()
         self.assertTrue('PODTemplate' in registered_types)
-
-    def test_no_workflow_for_PODTemplate_tyep(self):
-        self.assertTrue(True)
 
 
 class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
@@ -58,38 +63,58 @@ class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
         msg = "field 'odt_file' is not editable"
         self.assertTrue('Document odt' in contents, msg)
 
-    def test_pod_permission_attribute(self):
-        test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'pod_permission'))
 
-    def test_pod_permission_field_display(self):
-        self.browser.open(self.test_podtemplate.absolute_url())
-        contents = self.browser.contents
-        msg = "field 'pod_permission' is not displayed"
-        self.assertTrue('id="form-widgets-pod_permission"' in contents, msg)
-        msg = "field 'pod_permission' is not translated"
-        self.assertTrue('Permission' in contents, msg)
+class TestPODTemplateIntegration(PODTemplateIntegrationBrowserTest):
+    """
+    Test PODTemplate methods.
+    """
 
-    def test_pod_permission_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
-        msg = "field 'pod_permission' is not editable"
-        self.assertTrue('Permission' in contents, msg)
+    def test_get_file(self):
+        odt_file = self.test_podtemplate.get_file()
+        # so far the field should be empty
+        self.assertTrue(not odt_file)
 
-    def test_pod_expression_attribute(self):
-        test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'pod_expression'))
+        expected_file = NamedBlobFile(
+            data='yolo',
+            contentType='applications/odt',
+        )
 
-    def test_pod_expression_field_display(self):
-        self.browser.open(self.test_podtemplate.absolute_url())
-        contents = self.browser.contents
-        msg = "field 'pod_expression' is not displayed"
-        self.assertTrue('id="form-widgets-pod_expression"' in contents, msg)
-        msg = "field 'pod_expression' is not translated"
-        self.assertTrue('Expression TAL' in contents, msg)
+        self.test_podtemplate.odt_file = expected_file
+        odt_file = self.test_podtemplate.get_file()
+        msg = "Accessor 'get_file' does not return odt_file field value."
+        self.assertTrue(odt_file == expected_file, msg)
 
-    def test_pod_expression_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
-        msg = "field 'pod_expression' is not editable"
-        self.assertTrue('Expression TAL' in contents, msg)
+    def test_default_generation_condition_registration(self):
+        pod_template = self.test_podtemplate
+        context = self.portal
+        default_condition_adapter = pod_template.condition_adapter
+        condition_obj = queryMultiAdapter(
+            (pod_template, context),
+            IPODTemplateCondition,
+            default_condition_adapter
+        )
+
+        self.assertTrue(condition_obj is not None)
+
+    def test_default_generation_condition_is_True(self):
+        can_be_generated = self.test_podtemplate.can_be_generated(self.portal)
+        self.assertTrue(can_be_generated is True)
+
+    def test_custom_generation_condition(self):
+        """
+        Register a custom condition and see if its taken into account by our test_podtemplate.
+        """
+        pod_template = self.test_podtemplate
+        can_be_generated = pod_template.can_be_generated(self.portal)
+        self.assertTrue(can_be_generated is True)
+
+        class CustomCondition(PODTemplateCondition):
+            def evaluate(self):
+                return 'yolo'
+
+        gsm = getGlobalSiteManager()
+        gsm.registerAdapter(CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition, 'kmfms')
+        pod_template.condition_adapter = 'kmfms'
+
+        can_be_generated = pod_template.can_be_generated(self.portal)
+        self.assertTrue(can_be_generated == 'yolo')

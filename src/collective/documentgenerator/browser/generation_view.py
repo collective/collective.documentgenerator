@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from AccessControl import Unauthorized
-
 from Products.Five import BrowserView
 
 from StringIO import StringIO
@@ -21,7 +19,7 @@ import time
 
 class DocumentGenerationView(BrowserView):
     """
-        Document generation with appy
+    Document generation with appy.
     """
     def __init__(self, context, request):
         self.context = context
@@ -32,9 +30,8 @@ class DocumentGenerationView(BrowserView):
 
     def generate_doc(self):
         pod_template = self.get_pod_template()
-        # Raise Unauthorized if current user has not the permission to generate
-        # this PODTemplate
-        self.check_permission(pod_template)
+        if not pod_template.can_be_generated(self.context):
+            return
 
         document_template = pod_template.get_file()
         file_type = self.get_generation_mimetype()
@@ -44,7 +41,7 @@ class DocumentGenerationView(BrowserView):
         return rendered_document
 
     def get_pod_template(self):
-        template_uid = self.get_template_uid()
+        template_uid = self.get_pod_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
         template_brains = catalog(portal_type='PODTemplate', UID=template_uid)
@@ -56,18 +53,7 @@ class DocumentGenerationView(BrowserView):
         pod_template = template_brains[0].getObject()
         return pod_template
 
-    def check_permission(self, pod_template):
-        if not pod_template.check_pod_permission(self.context):
-            raise  Unauthorized(
-                "You need '{permission}' on context '{context}' to generate pod_template"
-                " '{template}'".format(
-                    permission=pod_template.pod_permission,
-                    context=self.context,
-                    template=pod_template,
-                )
-            )
-
-    def get_template_uid(self):
+    def get_pod_template_uid(self):
         template_uid = self.request.get('doc_uid', None)
         return template_uid
 
@@ -98,8 +84,8 @@ class DocumentGenerationView(BrowserView):
         return rendered
 
     def get_generation_context_helper(self):
-        dgm = queryMultiAdapter((self.context, self.request), name=u'document-generation-methods')
-        return dgm
+        helper = queryMultiAdapter((self.context, self.request), name=u'document-generation-methods')
+        return helper
 
     def set_header_response(self, file_type):
         # Tell the browser that the resulting page contains ODT
