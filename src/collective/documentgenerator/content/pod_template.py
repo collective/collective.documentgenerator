@@ -89,9 +89,6 @@ class ConfigurablePODTemplate(PODTemplate):
 
     implements(IConfigurablePODTemplate)
 
-    def get_file(self):
-        return self.odt_file
-
     def can_be_generated(self, context, TAL_context=None):
         """
         Check the permission and the  TAL expression of a PODTemplate
