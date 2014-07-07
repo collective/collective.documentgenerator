@@ -146,25 +146,29 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationB
     def test_can_be_generated(self):
         """
         can_be_generated() should be the evaluation of:
-        actived AND check_pod_permission AND evaluate_pod_condition
+        actived AND check_pod_permission() AND evaluate_pod_condition()
 
         Assign negative values to each of the terms and check the result.
         """
         context = self.portal
         pod_template = self.test_podtemplate
         can_be_generated = pod_template.can_be_generated(context)
+        # case 0 (default) : True and True and True
         self.assertTrue(can_be_generated is True)
 
         pod_template.enabled = False
         can_be_generated = pod_template.can_be_generated(context)
+        # case 1: False and True and True
         self.assertTrue(can_be_generated is False)
         pod_template.enabled = True
 
         pod_template.check_pod_permission = lambda x: 0
         can_be_generated = pod_template.can_be_generated(context)
+        # case 2: True and 0 and True
         self.assertTrue(can_be_generated is 0)
         pod_template.enabled = lambda x: True
 
         pod_template.check_pod_permission = lambda x: []
         can_be_generated = pod_template.can_be_generated(context)
+        # case 3: True and True and []
         self.assertTrue(can_be_generated == [])
