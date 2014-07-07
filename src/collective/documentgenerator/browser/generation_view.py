@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from AccessControl import Unauthorized
+
 from Products.Five import BrowserView
 
 from StringIO import StringIO
@@ -31,7 +33,7 @@ class DocumentGenerationView(BrowserView):
     def generate_doc(self):
         pod_template = self.get_pod_template()
         if not pod_template.can_be_generated(self.context):
-            return
+            raise Unauthorized('You are not allowed to generate this document.')
 
         document_template = pod_template.get_file()
         file_type = self.get_generation_mimetype()
