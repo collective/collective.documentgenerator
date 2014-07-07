@@ -70,14 +70,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationBrowserTest):
     """
 
     def test_get_file(self):
-        odt_file = self.test_podtemplate.get_file()
-        # so far the field should be empty
-        self.assertTrue(not odt_file)
-
-        expected_file = NamedBlobFile(
-            data='yolo',
-            contentType='applications/odt',
-        )
+        expected_file = self.test_podtemplate.odt_file
 
         self.test_podtemplate.odt_file = expected_file
         odt_file = self.test_podtemplate.get_file()

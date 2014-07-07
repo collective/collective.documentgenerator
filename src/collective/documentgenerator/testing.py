@@ -15,6 +15,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.namedfile.file import NamedBlobFile
 from plone.testing import z2
 
 import collective.documentgenerator
@@ -82,10 +83,17 @@ class ExamplePODTemplateLayer(TestInstallDocumentgeneratorLayer):
     def setUpPloneSite(self, portal):
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
+        setup_tool = api.portal.get_tool('portal_setup')
+        testing_profile = setup_tool.getProfileInfo('collective.documentgenerator:testing')
+        template_path = '{}/templates/document.odt'.format(testing_profile.get('path'))
         # Create some test content
+        template_file = file(template_path, 'rb').read()
+        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
         api.content.create(
             type='PODTemplate',
             id='test_podtemplate',
+            odt_file=blob_file,
             container=portal,
         )
 
@@ -120,13 +128,19 @@ class ExampleConfigurablePODTemplateLayer(TestInstallDocumentgeneratorLayer):
     def setUpPloneSite(self, portal):
         super(ExampleConfigurablePODTemplateLayer, self).setUpPloneSite(portal)
 
+        setup_tool = api.portal.get_tool('portal_setup')
+        testing_profile = setup_tool.getProfileInfo('collective.documentgenerator:testing')
+        template_path = '{}/templates/document.odt'.format(testing_profile.get('path'))
         # Create some test content
+        template_file = file(template_path, 'rb').read()
+        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_podtemplate',
+            odt_file=blob_file,
             container=portal,
         )
-
         # Commit so that the test browser sees these objects
         import transaction
         transaction.commit()
