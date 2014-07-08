@@ -119,7 +119,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationB
         condition_result = pod_template.evaluate_pod_condition()
         self.assertTrue(condition_result is True)
 
-        pod_template.pod_expression = 'python: "yolo" and "fo shizzle" or "niggah"'
+        pod_template.pod_expression = 'python: "yolo" and "fo shizzle" or "ncha"'
 
         condition_result = pod_template.evaluate_pod_condition()
         self.assertTrue(condition_result == 'fo shizzle')
