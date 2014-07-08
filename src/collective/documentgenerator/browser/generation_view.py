@@ -6,9 +6,11 @@ from Products.Five import BrowserView
 
 from StringIO import StringIO
 
+from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from imio.helpers.os_helpers import get_tmp_folder
+from imio.helpers.security import call_as_super_user
 
 from plone import api
 
@@ -31,7 +33,11 @@ class DocumentGenerationView(BrowserView):
         return self.generate_doc()
 
     def generate_doc(self):
-        pod_template = self.get_pod_template()
+        # The user calling the generation action is not always allowed to access
+        # the PODtemplates, so we use call_as_super_user to be sure to find
+        # them..
+        pod_template = call_as_super_user(self.get_pod_template)
+
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
 
@@ -46,7 +52,7 @@ class DocumentGenerationView(BrowserView):
         template_uid = self.get_pod_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
-        template_brains = catalog(portal_type='PODTemplate', UID=template_uid)
+        template_brains = catalog(object_provides=IPODTemplate.__identifier__, UID=template_uid)
         if not template_brains:
             raise PODTemplateNotFoundError(
                 "Couldn't find POD template with UID '{}'".format(template_uid)
