@@ -9,7 +9,6 @@ from StringIO import StringIO
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
-from imio.helpers.os_helpers import get_tmp_folder
 from imio.helpers.security import call_as_super_user
 
 from plone import api
@@ -18,6 +17,7 @@ from zope.component import queryMultiAdapter
 
 import appy.pod.renderer
 import os
+import tempfile
 import time
 
 
@@ -70,7 +70,7 @@ class DocumentGenerationView(BrowserView):
         return mimetype
 
     def render_document(self, document_obj, file_type):
-        temp_filename = '%s/%s_%f.%s' % (get_tmp_folder(), document_obj.size, time.time(), file_type)
+        temp_filename = '%s/%s_%f.%s' % (tempfile.gettempdir(), document_obj.size, time.time(), file_type)
         # Prepare rendering context
         dgm = self.get_generation_context_helper()
         generation_context = {'self': self.context, 'view': dgm}
