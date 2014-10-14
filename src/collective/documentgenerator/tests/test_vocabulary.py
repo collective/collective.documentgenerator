@@ -22,15 +22,15 @@ class TestVocabularies(unittest.TestCase):
         """
         Localities voc factory should be registered as a named utility.
         """
-        factory_name = 'collective.documentgenerator.Permissions'
+        factory_name = 'collective.documentgenerator.PortalType'
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
 
-    def test_permissions_vocabulary_values(self):
+    def test_portal_type_vocabulary_values(self):
         """
-        Test some permissions values.
+        Test some Portal_type values.
         """
-        voc_name = 'collective.documentgenerator.Permissions'
+        voc_name = 'collective.documentgenerator.PortalType'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         permissions_voc = vocabulary(self.portal)
-        self.assertTrue('View' in permissions_voc)
-        self.assertTrue('Add portal content' in permissions_voc)
+        self.assertTrue('Plone Site' in permissions_voc)
+        self.assertTrue('Event' in permissions_voc)

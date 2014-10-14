@@ -46,3 +46,11 @@ msgstr ""
 msgid "TAL expression"
 msgstr ""
 
+#: ../content/pod_template.py
+msgid "pod_condition"
+msgstr ""
+
+#: ../content/pod_template.py
+msgid "pod_permission"
+msgstr ""
+
