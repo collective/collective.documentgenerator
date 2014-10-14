@@ -17,6 +17,8 @@ from zope import schema
 from zope.component import queryMultiAdapter
 from zope.interface import implements
 
+from z3c.form.browser.select import SelectWidget
+
 import logging
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
@@ -63,15 +65,17 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
-    pod_permission = schema.Choice(
-        title=_(u'Permission'),
-        vocabulary='collective.documentgenerator.Permissions',
-        default='View',
+    form.widget('pod_portal_type', SelectWidget, multiple='multiple', size=15)
+    pod_portal_type = schema.List(
+        title=_(u'PortalType'),
+        description=_(u'pod_portal_type'),
+        value_type=schema.Choice(source='collective.documentgenerator.PortalType'),
         required=False,
     )
 
     pod_expression = schema.TextLine(
         title=_(u'TAL expression'),
+        description=_(u'pod_condition'),
         required=False,
     )
 
@@ -97,13 +101,17 @@ class ConfigurablePODTemplate(PODTemplate):
         if not TAL_context:
             TAL_context = {'here': context, 'object': context, 'context': context, 'self': context}
 
-        has_permission = self.check_pod_permission(context)
+        is_good_pt = self.check_pod_good_pt(context)
         can_generate = self.evaluate_pod_condition(TAL_context)
 
-        return self.enabled and has_permission and can_generate
+        return self.enabled and is_good_pt and can_generate
 
-    def check_pod_permission(self, context):
-        return _checkPermission(self.pod_permission, context)
+    def check_pod_good_pt(self, context):
+        """
+        Evaluate if context is in pt selected list
+        If not use, return True
+        """
+        return (not self.pod_portal_type) or (context.portal_type in self.pod_portal_type)
 
     def evaluate_pod_condition(self, TAL_context=None):
         """

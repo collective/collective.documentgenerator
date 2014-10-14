@@ -2,10 +2,10 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="urbdial.divnot">
 
-    <!-- Permissions Vocabulary -->
+    <!-- Portal Type Vocabulary -->
     <utility
-        factory=".vocabulary.PermissionsVocabularyFactory"
-        name="collective.documentgenerator.Permissions"
+        factory=".vocabulary.PortalTypeVocabularyFactory"
+        name="collective.documentgenerator.PortalType"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
