@@ -6,22 +6,29 @@
 
     <!-- Publish static files -->
     <browser:resourceDirectory
-      name="collective.documentgenerator"
-      directory="static"
-      />
+        name="collective.documentgenerator"
+        directory="static"
+        />
+
+    <browser:resourceDirectory
+        name="collective.documentgenerator.css"
+        directory="resources/css"
+        layer="..interfaces.ICollectiveDocumentgeneratorLayer"
+        />
 
     <browser:page
         for="*"
         name="document-generation"
         class="collective.documentgenerator.browser.generation_view.DocumentGenerationView"
         permission="zope2.View"
-     />
+        />
 
     <browser:viewlet
         for="*"
         name="document-generation-link"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
         class="collective.documentgenerator.viewlets.generationlinks.DocumentGeneratorLinksViewlet"
-        permission="zope2.View"/>
+        permission="zope2.View"
+        />
 
 </configure>

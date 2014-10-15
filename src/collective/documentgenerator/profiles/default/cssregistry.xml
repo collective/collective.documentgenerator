@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_css">
+
+ <stylesheet title="Document generation basic styles"
+    id="++resource++collective.documentgenerator.css/documentgenerator.css"
+    media="screen" rel="stylesheet" rendering="import"
+    cacheable="True" compression="safe" cookable="True"
+    enabled="1" expression=""
+    insert-before="ploneCustom.css" />
+
+</object>
