@@ -30,3 +30,39 @@ class TestDemoProfile(unittest.TestCase):
         msg = 'Pod templates folder doesn\'t exist'
         self.assertTrue(hasattr(site, 'podtemplates'), msg)
         self.assertTrue(site.podtemplates.portal_type == 'Folder')
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Pod templates folder should be unique'
+        self.assertTrue(not hasattr(site, 'podtemplates-1'), msg)
+
+    def test_PODTemplate_folder_out_of_navigation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Pod templates folder should be out of navigation'
+        self.assertTrue(site.podtemplates.exclude_from_nav(), msg)
+
+    def test_PODTemplateModel_creation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test podtemplate doesn\'t exist '
+        self.assertTrue(hasattr(site.podtemplates, 'test_template'), msg)
+        self.assertTrue(site.podtemplates.test_template.portal_type == 'PODTemplate')
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test pod templates should be unique'
+        self.assertTrue(not hasattr(site.podtemplates, 'test_template-1'), msg)
+
+    def test_PODTemplateModel_out_of_navigation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test pod templates should be out of navigation'
+        self.assertTrue(site.podtemplates.test_template.exclude_from_nav(), msg)
+

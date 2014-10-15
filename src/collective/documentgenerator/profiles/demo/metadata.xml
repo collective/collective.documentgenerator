@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
    <dependencies>
-    <dependency>collective.documentgenerator:default</dependency>
+    <dependency>profile-collective.documentgenerator:default</dependency>
    </dependencies>
   <version>1</version>
 </metadata>
