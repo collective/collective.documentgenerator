@@ -2,5 +2,8 @@
      tal:condition="view/available"
      i18n:domain="collective.documentgenerator">
 
+	 <tal:links repeat="infos view/getLinksInfo">
+	 	<a tal:attributes="href python: infos['link']" tal:content="python: infos['title']"></a>
+	 </tal:links>
 
 </div>
