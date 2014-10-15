@@ -1,0 +1,6 @@
+<div id="doc-generation-view"
+     tal:condition="view/available"
+     i18n:domain="collective.documentgenerator">
+
+
+</div>
