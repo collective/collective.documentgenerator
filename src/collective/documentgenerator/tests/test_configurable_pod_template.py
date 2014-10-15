@@ -6,8 +6,6 @@ from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationBrowserTest
 
 from plone import api
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 
 import unittest
 
