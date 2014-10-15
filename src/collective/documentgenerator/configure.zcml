@@ -26,6 +26,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="demo"
+        title="collective.documentgenerator demo"
+        directory="profiles/demo"
+        description="Installs the collective.documentgenerator demo profile."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <genericsetup:importStep
         name="collectivedocumentgenerator-postInstall"
         title="collective.documentgenerator post_install import step"
