@@ -6,8 +6,6 @@ from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationBrowserTest
 
 from plone import api
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 
 import unittest
 
@@ -39,23 +37,23 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationBrowse
         podtemplate_type = portal_types.get(self.test_podtemplate.portal_type)
         self.assertTrue('IConfigurablePODTemplate' in podtemplate_type.schema)
 
-    def test_pod_permission_attribute(self):
+    def test_pod_portal_type_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'pod_permission'))
+        self.assertTrue(hasattr(test_podtemplate, 'pod_portal_type'))
 
-    def test_pod_permission_field_display(self):
+    def test_pod_portal_type_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
         contents = self.browser.contents
-        msg = "field 'pod_permission' is not displayed"
-        self.assertTrue('id="form-widgets-pod_permission"' in contents, msg)
-        msg = "field 'pod_permission' is not translated"
-        self.assertTrue('Permission' in contents, msg)
+        msg = "field 'pod_portal_type' is not displayed"
+        self.assertTrue('id="form-widgets-pod_portal_type"' in contents, msg)
+        msg = "field 'pod_portal_type' is not translated"
+        self.assertTrue('PortalType' in contents, msg)
 
-    def test_pod_permission_field_edit(self):
+    def test_pod_portal_type_field_edit(self):
         self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
         contents = self.browser.contents
-        msg = "field 'pod_permission' is not editable"
-        self.assertTrue('Permission' in contents, msg)
+        msg = "field 'pod_portal_type' is not editable"
+        self.assertTrue('PortalType' in contents, msg)
 
     def test_pod_expression_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
@@ -99,20 +97,16 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationB
     Test ConfigurablePODTemplate methods.
     """
 
-    def test_check_pod_permission(self):
+    def test_check_pod_portal_type(self):
         context = self.portal
         pod_template = self.test_podtemplate
-        has_permission = pod_template.check_pod_permission(context)
-        self.assertTrue(has_permission)
+        is_pt = pod_template.check_pod_good_pt(context)
+        self.assertTrue(is_pt)
 
-        # lower roles of ur test user
-        setRoles(self.portal, TEST_USER_ID, ['Reader'])
-        # set a higher permssion on the pod template
-        pod_template.pod_permission = 'Add portal content'
-
-        has_permission = pod_template.check_pod_permission(context)
-        msg = "check_pod_permission() should return False: Reader role do not have 'Add portal content' permission"
-        self.assertTrue(not has_permission, msg)
+        pod_template.pod_portal_type = ('Event',)
+        is_pt = pod_template.check_pod_good_pt(context)
+        msg = "check_pod_portal_type() should return False: Event isn't in selected portal_type"
+        self.assertTrue(not is_pt, msg)
 
     def test_evaluate_pod_condition(self):
         pod_template = self.test_podtemplate
@@ -146,29 +140,36 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationB
     def test_can_be_generated(self):
         """
         can_be_generated() should be the evaluation of:
-        actived AND check_pod_permission() AND evaluate_pod_condition()
+        actived AND check_pod_good_pt() AND evaluate_pod_condition()
 
         Assign negative values to each of the terms and check the result.
         """
         context = self.portal
         pod_template = self.test_podtemplate
         can_be_generated = pod_template.can_be_generated(context)
-        # case 0 (default) : True and True and True
+        # case 0 (default) : True and ... and ...
         self.assertTrue(can_be_generated is True)
 
         pod_template.enabled = False
         can_be_generated = pod_template.can_be_generated(context)
-        # case 1: False and True and True
+        # case 1: False and ... and ...
         self.assertTrue(can_be_generated is False)
         pod_template.enabled = True
-
-        pod_template.check_pod_permission = lambda x: 0
+        pod_template.pod_portal_type = ('Event',)
         can_be_generated = pod_template.can_be_generated(context)
-        # case 2: True and 0 and True
-        self.assertTrue(can_be_generated is 0)
-        pod_template.enabled = lambda x: True
+        # case 2: True and False and ... (Portal type isn't in selected list)
+        self.assertTrue(can_be_generated is False)
+        pod_template.pod_portal_type = ('Plone Site',)
+        can_be_generated = pod_template.can_be_generated(context)
+        # case 2 bis: True and True and ... (Portal type is in selected list)
+        self.assertTrue(can_be_generated is True)
+        pod_template.pod_portal_type = ()
+        can_be_generated = pod_template.can_be_generated(context)
+        # case 2 ter: True and True and ... (No selected list)
+        self.assertTrue(can_be_generated is True)
 
-        pod_template.check_pod_permission = lambda x: []
+        pod_template.enabled = lambda x: True
+        pod_template.check_pod_good_pt = lambda x: []
         can_be_generated = pod_template.can_be_generated(context)
         # case 3: True and True and []
         self.assertTrue(can_be_generated == [])
