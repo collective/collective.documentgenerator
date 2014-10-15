@@ -14,6 +14,10 @@ class IDocumentGenerationHelper(Interface):
     """Class implementing all the helpers method needed for document generation."""
 
 
+class IFieldRendererForDocument(Interface):
+    """"""
+
+
 class PODTemplateNotFoundError(Exception):
     """ """
 

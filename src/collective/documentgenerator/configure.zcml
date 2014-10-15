@@ -16,6 +16,8 @@
     <include package=".browser" />
     <include package=".content" />
 
+    <include file="renderer.zcml"/>
+
     <genericsetup:registerProfile
         name="default"
         title="collective.documentgenerator"
@@ -40,9 +42,8 @@
     </genericsetup:importStep>
 
     <adapter
-        for="Products.Archetypes.interfaces.base.IBaseObject"
+        for="Products.Archetypes.interfaces.IBaseObject"
         provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
-        name="document-generation-helper"
         factory="collective.documentgenerator.helper.ATDocumentGenerationHelperView"
         permission="zope2.View"
      />

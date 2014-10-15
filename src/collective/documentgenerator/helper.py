@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
+from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
+from zope.component import getMultiAdapter
 from zope.interface import implements
 
 
@@ -16,7 +18,7 @@ class DocumentGenerationHelperView(object):
         """
         """
         self.context = context
-        self.obj = DisplayProxyObject(self, context, self.display)
+        self.obj = DisplayProxyObject(context, self.display)
 
     def display(self, field_name, context=None):
         """To implements."""
@@ -24,12 +26,23 @@ class DocumentGenerationHelperView(object):
 
 class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
     """
-    Archetype implementation of document generation helper methods.
+    Archetypes implementation of document generation helper methods.
     """
 
     def display(self, field_name, context=None):
         if context is None:
             context = self.context
+
+        field_renderer = self.get_field_renderer(field_name, context)
+        display_value = field_renderer.render()
+
+        return display_value
+
+    def get_field_renderer(self, field_name, context):
+        field = context.getField(field_name)
+        widget = field.widget
+        renderer = getMultiAdapter((field, widget, context), IFieldRendererForDocument)
+        return renderer
 
 
 class DisplayProxyObject(object):
