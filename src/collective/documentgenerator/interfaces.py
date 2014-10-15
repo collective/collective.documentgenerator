@@ -10,6 +10,10 @@ class ICollectiveDocumentgeneratorLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
+class IDocumentGenerationHelper(Interface):
+    """Class implementing all the helpers method needed for document generation."""
+
+
 class PODTemplateNotFoundError(Exception):
     """ """
 

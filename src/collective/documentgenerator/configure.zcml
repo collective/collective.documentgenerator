@@ -31,4 +31,12 @@
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
 
+    <adapter
+        for="Products.Archetypes.interfaces.base.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
+        name="document-generation-helper"
+        factory="collective.documentgenerator.helper.ATDocumentGenerationHelperView"
+        permission="zope2.View"
+     />
+
 </configure>
