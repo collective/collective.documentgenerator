@@ -7,13 +7,14 @@ from Products.Five import BrowserView
 from StringIO import StringIO
 
 from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from imio.helpers.security import call_as_super_user
 
 from plone import api
 
-from zope.component import queryMultiAdapter
+from zope.component import queryAdapter
 
 import appy.pod.renderer
 import os
@@ -92,7 +93,7 @@ class DocumentGenerationView(BrowserView):
         return rendered
 
     def get_generation_context_helper(self):
-        helper = queryMultiAdapter((self.context, self.request), name=u'document-generation-methods')
+        helper = queryAdapter(self.context, IDocumentGenerationHelper)
         return helper
 
     def set_header_response(self, file_type):
