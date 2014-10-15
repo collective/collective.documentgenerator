@@ -20,7 +20,8 @@ def install_demo(context):
     if not hasattr(portal, 'podtemplates'):
         templates_folder = api.content.create(
             type='Folder',
-            title='podtemplates',
+            title='POD Templates',
+            id='podtemplates',
             container=portal,
             excludeFromNav=True
         )
@@ -35,7 +36,22 @@ def install_demo(context):
     if not hasattr(portal.podtemplates, 'test_template'):
         demo_template = api.content.create(
             type='PODTemplate',
-            title='test_template',
+            id='test_template',
+            title='Document A',
+            odt_file=blob_file,
+            container=portal.podtemplates,
+            excludeFromNav=True
+        )
+
+    template_path = '{}/templates/document-2.odt'.format(demo_profile.get('path'))
+    template_file = file(template_path, 'rb').read()
+    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
+    if not hasattr(portal.podtemplates, 'test_template_bis'):
+        demo_template = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_template_bis',
+            title='Document B',
             odt_file=blob_file,
             container=portal.podtemplates,
             excludeFromNav=True

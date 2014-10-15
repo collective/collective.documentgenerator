@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="collective.documentgenerator">
+
+    <adapter
+        for="Products.Archetypes.interfaces.field.IObjectField
+             Products.Archetypes.Widget.TypesWidget
+             Products.Archetypes.interfaces.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.AT_renderer.DefaultATFieldRenderer"
+        permission="zope2.View"
+     />
+
+    <adapter
+        for="Products.Archetypes.interfaces.field.IObjectField
+             Products.Archetypes.Widget.InAndOutWidget
+             Products.Archetypes.interfaces.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.AT_renderer.VocabularyATFieldRenderer"
+        permission="zope2.View"
+     />
+
+</configure>
