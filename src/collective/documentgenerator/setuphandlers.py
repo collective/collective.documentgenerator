@@ -20,7 +20,8 @@ def install_demo(context):
     if not hasattr(portal, 'podtemplates'):
         templates_folder = api.content.create(
             type='Folder',
-            title='podtemplates',
+            title='POD Templates',
+            id='podtemplates',
             container=portal,
             excludeFromNav=True
         )
