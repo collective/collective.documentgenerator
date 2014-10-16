@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-07-04 13:27+0000\n"
+"POT-Creation-Date: 2014-10-16 06:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,11 +14,19 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
+#: ../content/pod_template.py:70
+msgid "Allowed portal types"
+msgstr "Types de contenu autorisés"
+
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle POD"
 
-#: ../content/pod_template.py:79
+#: ../viewlets/generationlinks.pt:6
+msgid "Documents to generate"
+msgstr "Documents à générer"
+
+#: ../content/pod_template.py:83
 msgid "Enabled"
 msgstr "Activé"
 
@@ -27,7 +35,7 @@ msgstr "Activé"
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:36
+#: ../content/pod_template.py:38
 msgid "ODT File"
 msgstr "Document odt"
 
@@ -35,18 +43,15 @@ msgstr "Document odt"
 msgid "PODTemplate"
 msgstr "Modèle POD restreint"
 
-#: ../content/pod_template.py:67
-msgid "Permission"
-msgstr "Permission"
-
-#: ../content/pod_template.py:74
+#: ../content/pod_template.py:77
 msgid "TAL expression"
 msgstr "Expression TAL"
 
-#: ../content/pod_template.py
+#: ../content/pod_template.py:78
 msgid "pod_condition"
 msgstr "Si cette condition est vraie (et pour autant que l'utilisateur dispose des permissions appropriées telles que définies dans le champ suivant), l'utilisateur sera capable de générer des documents sur base de ce canevas (une icône sera affichée). Cette condition doit être exprimée en TAL (Tag Attribute Language). Le contexte de l'expression inclut le nom 'here' qui représente l'objet sur lequel le canevas sera appliqué. Si vous ne connaissez pas TAL, vous pouvez l'apprendre <a href=\"http://zope.org/Documentation/Books/ZopeBook/2_6Edition/ZPT.stx\">ici</a>."
 
-#: ../content/pod_template.py
-msgid "pod_permission"
-msgstr "Seuls les utilisateurs ayant la (les) permission(s) spécifiée(s) ici seront capables de générer des documents depuis ce canevas."
+#: ../content/pod_template.py:71
+msgid "pod_portal_type"
+msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
+
