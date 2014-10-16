@@ -30,7 +30,7 @@ The first thing to do in your newly made instance is to create a new plone site.
 Just go to the ZMI (using *localhost:8080/manage_main* and click on the *add new plone site* 
 in the top right corner of the screen.
 
-.. figure:: images/AddPloneSite.png 
+.. figure:: images/addPloneSite.png 
 
 Name it the way you want. The important part is that you choose the collective.documentgenerator
 demo profile in the list of available products. Check it then click on the *create plone site* 
