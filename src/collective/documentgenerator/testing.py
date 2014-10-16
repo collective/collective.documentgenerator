@@ -99,6 +99,11 @@ EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
     name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
 )
 
+EXAMPLE_POD_TEMPLATE_FUNCTIONNAL = FunctionalTesting(
+    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
+    name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
+)
+
 
 class PODTemplateIntegrationTest(BrowserTest):
     """Base class for integration tests."""
@@ -122,34 +127,13 @@ class ConfigurablePODTemplateIntegrationTest(BrowserTest):
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
 
-class DocumentgeneratorWithArchetypesLayer(NakedPloneLayer):
-
-    def setUpZope(self, app, configurationContext):
-        """Set up Zope."""
-        z2.installProduct(app, 'Products.ATContentTypes')
-
-    def tearDownZope(self, app):
-        """Tear down Zope."""
-        z2.uninstallProduct(app, 'Products.ATContentTypes')
-
-
-ARCHETYPES_FIXTURE = DocumentgeneratorWithArchetypesLayer(
-    name="ARCHETYPES_FIXTURE"
-)
-
-ARCHETYPES_INTEGRATION = IntegrationTesting(
-    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE, ARCHETYPES_FIXTURE),
-    name="ARCHETYPES_INTEGRATION"
-)
-
-
-class ArchetypesBaseTests(BaseTest):
+class ArchetypesIntegrationTests(BaseTest):
     """Base class for Archetypes implementation tests."""
 
-    layer = ARCHETYPES_INTEGRATION
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
-        super(ArchetypesBaseTests, self).setUp()
+        super(ArchetypesIntegrationTests, self).setUp()
 
         # allow AT Topic creation anywhere on the site
         portal_types = api.portal.get_tool('portal_types')
@@ -162,3 +146,9 @@ class ArchetypesBaseTests(BaseTest):
             container=self.portal
         )
         self.AT_topic = AT_topic
+
+
+class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
+    """Base class for Archetypes functionnal tests."""
+
+    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONNAL
