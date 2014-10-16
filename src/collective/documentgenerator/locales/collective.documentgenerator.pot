@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-10-15 14:16+0000\n"
+"POT-Creation-Date: 2014-10-16 06:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
+
+#: ../content/pod_template.py:70
+msgid "Allowed portal types"
+msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
@@ -40,10 +44,6 @@ msgstr ""
 
 #: ../profiles/default/types/PODTemplate.xml
 msgid "PODTemplate"
-msgstr ""
-
-#: ../content/pod_template.py:70
-msgid "PortalType"
 msgstr ""
 
 #: ../content/pod_template.py:77

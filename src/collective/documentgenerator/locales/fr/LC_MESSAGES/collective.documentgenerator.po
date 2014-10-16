@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-10-15 14:16+0000\n"
+"POT-Creation-Date: 2014-10-16 06:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,6 +13,10 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+
+#: ../content/pod_template.py:70
+msgid "Allowed portal types"
+msgstr "Types de contenu autorisés"
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
@@ -39,10 +43,6 @@ msgstr "Document odt"
 msgid "PODTemplate"
 msgstr "Modèle POD restreint"
 
-#: ../content/pod_template.py:70
-msgid "PortalType"
-msgstr "Type de contenu autorisé"
-
 #: ../content/pod_template.py:77
 msgid "TAL expression"
 msgstr "Expression TAL"
@@ -53,5 +53,5 @@ msgstr "Si cette condition est vraie (et pour autant que l'utilisateur dispose d
 
 #: ../content/pod_template.py:71
 msgid "pod_portal_type"
-msgstr ""
+msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
 
