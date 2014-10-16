@@ -37,6 +37,3 @@ demo profile in the list of available products. Check it then click on the *crea
 button in the bottom part of the screen. 
 
 .. figure:: images/demoInstal.png 
-
-The demo profile has created a podtemplates folder in the root of your site. 
-
