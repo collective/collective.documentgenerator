@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from Products.CMFCore.Expression import Expression
-from Products.CMFCore.utils import _checkPermission
 from Products.PageTemplates.Expressions import getEngine
 
 from collective.documentgenerator import _
