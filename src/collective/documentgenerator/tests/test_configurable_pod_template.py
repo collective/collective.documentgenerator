@@ -47,13 +47,13 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationBrowse
         msg = "field 'pod_portal_type' is not displayed"
         self.assertTrue('id="form-widgets-pod_portal_type"' in contents, msg)
         msg = "field 'pod_portal_type' is not translated"
-        self.assertTrue('PortalType' in contents, msg)
+        self.assertTrue('Types de contenu autorisés' in contents, msg)
 
     def test_pod_portal_type_field_edit(self):
         self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
         contents = self.browser.contents
         msg = "field 'pod_portal_type' is not editable"
-        self.assertTrue('PortalType' in contents, msg)
+        self.assertTrue('Types de contenu autorisés' in contents, msg)
 
     def test_pod_expression_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
