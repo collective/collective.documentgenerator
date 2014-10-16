@@ -25,7 +25,7 @@ Or you can also make it by yourself using:
 
 Once your instance is running, you can find it at *localhost:8080/*
 
-The first thing to do in your newly made instance is to create a new plone site.
+The first thing to do in your brand new instance is to create a new plone site.
 
 Just go to the ZMI (using *localhost:8080/manage_main* and click on the *add new plone site* 
 in the top right corner of the screen.
