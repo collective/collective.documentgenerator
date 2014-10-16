@@ -15,8 +15,10 @@
 
     <include package=".browser" />
     <include package=".content" />
+    <include package=".viewlets" />
 
     <include file="renderer.zcml"/>
+    <include file="helper.zcml"/>
 
     <genericsetup:registerProfile
         name="default"
@@ -40,12 +42,5 @@
         description="Post install import step from collective.documentgenerator"
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
-
-    <adapter
-        for="Products.Archetypes.interfaces.IBaseObject"
-        provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
-        factory="collective.documentgenerator.helper.ATDocumentGenerationHelperView"
-        permission="zope2.View"
-     />
 
 </configure>
