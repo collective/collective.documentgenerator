@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from collective.documentgenerator.content.pod_template import IPODTemplate
