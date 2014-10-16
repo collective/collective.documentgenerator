@@ -32,3 +32,14 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
         display = ', '.join(values)
 
         return display
+
+
+class DateATFieldRenderer(DefaultATFieldRenderer):
+    """
+    """
+
+    def render(self):
+        date = self.field.get(self.context)
+        display = date.strftime('%d/%m/%Y %H:%M')
+
+        return display

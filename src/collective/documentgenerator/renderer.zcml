@@ -21,4 +21,13 @@
         permission="zope2.View"
      />
 
+    <adapter
+        for="Products.Archetypes.interfaces.field.IObjectField
+             Products.Archetypes.Widget.CalendarWidget
+             Products.Archetypes.interfaces.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.AT_renderer.DateATFieldRenderer"
+        permission="zope2.View"
+     />
+
 </configure>

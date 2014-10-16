@@ -6,6 +6,8 @@ from collective.documentgenerator.testing import ArchetypesIntegrationTests
 
 from zope.component import queryAdapter
 
+import DateTime
+
 
 class TestArchetypesHelperView(ArchetypesIntegrationTests):
     """
@@ -89,12 +91,14 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         expected_text = 'Yolo!'
         self._test_display(field_name, expected_text)
 
-    def test_display_method_on_select_field(self):
+    def test_display_method_on_multiselect_field(self):
         field_name = 'customViewFields'
         to_set = ['Title', 'Description', 'EffectiveDate']
         expected_text = 'Title, Description, Effective Date'
-        self._test_display(field_name, expected_text, to_set=to_set)
+        self._test_display(field_name, expected_text, to_set)
 
-    def test_display_method_on_multiselect_field(self):
-        """
-        """
+    def test_display_method_on_datefield(self):
+        field_name = 'effectiveDate'
+        date_to_set = DateTime.DateTime('23/06/1975')
+        expected_date = '23/06/1975 00:00'
+        self._test_display(field_name, expected_date, date_to_set)
