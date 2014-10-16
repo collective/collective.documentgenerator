@@ -146,7 +146,7 @@ ARCHETYPES_INTEGRATION = IntegrationTesting(
 class ArchetypesBaseTests(BaseTest):
     """Base class for Archetypes implementation tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = ARCHETYPES_INTEGRATION
 
     def setUp(self):
         super(ArchetypesBaseTests, self).setUp()
