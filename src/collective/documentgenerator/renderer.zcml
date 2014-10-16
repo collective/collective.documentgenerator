@@ -59,7 +59,7 @@
 
     <adapter
         for="Products.Archetypes.interfaces.field.IObjectField
-             Products.Archetypes.Widget.PickListWidget
+             Products.Archetypes.Widget.PicklistWidget
              Products.Archetypes.interfaces.IBaseObject"
         provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
         factory="collective.documentgenerator.AT_renderer.VocabularyATFieldRenderer"
