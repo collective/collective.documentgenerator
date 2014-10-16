@@ -63,12 +63,12 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
     Archetypes implementation of document generation helper methods.
     """
 
-    def display(self, field_name, context=None):
+    def display(self, field_name, context=None, no_value=''):
         if context is None:
             context = self.context
 
         field_renderer = self.get_field_renderer(field_name, context)
-        display_value = field_renderer.render()
+        display_value = field_renderer.render(no_value=no_value)
 
         return display_value
 
