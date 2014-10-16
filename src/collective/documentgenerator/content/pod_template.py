@@ -67,7 +67,7 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     form.widget('pod_portal_type', SelectWidget, multiple='multiple', size=15)
     pod_portal_type = schema.List(
-        title=_(u'PortalType'),
+        title=_(u'Allowed portal types'),
         description=_(u'pod_portal_type'),
         value_type=schema.Choice(source='collective.documentgenerator.PortalType'),
         required=False,

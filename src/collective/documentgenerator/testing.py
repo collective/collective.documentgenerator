@@ -3,8 +3,6 @@
 
 from imio.helpers.test_helpers import BrowserTest
 
-from plone import api
-
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -15,10 +13,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.namedfile.file import NamedBlobFile
 from plone.testing import z2
 
 import collective.documentgenerator
+
+import transaction
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -51,14 +50,13 @@ class TestInstallDocumentgeneratorLayer(NakedPloneLayer):
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'collective.documentgenerator:testing')
+        applyProfile(portal, 'collective.documentgenerator:default')
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
 
         # Commit so that the test browser sees these objects
-        import transaction
         transaction.commit()
 
 
@@ -83,22 +81,9 @@ class ExamplePODTemplateLayer(TestInstallDocumentgeneratorLayer):
     def setUpPloneSite(self, portal):
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
-        setup_tool = api.portal.get_tool('portal_setup')
-        testing_profile = setup_tool.getProfileInfo('collective.documentgenerator:testing')
-        template_path = '{}/templates/document.odt'.format(testing_profile.get('path'))
-        # Create some test content
-        template_file = file(template_path, 'rb').read()
-        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
-
-        api.content.create(
-            type='PODTemplate',
-            id='test_podtemplate',
-            odt_file=blob_file,
-            container=portal,
-        )
+        applyProfile(portal, 'collective.documentgenerator:demo')
 
         # Commit so that the test browser sees these objects
-        import transaction
         transaction.commit()
 
 
@@ -119,49 +104,16 @@ class PODTemplateIntegrationBrowserTest(BrowserTest):
 
     def setUp(self):
         super(PODTemplateIntegrationBrowserTest, self).setUp()
-        self.test_podtemplate = self.portal.get('test_podtemplate')
+        self.test_podtemplate = self.portal.podtemplates.get('test_template')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
-
-
-class ExampleConfigurablePODTemplateLayer(TestInstallDocumentgeneratorLayer):
-
-    def setUpPloneSite(self, portal):
-        super(ExampleConfigurablePODTemplateLayer, self).setUpPloneSite(portal)
-
-        setup_tool = api.portal.get_tool('portal_setup')
-        testing_profile = setup_tool.getProfileInfo('collective.documentgenerator:testing')
-        template_path = '{}/templates/document.odt'.format(testing_profile.get('path'))
-        # Create some test content
-        template_file = file(template_path, 'rb').read()
-        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
-
-        api.content.create(
-            type='ConfigurablePODTemplate',
-            id='test_podtemplate',
-            odt_file=blob_file,
-            container=portal,
-        )
-        # Commit so that the test browser sees these objects
-        import transaction
-        transaction.commit()
-
-
-EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE = ExampleConfigurablePODTemplateLayer(
-    name="EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE"
-)
-
-EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
-    bases=(EXAMPLE_CONFIGURABLE_POD_TEMPLATE_FIXTURE,),
-    name="EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION"
-)
 
 
 class ConfigurablePODTemplateIntegrationBrowserTest(BrowserTest):
     """Base class for integration tests."""
 
-    layer = EXAMPLE_CONFIGURABLE_POD_TEMPLATE_INTEGRATION
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(ConfigurablePODTemplateIntegrationBrowserTest, self).setUp()
-        self.test_podtemplate = self.portal.get('test_podtemplate')
+        self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)

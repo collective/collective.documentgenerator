@@ -74,7 +74,10 @@ class DocumentGenerationView(BrowserView):
         temp_filename = '%s/%s_%f.%s' % (tempfile.gettempdir(), document_obj.size, time.time(), file_type)
         # Prepare rendering context
         dgm = self.get_generation_context_helper()
-        generation_context = {'self': self.context, 'view': dgm}
+        generation_context = {
+            'context': getattr(dgm, 'obj', None),
+            'view': dgm
+        }
         renderer = appy.pod.renderer.Renderer(
             StringIO(document_obj.data),
             generation_context,

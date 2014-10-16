@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
@@ -9,7 +10,7 @@ from zope.interface import implements
 
 class DocumentGenerationHelperView(object):
     """
-    Base class for document generation helper view.
+    See IDocumentGenerationHelper.
     """
 
     implements(IDocumentGenerationHelper)
@@ -18,10 +19,43 @@ class DocumentGenerationHelperView(object):
         """
         """
         self.context = context
-        self.obj = DisplayProxyObject(context, self.display)
+        self.obj = self._get_proxy_object(context)
+
+    def _get_proxy_object(self, context):
+        proxy_obj = getMultiAdapter((self.context, self.display), IDisplayProxyObject)
+        return proxy_obj
 
     def display(self, field_name, context=None):
         """To implements."""
+
+
+class DisplayProxyObject(object):
+    """
+    See IDisplayProxyObject.
+    """
+
+    implements(IDisplayProxyObject)
+
+    def __init__(self, context, display_method):
+        self.context = context
+        self.display = display_method
+
+    def __getattr__(self, attr_name):
+        """
+        """
+        if self.is_field(attr_name):
+            display_value = self.display(field_name=attr_name)
+            return display_value
+
+        elif hasattr(self.context, attr_name):
+            return getattr(self.context, attr_name)
+
+        else:
+            raise AttributeError
+
+    def is_field(self, attr_name):
+        """To Override."""
+        return False
 
 
 class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
@@ -45,21 +79,11 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         return renderer
 
 
-class DisplayProxyObject(object):
+class ATDisplayProxyObject(DisplayProxyObject):
     """
-    Wrapper which will return helper.display(field_name=attr) when trying
-    to acces an attribute 'attr' of context.
+    Archetypes implementation of DisplayProxyObject.
     """
 
-    def __init__(self, context, display_method):
-        self.context = context
-        self.display = display_method
-
-    def __getattr__(self, name):
-        """
-        """
-        if hasattr(self.context, name):
-            display_value = self.display(field_name=name)
-            return display_value
-        else:
-            raise AttributeError
+    def is_field(self, attr_name):
+        is_field = bool(self.context.getField(attr_name))
+        return is_field

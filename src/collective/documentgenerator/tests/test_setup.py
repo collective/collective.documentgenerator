@@ -21,5 +21,5 @@ class TestInstallDependencies(unittest.TestCase):
         dexterity should be installed when we install documentgenerator
         """
         self.assertTrue(not self.installer.isProductInstalled('plone.app.dexterity'))
-        applyProfile(self.portal, 'collective.documentgenerator:testing')
+        applyProfile(self.portal, 'collective.documentgenerator:demo')
         self.assertTrue(self.installer.isProductInstalled('plone.app.dexterity'))
