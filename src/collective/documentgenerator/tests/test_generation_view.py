@@ -3,7 +3,7 @@
 from AccessControl import Unauthorized
 
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-from collective.documentgenerator.testing import PODTemplateIntegrationBrowserTest
+from collective.documentgenerator.testing import PODTemplateIntegrationTest
 
 from plone import api
 
@@ -26,7 +26,7 @@ class TestGenerationView(unittest.TestCase):
         self.assertTrue(isinstance(generation_view, DocumentGenerationView))
 
 
-class TestGenerationViewMethods(PODTemplateIntegrationBrowserTest):
+class TestGenerationViewMethods(PODTemplateIntegrationTest):
     """
     """
 

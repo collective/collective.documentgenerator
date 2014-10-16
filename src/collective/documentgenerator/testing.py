@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
+from imio.helpers.test_helpers import BaseTest
 from imio.helpers.test_helpers import BrowserTest
+
+from plone import api
 
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -45,7 +48,7 @@ NAKED_PLONE_INTEGRATION = IntegrationTesting(
 )
 
 
-class TestInstallDocumentgeneratorLayer(NakedPloneLayer):
+class DocumentgeneratorLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -60,7 +63,7 @@ class TestInstallDocumentgeneratorLayer(NakedPloneLayer):
         transaction.commit()
 
 
-TEST_INSTALL_FIXTURE = TestInstallDocumentgeneratorLayer(
+TEST_INSTALL_FIXTURE = DocumentgeneratorLayer(
     name="TEST_INSTALL_FIXTURE"
 )
 
@@ -76,7 +79,7 @@ TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
 )
 
 
-class ExamplePODTemplateLayer(TestInstallDocumentgeneratorLayer):
+class ExamplePODTemplateLayer(DocumentgeneratorLayer):
 
     def setUpPloneSite(self, portal):
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
@@ -97,23 +100,65 @@ EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
 )
 
 
-class PODTemplateIntegrationBrowserTest(BrowserTest):
+class PODTemplateIntegrationTest(BrowserTest):
     """Base class for integration tests."""
 
     layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
-        super(PODTemplateIntegrationBrowserTest, self).setUp()
+        super(PODTemplateIntegrationTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
 
-class ConfigurablePODTemplateIntegrationBrowserTest(BrowserTest):
+class ConfigurablePODTemplateIntegrationTest(BrowserTest):
     """Base class for integration tests."""
 
     layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
-        super(ConfigurablePODTemplateIntegrationBrowserTest, self).setUp()
+        super(ConfigurablePODTemplateIntegrationTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+
+class DocumentgeneratorWithArchetypesLayer(NakedPloneLayer):
+
+    def setUpZope(self, app, configurationContext):
+        """Set up Zope."""
+        z2.installProduct(app, 'Products.ATContentTypes')
+
+    def tearDownZope(self, app):
+        """Tear down Zope."""
+        z2.uninstallProduct(app, 'Products.ATContentTypes')
+
+
+ARCHETYPES_FIXTURE = DocumentgeneratorWithArchetypesLayer(
+    name="ARCHETYPES_FIXTURE"
+)
+
+ARCHETYPES_INTEGRATION = IntegrationTesting(
+    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE, ARCHETYPES_FIXTURE),
+    name="ARCHETYPES_INTEGRATION"
+)
+
+
+class ArchetypesBaseTests(BaseTest):
+    """Base class for Archetypes implementation tests."""
+
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+
+    def setUp(self):
+        super(ArchetypesBaseTests, self).setUp()
+
+        # allow AT Topic creation anywhere on the site
+        portal_types = api.portal.get_tool('portal_types')
+        portal_types.Topic.global_allow = True
+
+        # create our AT test object: a Topic
+        AT_topic = api.content.create(
+            type='Topic',
+            id='AT_topic',
+            container=self.portal
+        )
+        self.AT_topic = AT_topic

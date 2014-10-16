@@ -3,7 +3,7 @@
 from Acquisition import aq_base
 
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationBrowserTest
+from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 
 from plone import api
 
@@ -23,7 +23,7 @@ class TestConfigurablePODTemplate(unittest.TestCase):
         self.assertTrue('ConfigurablePODTemplate' in registered_types)
 
 
-class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationBrowserTest):
+class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
     """
     Test schema fields declaration.
     """
@@ -92,7 +92,7 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationBrowse
         self.assertTrue('Activé' in contents, msg)
 
 
-class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationBrowserTest):
+class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationTest):
     """
     Test ConfigurablePODTemplate methods.
     """

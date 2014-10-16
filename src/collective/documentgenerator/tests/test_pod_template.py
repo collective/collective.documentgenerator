@@ -6,10 +6,9 @@ from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-from collective.documentgenerator.testing import PODTemplateIntegrationBrowserTest
+from collective.documentgenerator.testing import PODTemplateIntegrationTest
 
 from plone import api
-from plone.namedfile.file import NamedBlobFile
 
 from zope.component import getGlobalSiteManager
 from zope.component import queryMultiAdapter
@@ -31,7 +30,7 @@ class TestPODTemplate(unittest.TestCase):
         self.assertTrue('PODTemplate' in registered_types)
 
 
-class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
+class TestPODTemplateFields(PODTemplateIntegrationTest):
     """
     Test schema fields declaration.
     """
@@ -64,7 +63,7 @@ class TestPODTemplateFields(PODTemplateIntegrationBrowserTest):
         self.assertTrue('Document odt' in contents, msg)
 
 
-class TestPODTemplateIntegration(PODTemplateIntegrationBrowserTest):
+class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     """
     Test PODTemplate methods.
     """
