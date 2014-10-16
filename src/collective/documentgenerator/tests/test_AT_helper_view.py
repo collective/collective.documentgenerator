@@ -102,3 +102,8 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         date_to_set = DateTime.DateTime('23/06/1975')
         expected_date = '23/06/1975 00:00'
         self._test_display(field_name, expected_date, date_to_set)
+
+    def test_empty_value_display(self):
+        displayed = self.view.display('effectiveDate', no_value='yolo')
+        msg = "empty value display was expected to be 'yolo'"
+        self.assertTrue(displayed == 'yolo', msg)
