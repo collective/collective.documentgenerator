@@ -68,10 +68,12 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         super(TestArchetypesHelperViewMethods, self).setUp()
         self.view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
 
-    def _test_display(self, field_name, expected, method, to_set=None):
-        if to_set is not None:
-            field = self.AT_topic.getField(field_name)
-            field.set(self.AT_topic, expected)
+    def _test_display(self, field_name, expected, to_set=None):
+        if to_set is None:
+            to_set = expected
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, to_set)
 
         result = self.view.display(field_name)
 
@@ -85,13 +87,13 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def test_display_method_on_text_field(self):
         field_name = 'description'
         expected_text = 'Yolo!'
-        self._test_display(field_name, expected_text, self.view.display)
+        self._test_display(field_name, expected_text)
 
     def test_display_method_on_select_field(self):
         field_name = 'customViewFields'
         to_set = ['Title', 'Description', 'EffectiveDate']
-        expected_text = 'Titre, Description, Date de publication'
-        self._test_display(field_name, expected_text, self.view.display, to_set=to_set)
+        expected_text = 'Title, Description, Effective Date'
+        self._test_display(field_name, expected_text, to_set=to_set)
 
     def test_display_method_on_multiselect_field(self):
         """
