@@ -4,6 +4,4 @@
 .. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
    :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
 
-====================
-collective.documentgenerator
-====================
+docs/README.rst
