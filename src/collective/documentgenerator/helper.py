@@ -60,7 +60,6 @@ class DisplayProxyObject(object):
 
     def is_field(self, attr_name):
         """To Override."""
-        return False
 
 
 class ATDocumentGenerationHelperView(DocumentGenerationHelperView):

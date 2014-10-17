@@ -7,3 +7,4 @@ omit =
     buildout-cache/eggs/*
     parts/*
     devel/*
+    src/collective/documentgenerator/__init__.py
