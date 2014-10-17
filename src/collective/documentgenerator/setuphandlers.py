@@ -27,7 +27,7 @@ def install_demo(context):
         )
         templates_folder.setTitle('POD Templates')
         templates_folder.reindexObject()
-    brol
+
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
     template_path = '{}/templates/document.odt'.format(demo_profile.get('path'))
