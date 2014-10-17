@@ -13,6 +13,26 @@ class ICollectiveDocumentgeneratorLayer(IDefaultBrowserLayer):
 class IDocumentGenerationHelper(Interface):
     """Class implementing all the helpers method needed for document generation."""
 
+    def display(self, field_name, context=None):
+        """
+        Return a string representation of contex's field 'field_name'.
+        """
+
+    def display_date(self, field_name, context=None, format='%d/%m/%Y %H:%M'):
+        """
+        Return a string representation of context's date field 'field_name'.
+        """
+
+    def display_voc(self, field_name, context=None, separator=','):
+        """
+        Return a join of display values of context's field 'field_name'.
+        """
+
+    def list_voc(self, field_name, context=None, get='value'):
+        """
+        Return a list of display values of context's field 'field_name'.
+        """
+
 
 class IDisplayProxyObject(Interface):
     """

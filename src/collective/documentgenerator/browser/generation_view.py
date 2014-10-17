@@ -75,7 +75,7 @@ class DocumentGenerationView(BrowserView):
         # Prepare rendering context
         dgm = self.get_generation_context_helper()
         generation_context = {
-            'context': getattr(dgm, 'obj', None),
+            'context': getattr(dgm, 'context', None),
             'view': dgm
         }
         renderer = appy.pod.renderer.Renderer(

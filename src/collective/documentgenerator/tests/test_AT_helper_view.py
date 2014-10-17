@@ -33,7 +33,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         from collective.documentgenerator.helper import ATDisplayProxyObject
 
         helper_view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
-        proxy = helper_view.obj
+        proxy = helper_view.context
         msg = "The proxy object should have been an instance of ATDisplayProxyObject"
         self.assertTrue(isinstance(proxy, ATDisplayProxyObject), msg)
 
@@ -49,7 +49,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 
         helper_view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
-        proxy = helper_view.obj
+        proxy = helper_view.context
 
         proxy.display = lambda field_name: 'yolo'
 
@@ -70,7 +70,15 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         super(TestArchetypesHelperViewMethods, self).setUp()
         self.view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
 
-    def _test_display(self, field_name, expected, to_set=None):
+    def _test_display(self, field_name, expected, result):
+        msg = "Expected display of field '{}' to be '{}' but got '{}'".format(
+            field_name,
+            expected,
+            result
+        )
+        self.assertTrue(expected == result, msg)
+
+    def _test_display_method(self, field_name, expected, to_set=None):
         if to_set is None:
             to_set = expected
 
@@ -78,32 +86,38 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         field.set(self.AT_topic, to_set)
 
         result = self.view.display(field_name)
-
-        msg = "Expected the of field '{}' to be '{}' but got '{}'".format(
-            field_name,
-            expected,
-            result
-        )
-        self.assertTrue(expected == result, msg)
+        self._test_display(field_name, expected, result)
 
     def test_display_method_on_text_field(self):
         field_name = 'description'
         expected_text = 'Yolo!'
-        self._test_display(field_name, expected_text)
+        self._test_display_method(field_name, expected_text)
 
     def test_display_method_on_multiselect_field(self):
         field_name = 'customViewFields'
         to_set = ['Title', 'Description', 'EffectiveDate']
         expected_text = 'Title, Description, Effective Date'
-        self._test_display(field_name, expected_text, to_set)
+        self._test_display_method(field_name, expected_text, to_set)
 
     def test_display_method_on_datefield(self):
         field_name = 'effectiveDate'
         date_to_set = DateTime.DateTime('23/06/1975')
         expected_date = '23/06/1975 00:00'
-        self._test_display(field_name, expected_date, date_to_set)
+        self._test_display_method(field_name, expected_date, date_to_set)
 
-    def test_empty_value_display(self):
+    def test_display_method_empty_value(self):
         displayed = self.view.display('effectiveDate', no_value='yolo')
         msg = "empty value display was expected to be 'yolo'"
         self.assertTrue(displayed == 'yolo', msg)
+
+    def test_display_date_method(self):
+        field_name = 'effectiveDate'
+        date_to_set = DateTime.DateTime('18/09/1986')
+        expected_date = '18 yolo 09 yolo 1986'
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, date_to_set)
+
+        result = self.view.display_date(field_name, format='%d yolo %m yolo %Y')
+
+        self._test_display(field_name, expected_date, result)
