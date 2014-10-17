@@ -49,14 +49,19 @@ class TestDemoProfile(unittest.TestCase):
 
         applyProfile(site, 'collective.documentgenerator:demo')
 
-        msg = 'Test podtemplate doesn\'t exist '
+        msg = 'Test podtemplate doesn\'t exist'
         self.assertTrue(hasattr(site.podtemplates, 'test_template'), msg)
         self.assertTrue(site.podtemplates.test_template.portal_type == 'PODTemplate')
+
+        msg = 'The second podtemplate doesn\'t exist'
+        self.assertTrue(hasattr(site.podtemplates, 'test_template_bis'), msg)
+        self.assertTrue(site.podtemplates.test_template_bis.portal_type == 'ConfigurablePODTemplate')
 
         applyProfile(site, 'collective.documentgenerator:demo')
 
         msg = 'Test pod templates should be unique'
         self.assertTrue(not hasattr(site.podtemplates, 'test_template-1'), msg)
+        self.assertTrue(not hasattr(site.podtemplates, 'test_template_bis-1'), msg)
 
     def test_PODTemplateModel_out_of_navigation(self):
         site = api.portal.get()
