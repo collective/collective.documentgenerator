@@ -3,13 +3,19 @@
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 
+import logging
+
+logger = logging.getLogger('collective.documentgenerator')
+
+
 def isNotCurrentProfile(context):
     return context.readDataFile("collectivedocumentgenerator_marker.txt") is None
 
 
 def post_install(context):
     """Post install script"""
-    if isNotCurrentProfile(context): return
+    if isNotCurrentProfile(context):
+        return
     portal = context.getSite()
 
 

@@ -2,6 +2,6 @@
 <layers>
   <layer
     name="collective.documentgenerator"
-    interface="collective.documentgenerator.interfaces.ICollectiveDocumentgeneratorLayer"
+    interface="collective.documentgenerator.interfaces.ICollectiveDocumentGeneratorLayer"
   />
 </layers>
