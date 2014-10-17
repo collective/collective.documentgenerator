@@ -1,0 +1,18 @@
+
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="collective.documentgenerator">
+
+    <adapter
+      for="collective.documentgenerator.content.pod_template.IPODTemplate
+           zope.interface.Interface"
+      factory=".condition.PODTemplateCondition"
+    />
+
+    <adapter
+      for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
+           zope.interface.Interface"
+      factory=".condition.ConfigurablePODTemplateCondition"
+    />
+
+</configure>

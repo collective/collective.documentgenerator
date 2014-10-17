@@ -7,3 +7,4 @@ omit =
     buildout-cache/eggs/*
     parts/*
     devel/*
+    src/collective/__init__.py

@@ -41,10 +41,10 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'five.grok',
         'plone.api',
         'plone.app.dexterity',
         'setuptools',
+        'collective.behavior.talcondition'
     ],
     extras_require={
         'test': [

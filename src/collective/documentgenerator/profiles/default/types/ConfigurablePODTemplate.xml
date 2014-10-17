@@ -21,6 +21,7 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element value="collective.behavior.talcondition.behavior.ITALCondition"/>
  </property>
  <property name="schema">collective.documentgenerator.content.pod_template.IConfigurablePODTemplate</property>
  <property name="schema_policy">dexterity</property>
