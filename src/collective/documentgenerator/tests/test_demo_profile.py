@@ -55,7 +55,7 @@ class TestDemoProfile(unittest.TestCase):
 
         msg = 'The second podtemplate doesn\'t exist'
         self.assertTrue(hasattr(site.podtemplates, 'test_template_bis'), msg)
-        self.assertTrue(site.podtemplates.test_template_bis.portal_type == 'PODTemplate')
+        self.assertTrue(site.podtemplates.test_template_bis.portal_type == 'ConfigurablePODTemplate')
 
         applyProfile(site, 'collective.documentgenerator:demo')
 

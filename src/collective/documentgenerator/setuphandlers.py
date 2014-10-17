@@ -25,6 +25,8 @@ def install_demo(context):
             container=portal,
             excludeFromNav=True
         )
+        templates_folder.setTitle('POD Templates')
+        templates_folder.reindexObject()
 
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
