@@ -77,16 +77,13 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         self.assertTrue(odt_file == expected_file, msg)
 
     def test_default_generation_condition_registration(self):
-        pod_template = self.test_podtemplate
         context = self.portal
-        default_condition_adapter = pod_template.condition_adapter
         condition_obj = queryMultiAdapter(
-            (pod_template, context),
+            (self.test_podtemplate, context),
             IPODTemplateCondition,
-            default_condition_adapter
         )
 
-        self.assertTrue(condition_obj is not None)
+        self.assertTrue(isinstance(condition_obj, PODTemplateCondition))
 
     def test_default_generation_condition_is_True(self):
         can_be_generated = self.test_podtemplate.can_be_generated(self.portal)
@@ -105,8 +102,10 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
                 return 'yolo'
 
         gsm = getGlobalSiteManager()
-        gsm.registerAdapter(CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition, 'kmfms')
-        pod_template.condition_adapter = 'kmfms'
+        gsm.registerAdapter(CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition)
 
         can_be_generated = pod_template.can_be_generated(self.portal)
         self.assertTrue(can_be_generated == 'yolo')
+
+        # finally, unregister our adapter...
+        gsm.registerAdapter(PODTemplateCondition, (IPODTemplate, Interface), IPODTemplateCondition)

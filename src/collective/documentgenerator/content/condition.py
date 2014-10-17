@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.behavior.talcondition.behavior import ITALCondition
+
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 
 from zope.interface import implements
@@ -16,3 +18,32 @@ class PODTemplateCondition(object):
 
     def evaluate(self):
         return True
+
+
+class ConfigurablePODTemplateCondition(PODTemplateCondition):
+    """
+    Check the permission and the  TAL expression of a PODTemplate
+    on a context.
+    """
+
+    def evaluate(self):
+        allowed_context = self.evaluate_allowed_context(self.context)
+        tal_condition = ITALCondition(self.pod_template)
+        evaluated_tal_condition = tal_condition.evaluate()
+        enabled = self.pod_template.enabled
+
+        return enabled and allowed_context and evaluated_tal_condition
+
+    def evaluate_allowed_context(self, context):
+        """
+        Evaluate if context is in pt selected list
+        If not use, return True
+        """
+        allowed_types = self.pod_template.pod_portal_type
+
+        if allowed_types is None:
+            return True
+
+        allowed_context = context.portal_type in allowed_types
+
+        return allowed_context
