@@ -23,4 +23,11 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="*"
+        name="persistent-document-generation"
+        class="collective.documentgenerator.browser.generation_view.PersistentDocumentGenerationView"
+        permission="zope2.View"
+        />
+
 </configure>

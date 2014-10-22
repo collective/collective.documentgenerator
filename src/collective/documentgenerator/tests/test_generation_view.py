@@ -102,3 +102,27 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         except Unauthorized:
             unauthorized_raised = True
         self.assertTrue(unauthorized_raised)
+
+    def test_persistent_document_generation_call(self):
+        """
+        Check if documents are rendered correctly.
+        """
+        pod_template = self.test_podtemplate
+        test_UID = pod_template.UID()
+        generation_view = self.portal.restrictedTraverse('@@persistent-document-generation')
+        generation_view.request.set('doc_uid', test_UID)
+        generation_view()
+
+        msg = "File 'Document A' should have been created on portal."
+        self.assertTrue(hasattr(self.portal, 'document-a'), msg)
+
+        persistent_doc = getattr(self.portal, 'document-a')
+        generated_doc = persistent_doc.getFile()
+        # Check if (partial) data of the generated document is the same as the
+        # pod_template odt file.
+        original_doc = pod_template.get_file()
+        generated = generated_doc.getBlob().open('r').read()
+        self.assertTrue(original_doc.data[1200:2500] in generated)
+
+        self.assertTrue(generated_doc.getFilename() == 'Document A.odt')
+        self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')

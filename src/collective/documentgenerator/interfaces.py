@@ -10,12 +10,22 @@ class ICollectiveDocumentgeneratorLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
+class IDocumentFactory(Interface):
+    """Class implementing all the helpers method needed for document generation."""
+
+    def create(self, doc_file):
+        """Create the object where the document 'doc_file' will be persisted."""
+
+    def redirect(self, created_obj):
+        """Returns an http redirection after the object creation."""
+
+
 class IDocumentGenerationHelper(Interface):
     """Class implementing all the helpers method needed for document generation."""
 
     def display(self, field_name, context=None):
         """
-        Return a string representation of contex's field 'field_name'.
+        Return a string representation of context's field 'field_name'.
         """
 
     def display_date(self, field_name, context=None, format='%d/%m/%Y %H:%M'):
