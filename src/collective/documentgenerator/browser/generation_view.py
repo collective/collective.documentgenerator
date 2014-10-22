@@ -137,4 +137,13 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         title, extension = doc_name.split('.')
 
         factory = queryMultiAdapter((self.context, self.request), IDocumentFactory)
-        factory.create(doc, title, extension)
+
+        #  Bypass any File creation permission of the user. If the user isnt
+        #  supposed to save generated document on the site, then its the permission
+        #  to call the generation view that should be changed.
+        call_as_super_user(
+            factory.create,
+            doc_file=doc,
+            title=title,
+            extension=extension
+        )
