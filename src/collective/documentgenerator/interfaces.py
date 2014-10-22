@@ -2,11 +2,10 @@
 """Module where all interfaces, events and exceptions live."""
 
 from zope.interface import Interface
-
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
-class ICollectiveDocumentgeneratorLayer(IDefaultBrowserLayer):
+class ICollectiveDocumentGeneratorLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
@@ -70,3 +69,9 @@ class IPODTemplateCondition(Interface):
 
     def evaluate(self):
         """Represent the condition evaluation by returning True or False."""
+
+
+class IDocumentGeneratorSettings(Interface):
+    """
+    Settings for Document Generator
+    """

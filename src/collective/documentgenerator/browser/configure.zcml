@@ -13,7 +13,7 @@
     <browser:resourceDirectory
         name="collective.documentgenerator.css"
         directory="resources/css"
-        layer="..interfaces.ICollectiveDocumentgeneratorLayer"
+        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
         />
 
     <browser:page
@@ -28,6 +28,14 @@
         name="persistent-document-generation"
         class="collective.documentgenerator.browser.generation_view.PersistentDocumentGenerationView"
         permission="zope2.View"
+        />
+
+    <browser:page
+        name="collective.documentgenerator-controlpanel"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class="collective.documentgenerator.browser.controlpanel.DocumentGeneratorSettings"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
         />
 
 </configure>

@@ -121,3 +121,15 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         result = self.view.display_date(field_name, format='%d yolo %m yolo %Y')
 
         self._test_display(field_name, expected_date, result)
+
+    def test_display_voc_method(self):
+        field_name = 'customViewFields'
+        to_set = ['Title', 'Description', 'EffectiveDate']
+        expected_text = 'Title swag Description swag Effective Date'
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, to_set)
+
+        result = self.view.display_voc(field_name, separator=' swag ')
+
+        self._test_display(field_name, expected_text, result)

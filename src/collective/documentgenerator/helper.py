@@ -90,6 +90,20 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return formatted_date
 
+    def display_voc(self, field_name, context=None, separator=','):
+        if context is None:
+            context = self.real_context
+
+        display_value = context.restrictedTraverse('@@at_utils').translate
+
+        field = context.getField(field_name)
+        voc = field.Vocabulary(context)
+        raw_values = field.get(context)
+        values = [display_value(voc, val) for val in raw_values]
+        display = separator.join(values)
+
+        return display
+
 
 class ATDisplayProxyObject(DisplayProxyObject):
     """
