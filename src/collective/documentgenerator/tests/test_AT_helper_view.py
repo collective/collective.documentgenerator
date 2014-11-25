@@ -4,7 +4,7 @@ from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
 
-from zope.component import queryAdapter
+from zope.component import queryMultiAdapter
 
 import DateTime
 
@@ -21,7 +21,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         """
         from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
-        helper_view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
+        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
         msg = "The helper should have been an instance of ATDocumentGenerationHelperView"
         self.assertTrue(isinstance(helper_view, ATDocumentGenerationHelperView), msg)
 
@@ -32,7 +32,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         """
         from collective.documentgenerator.helper import ATDisplayProxyObject
 
-        helper_view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
+        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
         proxy = helper_view.context
         msg = "The proxy object should have been an instance of ATDisplayProxyObject"
         self.assertTrue(isinstance(proxy, ATDisplayProxyObject), msg)
@@ -48,7 +48,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         """
         from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 
-        helper_view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
+        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
         proxy = helper_view.context
 
         proxy.display = lambda field_name: 'yolo'
@@ -68,7 +68,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
     def setUp(self):
         super(TestArchetypesHelperViewMethods, self).setUp()
-        self.view = queryAdapter(self.AT_topic, IDocumentGenerationHelper)
+        self.view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
 
     def _test_display(self, field_name, expected, result):
         msg = "Expected display of field '{}' to be '{}' but got '{}'".format(

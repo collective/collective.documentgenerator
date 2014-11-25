@@ -14,7 +14,8 @@
 
     <!-- helper view and default proxy object for Archetypes -->
     <adapter
-        for="Products.Archetypes.interfaces.IBaseObject"
+        for="Products.Archetypes.interfaces.IBaseObject
+             zope.publisher.interfaces.IRequest"
         provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
         factory="collective.documentgenerator.helper.ATDocumentGenerationHelperView"
         permission="zope2.View"

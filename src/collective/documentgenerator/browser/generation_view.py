@@ -15,7 +15,6 @@ from imio.helpers.security import call_as_super_user
 
 from plone import api
 
-from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 
 import appy.pod.renderer
@@ -85,10 +84,10 @@ class DocumentGenerationView(BrowserView):
     def render_document(self, document_obj, file_type):
         temp_filename = '%s/%s_%f.%s' % (tempfile.gettempdir(), document_obj.size, time.time(), file_type)
         # Prepare rendering context
-        dgm = self.get_generation_context_helper()
+        helper_view = self.get_generation_context_helper()
         generation_context = {
-            'context': getattr(dgm, 'context', None),
-            'view': dgm
+            'context': getattr(helper_view, 'context', None),
+            'view': helper_view
         }
         renderer = appy.pod.renderer.Renderer(
             StringIO(document_obj.data),
@@ -108,7 +107,7 @@ class DocumentGenerationView(BrowserView):
         return rendered
 
     def get_generation_context_helper(self):
-        helper = queryAdapter(self.context, IDocumentGenerationHelper)
+        helper = queryMultiAdapter((self.context, self.request), IDocumentGenerationHelper)
         return helper
 
     def set_header_response(self, filename):

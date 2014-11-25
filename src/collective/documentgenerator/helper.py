@@ -15,8 +15,9 @@ class DocumentGenerationHelperView(object):
 
     implements(IDocumentGenerationHelper)
 
-    def __init__(self, context):
+    def __init__(self, context, request):
         self.real_context = context
+        self.request = request
         self.context = self._get_proxy_object(context)
 
     def _get_proxy_object(self, context):
