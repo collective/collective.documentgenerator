@@ -5,4 +5,11 @@
     <include file="conditions.zcml" />
     <include file="vocabulary.zcml" />
 
+    <adapter
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      factory=".document_factory.FileDocumentFactory"
+      provides="collective.documentgenerator.interfaces.IDocumentFactory"
+    />
+
 </configure>

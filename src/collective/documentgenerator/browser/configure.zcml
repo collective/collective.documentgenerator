@@ -24,6 +24,13 @@
         />
 
     <browser:page
+        for="*"
+        name="persistent-document-generation"
+        class="collective.documentgenerator.browser.generation_view.PersistentDocumentGenerationView"
+        permission="zope2.View"
+        />
+
+    <browser:page
         name="collective.documentgenerator-controlpanel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class="collective.documentgenerator.browser.controlpanel.DocumentGeneratorSettings"
