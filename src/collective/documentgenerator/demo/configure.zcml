@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="collective.documentgenerator">
+
+    <!-- helper view and default proxy object for Archetypes -->
+    <adapter
+        for="Products.Archetypes.interfaces.IBaseObject
+             collective.documentgenerator.interfaces.IDemoLayer"
+        provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
+        factory="collective.documentgenerator.demo.helper.DemoHelperView"
+        permission="zope2.View"
+     />
+
+</configure>

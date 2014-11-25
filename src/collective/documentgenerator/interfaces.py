@@ -9,6 +9,10 @@ class ICollectiveDocumentGeneratorLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
+class IDemoLayer(IDefaultBrowserLayer):
+    """Marker interface that defines a browser layer."""
+
+
 class IDocumentFactory(Interface):
     """Class implementing all the helpers method needed for document generation."""
 

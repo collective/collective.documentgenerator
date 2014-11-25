@@ -17,6 +17,7 @@
     <include package=".browser" />
     <include package=".content" />
     <include package=".viewlets" />
+    <include package=".demo" />
 
     <include file="renderer.zcml"/>
     <include file="helper.zcml"/>
