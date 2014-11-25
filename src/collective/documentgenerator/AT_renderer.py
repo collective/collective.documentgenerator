@@ -24,6 +24,10 @@ class DefaultATFieldRenderer(object):
         return display_value
 
     def render_value(self):
+        """
+        Compute the rendering of the display value.
+        To override for each different type of ATFieldRenderer.
+        """
         return self.field.get(self.context)
 
     def has_no_value(self):
