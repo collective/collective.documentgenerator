@@ -55,3 +55,22 @@ msgstr "Si cette condition est vraie (et pour autant que l'utilisateur dispose d
 msgid "pod_portal_type"
 msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
 
+#: ../content/controlpanel.py:21
+msgid "oo_port"
+msgstr "Numéro du port Office"
+
+#: ../content/controlpanel.py:23
+msgid "Port Number of OO"
+msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
+
+#: ../content/controlpanel.py:23
+msgid "Document Generator settings"
+msgstr "Configuration du générateur de document"
+
+#: ../content/controlpanel.py:37
+msgid "Save"
+msgstr "Sauver"
+
+#: ../content/controlpanel.py:48
+msgid "Cancel"
+msgstr "Annuler"

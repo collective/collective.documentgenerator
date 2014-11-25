@@ -58,3 +58,23 @@ msgstr ""
 msgid "pod_portal_type"
 msgstr ""
 
+#: ../content/controlpanel.py:21
+msgid "oo_port"
+msgstr ""
+
+#: ../content/controlpanel.py:23
+msgid "Port Number of OO"
+msgstr ""
+
+#: ../content/controlpanel.py:23
+msgid "Document Generator settings"
+msgstr ""
+
+#: ../content/controlpanel.py:37
+msgid "Save"
+msgstr ""
+
+#: ../content/controlpanel.py:48
+msgid "Cancel"
+msgstr ""
+ 
