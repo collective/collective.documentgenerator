@@ -96,6 +96,8 @@ class DocumentGenerationView(BrowserView):
             forceOoCall=True,
         )
 
+        helper_view._set_renderer(renderer)
+
         renderer.run()
 
         rendered_document = open(temp_filename, 'rb')

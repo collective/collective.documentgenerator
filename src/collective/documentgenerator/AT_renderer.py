@@ -59,3 +59,15 @@ class DateATFieldRenderer(DefaultATFieldRenderer):
         display = date.strftime('%d/%m/%Y %H:%M')
 
         return display
+
+
+class RichTextATFieldRenderer(DefaultATFieldRenderer):
+    """
+    """
+
+    def render_value(self):
+        msg = "!!! the field '{field_name}' is a html richtext , use \
+              'do text from view.display_html('{field_name}')' in a commentary instead !!!'".format(
+            field_name=self.field.getName()
+        )
+        return msg

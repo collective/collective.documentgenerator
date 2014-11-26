@@ -75,4 +75,13 @@
         permission="zope2.View"
      />
 
+    <adapter
+        for="Products.Archetypes.interfaces.field.ITextField
+             Products.Archetypes.Widget.RichWidget
+             Products.Archetypes.interfaces.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.AT_renderer.RichTextATFieldRenderer"
+        permission="zope2.View"
+     />
+
 </configure>

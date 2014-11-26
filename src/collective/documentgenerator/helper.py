@@ -19,6 +19,7 @@ class DocumentGenerationHelperView(object):
         self.real_context = context
         self.request = request
         self.context = self._get_proxy_object(context)
+        self.renderer = None
 
     def _get_proxy_object(self, context):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
@@ -33,8 +34,14 @@ class DocumentGenerationHelperView(object):
     def display_voc(self, field_name, context=None, separator=','):
         """See IDocumentGenerationHelper. To implements."""
 
+    def display_html(self, field_name, context=None):
+        """See IDocumentGenerationHelper. To implements."""
+
     def list_voc(self, field_name, context=None, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
+
+    def _set_renderer(self, appy_renderer):
+        self.renderer = appy_renderer
 
 
 class DisplayProxyObject(object):
@@ -103,6 +110,18 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         values = [display_value(voc, val) for val in raw_values]
         display = separator.join(values)
 
+        return display
+
+    def display_html(self, field_name, context=None):
+        if not self.renderer:
+            return
+
+        if context is None:
+            context = self.real_context
+
+        html_field = self.context.getField(field_name)
+        html_text = html_field.get(context)
+        display = self.renderer.renderXhtml(html_text)
         return display
 
 
