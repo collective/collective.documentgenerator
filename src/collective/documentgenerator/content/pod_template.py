@@ -24,6 +24,7 @@ class IPODTemplate(model.Schema):
     PODTemplate dexterity schema.
     """
 
+    model.primary('odt_file')
     form.widget('odt_file', NamedFileWidget)
     odt_file = NamedBlobFile(
         title=_(u'ODT File'),
