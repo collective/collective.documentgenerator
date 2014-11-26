@@ -3,6 +3,7 @@
     i18n_domain="collective.documentgenerator">
 
     <include file="conditions.zcml" />
+    <include file="file_representation.zcml"/>
     <include file="vocabulary.zcml" />
 
     <adapter
