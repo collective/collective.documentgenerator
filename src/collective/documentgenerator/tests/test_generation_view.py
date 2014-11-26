@@ -74,7 +74,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         """
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
-        view = self.portal.restrictedTraverse('@@document-generation')
+        view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
         view.request.set('doc_uid', test_UID)
         generated_doc = view()
         # Check if (partial) data of the generated document is the same as the
@@ -109,14 +109,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         """
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
-        generation_view = self.portal.restrictedTraverse('@@persistent-document-generation')
+        generation_context = self.portal.podtemplates
+        generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
         generation_view.request.set('doc_uid', test_UID)
         generation_view()
 
         msg = "File 'Document A' should have been created on portal."
-        self.assertTrue(hasattr(self.portal, 'document-a'), msg)
+        self.assertTrue(hasattr(generation_context, 'document-a'), msg)
 
-        persistent_doc = getattr(self.portal, 'document-a')
+        persistent_doc = getattr(generation_context, 'document-a')
         generated_doc = persistent_doc.getFile()
         # Check if (partial) data of the generated document is the same as the
         # pod_template odt file.

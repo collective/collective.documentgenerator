@@ -1,15 +1,16 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.documentgenerator">
 
-    <!-- helper view and default proxy object for Archetypes -->
-    <adapter
-        for="Products.Archetypes.interfaces.IBaseObject
-             collective.documentgenerator.interfaces.IDemoLayer"
-        provides="collective.documentgenerator.interfaces.IDocumentGenerationHelper"
-        factory="collective.documentgenerator.demo.helper.DemoHelperView"
+    <!-- helper view for demo profile -->
+    <browser:page
+        for="Products.Archetypes.interfaces.IBaseObject"
+        class="collective.documentgenerator.demo.helper.DemoHelperView"
+        layer="collective.documentgenerator.interfaces.IDemoLayer"
         permission="zope2.View"
+        name="document_generation_helper_view"
      />
 
 </configure>

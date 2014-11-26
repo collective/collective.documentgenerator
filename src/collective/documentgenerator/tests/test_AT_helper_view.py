@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.interfaces import IDocumentGenerationHelper
-
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
-
-from zope.component import queryMultiAdapter
 
 import DateTime
 
@@ -21,7 +17,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         """
         from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
-        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
+        helper_view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
         msg = "The helper should have been an instance of ATDocumentGenerationHelperView"
         self.assertTrue(isinstance(helper_view, ATDocumentGenerationHelperView), msg)
 
@@ -32,7 +28,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         """
         from collective.documentgenerator.helper import ATDisplayProxyObject
 
-        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
+        helper_view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
         proxy = helper_view.context
         msg = "The proxy object should have been an instance of ATDisplayProxyObject"
         self.assertTrue(isinstance(proxy, ATDisplayProxyObject), msg)
@@ -46,9 +42,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         eg: proxy.title -> proxy.display(field_name='title', context=real_object)
             proxy.some_method() -> real_object.some_method()
         """
-        from collective.documentgenerator.interfaces import IDocumentGenerationHelper
-
-        helper_view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
+        helper_view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
         proxy = helper_view.context
 
         proxy.display = lambda field_name: 'yolo'
@@ -68,7 +62,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
     def setUp(self):
         super(TestArchetypesHelperViewMethods, self).setUp()
-        self.view = queryMultiAdapter((self.AT_topic, self.portal.REQUEST), IDocumentGenerationHelper)
+        self.view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
 
     def _test_display(self, field_name, expected, result):
         msg = "Expected display of field '{}' to be '{}' but got '{}'".format(

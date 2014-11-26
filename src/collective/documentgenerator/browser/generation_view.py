@@ -8,7 +8,6 @@ from StringIO import StringIO
 
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IDocumentFactory
-from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from imio.helpers.security import call_as_super_user
@@ -107,7 +106,7 @@ class DocumentGenerationView(BrowserView):
         return rendered
 
     def get_generation_context_helper(self):
-        helper = queryMultiAdapter((self.context, self.request), IDocumentGenerationHelper)
+        helper = self.context.unrestrictedTraverse('@@document_generation_helper_view')
         return helper
 
     def set_header_response(self, filename):
