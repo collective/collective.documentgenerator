@@ -1,25 +1,36 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.content.pod_template import IPODTemplate
-
 from plone.dexterity.filerepresentation import ReadFileBase, DefaultWriteFile
+from plone.dexterity.utils import iterSchemata
 from plone.memoize.instance import memoize
+from plone.rfc822.interfaces import IPrimaryField
 
-from zope.component import adapts
 from zope.filerepresentation.interfaces import IRawWriteFile
 from zope.interface import implements
+from zope.schema import getFieldsInOrder
 
 import tempfile
 
 
-class ReadFile(ReadFileBase):
-    adapts(IPODTemplate)
+class PrimaryFileBase(object):
+
+    @memoize
+    def _get_primary_field(self):
+        for schema in iterSchemata(self.context):
+            for field_name, field in getFieldsInOrder(schema):
+                if IPrimaryField.providedBy(field):
+                    primary_field = getattr(self.context, field_name)
+                    return primary_field
+
+
+class ReadFile(ReadFileBase, PrimaryFileBase):
 
     @property
     def mimeType(self):
-        if not self.context.odt_file:
+        primary_field = self._get_primary_field()
+        if not primary_field:
             return None
-        return self.context.odt_file.contentType
+        return primary_field.contentType
 
     @property
     def encoding(self):
@@ -27,30 +38,33 @@ class ReadFile(ReadFileBase):
 
     @property
     def name(self):
-        if not self.context.odt_file:
+        primary_field = self._get_primary_field()
+        if not primary_field:
             return None
-        return self.context.odt_file.filename
+        return primary_field.filename
 
     def size(self):
-        if not self.context.odt_file:
+        primary_field = self._get_primary_field()
+        if not primary_field:
             return None
-        return self.context.odt_file.getSize()
+        return primary_field.getSize()
 
     @memoize
     def _getStream(self):
-        if not self.context.odt_file:
+        primary_field = self._get_primary_field()
+        if not primary_field:
             return None
         out = tempfile.TemporaryFile(mode='w+b')
-        out.write(self.context.odt_file.data)
+        out.write(primary_field.data)
         out.seek(0)
         return out
 
 
-class WriteFile(DefaultWriteFile):
+class WriteFile(DefaultWriteFile, PrimaryFileBase):
     implements(IRawWriteFile)
-    adapts(IPODTemplate)
 
     def close(self):
         self._message = self._parser.close()
         self._closed = True
-        self.context.odt_file.data = self._message.get_payload()
+        primary_field = self._get_primary_field()
+        primary_field.data = self._message.get_payload()
