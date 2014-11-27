@@ -31,3 +31,12 @@ class DemoHelperView(ATDocumentGenerationHelperView):
     def get_localized_field_name(self, field_name):
         import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
 
+    def get_collection_CT_fields(self):
+        field_list = []
+        filtered_fields = ['id', 'title', 'text', 'sort_on', 'sort_reversed', 'b_size', 'limit', 'customViewFields']
+        default_field_list = self.real_context.schema.getSchemataFields('default')
+        for field in default_field_list:
+            if field.getName() not in filtered_fields:
+                field_list.append(field.getName())
+        return field_list
+
