@@ -133,9 +133,9 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
     def list(self, field_name):
         field = self.real_context.getField(field_name)
-        raw_values = field.getRaw(self.real_context)
+        values = field.get(self.real_context)
 
-        return raw_values
+        return values
 
 
 class ATDisplayProxyObject(DisplayProxyObject):
