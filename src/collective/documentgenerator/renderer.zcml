@@ -93,4 +93,13 @@
         permission="zope2.View"
      />
 
+    <adapter
+        for="archetypes.querywidget.interfaces.IQueryField
+             Products.Archetypes.Widget.TypesWidget
+             Products.Archetypes.interfaces.IBaseObject"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.AT_renderer.QueryATFieldRenderer"
+        permission="zope2.View"
+     />
+
 </configure>

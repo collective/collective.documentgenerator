@@ -84,3 +84,16 @@ class LinesATFieldRenderer(DefaultATFieldRenderer):
             field_name=self.field.getName()
         )
         return msg
+
+
+class QueryATFieldRenderer(DefaultATFieldRenderer):
+    """
+    """
+
+    def render_value(self):
+        msg = "!!! the field '{field_name}' is a query field returning catalog brains, use \
+              'do text for brain in view.list('{field_name}')' in a commentary to iterate \
+              over the query result. !!!'".format(
+            field_name=self.field.getName()
+        )
+        return msg
