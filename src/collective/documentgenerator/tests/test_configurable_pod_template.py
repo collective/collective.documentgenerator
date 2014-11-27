@@ -94,6 +94,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertTrue(isinstance(condition_obj, ConfigurablePODTemplateCondition))
 
     def test_can_be_generated(self):
+        self.test_podtemplate.pod_portal_type = []
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
         # Disable the template.
