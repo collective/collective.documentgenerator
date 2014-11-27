@@ -67,7 +67,20 @@ class RichTextATFieldRenderer(DefaultATFieldRenderer):
 
     def render_value(self):
         msg = "!!! the field '{field_name}' is a html richtext , use \
-              'do text from view.display_html('{field_name}')' in a commentary instead !!!'".format(
+              'do text from view.display_text('{field_name}')' in a commentary instead !!!'".format(
+            field_name=self.field.getName()
+        )
+        return msg
+
+
+class LinesATFieldRenderer(DefaultATFieldRenderer):
+    """
+    """
+
+    def render_value(self):
+        msg = "!!! the field '{field_name}' is a lines field, use 'view.display_list('{field_name}')' \
+              to display all elements on one line or  use 'do text for val in view.list('{field_name}')'\
+              in a commentary to render each evalue line by line!!!'".format(
             field_name=self.field.getName()
         )
         return msg

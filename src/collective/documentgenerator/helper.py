@@ -98,7 +98,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return formatted_date
 
-    def display_voc(self, field_name, context=None, separator=','):
+    def display_voc(self, field_name, context=None, separator=', '):
         if context is None:
             context = self.real_context
 
@@ -112,7 +112,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return display
 
-    def display_html(self, field_name, context=None):
+    def display_text(self, field_name, context=None):
         if not self.renderer:
             return
 
@@ -123,6 +123,19 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         html_text = html_field.get(context)
         display = self.renderer.renderXhtml(html_text)
         return display
+
+    def display_list(self, field_name, separator=', '):
+        field = self.real_context.getField(field_name)
+        values = field.get(self.real_context)
+        display = separator.join(values)
+
+        return display
+
+    def list(self, field_name):
+        field = self.real_context.getField(field_name)
+        raw_values = field.getRaw(self.real_context)
+
+        return raw_values
 
 
 class ATDisplayProxyObject(DisplayProxyObject):
