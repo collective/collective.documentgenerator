@@ -42,7 +42,7 @@ def install_demo(context):
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
     if not hasattr(portal.podtemplates, 'test_template'):
-        demo_template = api.content.create(
+        api.content.create(
             type='PODTemplate',
             id='test_template',
             title='Document A',
@@ -56,11 +56,12 @@ def install_demo(context):
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
     if not hasattr(portal.podtemplates, 'test_template_bis'):
-        demo_template = api.content.create(
+        api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
             title='Document B',
             odt_file=blob_file,
             container=portal.podtemplates,
-            excludeFromNav=True
+            excludeFromNav=True,
+            pod_portal_type=['Collection'],
         )
