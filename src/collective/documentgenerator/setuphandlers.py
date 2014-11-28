@@ -36,30 +36,30 @@ def install_demo(context):
 
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
-    template_path = '{}/templates/document.odt'.format(demo_profile.get('path'))
+    template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
     # Create some test content
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
-    if not hasattr(portal.podtemplates, 'test_template'):
+    if not hasattr(portal.podtemplates, 'modele_general'):
         api.content.create(
             type='PODTemplate',
-            id='test_template',
-            title='Document A',
+            id='modele_general',
+            title='Modèle général',
             odt_file=blob_file,
             container=portal.podtemplates,
             excludeFromNav=True
         )
 
-    template_path = '{}/templates/document-2.odt'.format(demo_profile.get('path'))
+    template_path = '{}/templates/modele_collection.odt'.format(demo_profile.get('path'))
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
-    if not hasattr(portal.podtemplates, 'test_template_bis'):
+    if not hasattr(portal.podtemplates, 'modele_collection'):
         api.content.create(
             type='ConfigurablePODTemplate',
-            id='test_template_bis',
-            title='Document B',
+            id='modele_collection',
+            title='Modèle collection',
             odt_file=blob_file,
             container=portal.podtemplates,
             excludeFromNav=True,
