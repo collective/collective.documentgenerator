@@ -2,6 +2,8 @@
 
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
+from DateTime import DateTime
+
 from plone import api
 
 from zope.component import getUtility
@@ -46,6 +48,11 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         )
         return translation
 
+    def get_slash_separated_date(self, date):
+        date = DateTime(date)
+        formatted_date = date.strftime('%d/%m/%Y %H:%M')
+        return formatted_date
+
     def get_collection_CT_fields(self):
         field_list = []
         filtered_fields = ['id', 'title', 'text', 'sort_on', 'sort_reversed', 'b_size', 'limit', 'customViewFields']
@@ -54,4 +61,3 @@ class DemoHelperView(ATDocumentGenerationHelperView):
             if field.getName() not in filtered_fields:
                 field_list.append(field.getName())
         return field_list
-
