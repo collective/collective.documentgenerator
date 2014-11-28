@@ -2,6 +2,8 @@
 
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
+from DateTime import DateTime
+
 from plone import api
 
 from zope.component import getUtility
@@ -47,8 +49,8 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         return translation
 
     def get_slash_separated_date(self, date):
+        date = DateTime(date)
         formatted_date = date.strftime('%d/%m/%Y %H:%M')
-
         return formatted_date
 
     def get_collection_CT_fields(self):
