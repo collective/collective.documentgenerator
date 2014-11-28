@@ -2,6 +2,11 @@
 
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
+from plone import api
+
+from zope.component import getUtility
+from zope.i18n.interfaces import ITranslationDomain
+
 
 class DemoHelperView(ATDocumentGenerationHelperView):
     """
@@ -29,7 +34,17 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         return self.real_context.schema.get(field_name).getWidgetName() == 'LinesWidget'
 
     def get_localized_field_name(self, field_name):
-        import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+        translation_domain = getUtility(ITranslationDomain, 'plone')
+        properties = api.portal.get_tool('portal_properties')
+        target_language = properties.site_properties.default_language
+        unlocalized_field_name = self.real_context.getField(field_name).widget.Label(self)
+
+        translation = translation_domain.translate(
+            unlocalized_field_name,
+            target_language=target_language,
+            default=field_name
+        )
+        return translation
 
     def get_collection_CT_fields(self):
         field_list = []

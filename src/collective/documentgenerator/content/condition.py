@@ -41,7 +41,7 @@ class ConfigurablePODTemplateCondition(PODTemplateCondition):
         """
         allowed_types = self.pod_template.pod_portal_type
 
-        if allowed_types is None:
+        if not allowed_types:
             return True
 
         allowed_context = context.portal_type in allowed_types
