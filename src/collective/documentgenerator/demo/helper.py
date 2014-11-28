@@ -47,7 +47,7 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         return translation
 
     def get_slash_separated_date(self, date):
-        formatted_date = date.strftime(%d/%m/%Y %H:%M)
+        formatted_date = date.strftime('%d/%m/%Y %H:%M')
 
         return formatted_date
 
