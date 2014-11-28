@@ -61,3 +61,14 @@ class DemoHelperView(ATDocumentGenerationHelperView):
             if field.getName() not in filtered_fields:
                 field_list.append(field.getName())
         return field_list
+
+    def display_code(self, field_name):
+        code = []
+        if self.is_default_field(field_name):
+            code.append('Champs de saisie : view.display(\''+field_name+'\')')
+        elif self.is_rich_text_field(field_name):
+            code.append('Commentaire : do text from view.display_text(\''+field_name+'\')')
+        elif self.is_line_field(field_name):
+            code.append('Champs de saisie : line')
+            code.append('Commentaire : do text for line in view.list(\''+field_name+'\')')
+        return code
