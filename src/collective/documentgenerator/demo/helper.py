@@ -24,8 +24,8 @@ class DemoHelperView(ATDocumentGenerationHelperView):
                 field_list.append(field.getName())
         return field_list
 
-    def is_not_default_field(self, field_name):
-        if self.is_rich_text_field(field_name) or self.is_line_field(field_name):
+    def is_default_field(self, field_name):
+        if not self.is_rich_text_field(field_name) and not self.is_line_field(field_name):
             return True
         return False
 
