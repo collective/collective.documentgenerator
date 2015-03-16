@@ -2,6 +2,8 @@
 
 from plone import api
 
+from z3c.form.i18n import MessageFactory as _
+
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -26,7 +28,7 @@ class StyleVocabularyFactory(object):
     def __call__(self, context):
         catalog = api.portal.get_tool('portal_catalog')
         style_template_brains = catalog(portal_type='StyleTemplate')
-        style_templates = [SimpleTerm('--NOVALUE--', '--NOVALUE--', '--NOVALUE')]
+        style_templates = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
 
         for brain in style_template_brains:
             style_templates.append(SimpleTerm(brain.id, brain.id, brain.Title))
