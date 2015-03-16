@@ -50,9 +50,9 @@ class PODTemplate(Item):
             can_be_generated = condition_obj.evaluate()
             return can_be_generated
 
-    def get_StylesPODTemplate(self):
+    def get_StylesTemplate(self):
         """
-        Return associated StylesPODTemplate from which styles will be imported
+        Return associated StylesTemplate from which styles will be imported
         to the current PODTemplate.
         """
 
@@ -76,8 +76,8 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=False,
     )
 
-    form.widget('style', SelectWidget)
-    style = schema.List(
+    form.widget('style_template', SelectWidget)
+    style_template = schema.List(
         title=_(u'Style template'),
         description=_(u'style_template_descr'),
         value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),

@@ -76,22 +76,22 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         msg = "field 'enabled' is not editable"
         self.assertTrue('Activé' in contents, msg)
 
-    def test_style_attribute(self):
+    def test_style_template_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'style'))
+        self.assertTrue(hasattr(test_podtemplate, 'style_template'))
 
-    def test_style_field_display(self):
+    def test_style_template_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
         contents = self.browser.contents
-        msg = "field 'style' is not displayed"
-        self.assertTrue('id="form-widgets-style"' in contents, msg)
-        msg = "field 'style' is not translated"
+        msg = "field 'style_template' is not displayed"
+        self.assertTrue('id="form-widgets-style_template"' in contents, msg)
+        msg = "field 'style_template' is not translated"
         self.assertTrue('Modèle de style' in contents, msg)
 
-    def test_style_field_edit(self):
+    def test_style_template_field_edit(self):
         self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
         contents = self.browser.contents
-        msg = "field 'style' is not editable"
+        msg = "field 'style_template' is not editable"
         self.assertTrue('Modèle de style' in contents, msg)
 
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-10-16 06:05+0000\n"
+"POT-Creation-Date: 2015-03-16 16:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,54 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
-#: ../content/pod_template.py:70
+#: ../browser/controlpanel.py:35
+msgid ""
+msgstr ""
+
+#: ../content/pod_template.py:67
 msgid "Allowed portal types"
+msgstr ""
+
+#: ../browser/controlpanel.py:48
+msgid "Cancel"
+msgstr ""
+
+#: ../browser/controlpanel.py:45
+msgid "Changes saved"
 msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
+#: ../browser/controlpanel.py:34
+msgid "Document Generator settings"
+msgstr ""
+
 #: ../viewlets/generationlinks.pt:6
 msgid "Documents to generate"
 msgstr ""
 
-#: ../content/pod_template.py:83
+#: ../browser/controlpanel.py:50
+msgid "Edit cancelled"
+msgstr ""
+
+#: ../content/pod_template.py:74
 msgid "Enabled"
+msgstr ""
+
+#: ../content/vocabulary.py:31
+msgid "No value"
 msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 #: ../profiles/default/types/PODTemplate.xml
+#: ../profiles/default/types/StyleTemplate.xml
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:38
+#: ../content/pod_template.py:30
+#: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
 
@@ -46,35 +72,31 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:77
-msgid "TAL expression"
-msgstr ""
-
-#: ../content/pod_template.py:78
-msgid "pod_condition"
-msgstr ""
-
-#: ../content/pod_template.py:71
-msgid "pod_portal_type"
-msgstr ""
-
-#: ../content/controlpanel.py:21
-msgid "oo_port"
-msgstr ""
-
-#: ../content/controlpanel.py:23
+#: ../browser/controlpanel.py:23
 msgid "Port Number of OO"
 msgstr ""
 
-#: ../content/controlpanel.py:23
-msgid "Document Generator settings"
-msgstr ""
-
-#: ../content/controlpanel.py:37
+#: ../browser/controlpanel.py:37
 msgid "Save"
 msgstr ""
 
-#: ../content/controlpanel.py:48
-msgid "Cancel"
+#: ../content/pod_template.py:81
+msgid "Style template"
 msgstr ""
- 
+
+#: ../profiles/default/types/StyleTemplate.xml
+msgid "StyleTemplate"
+msgstr ""
+
+#: ../browser/controlpanel.py:22
+msgid "oo_port"
+msgstr ""
+
+#: ../content/pod_template.py:68
+msgid "pod_portal_type"
+msgstr ""
+
+#: ../content/pod_template.py:82
+msgid "style_template_descr"
+msgstr ""
+
