@@ -7,6 +7,8 @@ from collective.documentgenerator.interfaces import IFieldRendererForDocument
 from zope.component import getMultiAdapter
 from zope.interface import implements
 
+from plone import api
+
 
 class DocumentGenerationHelperView(object):
     """
@@ -79,10 +81,16 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         if context is None:
             context = self.real_context
 
-        field_renderer = self.get_AT_field_renderer(field_name, context)
-        display_value = field_renderer.render(no_value=no_value)
+        if self.checkPermission(field_name, context):
+            field_renderer = self.get_AT_field_renderer(field_name, context)
+            display_value = field_renderer.render(no_value=no_value)
+        else:
+            display_value = u''
 
         return display_value
+
+    def checkPermission(self, field_name, context):
+        return context.getField(field_name).checkPermission('r', context)
 
     def get_AT_field_renderer(self, field_name, context):
         field = context.getField(field_name)
