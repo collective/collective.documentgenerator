@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-10-16 06:05+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,28 +14,46 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../content/pod_template.py:70
+#: ../content/pod_template.py:67
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
+
+#: ../browser/controlpanel.py:48
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../browser/controlpanel.py:45
+msgid "Changes saved"
+msgstr "Changements enregistrés"
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle POD"
 
+#: ../browser/controlpanel.py:34
+msgid "Document Generator settings"
+msgstr "Configuration du générateur de document"
+
 #: ../viewlets/generationlinks.pt:6
 msgid "Documents to generate"
 msgstr "Documents à générer"
 
-#: ../content/pod_template.py:83
+#: ../browser/controlpanel.py:50
+msgid "Edit cancelled"
+msgstr "Édition annulée"
+
+#: ../content/pod_template.py:74
 msgid "Enabled"
 msgstr "Activé"
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 #: ../profiles/default/types/PODTemplate.xml
+#: ../profiles/default/types/StyleTemplate.xml
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:38
+#: ../content/pod_template.py:30
+#: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Document odt"
 
@@ -43,34 +61,31 @@ msgstr "Document odt"
 msgid "PODTemplate"
 msgstr "Modèle POD restreint"
 
-#: ../content/pod_template.py:77
-msgid "TAL expression"
-msgstr "Expression TAL"
-
-#: ../content/pod_template.py:78
-msgid "pod_condition"
-msgstr "Si cette condition est vraie (et pour autant que l'utilisateur dispose des permissions appropriées telles que définies dans le champ suivant), l'utilisateur sera capable de générer des documents sur base de ce canevas (une icône sera affichée). Cette condition doit être exprimée en TAL (Tag Attribute Language). Le contexte de l'expression inclut le nom 'here' qui représente l'objet sur lequel le canevas sera appliqué. Si vous ne connaissez pas TAL, vous pouvez l'apprendre <a href=\"http://zope.org/Documentation/Books/ZopeBook/2_6Edition/ZPT.stx\">ici</a>."
-
-#: ../content/pod_template.py:71
-msgid "pod_portal_type"
-msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
-
-#: ../content/controlpanel.py:21
-msgid "oo_port"
-msgstr "Numéro du port Office"
-
-#: ../content/controlpanel.py:23
+#: ../browser/controlpanel.py:23
 msgid "Port Number of OO"
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../content/controlpanel.py:23
-msgid "Document Generator settings"
-msgstr "Configuration du générateur de document"
-
-#: ../content/controlpanel.py:37
+#: ../browser/controlpanel.py:37
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/controlpanel.py:48
-msgid "Cancel"
-msgstr "Annuler"
+#: ../content/pod_template.py:81
+msgid "Style template"
+msgstr "Modèle de style"
+
+#: ../profiles/default/types/StyleTemplate.xml
+msgid "StyleTemplate"
+msgstr "Modèle de style"
+
+#: ../browser/controlpanel.py:22
+msgid "oo_port"
+msgstr "Numéro du port Office"
+
+#: ../content/pod_template.py:68
+msgid "pod_portal_type"
+msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
+
+#: ../content/pod_template.py:82
+msgid "style_template_descr"
+msgstr "Choisissez le modèle de style à appliquer pour ce modèle POD."
+

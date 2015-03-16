@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
+from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
 
 from plone import api
 
@@ -12,15 +12,15 @@ import unittest
 
 class TestVocabularies(unittest.TestCase):
 
-    layer = TEST_INSTALL_INTEGRATION
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         self.portal = self.layer['portal']
         self.registry = api.portal.get_tool('portal_registry')
 
-    def test_localities_vocabulary_factory_registration(self):
+    def test_portal_type_vocabulary_factory_registration(self):
         """
-        Localities voc factory should be registered as a named utility.
+        Portal type voc factory should be registered as a named utility.
         """
         factory_name = 'collective.documentgenerator.PortalType'
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
@@ -34,3 +34,19 @@ class TestVocabularies(unittest.TestCase):
         permissions_voc = vocabulary(self.portal)
         self.assertTrue('Plone Site' in permissions_voc)
         self.assertTrue('Event' in permissions_voc)
+
+    def test_style_vocabulary_factory_registration(self):
+        """
+        Styles voc factory should be registered as a named utility.
+        """
+        factory_name = 'collective.documentgenerator.StyleTemplates'
+        self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
+
+    def test_style_vocabulary_values(self):
+        """
+        Test some style values.
+        """
+        voc_name = 'collective.documentgenerator.StyleTemplates'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        style_voc = vocabulary(self.portal)
+        self.assertTrue('test_style_template' in style_voc)

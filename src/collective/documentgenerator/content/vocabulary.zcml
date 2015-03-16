@@ -9,4 +9,11 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- Style Vocabulary -->
+    <utility
+        factory=".vocabulary.StyleVocabularyFactory"
+        name="collective.documentgenerator.StyleTemplates"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>
