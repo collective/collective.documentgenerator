@@ -44,7 +44,8 @@ setup(
         'plone.api',
         'plone.app.dexterity',
         'setuptools',
-        'collective.behavior.talcondition'
+        'imio.helpers',
+        'collective.behavior.talcondition',
     ],
     extras_require={
         'test': [
