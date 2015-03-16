@@ -71,3 +71,24 @@ class TestDemoProfile(unittest.TestCase):
         msg = 'Test pod templates should be out of navigation'
         self.assertTrue(site.podtemplates.test_template.exclude_from_nav(), msg)
 
+    def test_StyleTemplate_creation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test style template doesn\'t exist'
+        self.assertTrue(hasattr(site.podtemplates, 'test_style_template'), msg)
+        self.assertTrue(site.podtemplates.test_style_template.portal_type == 'StyleTemplate')
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test style templates should be unique'
+        self.assertTrue(not hasattr(site.podtemplates, 'test_style_template-1'), msg)
+
+    def test_StyleTemplate_out_of_navigation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Test style templates should be out of navigation'
+        self.assertTrue(site.podtemplates.test_style_template.exclude_from_nav(), msg)

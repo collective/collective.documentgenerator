@@ -16,7 +16,6 @@ def post_install(context):
     """Post install script"""
     if isNotCurrentProfile(context):
         return
-    portal = context.getSite()
 
 
 def install_demo(context):
@@ -64,4 +63,19 @@ def install_demo(context):
             container=portal.podtemplates,
             excludeFromNav=True,
             pod_portal_type=['Collection'],
+        )
+
+    template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
+    # Create some test content
+    template_file = file(template_path, 'rb').read()
+    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
+    if not hasattr(portal.podtemplates, 'test_style_template'):
+        api.content.create(
+            type='StyleTemplate',
+            id='test_style_template',
+            title='Styles',
+            odt_file=blob_file,
+            container=portal.podtemplates,
+            excludeFromNav=True
         )
