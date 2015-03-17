@@ -14,4 +14,15 @@
         factory=".file_representation.WriteFile"
     />
 
+    <adapter
+        for="collective.documentgenerator.content.style_template.IStyleTemplate"
+        provides="zope.filerepresentation.interfaces.IRawReadFile"
+        factory=".file_representation.ReadFile"
+    />
+
+    <adapter
+        for="collective.documentgenerator.content.style_template.IStyleTemplate"
+        factory=".file_representation.WriteFile"
+    />
+
 </configure>

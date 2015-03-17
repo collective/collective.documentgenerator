@@ -16,6 +16,7 @@
 
     <include package=".browser" />
     <include package=".content" />
+    <include package=".events" />
     <include package=".viewlets" />
     <include package=".demo" />
 

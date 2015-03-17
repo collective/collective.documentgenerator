@@ -53,6 +53,21 @@ def install_demo(context):
         )
     style_template = getattr(portal.podtemplates, style_template_id)
 
+    template_path = '{}/templates/styles_2.odt'.format(demo_profile.get('path'))
+    template_file = file(template_path, 'rb').read()
+    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+    style_template_id = 'test_style_template_2'
+
+    if not hasattr(portal.podtemplates, style_template_id):
+        api.content.create(
+            type='StyleTemplate',
+            id=style_template_id,
+            title='Styles n°2',
+            odt_file=blob_file,
+            container=portal.podtemplates,
+            excludeFromNav=True
+        )
+
     template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
