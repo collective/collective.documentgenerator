@@ -35,8 +35,25 @@ def install_demo(context):
 
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
-    template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
+
     # Create some test content
+    template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
+    template_file = file(template_path, 'rb').read()
+    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+    style_template_id = 'test_style_template'
+
+    if not hasattr(portal.podtemplates, style_template_id):
+        api.content.create(
+            type='StyleTemplate',
+            id=style_template_id,
+            title='Styles',
+            odt_file=blob_file,
+            container=portal.podtemplates,
+            excludeFromNav=True
+        )
+    style_template = getattr(portal.podtemplates, style_template_id)
+
+    template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
@@ -44,7 +61,7 @@ def install_demo(context):
         api.content.create(
             type='PODTemplate',
             id='test_template',
-            title='Modele general',
+            title='Modèle general',
             odt_file=blob_file,
             container=portal.podtemplates,
             excludeFromNav=True
@@ -58,24 +75,10 @@ def install_demo(context):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
-            title='Modele collection',
+            title='Modèle collection',
             odt_file=blob_file,
             container=portal.podtemplates,
             excludeFromNav=True,
             pod_portal_type=['Collection'],
-        )
-
-    template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
-    # Create some test content
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
-
-    if not hasattr(portal.podtemplates, 'test_style_template'):
-        api.content.create(
-            type='StyleTemplate',
-            id='test_style_template',
-            title='Styles',
-            odt_file=blob_file,
-            container=portal.podtemplates,
-            excludeFromNav=True
+            style_template=[style_template.UID()],
         )

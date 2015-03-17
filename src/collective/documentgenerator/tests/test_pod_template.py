@@ -109,3 +109,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
 
         # finally, unregister our adapter...
         gsm.registerAdapter(PODTemplateCondition, (IPODTemplate, Interface), IPODTemplateCondition)
+
+    def test_get_style_template(self):
+        pod_template = self.test_podtemplate
+        self.assertTrue(pod_template.get_style_template() is None)

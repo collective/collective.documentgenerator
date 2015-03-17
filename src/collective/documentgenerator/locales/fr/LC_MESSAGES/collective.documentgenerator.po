@@ -46,6 +46,10 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
+#: ../content/vocabulary.py:31
+msgid "No value"
+msgstr ""
+
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 #: ../profiles/default/types/PODTemplate.xml
 #: ../profiles/default/types/StyleTemplate.xml

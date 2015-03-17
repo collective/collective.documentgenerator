@@ -3,6 +3,7 @@
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 
+from plone import api
 from plone.autoform import directives as form
 from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
@@ -50,11 +51,12 @@ class PODTemplate(Item):
             can_be_generated = condition_obj.evaluate()
             return can_be_generated
 
-    def get_StylesTemplate(self):
+    def get_style_template(self):
         """
         Return associated StylesTemplate from which styles will be imported
         to the current PODTemplate.
         """
+        return None
 
 
 class IConfigurablePODTemplate(IPODTemplate):
@@ -91,3 +93,19 @@ class ConfigurablePODTemplate(PODTemplate):
     """
 
     implements(IConfigurablePODTemplate)
+
+    def get_style_template(self):
+        """
+        Return associated StylesTemplate from which styles will be imported
+        to the current PODTemplate.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        style_template_UID = self.style_template
+        style_template_brain = catalog(UID=style_template_UID)
+
+        if style_template_brain:
+            style_template = style_template_brain[0].getObject()
+        else:
+            style_template = None
+
+        return style_template

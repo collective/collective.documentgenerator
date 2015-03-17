@@ -31,7 +31,7 @@ class StyleVocabularyFactory(object):
         style_templates = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
 
         for brain in style_template_brains:
-            style_templates.append(SimpleTerm(brain.id, brain.id, brain.Title))
+            style_templates.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
 
         vocabulary = SimpleVocabulary(style_templates)
 

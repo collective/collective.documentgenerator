@@ -125,3 +125,8 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.test_podtemplate.pod_portal_type = ['File']
         msg = 'disabled template should not be generated'
         self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
+
+    def test_get_style_template(self):
+        style_template = self.portal.podtemplates.test_style_template
+        pod_template = self.test_podtemplate
+        self.assertTrue(pod_template.get_style_template() == style_template)
