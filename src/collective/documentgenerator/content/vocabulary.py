@@ -36,3 +36,16 @@ class StyleVocabularyFactory(object):
         vocabulary = SimpleVocabulary(style_templates)
 
         return vocabulary
+
+
+class MergeTemplatesVocabularyFactory(object):
+    """
+    Vocabulary factory for merge_templates field.
+    """
+
+    def __call__(self, context):
+        """
+        """
+        vocabulary = SimpleVocabulary([])
+
+        return vocabulary

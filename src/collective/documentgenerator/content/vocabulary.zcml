@@ -16,4 +16,11 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- Merge templates Vocabulary -->
+    <utility
+        factory=".vocabulary.StyleVocabularyFactory"
+        name="collective.documentgenerator.MergeTemplates"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>
