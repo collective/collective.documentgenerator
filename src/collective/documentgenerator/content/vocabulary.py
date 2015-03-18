@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.content.pod_template import IPODTemplate
+
 from plone import api
 
 from z3c.form.i18n import MessageFactory as _
@@ -28,12 +30,12 @@ class StyleVocabularyFactory(object):
     def __call__(self, context):
         catalog = api.portal.get_tool('portal_catalog')
         style_template_brains = catalog(portal_type='StyleTemplate')
-        style_templates = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
+        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
 
         for brain in style_template_brains:
-            style_templates.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
 
-        vocabulary = SimpleVocabulary(style_templates)
+        vocabulary = SimpleVocabulary(voc_terms)
 
         return vocabulary
 
@@ -44,8 +46,14 @@ class MergeTemplatesVocabularyFactory(object):
     """
 
     def __call__(self, context):
-        """
-        """
-        vocabulary = SimpleVocabulary([])
+        catalog = api.portal.get_tool('portal_catalog')
+        pod_templates = catalog(object_provides=IPODTemplate.__identifier__)
+        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
+        for brain in pod_templates:
+            # a PODTemplate cannot import itself..
+            if not hasattr(context, 'UID') or brain.UID != context.UID():
+                voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
+
+        vocabulary = SimpleVocabulary(voc_terms)
 
         return vocabulary

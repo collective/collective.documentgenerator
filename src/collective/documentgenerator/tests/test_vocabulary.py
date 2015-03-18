@@ -58,3 +58,13 @@ class TestVocabularies(unittest.TestCase):
         """
         factory_name = 'collective.documentgenerator.MergeTemplates'
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
+
+    def test_merge_templates_vocabulary_values(self):
+        """
+        Test some style values.
+        """
+        voc_name = 'collective.documentgenerator.MergeTemplates'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        merge_templates_voc = vocabulary(self.portal)
+        pod_template = self.portal.podtemplates.test_template
+        self.assertTrue(pod_template.UID() in merge_templates_voc)
