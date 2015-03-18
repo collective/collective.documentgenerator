@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-16 16:25+0000\n"
+"POT-Creation-Date: 2015-03-18 10:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../content/pod_template.py:67
+#: ../content/pod_template.py:88
 msgid "Allowed portal types"
 msgstr ""
 
@@ -49,8 +49,12 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:74
+#: ../content/pod_template.py:95
 msgid "Enabled"
+msgstr ""
+
+#: ../content/pod_template.py:118
+msgid "Merge templates"
 msgstr ""
 
 #: ../content/vocabulary.py:31
@@ -63,9 +67,13 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:30
+#: ../content/pod_template.py:35
 #: ../content/style_template.py:26
 msgid "ODT File"
+msgstr ""
+
+#: ../content/pod_template.py:76
+msgid "POD context name"
 msgstr ""
 
 #: ../profiles/default/types/PODTemplate.xml
@@ -80,7 +88,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:81
+#: ../content/pod_template.py:102
 msgid "Style template"
 msgstr ""
 
@@ -88,15 +96,19 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
+#: ../content/pod_template.py:71
+msgid "Template"
+msgstr ""
+
 #: ../browser/controlpanel.py:22
 msgid "oo_port"
 msgstr ""
 
-#: ../content/pod_template.py:68
+#: ../content/pod_template.py:89
 msgid "pod_portal_type"
 msgstr ""
 
-#: ../content/pod_template.py:82
+#: ../content/pod_template.py:103
 msgid "style_template_descr"
 msgstr ""
 

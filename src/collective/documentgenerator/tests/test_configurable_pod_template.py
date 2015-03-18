@@ -94,6 +94,24 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         msg = "field 'style_template' is not editable"
         self.assertTrue('Modèle de style' in contents, msg)
 
+    def test_merge_templates_attribute(self):
+        test_podtemplate = aq_base(self.test_podtemplate)
+        self.assertTrue(hasattr(test_podtemplate, 'merge_templates'))
+
+    def test_merge_templates_field_display(self):
+        self.browser.open(self.test_podtemplate.absolute_url())
+        contents = self.browser.contents
+        msg = "field 'merge_templates' is not displayed"
+        self.assertTrue('for="form-widgets-merge_templates"' in contents, msg)
+        msg = "field 'merge_templates' is not translated"
+        self.assertTrue('Modèles à fusionner' in contents, msg)
+
+    def test_merge_templates_field_edit(self):
+        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
+        contents = self.browser.contents
+        msg = "field 'merge_templates' is not editable"
+        self.assertTrue('Modèles à fusionner' in contents, msg)
+
 
 class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationTest):
     """

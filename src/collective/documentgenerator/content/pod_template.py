@@ -3,6 +3,9 @@
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 
+from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield import DictRow
+
 from plone import api
 from plone.autoform import directives as form
 from plone.dexterity.content import Item
@@ -17,6 +20,7 @@ from zope.interface import implements
 from z3c.form.browser.select import SelectWidget
 
 import logging
+import zope
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
 
@@ -59,6 +63,21 @@ class PODTemplate(Item):
         return None
 
 
+class IMergeTemplatesRowSchema(zope.interface.Interface):
+    """
+    Schema for DataGridField widget's row of field 'merge_templates'
+    """
+    template = schema.TextLine(
+        title=_(u'Template'),
+        required=True,
+    )
+
+    pod_context_name = schema.TextLine(
+        title=_(u'POD context name'),
+        required=True,
+    )
+
+
 class IConfigurablePODTemplate(IPODTemplate):
     """
     ConfigurablePODTemplate dexterity schema.
@@ -84,6 +103,24 @@ class IConfigurablePODTemplate(IPODTemplate):
         description=_(u'style_template_descr'),
         value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
         required=True,
+    )
+
+    form.widget('style_template', SelectWidget)
+    style_template = schema.List(
+        title=_(u'Style template'),
+        description=_(u'style_template_descr'),
+        value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
+        required=True,
+    )
+
+    form.widget('merge_templates', DataGridFieldFactory)
+    merge_templates = schema.List(
+        title=_(u'Merge templates'),
+        required=False,
+        value_type=DictRow(
+            schema=IMergeTemplatesRowSchema,
+            required=False
+        ),
     )
 
 

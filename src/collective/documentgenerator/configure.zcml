@@ -10,15 +10,16 @@
     <five:registerPackage package="." initialize=".initialize" />
 
     <include package="collective.behavior.talcondition" />
+    <include package="collective.z3cform.datagridfield"/>
     <include package="imio.helpers" />
     <include package="plone.api" />
     <include package="plone.app.dexterity" />
 
     <include package=".browser" />
     <include package=".content" />
+    <include package=".demo" />
     <include package=".events" />
     <include package=".viewlets" />
-    <include package=".demo" />
 
     <include file="renderer.zcml"/>
     <include file="helper.zcml"/>
