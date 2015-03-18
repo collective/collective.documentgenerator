@@ -55,7 +55,7 @@ class DocumentGenerationView(BrowserView):
         file_type = self.get_generation_format()
 
         rendered_document = self.render_document(document_template, file_type)
-        filename = '{}.{}'.format(pod_template.title, file_type)
+        filename = u'{}.{}'.format(pod_template.title, file_type)
 
         return rendered_document, filename
 
@@ -116,7 +116,10 @@ class DocumentGenerationView(BrowserView):
         response = self.request.RESPONSE
         mimetype = mimetypes.guess_type(filename)[0]
         response.setHeader('Content-type', mimetype)
-        response.setHeader('Content-disposition', 'inline;filename="{}"'.format(filename))
+        response.setHeader(
+            'Content-disposition',
+            u'inline;filename="{}"'.format(filename).encode('utf-8')
+        )
 
 
 class PersistentDocumentGenerationView(DocumentGenerationView):
