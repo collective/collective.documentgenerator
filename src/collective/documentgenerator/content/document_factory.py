@@ -36,7 +36,7 @@ class FileDocumentFactory(object):
             container=container,
         )
 
-        filename = '{}.{}'.format(title, extension)
+        filename = u'{}.{}'.format(title, extension)
 
         obj.getFile().setFilename(filename)
         obj.getFile().setContentType(mimetypes.guess_type(filename)[0])
