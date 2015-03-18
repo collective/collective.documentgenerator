@@ -67,9 +67,9 @@ class IMergeTemplatesRowSchema(zope.interface.Interface):
     """
     Schema for DataGridField widget's row of field 'merge_templates'
     """
-    template = schema.List(
+    template = schema.Choice(
         title=_(u'Template'),
-        value_type=schema.Choice(source='collective.documentgenerator.MergeTemplates'),
+        vocabulary='collective.documentgenerator.MergeTemplates',
         required=True,
     )
 
