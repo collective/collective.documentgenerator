@@ -18,11 +18,11 @@ msgstr ""
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../browser/controlpanel.py:48
+#: ../browser/controlpanel.py:55
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../browser/controlpanel.py:45
+#: ../browser/controlpanel.py:52
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
@@ -30,7 +30,7 @@ msgstr "Changements enregistrés"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle POD"
 
-#: ../browser/controlpanel.py:34
+#: ../browser/controlpanel.py:41
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
@@ -38,7 +38,7 @@ msgstr "Configuration du générateur de document"
 msgid "Documents to generate"
 msgstr "Documents à générer"
 
-#: ../browser/controlpanel.py:50
+#: ../browser/controlpanel.py:57
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
@@ -77,7 +77,7 @@ msgstr "Modèle POD restreint"
 msgid "Port Number of OO"
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../browser/controlpanel.py:37
+#: ../browser/controlpanel.py:44
 msgid "Save"
 msgstr "Sauver"
 
@@ -97,6 +97,10 @@ msgstr "Modèle"
 msgid "oo_port"
 msgstr "Numéro du port Office"
 
+#: ../browser/controlpanel.py:29
+msgid "oo_unoPath"
+msgstr "Path de la librairie UNO"
+
 #: ../content/pod_template.py:89
 msgid "pod_portal_type"
 msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
@@ -104,4 +108,8 @@ msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du
 #: ../content/pod_template.py:103
 msgid "style_template_descr"
 msgstr "Choisissez le modèle de style à appliquer pour ce modèle POD."
+
+#: ../browser/controlpanel.py:30
+msgid "uno path of OO"
+msgstr "Indiquez le path de la librairie UNO"
 

@@ -2,6 +2,7 @@
 
 from appy.shared.utils import executeCommand
 
+from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
 
 from plone import api
@@ -74,9 +75,10 @@ def _update_template_style(pod_template, style_template_filename):
     newTemplate = file(tempFileName, "w")
     newTemplate.write(pod_template.odt_file.data)
     newTemplate.close()
+    unoPath = config.get_uno_path()
     #merge style from templateStyle in template
     cmd = '%s %s %s %s -p%d -t%s' % \
-        ('/usr/bin/python', CONVSCRIPT, tempFileName, 'odt',
+        (unoPath, CONVSCRIPT, tempFileName, 'odt',
             2002, style_template_filename)
     executeCommand(cmd)
     #read the merged file
