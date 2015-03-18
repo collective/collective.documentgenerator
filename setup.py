@@ -47,6 +47,7 @@ setup(
         'setuptools',
         'imio.helpers',
         'collective.behavior.talcondition',
+        'imio.pyutils',
     ],
     extras_require={
         'test': [
