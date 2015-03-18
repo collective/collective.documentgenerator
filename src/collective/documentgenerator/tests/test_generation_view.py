@@ -125,7 +125,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generated = generated_doc.getBlob().open('r').read()
         self.assertTrue(original_doc.data[1200:2500] in generated)
 
-        self.assertTrue(generated_doc.getFilename() == 'Modele general.odt')
+        self.assertTrue(generated_doc.getFilename() == u'Modèle general.odt')
         self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):

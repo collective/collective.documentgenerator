@@ -49,4 +49,5 @@ class TestVocabularies(unittest.TestCase):
         voc_name = 'collective.documentgenerator.StyleTemplates'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         style_voc = vocabulary(self.portal)
-        self.assertTrue('test_style_template' in style_voc)
+        style_template = self.portal.podtemplates.test_style_template
+        self.assertTrue(style_template.UID() in style_voc)
