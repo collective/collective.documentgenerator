@@ -12,8 +12,6 @@ from plone.namedfile.file import NamedBlobFile
 import appy.pod
 import logging
 import os
-import tempfile
-import time
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
@@ -36,7 +34,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
         for brain in pod_templates:
             pod_template = brain.getObject()
             if pod_template.get_style_template() == style_template:
-                _update_template_style(pod_template, style_template_filename)
+                _update_template_styles(pod_template, style_template_filename)
                 logger.info(" %s => updated" % pod_template.Title())
 
     #delete temporary styles files
@@ -55,10 +53,10 @@ def update_PODtemplate_styles(pod_template, event):
         style_odt,
         'style_template'
     )
-    _update_template_style(pod_template, style_template_filename)
+    _update_template_styles(pod_template, style_template_filename)
 
 
-def _update_template_style(pod_template, style_template_filename):
+def _update_template_styles(pod_template, style_template_filename):
     """
     Update template pod_template by templateStyle.
     """
