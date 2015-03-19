@@ -3,5 +3,4 @@
           i18n:domain="documentgenerator">
 
     <records interface="collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema" />
-
 </registry>

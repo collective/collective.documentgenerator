@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-18 10:42+0000\n"
+"POT-Creation-Date: 2015-03-18 13:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
-#: ../browser/controlpanel.py:35
+#: ../browser/controlpanel.py:42
 msgid ""
 msgstr ""
 
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../browser/controlpanel.py:48
+#: ../browser/controlpanel.py:55
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:45
+#: ../browser/controlpanel.py:52
 msgid "Changes saved"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:34
+#: ../browser/controlpanel.py:41
 msgid "Document Generator settings"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Documents to generate"
 msgstr ""
 
-#: ../browser/controlpanel.py:50
+#: ../browser/controlpanel.py:57
 msgid "Edit cancelled"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Port Number of OO"
 msgstr ""
 
-#: ../browser/controlpanel.py:37
+#: ../browser/controlpanel.py:44
 msgid "Save"
 msgstr ""
 
@@ -104,11 +104,19 @@ msgstr ""
 msgid "oo_port"
 msgstr ""
 
+#: ../browser/controlpanel.py:29
+msgid "oo_unoPath"
+msgstr ""
+
 #: ../content/pod_template.py:89
 msgid "pod_portal_type"
 msgstr ""
 
 #: ../content/pod_template.py:103
 msgid "style_template_descr"
+msgstr ""
+
+#: ../browser/controlpanel.py:30
+msgid "uno path of OO"
 msgstr ""
 

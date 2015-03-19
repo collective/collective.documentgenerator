@@ -25,6 +25,13 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=False
     )
 
+    oo_unoPath = schema.TextLine(
+        title=_(u"oo_unoPath"),
+        description=_(u"uno path of OO"),
+        required=False,
+        default=u"/usr/bin/python"
+    )
+
 
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
 
