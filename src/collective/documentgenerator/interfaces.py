@@ -75,6 +75,13 @@ class IPODTemplateCondition(Interface):
         """Represent the condition evaluation by returning True or False."""
 
 
+class ITemplatesToMerge(Interface):
+    """Adapts a pod_template to return a dict of templates to merge with appy pod."""
+
+    def get(self):
+        """ Return the templates dict. eg: {'mytemplateid', mytemplateobj} ."""
+
+
 class IDocumentGeneratorSettings(Interface):
     """
     Settings for Document Generator

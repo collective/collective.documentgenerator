@@ -7,8 +7,6 @@ from collective.documentgenerator.interfaces import IFieldRendererForDocument
 from zope.component import getMultiAdapter
 from zope.interface import implements
 
-from plone import api
-
 
 class DocumentGenerationHelperView(object):
     """
@@ -21,7 +19,7 @@ class DocumentGenerationHelperView(object):
         self.real_context = context
         self.request = request
         self.context = self._get_proxy_object(context)
-        self.renderer = None
+        self.appy_renderer = None
 
     def _get_proxy_object(self, context):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
@@ -42,8 +40,8 @@ class DocumentGenerationHelperView(object):
     def list_voc(self, field_name, context=None, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
 
-    def _set_renderer(self, appy_renderer):
-        self.renderer = appy_renderer
+    def _set_appy_renderer(self, appy_renderer):
+        self.appy_renderer = appy_renderer
 
 
 class DisplayProxyObject(object):
@@ -121,7 +119,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         return display
 
     def display_text(self, field_name, context=None):
-        if not self.renderer:
+        if not self.appy_renderer:
             return
 
         if context is None:
@@ -129,7 +127,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         html_field = self.context.getField(field_name)
         html_text = html_field.get(context)
-        display = self.renderer.renderXhtml(html_text)
+        display = self.appy_renderer.renderXhtml(html_text)
         return display
 
     def display_list(self, field_name, separator=', '):

@@ -3,14 +3,17 @@
 from Acquisition import aq_base
 
 from collective.documentgenerator.content.condition import PODTemplateCondition
+from collective.documentgenerator.content.merge_templates import TemplatesToMergeForPODTemplate
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
+from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 
 from plone import api
 
 from zope.component import getGlobalSiteManager
+from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import Interface
 
@@ -113,3 +116,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     def test_get_style_template(self):
         pod_template = self.test_podtemplate
         self.assertTrue(pod_template.get_style_template() is None)
+
+    def test_default_merge_templates_registration(self):
+        adapter = queryAdapter(self.test_podtemplate, ITemplatesToMerge)
+        self.assertTrue(isinstance(adapter, TemplatesToMergeForPODTemplate))

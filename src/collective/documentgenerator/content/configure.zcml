@@ -4,6 +4,7 @@
 
     <include file="conditions.zcml" />
     <include file="file_representation.zcml"/>
+    <include file="merge_templates.zcml"/>
     <include file="vocabulary.zcml" />
 
     <adapter

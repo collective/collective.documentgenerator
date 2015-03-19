@@ -148,3 +148,20 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         style_template = self.portal.podtemplates.test_style_template
         pod_template = self.test_podtemplate
         self.assertTrue(pod_template.get_style_template() == style_template)
+
+    def test_get_templates_to_merge(self):
+        pod_template = self.test_podtemplate
+        to_merge = pod_template.get_templates_to_merge()
+        # so far the field should be empty
+        self.assertTrue(len(to_merge) == 0)
+
+        # set the field 'merge_templates' with some value
+        pod_template.merge_templates = [
+            {
+                'template': pod_template.UID(),
+                'pod_context_name': 'hello',
+            }
+        ]
+        to_merge = pod_template.get_templates_to_merge()
+        self.assertTrue(len(to_merge) == 1)
+        self.assertTrue(to_merge['hello'] == pod_template)

@@ -2,6 +2,7 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
+from collective.documentgenerator.interfaces import ITemplatesToMerge
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
@@ -14,6 +15,7 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
 from zope import schema
+from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
 
@@ -62,13 +64,24 @@ class PODTemplate(Item):
         """
         return None
 
+    def get_templates_to_merge(self):
+        """
+        Return associated PODTemplates merged into the current PODTemplate
+        when it is rendered.
+        """
+        templates_to_merge = queryAdapter(self, ITemplatesToMerge)
+        if templates_to_merge:
+            templates_to_merge.get()
+        return {}
+
 
 class IMergeTemplatesRowSchema(zope.interface.Interface):
     """
     Schema for DataGridField widget's row of field 'merge_templates'
     """
-    template = schema.TextLine(
+    template = schema.Choice(
         title=_(u'Template'),
+        vocabulary='collective.documentgenerator.MergeTemplates',
         required=True,
     )
 
@@ -146,3 +159,18 @@ class ConfigurablePODTemplate(PODTemplate):
             style_template = None
 
         return style_template
+
+    def get_templates_to_merge(self):
+        """
+        Return associated PODTemplates merged into the current PODTemplate
+        when it is rendered.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        pod_context = {}
+
+        if self.merge_templates:
+            for line in self.merge_templates:
+                pod_template = catalog(UID=line['template'])[0].getObject()
+                pod_context[line['pod_context_name']] = pod_template
+
+        return pod_context

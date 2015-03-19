@@ -51,13 +51,29 @@ class DocumentGenerationView(BrowserView):
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
 
+        document_path = self.recursive_generate_doc(pod_template)
+
+        rendered_document = open(document_path, 'rb')
+        rendered = rendered_document.read()
+        rendered_document.close()
+        os.remove(document_path)
+
+        filename = u'{}.{}'.format(pod_template.title, self.get_generation_format())
+
+        return rendered, filename
+
+    def recursive_generate_doc(self, pod_template):
+
         document_template = pod_template.get_file()
         file_type = self.get_generation_format()
 
-        rendered_document = self.render_document(document_template, file_type)
-        filename = u'{}.{}'.format(pod_template.title, file_type)
+        sub_documents = {}
+        for context_name, sub_pod in pod_template.get_templates_to_merge():
+            sub_documents[context_name] = self.recursive_generate_doc(sub_pod)
 
-        return rendered_document, filename
+        document_path = self.render_document(document_template, file_type, sub_documents)
+
+        return document_path
 
     def get_pod_template(self):
         template_uid = self.get_pod_template_uid()
@@ -80,14 +96,17 @@ class DocumentGenerationView(BrowserView):
         generation_format = self.request.get('output_format', 'odt')
         return generation_format
 
-    def render_document(self, document_obj, file_type):
+    def render_document(self, document_obj, file_type, sub_documents):
         temp_filename = '%s/%s_%f.%s' % (tempfile.gettempdir(), document_obj.size, time.time(), file_type)
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
+
         generation_context = {
             'context': getattr(helper_view, 'context', None),
             'view': helper_view
         }
+        generation_context.update(sub_documents)
+
         renderer = appy.pod.renderer.Renderer(
             StringIO(document_obj.data),
             generation_context,
@@ -96,16 +115,16 @@ class DocumentGenerationView(BrowserView):
             forceOoCall=True,
         )
 
-        helper_view._set_renderer(renderer)
+        # it is only now that we can initialize helper view's appy pod renderer
+        helper_view._set_appy_renderer(renderer)
 
         renderer.run()
 
-        rendered_document = open(temp_filename, 'rb')
-        rendered = rendered_document.read()
-        rendered_document.close()
-        os.remove(temp_filename)
+        # now that the document is rendered, remove all subdocuments.
+        for path_name in sub_documents.values():
+            os.remove(path_name)
 
-        return rendered
+        return temp_filename
 
     def get_generation_context_helper(self):
         helper = self.context.unrestrictedTraverse('@@document_generation_helper_view')
