@@ -47,11 +47,16 @@ class MergeTemplatesVocabularyFactory(object):
 
     def __call__(self, context):
         catalog = api.portal.get_tool('portal_catalog')
+        portal = api.portal.get()
+        context_path = '/' + '/'.join(portal.REQUEST.steps[:-1])
+        call_context = portal.restrictedTraverse(context_path)
+
         pod_templates = catalog(object_provides=IPODTemplate.__identifier__)
         voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
+
         for brain in pod_templates:
             # a PODTemplate cannot import itself..
-            if not hasattr(context, 'UID') or brain.UID != context.UID():
+            if not hasattr(call_context, 'UID') or brain.UID != call_context.UID():
                 voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
 
         vocabulary = SimpleVocabulary(voc_terms)

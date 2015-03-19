@@ -147,3 +147,18 @@ class ConfigurablePODTemplate(PODTemplate):
             style_template = None
 
         return style_template
+
+    def get_templates_to_merge(self):
+        """
+        Return associated PODTemplates merged into the current PODTemplate
+        when it is rendered.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        pod_context = {}
+
+        if self.merge_templates:
+            for line in self.merge_templates:
+                pod_template = catalog(UID=line['template'])[0].getObject()
+                pod_context[line['pod_context_name']] = pod_template
+
+        return pod_context

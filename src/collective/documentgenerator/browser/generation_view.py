@@ -96,7 +96,8 @@ class DocumentGenerationView(BrowserView):
             forceOoCall=True,
         )
 
-        helper_view._set_renderer(renderer)
+        # it is only now that we can initialize helper view's appy pod renderer
+        helper_view._set_appy_renderer(renderer)
 
         renderer.run()
 

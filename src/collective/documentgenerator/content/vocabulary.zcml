@@ -20,7 +20,7 @@
     <utility
         factory=".vocabulary.MergeTemplatesVocabularyFactory"
         name="collective.documentgenerator.MergeTemplates"
-        provides="zope.schema.interfaces.IVocabularyFactory"
+        provides="zope.schema.interfaces.IContextSourceBinder"
     />
 
 </configure>
