@@ -23,3 +23,11 @@ class TestInstallDependencies(unittest.TestCase):
         self.assertTrue(not self.installer.isProductInstalled('plone.app.dexterity'))
         applyProfile(self.portal, 'collective.documentgenerator:demo')
         self.assertTrue(self.installer.isProductInstalled('plone.app.dexterity'))
+
+    def test_z3cformdatagridfield_is_dependency_of_documentgenerator(self):
+        """
+        dexterity should be installed when we install documentgenerator
+        """
+        self.assertTrue(not self.installer.isProductInstalled('plone.app.dexterity'))
+        applyProfile(self.portal, 'collective.documentgenerator:demo')
+        self.assertTrue(self.installer.isProductInstalled('collective.z3cform.datagridfield'))

@@ -2,6 +2,7 @@
 <metadata>
    <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
+    <dependency>profile-collective.z3cform.datagridfield:default</dependency>
    </dependencies>
   <version>1</version>
 </metadata>

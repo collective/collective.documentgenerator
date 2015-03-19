@@ -7,8 +7,6 @@ from collective.documentgenerator.interfaces import IFieldRendererForDocument
 from zope.component import getMultiAdapter
 from zope.interface import implements
 
-from plone import api
-
 
 class DocumentGenerationHelperView(object):
     """
@@ -42,8 +40,8 @@ class DocumentGenerationHelperView(object):
     def list_voc(self, field_name, context=None, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
 
-    def _set_renderer(self, appy_renderer):
-        self.renderer = appy_renderer
+    def _set_appy_renderer(self, appy_renderer):
+        self.appy_renderer = appy_renderer
 
 
 class DisplayProxyObject(object):
@@ -121,7 +119,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         return display
 
     def display_text(self, field_name, context=None):
-        if not self.renderer:
+        if not self.appy_renderer:
             return
 
         if context is None:

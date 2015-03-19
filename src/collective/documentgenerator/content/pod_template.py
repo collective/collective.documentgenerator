@@ -3,6 +3,9 @@
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 
+from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield import DictRow
+
 from plone import api
 from plone.autoform import directives as form
 from plone.dexterity.content import Item
@@ -17,6 +20,7 @@ from zope.interface import implements
 from z3c.form.browser.select import SelectWidget
 
 import logging
+import zope
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
 
@@ -59,6 +63,22 @@ class PODTemplate(Item):
         return None
 
 
+class IMergeTemplatesRowSchema(zope.interface.Interface):
+    """
+    Schema for DataGridField widget's row of field 'merge_templates'
+    """
+    template = schema.Choice(
+        title=_(u'Template'),
+        vocabulary='collective.documentgenerator.MergeTemplates',
+        required=True,
+    )
+
+    pod_context_name = schema.TextLine(
+        title=_(u'POD context name'),
+        required=True,
+    )
+
+
 class IConfigurablePODTemplate(IPODTemplate):
     """
     ConfigurablePODTemplate dexterity schema.
@@ -86,6 +106,24 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=True,
     )
 
+    form.widget('style_template', SelectWidget)
+    style_template = schema.List(
+        title=_(u'Style template'),
+        description=_(u'style_template_descr'),
+        value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
+        required=True,
+    )
+
+    form.widget('merge_templates', DataGridFieldFactory)
+    merge_templates = schema.List(
+        title=_(u'Merge templates'),
+        required=False,
+        value_type=DictRow(
+            schema=IMergeTemplatesRowSchema,
+            required=False
+        ),
+    )
+
 
 class ConfigurablePODTemplate(PODTemplate):
     """
@@ -109,3 +147,18 @@ class ConfigurablePODTemplate(PODTemplate):
             style_template = None
 
         return style_template
+
+    def get_templates_to_merge(self):
+        """
+        Return associated PODTemplates merged into the current PODTemplate
+        when it is rendered.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        pod_context = {}
+
+        if self.merge_templates:
+            for line in self.merge_templates:
+                pod_template = catalog(UID=line['template'])[0].getObject()
+                pod_context[line['pod_context_name']] = pod_template
+
+        return pod_context

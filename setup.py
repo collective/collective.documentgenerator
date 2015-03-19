@@ -42,18 +42,19 @@ setup(
     zip_safe=False,
     install_requires=[
         'appy',
+        'collective.behavior.talcondition',
+        'collective.z3cform.datagridfield',
+        'imio.helpers',
+        'imio.pyutils',
         'plone.api',
         'plone.app.dexterity',
         'setuptools',
-        'imio.helpers',
-        'collective.behavior.talcondition',
-        'imio.pyutils',
     ],
     extras_require={
         'test': [
             'ecreall.helpers.testing',
-            'plone.app.testing',
             'plone.app.robotframework',
+            'plone.app.testing',
         ],
     },
     entry_points="""

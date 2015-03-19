@@ -51,3 +51,20 @@ class TestVocabularies(unittest.TestCase):
         style_voc = vocabulary(self.portal)
         style_template = self.portal.podtemplates.test_style_template
         self.assertTrue(style_template.UID() in style_voc)
+
+    def test_merge_templates_vocabulary_factory_registration(self):
+        """
+        Merge templates voc factory should be registered as a named utility.
+        """
+        factory_name = 'collective.documentgenerator.MergeTemplates'
+        self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
+
+    def test_merge_templates_vocabulary_values(self):
+        """
+        Test some style values.
+        """
+        voc_name = 'collective.documentgenerator.MergeTemplates'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        merge_templates_voc = vocabulary(self.portal)
+        pod_template = self.portal.podtemplates.test_template
+        self.assertTrue(pod_template.UID() in merge_templates_voc)
