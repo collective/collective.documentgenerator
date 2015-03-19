@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-18 13:57+0000\n"
+"POT-Creation-Date: 2015-03-19 13:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../content/pod_template.py:88
+#: ../content/pod_template.py:101
 msgid "Allowed portal types"
 msgstr ""
 
@@ -49,15 +49,15 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:95
+#: ../content/pod_template.py:108
 msgid "Enabled"
 msgstr ""
 
-#: ../content/pod_template.py:118
+#: ../content/pod_template.py:131
 msgid "Merge templates"
 msgstr ""
 
-#: ../content/vocabulary.py:31
+#: ../content/vocabulary.py:33
 msgid "No value"
 msgstr ""
 
@@ -67,17 +67,21 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:35
+#: ../content/pod_template.py:37
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
 
-#: ../content/pod_template.py:76
+#: ../content/pod_template.py:89
 msgid "POD context name"
 msgstr ""
 
 #: ../profiles/default/types/PODTemplate.xml
 msgid "PODTemplate"
+msgstr ""
+
+#: ../browser/controlpanel.py:30
+msgid "Path of python with uno"
 msgstr ""
 
 #: ../browser/controlpanel.py:23
@@ -88,7 +92,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:102
+#: ../content/pod_template.py:115
 msgid "Style template"
 msgstr ""
 
@@ -96,7 +100,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:71
+#: ../content/pod_template.py:83
 msgid "Template"
 msgstr ""
 
@@ -104,19 +108,15 @@ msgstr ""
 msgid "oo_port"
 msgstr ""
 
-#: ../browser/controlpanel.py:29
-msgid "oo_unoPath"
-msgstr ""
-
-#: ../content/pod_template.py:89
+#: ../content/pod_template.py:102
 msgid "pod_portal_type"
 msgstr ""
 
-#: ../content/pod_template.py:103
+#: ../content/pod_template.py:116
 msgid "style_template_descr"
 msgstr ""
 
-#: ../browser/controlpanel.py:30
-msgid "uno path of OO"
+#: ../browser/controlpanel.py:29
+msgid "uno path"
 msgstr ""
 

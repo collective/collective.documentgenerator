@@ -66,12 +66,13 @@ def _update_template_styles(pod_template, style_template_filename):
     newTemplate = file(tempFileName, "w")
     newTemplate.write(pod_template.odt_file.data)
     newTemplate.close()
-    unoPath = config.get_uno_path()
+
     #merge style from templateStyle in template
     cmd = '%s %s %s %s -p%d -t%s' % \
-        (unoPath, CONVSCRIPT, tempFileName, 'odt',
-            2002, style_template_filename)
+        (config.get_uno_path(), CONVSCRIPT, tempFileName, 'odt',
+            config.get_oo_port(), style_template_filename)
     executeCommand(cmd)
+
     #read the merged file
     resTempFileName = tempFileName.split('.')[0] + '.odt'
     if os.path.isfile(resTempFileName):
@@ -79,7 +80,6 @@ def _update_template_styles(pod_template, style_template_filename):
         #update template
         result = NamedBlobFile(data=resTemplate.read(),  contentType='applications/odt')
         pod_template.odt_file = result
-        #delete temporary result files
         os.remove(resTempFileName)
-    #delete temporary files
+
     os.remove(tempFileName)

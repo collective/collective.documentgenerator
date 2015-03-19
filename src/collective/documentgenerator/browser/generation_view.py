@@ -6,11 +6,13 @@ from Products.Five import BrowserView
 
 from StringIO import StringIO
 
+from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from imio.helpers.security import call_as_super_user
+from imio.pyutils.system import get_temporary_filename
 
 from plone import api
 
@@ -19,8 +21,6 @@ from zope.component import queryMultiAdapter
 import appy.pod.renderer
 import mimetypes
 import os
-import tempfile
-import time
 
 
 class DocumentGenerationView(BrowserView):
@@ -64,12 +64,13 @@ class DocumentGenerationView(BrowserView):
 
     def recursive_generate_doc(self, pod_template):
 
+        sub_templates = pod_template.get_templates_to_merge()
+        sub_documents = {}
+        for context_name, sub_pod in sub_templates.iteritems():
+            sub_documents[context_name] = self.recursive_generate_doc(sub_pod)
+
         document_template = pod_template.get_file()
         file_type = self.get_generation_format()
-
-        sub_documents = {}
-        for context_name, sub_pod in pod_template.get_templates_to_merge():
-            sub_documents[context_name] = self.recursive_generate_doc(sub_pod)
 
         document_path = self.render_document(document_template, file_type, sub_documents)
 
@@ -97,7 +98,8 @@ class DocumentGenerationView(BrowserView):
         return generation_format
 
     def render_document(self, document_obj, file_type, sub_documents):
-        temp_filename = '%s/%s_%f.%s' % (tempfile.gettempdir(), document_obj.size, time.time(), file_type)
+        filename = document_obj.filename or '.odt'
+        temp_filename = get_temporary_filename(filename)
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
 
@@ -111,18 +113,13 @@ class DocumentGenerationView(BrowserView):
             StringIO(document_obj.data),
             generation_context,
             temp_filename,
-            pythonWithUnoPath='/usr/bin/python',
-            forceOoCall=True,
+            pythonWithUnoPath=config.get_uno_path(),
         )
 
         # it is only now that we can initialize helper view's appy pod renderer
         helper_view._set_appy_renderer(renderer)
 
         renderer.run()
-
-        # now that the document is rendered, remove all subdocuments.
-        for path_name in sub_documents.values():
-            os.remove(path_name)
 
         return temp_filename
 
