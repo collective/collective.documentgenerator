@@ -2,6 +2,7 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
+from collective.documentgenerator.interfaces import ITemplatesToMerge
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
@@ -14,6 +15,7 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
 from zope import schema
+from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
 
@@ -61,6 +63,16 @@ class PODTemplate(Item):
         to the current PODTemplate.
         """
         return None
+
+    def get_templates_to_merge(self):
+        """
+        Return associated PODTemplates merged into the current PODTemplate
+        when it is rendered.
+        """
+        templates_to_merge = queryAdapter(self, ITemplatesToMerge)
+        if templates_to_merge:
+            templates_to_merge.get()
+        return {}
 
 
 class IMergeTemplatesRowSchema(zope.interface.Interface):

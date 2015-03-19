@@ -19,7 +19,7 @@ class DocumentGenerationHelperView(object):
         self.real_context = context
         self.request = request
         self.context = self._get_proxy_object(context)
-        self.renderer = None
+        self.appy_renderer = None
 
     def _get_proxy_object(self, context):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
@@ -127,7 +127,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         html_field = self.context.getField(field_name)
         html_text = html_field.get(context)
-        display = self.renderer.renderXhtml(html_text)
+        display = self.appy_renderer.renderXhtml(html_text)
         return display
 
     def display_list(self, field_name, separator=', '):
