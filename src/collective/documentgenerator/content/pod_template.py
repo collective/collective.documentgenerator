@@ -75,6 +75,14 @@ class PODTemplate(Item):
         return {}
 
 
+def test(value):
+    """
+    """
+    import ipdb
+    ipdb.set_trace()
+    return True
+
+
 class IMergeTemplatesRowSchema(zope.interface.Interface):
     """
     Schema for DataGridField widget's row of field 'merge_templates'
@@ -88,6 +96,7 @@ class IMergeTemplatesRowSchema(zope.interface.Interface):
     pod_context_name = schema.TextLine(
         title=_(u'POD context name'),
         required=True,
+        constraint=test
     )
 
 

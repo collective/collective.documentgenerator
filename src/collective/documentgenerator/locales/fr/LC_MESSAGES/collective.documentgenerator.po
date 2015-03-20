@@ -18,19 +18,27 @@ msgstr ""
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../browser/controlpanel.py:55
+#: ../interfaces.py:97
+msgid "Can't import python uno library with the python path"
+msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
+
+#: ../browser/controlpanel.py:74
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../browser/controlpanel.py:52
+#: ../browser/controlpanel.py:71
 msgid "Changes saved"
 msgstr "Changements enregistrés"
+
+#: ../setuphandlers.py:92
+msgid "Collection template"
+msgstr "Modèle collection"
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle POD"
 
-#: ../browser/controlpanel.py:41
+#: ../browser/controlpanel.py:60
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
@@ -38,13 +46,21 @@ msgstr "Configuration du générateur de document"
 msgid "Documents to generate"
 msgstr "Documents à générer"
 
-#: ../browser/controlpanel.py:57
+#: ../browser/controlpanel.py:76
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
 #: ../content/pod_template.py:108
 msgid "Enabled"
 msgstr "Activé"
+
+#: ../setuphandlers.py:78
+msgid "General template"
+msgstr "Modèle général"
+
+#: ../interfaces.py:93
+msgid "Invalid Python path"
+msgstr "Le chemin python spécifié semble erroné"
 
 #: ../content/pod_template.py:131
 msgid "Merge templates"
@@ -73,15 +89,15 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle POD restreint"
 
-#: ../browser/controlpanel.py:30
+#: ../browser/controlpanel.py:48
 msgid "Path of python with uno"
 msgstr "Chemin d'un python avec la librairie uno"
 
-#: ../browser/controlpanel.py:23
+#: ../browser/controlpanel.py:41
 msgid "Port Number of OO"
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../browser/controlpanel.py:44
+#: ../browser/controlpanel.py:63
 msgid "Save"
 msgstr "Sauver"
 
@@ -97,7 +113,7 @@ msgstr "Modèle de style"
 msgid "Template"
 msgstr "Modèle"
 
-#: ../browser/controlpanel.py:22
+#: ../browser/controlpanel.py:40
 msgid "oo_port"
 msgstr "Numéro du port Office"
 
@@ -109,7 +125,7 @@ msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du
 msgid "style_template_descr"
 msgstr "Choisissez le modèle de style à appliquer pour ce modèle POD."
 
-#: ../browser/controlpanel.py:29
+#: ../browser/controlpanel.py:47
 msgid "uno path"
 msgstr "Python uno"
 

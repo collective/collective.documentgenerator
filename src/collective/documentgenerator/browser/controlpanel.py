@@ -4,6 +4,7 @@ import os
 from Products.statusmessages.interfaces import IStatusMessage
 
 from collective.documentgenerator import _
+from collective.documentgenerator import interfaces
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -15,26 +16,20 @@ from zope.interface import implements
 from zope.interface import Interface
 
 from zope import schema
-from zope.schema import ValidationError
 
 
-class InvalidPythonPath(ValidationError):
-    "Invalid Python path"
+def check_for_uno(value):
+    """
+    """
 
-
-class InvalidUnoPath(ValidationError):
-    "Can't import python uno library with the python path"
-
-
-def checkForUno(value):
     try:
         inspect.isabstract(IDocumentGeneratorControlPanelSchema)
     except Exception:
         return True
-    if "python" in value and os.system(value + " -V") != 0:
-        raise InvalidPythonPath()
+    if "python" not in value and os.system(value + " -V") != 0:
+        raise interfaces.InvalidPythonPath()
     if os.system(value + " -c 'import uno'") != 0:
-        raise InvalidUnoPath()
+        raise interfaces.InvalidUnoPath()
     return True
 
 
@@ -54,7 +49,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         description=_(u"Path of python with uno"),
         required=False,
         default=u"/usr/bin/python",
-        constraint=checkForUno
+        constraint=check_for_uno
     )
 
 
