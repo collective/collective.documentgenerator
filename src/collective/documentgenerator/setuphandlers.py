@@ -27,7 +27,7 @@ def install_demo(context):
     if not hasattr(portal, 'podtemplates'):
         templates_folder = api.content.create(
             type='Folder',
-            title='POD Templates',
+            title=_(u'POD Templates'),
             id='podtemplates',
             container=portal,
             excludeFromNav=True
@@ -69,7 +69,7 @@ def install_demo(context):
         api.content.create(
             type='StyleTemplate',
             id=style_template_id,
-            title='Styles n°2',
+            title=_(u'Styles n°2'),
             odt_file=blob_file,
             container=pod_folder,
             excludeFromNav=True
@@ -84,7 +84,7 @@ def install_demo(context):
         api.content.create(
             type='SubTemplate',
             id=sub_template_id,
-            title='En tête',
+            title=_(u'Header'),
             odt_file=blob_file,
             container=pod_folder,
             excludeFromNav=True

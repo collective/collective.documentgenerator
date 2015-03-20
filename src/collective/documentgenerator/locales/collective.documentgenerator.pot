@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-20 11:37+0000\n"
+"POT-Creation-Date: 2015-03-20 15:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
-#: ../browser/controlpanel.py:61
+#: ../browser/controlpanel.py:62
 msgid ""
 msgstr ""
 
-#: ../content/pod_template.py:101
+#: ../content/pod_template.py:110
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../interfaces.py:97
+#: ../interfaces.py:104
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:74
+#: ../browser/controlpanel.py:75
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:71
+#: ../browser/controlpanel.py:72
 msgid "Changes saved"
 msgstr ""
 
-#: ../setuphandlers.py:92
+#: ../setuphandlers.py:116
 msgid "Collection template"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:60
+#: ../browser/controlpanel.py:61
 msgid "Document Generator settings"
 msgstr ""
 
@@ -53,23 +53,27 @@ msgstr ""
 msgid "Documents to generate"
 msgstr ""
 
-#: ../browser/controlpanel.py:76
+#: ../browser/controlpanel.py:77
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:108
+#: ../content/pod_template.py:117
 msgid "Enabled"
 msgstr ""
 
-#: ../setuphandlers.py:78
+#: ../setuphandlers.py:102
 msgid "General template"
 msgstr ""
 
-#: ../interfaces.py:93
+#: ../setuphandlers.py:87
+msgid "Header"
+msgstr ""
+
+#: ../interfaces.py:100
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../content/pod_template.py:131
+#: ../content/pod_template.py:140
 msgid "Merge templates"
 msgstr ""
 
@@ -88,7 +92,11 @@ msgstr ""
 msgid "ODT File"
 msgstr ""
 
-#: ../content/pod_template.py:89
+#: ../setuphandlers.py:30
+msgid "POD Templates"
+msgstr ""
+
+#: ../content/pod_template.py:97
 msgid "POD context name"
 msgstr ""
 
@@ -96,19 +104,19 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:48
+#: ../browser/controlpanel.py:49
 msgid "Path of python with uno"
 msgstr ""
 
-#: ../browser/controlpanel.py:41
+#: ../browser/controlpanel.py:42
 msgid "Port Number of OO"
 msgstr ""
 
-#: ../browser/controlpanel.py:63
+#: ../browser/controlpanel.py:64
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:115
+#: ../content/pod_template.py:124
 msgid "Style template"
 msgstr ""
 
@@ -116,27 +124,31 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
+#: ../setuphandlers.py:72
+msgid "Styles n°2"
+msgstr ""
+
 #: ../profiles/default/types/SubTemplate.xml
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:83
+#: ../content/pod_template.py:91
 msgid "Template"
 msgstr ""
 
-#: ../browser/controlpanel.py:40
+#: ../browser/controlpanel.py:41
 msgid "oo_port"
 msgstr ""
 
-#: ../content/pod_template.py:102
+#: ../content/pod_template.py:111
 msgid "pod_portal_type"
 msgstr ""
 
-#: ../content/pod_template.py:116
+#: ../content/pod_template.py:125
 msgid "style_template_descr"
 msgstr ""
 
-#: ../browser/controlpanel.py:47
+#: ../browser/controlpanel.py:48
 msgid "uno path"
 msgstr ""
 
