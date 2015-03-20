@@ -61,7 +61,7 @@ class TestVocabularies(unittest.TestCase):
 
     def test_merge_templates_vocabulary_values(self):
         """
-        Test some style values.
+        Test some merge template values.
         """
         voc_name = 'collective.documentgenerator.MergeTemplates'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)

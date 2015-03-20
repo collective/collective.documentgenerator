@@ -9,6 +9,12 @@
     />
 
     <adapter
+      for="collective.documentgenerator.content.pod_template.ISubTemplate
+           zope.interface.Interface"
+      factory=".condition.SubTemplateCondition"
+    />
+
+    <adapter
       for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
            zope.interface.Interface"
       factory=".condition.ConfigurablePODTemplateCondition"

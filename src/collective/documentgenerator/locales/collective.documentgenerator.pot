@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-19 13:31+0000\n"
+"POT-Creation-Date: 2015-03-20 11:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Merge templates"
 msgstr ""
 
-#: ../content/vocabulary.py:33
+#: ../content/vocabulary.py:31
 msgid "No value"
 msgstr ""
 
@@ -98,6 +98,10 @@ msgstr ""
 
 #: ../profiles/default/types/StyleTemplate.xml
 msgid "StyleTemplate"
+msgstr ""
+
+#: ../profiles/default/types/SubTemplate.xml
+msgid "SubTemplate"
 msgstr ""
 
 #: ../content/pod_template.py:83

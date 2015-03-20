@@ -50,7 +50,7 @@ msgstr "Activé"
 msgid "Merge templates"
 msgstr "Modèles à fusionner"
 
-#: ../content/vocabulary.py:33
+#: ../content/vocabulary.py:31
 msgid "No value"
 msgstr ""
 
@@ -92,6 +92,10 @@ msgstr "Modèle de style"
 #: ../profiles/default/types/StyleTemplate.xml
 msgid "StyleTemplate"
 msgstr "Modèle de style"
+
+#: ../profiles/default/types/SubTemplate.xml
+msgid "SubTemplate"
+msgstr "Sous modèle"
 
 #: ../content/pod_template.py:83
 msgid "Template"

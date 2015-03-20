@@ -8,8 +8,8 @@ from zope.interface import implements
 
 
 class PODTemplateCondition(object):
-    """
-    """
+    """ """
+
     implements(IPODTemplateCondition)
 
     def __init__(self, pod_template, context):
@@ -18,6 +18,16 @@ class PODTemplateCondition(object):
 
     def evaluate(self):
         return True
+
+
+class SubTemplateCondition(PODTemplateCondition):
+    """ """
+
+    def evaluate(self):
+        """
+        By default, subtemplates are not supposed to be rendered by users.
+        """
+        return False
 
 
 class ConfigurablePODTemplateCondition(PODTemplateCondition):

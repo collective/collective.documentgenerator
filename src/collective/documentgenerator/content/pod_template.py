@@ -134,6 +134,7 @@ class IConfigurablePODTemplate(IPODTemplate):
             schema=IMergeTemplatesRowSchema,
             required=False
         ),
+        default=[],
     )
 
 
@@ -160,6 +161,15 @@ class ConfigurablePODTemplate(PODTemplate):
 
         return style_template
 
+    def set_merge_templates(self, pod_template, pod_context_name, position=-1):
+        old_value = list(self.merge_templates)
+        newline = {'template': pod_template.UID(), 'pod_context_name': pod_context_name}
+        if position >= 0:
+            old_value.insert(position, newline)
+        else:
+            old_value.append(newline)
+        self.merge_templates = old_value
+
     def get_templates_to_merge(self):
         """
         Return associated PODTemplates merged into the current PODTemplate
@@ -174,3 +184,17 @@ class ConfigurablePODTemplate(PODTemplate):
                 pod_context[line['pod_context_name'].encode('utf-8')] = pod_template
 
         return pod_context
+
+
+class ISubTemplate(IPODTemplate):
+    """
+    PODTemplate used only a sub template to merge
+    """
+
+
+class SubTemplate(PODTemplate):
+    """
+    PODTemplate used only a sub template to merge
+    """
+
+    implements(ISubTemplate)

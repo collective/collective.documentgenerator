@@ -151,8 +151,10 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
     def test_get_templates_to_merge(self):
         pod_template = self.test_podtemplate
+
+        # empty the field
+        pod_template.merge_templates = []
         to_merge = pod_template.get_templates_to_merge()
-        # so far the field should be empty
         self.assertTrue(len(to_merge) == 0)
 
         # set the field 'merge_templates' with some value
