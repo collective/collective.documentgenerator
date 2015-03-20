@@ -86,3 +86,9 @@ class IDocumentGeneratorSettings(Interface):
     """
     Settings for Document Generator
     """
+
+
+class CyclicMergeTemplatesException(Exception):
+    """
+    Thrown when templates to merge refers to each othert in a cyclic way.
+    """

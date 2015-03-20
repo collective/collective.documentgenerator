@@ -2,6 +2,8 @@
 
 from AccessControl import Unauthorized
 
+from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
+from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 
@@ -143,3 +145,116 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         msg = "File 'Document A' should have been created on portal."
         self.assertTrue(hasattr(self.portal, 'modele-general'), msg)
+
+
+class TestCyclicMergesDetection(unittest.TestCase):
+    """
+    """
+
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+
+    def setUp(self):
+        super(TestCyclicMergesDetection, self).setUp()
+
+        portal = api.portal.get()
+        self.generation_view = portal.restrictedTraverse('@@document-generation')
+
+        self.template_a = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_a',
+            title='Modèle A',
+            container=portal.podtemplates,
+        )
+
+        self.template_b = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_b',
+            title='Modèle B',
+            container=portal.podtemplates,
+        )
+
+        self.template_c = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_c',
+            title='Modèle C',
+            container=portal.podtemplates,
+        )
+
+        self.template_d = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_d',
+            title='Modèle D',
+            container=portal.podtemplates,
+        )
+
+    def _test_detect_cycle(self, template, should_raise, msg=''):
+        exception_raised = False
+        try:
+            self.generation_view.check_cyclic_merges(template)
+        except CyclicMergeTemplatesException:
+            exception_raised = True
+
+        self.assertTrue(exception_raised == should_raise, msg)
+
+    def test_detect_cycle_when_no_merge(self):
+        template = self.template_a
+        self.assertTrue(template.merge_templates == [])
+
+        msg = "Cyclic merge detection should not raise anything when no subtemplates to merge."
+        self._test_detect_cycle(template, should_raise=False, msg=msg)
+
+    def test_detect_cycle_on_linear_merge(self):
+        template_a = self.template_a
+        template_b = self.template_b
+        template_c = self.template_c
+        # set a chain such as template_a -> template_b -> template_c
+        template_a.set_merge_templates(template_b, 'pod_b')
+        template_b.set_merge_templates(template_c, 'pod_c')
+
+        msg = "Cyclic merge detection should not raise anything when import chain is not cyclic."
+        self._test_detect_cycle(template_a, should_raise=False, msg=msg)
+
+    def test_detect_cycle_on_linear_merge_with_duplicates(self):
+        template_a = self.template_a
+        template_b = self.template_b
+        template_c = self.template_c
+        # set a chain such as template_a -> template_b -> template_c
+        #                                \_> template c
+        template_a.set_merge_templates(template_b, 'pod_b')
+        template_a.set_merge_templates(template_c, 'pod_c')
+        template_b.set_merge_templates(template_c, 'pod_c')
+
+        msg = "Cyclic merge detection should not raise anything when import chain is not cyclic."
+        self._test_detect_cycle(template_a, should_raise=False, msg=msg)
+
+    def test_detect_cycle_on_self_reference(self):
+        template = self.template_a
+        # import a configurable template on itself
+        template.set_merge_templates(template, 'a')
+
+        msg = "Cyclic merge detection should raise Exception when a template tries to import itself."
+        self._test_detect_cycle(template, should_raise=True, msg=msg)
+
+    def test_detect_cycle_on_simple_cycle(self):
+        template_a = self.template_a
+        template_b = self.template_b
+        template_c = self.template_c
+        # set a cyclic chain such as (template_a -> template_b -> template_c -> template_a)
+        template_a.set_merge_templates(template_b, 'pod_b')
+        template_b.set_merge_templates(template_c, 'pod_c')
+        template_c.set_merge_templates(template_a, 'pod_a')
+
+        msg = "Cyclic merge detection should raise Exception with cycle a -> b -> c -> a ."
+        self._test_detect_cycle(template_a, should_raise=True, msg=msg)
+
+    def test_detect_cycle_on_inner_cycle(self):
+        template_a = self.template_a
+        template_b = self.template_b
+        template_c = self.template_c
+        # set a an inner cyclic chain such as template_a -> (template_b -> template_c -> template_b)
+        template_a.set_merge_templates(template_b, 'pod_b')
+        template_b.set_merge_templates(template_c, 'pod_c')
+        template_c.set_merge_templates(template_b, 'pod_b')
+
+        msg = "Cyclic merge detection should raise Exception with cycle b -> c -> b ."
+        self._test_detect_cycle(template_a, should_raise=True, msg=msg)

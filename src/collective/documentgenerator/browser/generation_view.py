@@ -8,6 +8,7 @@ from StringIO import StringIO
 
 from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
@@ -50,6 +51,8 @@ class DocumentGenerationView(BrowserView):
 
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
+
+        self.check_cyclic_merges(pod_template)
 
         document_path = self.recursive_generate_doc(pod_template)
 
@@ -136,6 +139,31 @@ class DocumentGenerationView(BrowserView):
             'Content-disposition',
             u'inline;filename="{}"'.format(filename).encode('utf-8')
         )
+
+    def check_cyclic_merges(self, pod_template):
+        def traverse_check(pod_template, path):
+
+            if pod_template in path:
+                path.append(pod_template)
+                start_cycle = path.index(pod_template)
+                start_msg = ' --> '.join(
+                    ['"{}" {}'.format(t.Title(), '/'.join(t.getPhysicalPath())) for t in path[:start_cycle]]
+                )
+                cycle_msg = ' <--> '.join(
+                    ['"{}" {}'.format(t.Title(), '/'.join(t.getPhysicalPath())) for t in path[start_cycle:]]
+                )
+                msg = '{} -> CYCLE:\n{}'.format(start_msg, cycle_msg)
+                raise CyclicMergeTemplatesException(msg)
+
+            new_path = list(path)
+            new_path.append(pod_template)
+
+            sub_templates = pod_template.get_templates_to_merge()
+
+            for name, sub_template in sub_templates.iteritems():
+                traverse_check(sub_template, new_path)
+
+        traverse_check(pod_template, [])
 
 
 class PersistentDocumentGenerationView(DocumentGenerationView):
