@@ -8,12 +8,12 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 from plone import api
 
 
-POD_TEMPLATE_TYPES = [
-    PODTemplate.__name__,
-    ConfigurablePODTemplate.__name__,
-    SubTemplate.__name__,
-    StyleTemplate.__name__,
-]
+POD_TEMPLATE_TYPES = {
+    PODTemplate.__name__: PODTemplate,
+    ConfigurablePODTemplate.__name__: ConfigurablePODTemplate,
+    SubTemplate.__name__: SubTemplate,
+    StyleTemplate.__name__: StyleTemplate,
+}
 
 POD_TEMPLATE_TYPES
 

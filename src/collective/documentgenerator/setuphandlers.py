@@ -37,8 +37,8 @@ def install_demo(context):
 
     pod_folder = getattr(portal, 'podtemplates')
     pod_folder.setConstrainTypesMode(1)
-    pod_folder.setLocallyAllowedTypes(POD_TEMPLATE_TYPES)
-    pod_folder.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES)
+    pod_folder.setLocallyAllowedTypes(POD_TEMPLATE_TYPES.keys())
+    pod_folder.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES.keys())
 
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')

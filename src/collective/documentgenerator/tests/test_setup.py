@@ -44,7 +44,7 @@ class TestSetup(unittest.TestCase):
         portal = api.portal.get()
         pod_folder = portal.podtemplates
 
-        allowed_types = [p_type.__name__ for p_type in pod_folder.allowedContentTypes()]
+        allowed_types = [fti.__name__ for fti in pod_folder.allowedContentTypes()]
 
         msg = "pod folder allowed content types should only be the ones from documentgenerator"
         self.assertTrue(len(allowed_types) == len(POD_TEMPLATE_TYPES), msg)
