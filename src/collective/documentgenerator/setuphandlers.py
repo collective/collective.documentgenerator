@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.config import POD_TEMPLATE_TYPES
+
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 
@@ -33,6 +35,11 @@ def install_demo(context):
         templates_folder.setTitle('POD Templates')
         templates_folder.reindexObject()
 
+    pod_folder = getattr(portal, 'podtemplates')
+    pod_folder.setConstrainTypesMode(1)
+    pod_folder.setLocallyAllowedTypes(POD_TEMPLATE_TYPES)
+    pod_folder.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES)
+
     setup_tool = api.portal.get_tool('portal_setup')
     demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
 
@@ -42,43 +49,59 @@ def install_demo(context):
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
     style_template_id = 'test_style_template'
 
-    if not hasattr(portal.podtemplates, style_template_id):
+    if not hasattr(pod_folder, style_template_id):
         api.content.create(
             type='StyleTemplate',
             id=style_template_id,
             title='Styles',
             odt_file=blob_file,
-            container=portal.podtemplates,
+            container=pod_folder,
             excludeFromNav=True
         )
-    style_template = getattr(portal.podtemplates, style_template_id)
+    style_template = getattr(pod_folder, style_template_id)
 
     template_path = '{}/templates/styles_2.odt'.format(demo_profile.get('path'))
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
     style_template_id = 'test_style_template_2'
 
-    if not hasattr(portal.podtemplates, style_template_id):
+    if not hasattr(pod_folder, style_template_id):
         api.content.create(
             type='StyleTemplate',
             id=style_template_id,
             title='Styles n°2',
             odt_file=blob_file,
-            container=portal.podtemplates,
+            container=pod_folder,
             excludeFromNav=True
         )
+
+    sub_template_id = 'sub_template'
+    template_path = '{}/templates/sub_template.odt'.format(demo_profile.get('path'))
+    template_file = file(template_path, 'rb').read()
+    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
+    if not hasattr(pod_folder, sub_template_id):
+        api.content.create(
+            type='SubTemplate',
+            id=sub_template_id,
+            title='En tête',
+            odt_file=blob_file,
+            container=pod_folder,
+            excludeFromNav=True
+        )
+    sub_template = getattr(pod_folder, sub_template_id)
 
     template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
-    if not hasattr(portal.podtemplates, 'test_template'):
+    if not hasattr(pod_folder, 'test_template'):
         api.content.create(
             type='PODTemplate',
             id='test_template',
             title='Modèle general',
             odt_file=blob_file,
-            container=portal.podtemplates,
+            container=pod_folder,
             excludeFromNav=True
         )
 
@@ -86,14 +109,20 @@ def install_demo(context):
     template_file = file(template_path, 'rb').read()
     blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
-    if not hasattr(portal.podtemplates, 'test_template_bis'):
+    if not hasattr(pod_folder, 'test_template_bis'):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
             title='Modèle collection',
             odt_file=blob_file,
-            container=portal.podtemplates,
+            container=pod_folder,
             excludeFromNav=True,
             pod_portal_type=['Collection'],
             style_template=[style_template.UID()],
+            merge_templates=[
+                {
+                    'template': sub_template.UID(),
+                    'pod_context_name': 'header',
+                }
+            ],
         )
