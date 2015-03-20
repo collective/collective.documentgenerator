@@ -111,7 +111,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         """
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
-        generation_context = self.portal.podtemplates
+        generation_context = api.content.create(
+            type='Folder',
+            title='folder',
+            id='test_folder',
+            container=self.portal,
+        )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
         generation_view.request.set('doc_uid', test_UID)
         generation_view()
