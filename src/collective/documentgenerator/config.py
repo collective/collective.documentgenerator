@@ -15,7 +15,7 @@ POD_TEMPLATE_TYPES = {
     StyleTemplate.__name__: StyleTemplate,
 }
 
-POD_TEMPLATE_TYPES
+DEFAULT_PYTHON_UNO_PATH = "/usr/bin/python"
 
 
 def get_uno_path():

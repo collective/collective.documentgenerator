@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.config import POD_TEMPLATE_TYPES
+from collective.documentgenerator.utils import translate as _
 
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 
 import logging
-
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -99,7 +99,7 @@ def install_demo(context):
         api.content.create(
             type='PODTemplate',
             id='test_template',
-            title='Modèle general',
+            title=_(u"General template"),
             odt_file=blob_file,
             container=pod_folder,
             excludeFromNav=True
@@ -113,7 +113,7 @@ def install_demo(context):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
-            title='Modèle collection',
+            title=_(u"Collection template"),
             odt_file=blob_file,
             container=pod_folder,
             excludeFromNav=True,

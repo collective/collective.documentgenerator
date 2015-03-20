@@ -17,7 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
-#: ../browser/controlpanel.py:42
+#: ../browser/controlpanel.py:61
 msgid ""
 msgstr ""
 
@@ -25,19 +25,27 @@ msgstr ""
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../browser/controlpanel.py:55
+#: ../interfaces.py:97
+msgid "Can't import python uno library with the python path"
+msgstr ""
+
+#: ../browser/controlpanel.py:74
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:52
+#: ../browser/controlpanel.py:71
 msgid "Changes saved"
+msgstr ""
+
+#: ../setuphandlers.py:92
+msgid "Collection template"
 msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:41
+#: ../browser/controlpanel.py:60
 msgid "Document Generator settings"
 msgstr ""
 
@@ -45,12 +53,20 @@ msgstr ""
 msgid "Documents to generate"
 msgstr ""
 
-#: ../browser/controlpanel.py:57
+#: ../browser/controlpanel.py:76
 msgid "Edit cancelled"
 msgstr ""
 
 #: ../content/pod_template.py:108
 msgid "Enabled"
+msgstr ""
+
+#: ../setuphandlers.py:78
+msgid "General template"
+msgstr ""
+
+#: ../interfaces.py:93
+msgid "Invalid Python path"
 msgstr ""
 
 #: ../content/pod_template.py:131
@@ -80,15 +96,15 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:30
+#: ../browser/controlpanel.py:48
 msgid "Path of python with uno"
 msgstr ""
 
-#: ../browser/controlpanel.py:23
+#: ../browser/controlpanel.py:41
 msgid "Port Number of OO"
 msgstr ""
 
-#: ../browser/controlpanel.py:44
+#: ../browser/controlpanel.py:63
 msgid "Save"
 msgstr ""
 
@@ -108,7 +124,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
-#: ../browser/controlpanel.py:22
+#: ../browser/controlpanel.py:40
 msgid "oo_port"
 msgstr ""
 
@@ -120,7 +136,7 @@ msgstr ""
 msgid "style_template_descr"
 msgstr ""
 
-#: ../browser/controlpanel.py:29
+#: ../browser/controlpanel.py:47
 msgid "uno path"
 msgstr ""
 

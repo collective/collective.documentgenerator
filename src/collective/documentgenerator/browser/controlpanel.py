@@ -1,6 +1,10 @@
+import inspect
+import os
+
 from Products.statusmessages.interfaces import IStatusMessage
 
 from collective.documentgenerator import _
+from collective.documentgenerator import interfaces
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -12,6 +16,21 @@ from zope.interface import implements
 from zope.interface import Interface
 
 from zope import schema
+
+
+def check_for_uno(value):
+    """
+    """
+
+    try:
+        inspect.isabstract(IDocumentGeneratorControlPanelSchema)
+    except Exception:
+        return True
+    if "python" not in value and os.system(value + " -V") != 0:
+        raise interfaces.InvalidPythonPath()
+    if os.system(value + " -c 'import uno'") != 0:
+        raise interfaces.InvalidUnoPath()
+    return True
 
 
 class IDocumentGeneratorControlPanelSchema(Interface):
@@ -29,7 +48,8 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u"uno path"),
         description=_(u"Path of python with uno"),
         required=False,
-        default=u"/usr/bin/python"
+        default=u"/usr/bin/python",
+        constraint=check_for_uno
     )
 
 

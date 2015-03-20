@@ -3,6 +3,8 @@
 
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.schema import ValidationError
+from collective.documentgenerator import _
 
 
 class ICollectiveDocumentGeneratorLayer(IDefaultBrowserLayer):
@@ -92,3 +94,11 @@ class CyclicMergeTemplatesException(Exception):
     """
     Thrown when templates to merge refers to each othert in a cyclic way.
     """
+
+
+class InvalidPythonPath(ValidationError):
+    __doc__ = _(u"Invalid Python path")
+
+
+class InvalidUnoPath(ValidationError):
+    __doc__ = _(u"Can't import python uno library with the python path")
