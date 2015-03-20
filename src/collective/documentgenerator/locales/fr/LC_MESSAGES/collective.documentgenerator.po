@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../content/pod_template.py:88
+#: ../content/pod_template.py:101
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
@@ -42,15 +42,15 @@ msgstr "Documents à générer"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:95
+#: ../content/pod_template.py:108
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../content/pod_template.py:118
+#: ../content/pod_template.py:131
 msgid "Merge templates"
 msgstr "Modèles à fusionner"
 
-#: ../content/vocabulary.py:31
+#: ../content/vocabulary.py:33
 msgid "No value"
 msgstr ""
 
@@ -60,18 +60,22 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:35
+#: ../content/pod_template.py:37
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Document odt"
 
-#: ../content/pod_template.py:76
+#: ../content/pod_template.py:89
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
 #: ../profiles/default/types/PODTemplate.xml
 msgid "PODTemplate"
 msgstr "Modèle POD restreint"
+
+#: ../browser/controlpanel.py:30
+msgid "Path of python with uno"
+msgstr "Chemin d'un python avec la librairie uno"
 
 #: ../browser/controlpanel.py:23
 msgid "Port Number of OO"
@@ -81,7 +85,7 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:102
+#: ../content/pod_template.py:115
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -89,7 +93,7 @@ msgstr "Modèle de style"
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../content/pod_template.py:71
+#: ../content/pod_template.py:83
 msgid "Template"
 msgstr "Modèle"
 
@@ -97,19 +101,15 @@ msgstr "Modèle"
 msgid "oo_port"
 msgstr "Numéro du port Office"
 
-#: ../browser/controlpanel.py:29
-msgid "oo_unoPath"
-msgstr "Path de la librairie UNO"
-
-#: ../content/pod_template.py:89
+#: ../content/pod_template.py:102
 msgid "pod_portal_type"
 msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
 
-#: ../content/pod_template.py:103
+#: ../content/pod_template.py:116
 msgid "style_template_descr"
 msgstr "Choisissez le modèle de style à appliquer pour ce modèle POD."
 
-#: ../browser/controlpanel.py:30
-msgid "uno path of OO"
-msgstr "Indiquez le path de la librairie UNO"
+#: ../browser/controlpanel.py:29
+msgid "uno path"
+msgstr "Python uno"
 

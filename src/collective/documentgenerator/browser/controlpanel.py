@@ -46,12 +46,12 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u"oo_port"),
         description=_(u"Port Number of OO"),
         required=False,
-        default=False
+        default=2002
     )
 
-    oo_unoPath = schema.TextLine(
-        title=_(u"oo_unoPath"),
-        description=_(u"uno path of OO"),
+    uno_path = schema.TextLine(
+        title=_(u"uno path"),
+        description=_(u"Path of python with uno"),
         required=False,
         default=u"/usr/bin/python",
         constraint=checkForUno

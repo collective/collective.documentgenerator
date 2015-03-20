@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_base
-
-from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 
 from plone import api
-
-from zope.component import queryMultiAdapter
 
 import unittest
 
@@ -19,6 +13,23 @@ class TestConfig(unittest.TestCase):
     """
 
     layer = TEST_INSTALL_INTEGRATION
+
+    def test_get_oo_port(self):
+        from collective.documentgenerator import config
+        unopath = config.get_oo_port()
+        self.assertTrue(unopath == 2002)
+
+    def test_get_oo_port_with_new_value(self):
+        from collective.documentgenerator import config
+        newvalue = 4242
+        oo_port = config.get_oo_port()
+        self.assertTrue(oo_port != newvalue)
+        api.portal.set_registry_record(
+            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port',
+            newvalue
+        )
+        oo_port = config.get_oo_port()
+        self.assertTrue(oo_port == newvalue)
 
     def test_get_uno_path(self):
         from collective.documentgenerator import config
@@ -31,7 +42,7 @@ class TestConfig(unittest.TestCase):
         unopath = config.get_uno_path()
         self.assertTrue(unopath != newvalue)
         api.portal.set_registry_record(
-            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_unoPath',
+            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path',
             newvalue
         )
         unopath = config.get_uno_path()
