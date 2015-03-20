@@ -1,3 +1,6 @@
+import inspect
+import os
+
 from Products.statusmessages.interfaces import IStatusMessage
 
 from collective.documentgenerator import _
@@ -12,6 +15,27 @@ from zope.interface import implements
 from zope.interface import Interface
 
 from zope import schema
+from zope.schema import ValidationError
+
+
+class InvalidPythonPath(ValidationError):
+    "Invalid Python path"
+
+
+class InvalidUnoPath(ValidationError):
+    "Can't import python uno library with the python path"
+
+
+def checkForUno(value):
+    try:
+        inspect.isabstract(IDocumentGeneratorControlPanelSchema)
+    except Exception:
+        return True
+    if "python" in value and os.system(value + " -V") != 0:
+        raise InvalidPythonPath()
+    if os.system(value + " -c 'import uno'") != 0:
+        raise InvalidUnoPath()
+    return True
 
 
 class IDocumentGeneratorControlPanelSchema(Interface):
@@ -29,7 +53,8 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u"oo_unoPath"),
         description=_(u"uno path of OO"),
         required=False,
-        default=u"/usr/bin/python"
+        default=u"/usr/bin/python",
+        constraint=checkForUno
     )
 
 
