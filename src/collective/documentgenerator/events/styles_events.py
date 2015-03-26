@@ -27,7 +27,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
     #template style is modify, update all template with style.
     style_template_filename = create_temporary_file(
         style_odt,
-        'style_template'
+        'style_template.odt'
     )
     if style_template_filename:
         catalog = api.portal.get_tool('portal_catalog')
@@ -52,7 +52,7 @@ def update_PODtemplate_styles(pod_template, event):
     style_odt = style_template.odt_file
     style_template_filename = create_temporary_file(
         style_odt,
-        'style_template'
+        'style_template.odt'
     )
     _update_template_styles(pod_template, style_template_filename)
 
@@ -62,7 +62,7 @@ def _update_template_styles(pod_template, style_template_filename):
     Update template pod_template by templateStyle.
     """
     #save in temporary file, the template
-    tempFileName = create_temporary_file(pod_template.odt_file, 'pod_template')
+    tempFileName = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
     newTemplate = file(tempFileName, "w")
     newTemplate.write(pod_template.odt_file.data)
     newTemplate.close()
@@ -74,7 +74,7 @@ def _update_template_styles(pod_template, style_template_filename):
     executeCommand(cmd)
 
     #read the merged file
-    resTempFileName = tempFileName.split('.')[0] + '.odt'
+    resTempFileName = '.res.'.join(tempFileName.rsplit('.', 1))
     if os.path.isfile(resTempFileName):
         resTemplate = open(resTempFileName, 'rb')
         #update template
