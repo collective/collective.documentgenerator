@@ -10,7 +10,6 @@ install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg --setuptools-version=15.0 --version=2.2.5
   - bin/buildout -Nc travis.cfg
-  - bin/translation-manage -c
 
 before_script:
   - export DISPLAY=:99.0
