@@ -4,9 +4,12 @@ python:
   - 2.7
 
 install:
+  - easy_install --version
+  - pip install setuptools==7.0
+  - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libwebp-dev
   - mkdir -p buildout-cache/{eggs,downloads}
-  - python bootstrap.py -c travis.cfg
-  - bin/buildout -c travis.cfg -Nqt 5
+  - python bootstrap.py -c travis.cfg --setuptools-version=7.0 --version=2.2.5
+  - bin/buildout -Nc travis.cfg
   - bin/translation-manage -c
 
 before_script:
