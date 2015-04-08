@@ -5,10 +5,10 @@ python:
 
 install:
   - easy_install --version
-  - pip install setuptools==7.0
+  - pip install setuptools==15.0
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libwebp-dev
   - mkdir -p buildout-cache/{eggs,downloads}
-  - python bootstrap.py -c travis.cfg --setuptools-version=7.0 --version=2.2.5
+  - python bootstrap.py -c travis.cfg --setuptools-version=15.0 --version=2.2.5
   - bin/buildout -Nc travis.cfg
   - bin/translation-manage -c
 
