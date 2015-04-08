@@ -3,6 +3,10 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="collective.documentgenerator">
 
+  <subscriber for="..content.pod_template.IPODTemplate
+                   zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+              handler=".pod_templates_events.set_initial_md5" />
+
   <subscriber for="..content.style_template.IStyleTemplate
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".styles_events.update_styles_of_all_PODtemplate" />

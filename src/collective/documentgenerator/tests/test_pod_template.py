@@ -11,6 +11,7 @@ from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 
 from plone import api
+from plone.namedfile.file import NamedBlobFile
 
 from zope.component import getGlobalSiteManager
 from zope.component import queryAdapter
@@ -64,6 +65,22 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         contents = self.browser.contents
         msg = "field 'odt_file' is not editable"
         self.assertTrue('Document odt' in contents, msg)
+
+    def test_initial_md5_attribute(self):
+        test_podtemplate = aq_base(self.test_podtemplate)
+        self.assertTrue(hasattr(test_podtemplate, 'initial_md5'))
+
+    def test_initial_md5_field_display(self):
+        self.browser.open(self.test_podtemplate.absolute_url())
+        contents = self.browser.contents
+        msg = "field 'initial_md5' is displayed"
+        self.assertTrue('id="form-widgets-initial_md5"' not in contents, msg)
+
+    def test_initial_md5_field_edit(self):
+        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
+        contents = self.browser.contents
+        msg = "field 'initial_md5' is editable"
+        self.assertTrue('md5' not in contents, msg)
 
 
 class TestPODTemplateIntegration(PODTemplateIntegrationTest):
@@ -120,3 +137,16 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     def test_default_merge_templates_registration(self):
         adapter = queryAdapter(self.test_podtemplate, ITemplatesToMerge)
         self.assertTrue(isinstance(adapter, TemplatesToMergeForPODTemplate))
+
+    def test_template_has_been_modified_method(self):
+        pod_template = self.test_podtemplate
+
+        setup_tool = api.portal.get_tool('portal_setup')
+        demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
+        template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
+        template_file = file(template_path, 'rb').read()
+        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+
+        pod_template.odt_file = blob_file
+
+        self.assertTrue(pod_template.has_been_modified())

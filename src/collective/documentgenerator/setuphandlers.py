@@ -40,81 +40,73 @@ def install_demo(context):
     pod_folder.setLocallyAllowedTypes(POD_TEMPLATE_TYPES.keys())
     pod_folder.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES.keys())
 
-    setup_tool = api.portal.get_tool('portal_setup')
-    demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
-
     # Create some test content
-    template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
     style_template_id = 'test_style_template'
-
     if not hasattr(pod_folder, style_template_id):
         api.content.create(
             type='StyleTemplate',
             id=style_template_id,
             title='Styles',
-            odt_file=blob_file,
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/styles.odt'),
+                contentType='applications/odt',
+            ),
             container=pod_folder,
             excludeFromNav=True
         )
     style_template = getattr(pod_folder, style_template_id)
 
-    template_path = '{}/templates/styles_2.odt'.format(demo_profile.get('path'))
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
     style_template_id = 'test_style_template_2'
-
     if not hasattr(pod_folder, style_template_id):
         api.content.create(
             type='StyleTemplate',
             id=style_template_id,
             title=_(u'Styles n°2'),
-            odt_file=blob_file,
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/styles_2.odt'),
+                contentType='applications/odt',
+            ),
             container=pod_folder,
             excludeFromNav=True
         )
 
     sub_template_id = 'sub_template'
-    template_path = '{}/templates/sub_template.odt'.format(demo_profile.get('path'))
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
-
     if not hasattr(pod_folder, sub_template_id):
         api.content.create(
             type='SubTemplate',
             id=sub_template_id,
             title=_(u'Header'),
-            odt_file=blob_file,
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/sub_template.odt'),
+                contentType='applications/odt',
+            ),
             container=pod_folder,
             excludeFromNav=True
         )
     sub_template = getattr(pod_folder, sub_template_id)
-
-    template_path = '{}/templates/modele_general.odt'.format(demo_profile.get('path'))
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
     if not hasattr(pod_folder, 'test_template'):
         api.content.create(
             type='PODTemplate',
             id='test_template',
             title=_(u"General template"),
-            odt_file=blob_file,
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/modele_general.odt'),
+                contentType='applications/odt',
+            ),
             container=pod_folder,
             excludeFromNav=True
         )
-
-    template_path = '{}/templates/modele_collection.odt'.format(demo_profile.get('path'))
-    template_file = file(template_path, 'rb').read()
-    blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
 
     if not hasattr(pod_folder, 'test_template_bis'):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
             title=_(u"Collection template"),
-            odt_file=blob_file,
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/modele_collection.odt'),
+                contentType='applications/odt',
+            ),
             container=pod_folder,
             excludeFromNav=True,
             pod_portal_type=['Collection'],

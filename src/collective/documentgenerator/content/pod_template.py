@@ -3,6 +3,7 @@
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
+from collective.documentgenerator.utils import compute_md5
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
@@ -36,6 +37,9 @@ class IPODTemplate(model.Schema):
     odt_file = NamedBlobFile(
         title=_(u'ODT File'),
     )
+
+    form.omitted('initial_md5')
+    initial_md5 = schema.TextLine()
 
 
 class PODTemplate(Item):
@@ -71,8 +75,19 @@ class PODTemplate(Item):
         """
         templates_to_merge = queryAdapter(self, ITemplatesToMerge)
         if templates_to_merge:
-            templates_to_merge.get()
+            return templates_to_merge.get()
         return {}
+
+    @property
+    def current_md5(self):
+        md5 = ''
+        if self.odt_file:
+            md5 = compute_md5(self.odt_file.data)
+        return md5
+
+    def has_been_modified(self):
+        has_been_modified = self.current_md5 != self.initial_md5
+        return has_been_modified
 
 
 class IMergeTemplatesRowSchema(zope.interface.Interface):

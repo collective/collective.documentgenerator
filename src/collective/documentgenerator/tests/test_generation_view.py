@@ -121,10 +121,10 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generation_view.request.set('doc_uid', test_UID)
         generation_view()
 
-        msg = "File 'Document A' should have been created on portal."
-        self.assertTrue(hasattr(generation_context, 'modele-general'), msg)
+        msg = "File 'Document A' should have been created in folder."
+        self.assertTrue(hasattr(generation_context, 'general-template'), msg)
 
-        persistent_doc = getattr(generation_context, 'modele-general')
+        persistent_doc = getattr(generation_context, 'general-template')
         generated_doc = persistent_doc.getFile()
         # Check if (partial) data of the generated document is the same as the
         # pod_template odt file.
@@ -132,7 +132,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generated = generated_doc.getBlob().open('r').read()
         self.assertTrue(original_doc.data[1200:2500] in generated)
 
-        self.assertTrue(generated_doc.getFilename() == u'Modèle general.odt')
+        self.assertTrue(generated_doc.getFilename() == u'General template.odt')
         self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):
@@ -149,7 +149,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generation_view()
 
         msg = "File 'Document A' should have been created on portal."
-        self.assertTrue(hasattr(self.portal, 'modele-general'), msg)
+        self.assertTrue(hasattr(self.portal, 'general-template'), msg)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
