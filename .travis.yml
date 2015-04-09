@@ -9,7 +9,7 @@ install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libwebp-dev
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg --setuptools-version=15.0 --version=2.2.5
-  - bin/buildout -Nc travis.cfg
+  - bin/buildout -Nc  -t 3 travis.cfg
 
 before_script:
   - export DISPLAY=:99.0
