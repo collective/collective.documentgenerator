@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from imio.helpers.test_helpers import BaseTest
-from imio.helpers.test_helpers import BrowserTest
-
 from plone import api
 
 from plone.app.testing import applyProfile
@@ -21,6 +18,8 @@ from plone.testing import z2
 import collective.documentgenerator
 
 import transaction
+
+import unittest
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -103,6 +102,34 @@ EXAMPLE_POD_TEMPLATE_FUNCTIONNAL = FunctionalTesting(
     bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
     name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
 )
+
+
+class BaseTest(unittest.TestCase):
+    """
+    Helper class for tests.
+    """
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+
+
+class BrowserTest(BaseTest):
+    """
+    Helper class for Browser tests.
+    """
+
+    def setUp(self):
+        super(BrowserTest, self).setUp()
+        self.browser = z2.Browser(self.portal)
+        self.browser.handleErrors = False
+
+    def browser_login(self, user, password):
+        login(self.portal, user)
+        self.browser.open(self.portal.absolute_url() + '/logout')
+        self.browser.open(self.portal.absolute_url() + "/login_form")
+        self.browser.getControl(name='__ac_name').value = user
+        self.browser.getControl(name='__ac_password').value = password
+        self.browser.getControl(name='submit').click()
 
 
 class PODTemplateIntegrationTest(BrowserTest):

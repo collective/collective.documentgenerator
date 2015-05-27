@@ -12,9 +12,6 @@ from collective.documentgenerator.interfaces import CyclicMergeTemplatesExceptio
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
-from imio.helpers.security import call_as_super_user
-from imio.pyutils.system import get_temporary_filename
-
 from plone import api
 
 from zope.component import queryMultiAdapter
@@ -22,6 +19,7 @@ from zope.component import queryMultiAdapter
 import appy.pod.renderer
 import mimetypes
 import os
+import tempfile
 
 
 class DocumentGenerationView(BrowserView):
@@ -47,7 +45,9 @@ class DocumentGenerationView(BrowserView):
         # The user calling the generation action is not always allowed to access
         # the PODtemplates, so we use call_as_super_user to be sure to find
         # them..
-        pod_template = call_as_super_user(self.get_pod_template)
+
+        with api.env.adopt_roles(['Manager']):
+            pod_template = self.get_pod_template()
 
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
@@ -83,7 +83,10 @@ class DocumentGenerationView(BrowserView):
         template_uid = self.get_pod_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
-        template_brains = catalog(object_provides=IPODTemplate.__identifier__, UID=template_uid)
+        template_brains = catalog.unrestrictedSearchResults(
+            object_provides=IPODTemplate.__identifier__,
+            UID=template_uid
+        )
         if not template_brains:
             raise PODTemplateNotFoundError(
                 "Couldn't find POD template with UID '{}'".format(template_uid)
@@ -102,7 +105,7 @@ class DocumentGenerationView(BrowserView):
 
     def render_document(self, document_obj, file_type, sub_documents):
         filename = document_obj.filename or '.odt'
-        temp_filename = get_temporary_filename(filename)
+        temp_filename = tempfile.mktemp(filename)
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
 
@@ -188,9 +191,5 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         #  Bypass any File creation permission of the user. If the user isnt
         #  supposed to save generated document on the site, then its the permission
         #  to call the generation view that should be changed.
-        call_as_super_user(
-            factory.create,
-            doc_file=doc,
-            title=title,
-            extension=extension
-        )
+        with api.env.adopt_roles(['Manager']):
+            factory.create(doc_file=doc, title=title, extension=extension)

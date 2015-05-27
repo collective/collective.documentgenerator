@@ -44,8 +44,6 @@ setup(
         'appy',
         'collective.behavior.talcondition',
         'collective.z3cform.datagridfield',
-        'imio.helpers',
-        'imio.pyutils',
         'plone.api',
         'plone.app.dexterity',
         'setuptools',

@@ -18,7 +18,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     def get_all_pod_templates(self):
         catalog = api.portal.get_tool(name='portal_catalog')
-        brains = catalog(object_provides=IPODTemplate.__identifier__)
+        brains = catalog.unrestrictedSearchResults(object_provides=IPODTemplate.__identifier__)
         pod_templates = [brain.getObject() for brain in brains]
 
         return pod_templates
@@ -31,9 +31,8 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     def get_links_info(self):
         base_url = self.context.absolute_url()
-        generable_templates = self.get_generable_templates()
         links = []
-        for template in generable_templates:
+        for template in self.get_generable_templates():
             title = template.Title()
             uid = template.UID()
             link = '{base_url}/document-generation?doc_uid={uid}'.format(

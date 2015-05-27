@@ -11,7 +11,6 @@
 
     <include package="collective.behavior.talcondition" />
     <include package="collective.z3cform.datagridfield"/>
-    <include package="imio.helpers" />
     <include package="plone.api" />
     <include package="plone.app.dexterity" />
 
