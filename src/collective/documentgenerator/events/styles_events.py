@@ -23,7 +23,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
     Update all pod templates using 'style_template'.
     """
     style_odt = style_template.odt_file
-    #template style is modify, update all template with style.
+    # template style is modify, update all template with style.
     style_template_file = create_temporary_file(style_odt, '-style_template.odt')
     if style_template_file:
         catalog = api.portal.get_tool('portal_catalog')
@@ -34,7 +34,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
                 _update_template_styles(pod_template, style_template_file.name)
                 logger.info(" %s => updated" % pod_template.Title())
 
-    #delete temporary styles files
+    # delete temporary styles files
     os.remove(style_template_file.name)
 
 
@@ -54,24 +54,24 @@ def _update_template_styles(pod_template, style_template_filename):
     """
     Update template pod_template by templateStyle.
     """
-    #save in temporary file, the template
+    # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
     new_template = open(temp_file.name, "w")
     new_template.write(pod_template.odt_file.data)
     new_template.close()
 
-    #merge style from templateStyle in template
+    # merge style from templateStyle in template
     cmd = '%s %s %s %s -p%d -t%s' % \
         (config.get_uno_path(), CONVSCRIPT, temp_file.name, 'odt',
             config.get_oo_port(), style_template_filename)
-    executeCommand(cmd)
+    executeCommand(cmd.split())
 
-    #read the merged file
+    # read the merged file
     resTempFileName = '.res.'.join(temp_file.name.rsplit('.', 1))
     if os.path.isfile(resTempFileName):
         resTemplate = open(resTempFileName, 'rb')
-        #update template
-        result = NamedBlobFile(data=resTemplate.read(),  contentType='applications/odt')
+        # update template
+        result = NamedBlobFile(data=resTemplate.read(), contentType='applications/odt')
         pod_template.odt_file = result
         os.remove(resTempFileName)
 
