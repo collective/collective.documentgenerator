@@ -51,17 +51,39 @@ class TestConfig(unittest.TestCase):
 
 
 class TestConfigView(PODTemplateFunctionalTest):
+    """
+    Test documentgenerator controlpanel view.
+    """
 
     def test_python_path_validator(self):
-        """
-        """
         self.browser.open('@@collective.documentgenerator-controlpanel')
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name="form.widgets.uno_path")
         pythonpath_input.value = 'yolo'
         form.submit('Sauver')
-        msg = "pyth path validator should have raised an 'invalid python path' warning"
+        msg = "python path validator should have raised an 'invalid python path' warning"
         self.assertTrue(
             "Le chemin python spécifié semble erroné" in self.browser.contents,
             msg
         )
+
+    def test_python_with_uno_validator(self):
+        self.browser.open('@@collective.documentgenerator-controlpanel')
+        form = self.browser.getForm('form')
+        pythonpath_input = form.getControl(name="form.widgets.uno_path")
+        pythonpath_input.value = '/usr/bin/python_yolo'
+        form.submit('Sauver')
+        msg = "python path validator should have raised an 'python do not have uno library' warning"
+        self.assertTrue(
+            "L'importation de la librairie UNO dans votre environnement python a échoué" in self.browser.contents,
+            msg
+        )
+
+    def test_python_path_with_correct_uno_python(self):
+        self.browser.open('@@collective.documentgenerator-controlpanel')
+        form = self.browser.getForm('form')
+        pythonpath_input = form.getControl(name="form.widgets.uno_path")
+        pythonpath_input.value = '/usr/bin/python'
+        form.submit('Sauver')
+        msg = "no warnings should have been raised"
+        self.assertTrue("Changements enregistrés" in self.browser.contents, msg)
