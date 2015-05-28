@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.testing import PODTemplateFunctionalTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
@@ -47,3 +48,20 @@ class TestConfig(unittest.TestCase):
         )
         unopath = config.get_uno_path()
         self.assertTrue(unopath == newvalue)
+
+
+class TestConfigView(PODTemplateFunctionalTest):
+
+    def test_python_path_validator(self):
+        """
+        """
+        self.browser.open('@@collective.documentgenerator-controlpanel')
+        form = self.browser.getForm('form')
+        pythonpath_input = form.getControl(name="form.widgets.uno_path")
+        pythonpath_input.value = 'yolo'
+        form.submit('Sauver')
+        msg = "pyth path validator should have raised an 'invalid python path' warning"
+        self.assertTrue(
+            "Le chemin python spécifié semble erroné" in self.browser.contents,
+            msg
+        )

@@ -3,6 +3,7 @@
 
 from plone import api
 
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -98,9 +99,19 @@ EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
     name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
 )
 
-EXAMPLE_POD_TEMPLATE_FUNCTIONNAL = FunctionalTesting(
+EXAMPLE_POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
     bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
+    name="EXAMPLE_POD_TEMPLATE_FUNCTIONAL"
+)
+
+
+ACCEPTANCE = FunctionalTesting(
+    bases=(
+        EXAMPLE_POD_TEMPLATE_FIXTURE,
+        REMOTE_LIBRARY_BUNDLE_FIXTURE,
+        z2.ZSERVER_FIXTURE
+    ),
+    name="ACCEPTANCE"
 )
 
 
@@ -133,13 +144,24 @@ class BrowserTest(BaseTest):
 
 
 class PODTemplateIntegrationTest(BrowserTest):
-    """Base class for integration tests."""
+    """Base class for integration browser tests."""
 
     layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(PODTemplateIntegrationTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template')
+        self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+
+class PODTemplateFunctionalTest(BrowserTest):
+    """Base class for functional browser tests."""
+
+    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
+
+    def setUp(self):
+        super(PODTemplateFunctionalTest, self).setUp()
+        self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
 
@@ -176,6 +198,6 @@ class ArchetypesIntegrationTests(BaseTest):
 
 
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
-    """Base class for Archetypes functionnal tests."""
+    """Base class for Archetypes functional tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONNAL
+    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
