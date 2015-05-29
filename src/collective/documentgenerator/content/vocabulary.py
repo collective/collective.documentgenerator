@@ -15,8 +15,8 @@ class PortalTypeVocabularyFactory(object):
 
     def __call__(self, context):
         control_panel = api.portal.get_tool('portal_types')
-        all_pt = control_panel.listContentTypes()
-        vocabulary = SimpleVocabulary([SimpleTerm(p, p, p) for p in all_pt])
+        all_portaltypes = control_panel.listContentTypes()
+        vocabulary = SimpleVocabulary([SimpleTerm(p, p, p) for p in all_portaltypes])
         return vocabulary
 
 
