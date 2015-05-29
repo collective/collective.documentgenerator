@@ -88,3 +88,10 @@ class TestConfigView(PODTemplateFunctionalTest):
         form.submit('Sauver')
         msg = "no warnings should have been raised"
         self.assertTrue("Changements enregistrés" in self.browser.contents, msg)
+
+    def test_cancel_button(self):
+        self.browser.open('@@collective.documentgenerator-controlpanel')
+        form = self.browser.getForm('form')
+        form.submit('Annuler')
+        msg = "We should have gone back on general control panel view"
+        self.assertTrue(self.browser.url == 'http://nohost/plone/plone_control_panel', msg)
