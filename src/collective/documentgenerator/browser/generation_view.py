@@ -106,13 +106,11 @@ class DocumentGenerationView(BrowserView):
     def render_document(self, document_obj, file_type, sub_documents):
         filename = document_obj.filename or '.odt'
         temp_filename = tempfile.mktemp(filename)
+
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
 
-        generation_context = {
-            'context': getattr(helper_view, 'context', None),
-            'view': helper_view
-        }
+        generation_context = self.get_generation_context(helper_view)
         generation_context.update(sub_documents)
 
         renderer = appy.pod.renderer.Renderer(
@@ -128,6 +126,19 @@ class DocumentGenerationView(BrowserView):
         renderer.run()
 
         return temp_filename
+
+    def get_generation_context(self, helper_view):
+        generation_context = self.get_base_generation_context()
+        generation_context.update(
+            {
+                'context': getattr(helper_view, 'context', None),
+                'view': helper_view
+            }
+        )
+        return generation_context
+
+    def get_base_generation_context(self):
+        return {}
 
     def get_generation_context_helper(self):
         helper = self.context.unrestrictedTraverse('@@document_generation_helper_view')
@@ -174,9 +185,10 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     """
 
     def __call__(self):
-        self.generate_persistant_doc()
+        persisted_doc = self.generate_persistent_doc()
+        self.redirects(persisted_doc)
 
-    def generate_persistant_doc(self):
+    def generate_persistent_doc(self):
         """
         Generate a document, create a 'File' on the context with the generated document
         and redirect to the created File.
@@ -192,4 +204,11 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         #  supposed to save generated document on the site, then its the permission
         #  to call the generation view that should be changed.
         with api.env.adopt_roles(['Manager']):
-            factory.create(doc_file=doc, title=title, extension=extension)
+            persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
+
+        return persisted_doc
+
+    def redirects(self, persisted_doc):
+        self.set_header_response(persisted_doc.getFile().filename)
+        response = self.request.response
+        return response.redirect(persisted_doc.absolute_url() + '/external_edit')

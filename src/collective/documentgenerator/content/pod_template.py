@@ -133,14 +133,6 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=True,
     )
 
-    form.widget('style_template', SelectWidget)
-    style_template = schema.List(
-        title=_(u'Style template'),
-        description=_(u'style_template_descr'),
-        value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
-        required=True,
-    )
-
     form.widget('merge_templates', DataGridFieldFactory)
     merge_templates = schema.List(
         title=_(u'Merge templates'),
