@@ -29,7 +29,7 @@ class FileDocumentFactory(object):
         else:
             container = self.context.aq_parent
 
-        obj = api.content.create(
+        document = api.content.create(
             type='File',
             title=title,
             file=doc_file,
@@ -38,7 +38,7 @@ class FileDocumentFactory(object):
 
         filename = u'{}.{}'.format(title, extension)
 
-        obj.getFile().setFilename(filename)
-        obj.getFile().setContentType(mimetypes.guess_type(filename)[0])
+        document.getFile().setFilename(filename)
+        document.getFile().setContentType(mimetypes.guess_type(filename)[0])
 
-        return obj.getFile()
+        return document
