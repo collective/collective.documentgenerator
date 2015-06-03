@@ -17,7 +17,8 @@ class PODTemplateCondition(object):
         self.context = context
 
     def evaluate(self):
-        return True
+        enabled = self.pod_template.enabled
+        return enabled
 
 
 class SubTemplateCondition(PODTemplateCondition):

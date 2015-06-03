@@ -82,6 +82,24 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         msg = "field 'initial_md5' is editable"
         self.assertTrue('md5' not in contents, msg)
 
+    def test_enabled_attribute(self):
+        test_podtemplate = aq_base(self.test_podtemplate)
+        self.assertTrue(hasattr(test_podtemplate, 'enabled'))
+
+    def test_enabled_field_display(self):
+        self.browser.open(self.test_podtemplate.absolute_url())
+        contents = self.browser.contents
+        msg = "field 'enabled' is not displayed"
+        self.assertTrue('id="form-widgets-enabled"' in contents, msg)
+        msg = "field 'enabled' is not translated"
+        self.assertTrue('Activé' in contents, msg)
+
+    def test_enabled_field_edit(self):
+        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
+        contents = self.browser.contents
+        msg = "field 'enabled' is not editable"
+        self.assertTrue('Activé' in contents, msg)
+
 
 class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     """
@@ -105,9 +123,13 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
 
         self.assertTrue(isinstance(condition_obj, PODTemplateCondition))
 
-    def test_default_generation_condition_is_True(self):
-        can_be_generated = self.test_podtemplate.can_be_generated(self.portal)
-        self.assertTrue(can_be_generated is True)
+    def test_can_be_generated(self):
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
+
+        # Disable the template.
+        self.test_podtemplate.enabled = False
+        msg = 'disabled template should not be generated'
+        self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
 
     def test_custom_generation_condition(self):
         """

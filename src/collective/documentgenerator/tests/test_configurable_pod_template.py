@@ -58,24 +58,6 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         msg = "field 'pod_portal_type' is not editable"
         self.assertTrue('Types de contenu autorisés' in contents, msg)
 
-    def test_enabled_attribute(self):
-        test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'enabled'))
-
-    def test_enabled_field_display(self):
-        self.browser.open(self.test_podtemplate.absolute_url())
-        contents = self.browser.contents
-        msg = "field 'enabled' is not displayed"
-        self.assertTrue('id="form-widgets-enabled"' in contents, msg)
-        msg = "field 'enabled' is not translated"
-        self.assertTrue('Activé' in contents, msg)
-
-    def test_enabled_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
-        msg = "field 'enabled' is not editable"
-        self.assertTrue('Activé' in contents, msg)
-
     def test_style_template_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
         self.assertTrue(hasattr(test_podtemplate, 'style_template'))

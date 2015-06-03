@@ -41,6 +41,12 @@ class IPODTemplate(model.Schema):
     form.omitted('initial_md5')
     initial_md5 = schema.TextLine()
 
+    enabled = schema.Bool(
+        title=_(u'Enabled'),
+        default=True,
+        required=False,
+    )
+
 
 class PODTemplate(Item):
     """
@@ -116,12 +122,6 @@ class IConfigurablePODTemplate(IPODTemplate):
         title=_(u'Allowed portal types'),
         description=_(u'pod_portal_type'),
         value_type=schema.Choice(source='collective.documentgenerator.PortalType'),
-        required=False,
-    )
-
-    enabled = schema.Bool(
-        title=_(u'Enabled'),
-        default=True,
         required=False,
     )
 
