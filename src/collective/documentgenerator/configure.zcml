@@ -18,10 +18,10 @@
     <include package=".content" />
     <include package=".demo" />
     <include package=".events" />
+    <include package=".helper"/>
     <include package=".viewlets" />
 
     <include file="renderer.zcml"/>
-    <include file="helper.zcml"/>
 
     <genericsetup:registerProfile
         name="default"
