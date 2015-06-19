@@ -102,4 +102,23 @@
         permission="zope2.View"
      />
 
+    <!-- Dexterity -->
+    <adapter
+        for="zope.schema.interfaces.IField
+             zope.interface.Interface
+             zope.interface.Interface"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.DX_renderer.DexterityExportableAdapter"
+        permission="zope2.View"
+        />
+
+    <adapter
+        for="zope.schema.interfaces.IDate
+             zope.interface.Interface
+             zope.interface.Interface"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.DX_renderer.DexterityDateExportableAdapter"
+        permission="zope2.View"
+        />
+
 </configure>

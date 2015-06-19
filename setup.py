@@ -43,6 +43,7 @@ setup(
     install_requires=[
         'appy',
         'collective.behavior.talcondition',
+        'collective.excelexport',
         'collective.z3cform.datagridfield',
         'plone.api',
         'plone.app.dexterity',

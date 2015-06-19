@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<object name="member" meta_type="Dexterity FTI" i18n:domain="plone"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Test type</property>
+ <property name="description" i18n:translate="">None</property>
+ <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
+ <property name="factory">member</property>
+ <property name="add_view_expr">string:${folder_url}/++add++member</property>
+ <property name="link_target"></property>
+ <property name="immediate_view">view</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types" />
+ <property name="allow_discussion">False</property>
+ <property name="default_view">view</property>
+ <property name="view_methods">
+  <element value="view"/>
+ </property>
+ <property name="default_view_fallback">False</property>
+ <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="behaviors">
+    <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
+ </property>
+ <property name="schema_policy">dexterity</property>
+ <property name="schema" />
+<property name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns:indexer="http://namespaces.plone.org/supermodel/indexer" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
+    &lt;schema&gt;
+      &lt;field name="fullname" type="zope.schema.TextLine"&gt;
+        &lt;description/&gt;
+        &lt;title&gt;Fullname&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="biography" type="zope.schema.Text"&gt;
+        &lt;description/&gt;
+        &lt;title&gt;Biography&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="birth_date" type="zope.schema.Date"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Birth date&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="subscription" type="zope.schema.Choice"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;subscription&lt;/title&gt;
+        &lt;values&gt;
+          &lt;element&gt;silver&lt;/element&gt;
+          &lt;element&gt;gold&lt;/element&gt;
+          &lt;element&gt;platinum&lt;/element&gt;
+        &lt;/values&gt;
+      &lt;/field&gt;
+      &lt;field name="amount" type="zope.schema.Int" security:read-permission="cmf.ManagePortal"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;amount&lt;/title&gt;
+      &lt;/field&gt;
+      &lt;field name="languages" type="zope.schema.Set"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Languages&lt;/title&gt;
+        &lt;value_type type="zope.schema.Choice"&gt;
+          &lt;vocabulary&gt;plone.app.vocabularies.AvailableContentLanguages&lt;/vocabulary&gt;
+        &lt;/value_type&gt;
+      &lt;/field&gt;
+    &lt;/schema&gt;
+  &lt;/model&gt;</property>
+ <alias from="(Default)" to="(dynamic view)"/>
+ <alias from="edit" to="@@edit"/>
+ <alias from="sharing" to="@@sharing"/>
+ <alias from="view" to="(selected layout)"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    description="" icon_expr="" link_target="" url_expr="string:${object_url}"
+    visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    description="" icon_expr="" link_target=""
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+</object>

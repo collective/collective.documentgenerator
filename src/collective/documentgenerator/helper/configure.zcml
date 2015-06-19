@@ -16,7 +16,7 @@
     <!-- helper view and default proxy object for Archetypes -->
     <browser:page
         for="Products.Archetypes.interfaces.IBaseObject"
-        class="collective.documentgenerator.helper.ATDocumentGenerationHelperView"
+        class="collective.documentgenerator.helper.archetypes.ATDocumentGenerationHelperView"
         permission="zope2.View"
         name="document_generation_helper_view"
      />
@@ -25,8 +25,24 @@
         for="Products.Archetypes.interfaces.IBaseObject
              zope.interface.Interface"
         provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
-        factory="collective.documentgenerator.helper.ATDisplayProxyObject"
+        factory="collective.documentgenerator.helper.archetypes.ATDisplayProxyObject"
         permission="zope2.View"
      />
+
+    <!-- helper view and default proxy object for Dexterity -->
+    <browser:page
+        for="plone.dexterity.interfaces.IDexterityContent"
+        class="collective.documentgenerator.helper.DXDocumentGenerationHelperView"
+        permission="zope2.View"
+        name="document_generation_helper_view"
+        />
+
+    <adapter
+        for="plone.dexterity.interfaces.IDexterityContent
+             zope.interface.Interface"
+        provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
+        factory="collective.documentgenerator.helper.dexterity.DXDisplayProxyObject"
+        permission="zope2.View"
+        />
 
 </configure>

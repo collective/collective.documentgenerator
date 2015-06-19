@@ -85,6 +85,7 @@ class ExamplePODTemplateLayer(DocumentgeneratorLayer):
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
         applyProfile(portal, 'collective.documentgenerator:demo')
+        applyProfile(portal, 'collective.documentgenerator:testing')
 
         # Commit so that the test browser sees these objects
         transaction.commit()
@@ -199,5 +200,25 @@ class ArchetypesIntegrationTests(BaseTest):
 
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
     """Base class for Archetypes functional tests."""
+
+    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
+
+
+class DexterityIntegrationTests(BaseTest):
+
+    """Base class for Dexterity implementation tests."""
+
+    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+
+    def setUp(self):
+        super(DexterityIntegrationTests, self).setUp()
+
+        # create a test content type
+        self.content = api.content.create(
+            container=self.portal, id='johndoe', type="member")
+
+
+class DexterityFunctionnalTests(DexterityIntegrationTests):
+    """Base class for Dexterity functional tests."""
 
     layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL

@@ -10,6 +10,7 @@
     <five:registerPackage package="." initialize=".initialize" />
 
     <include package="collective.behavior.talcondition" />
+    <include package="collective.excelexport" />
     <include package="collective.z3cform.datagridfield"/>
     <include package="plone.api" />
     <include package="plone.app.dexterity" />

@@ -23,7 +23,7 @@ class DocumentGenerationHelperView(object):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
         return proxy_obj
 
-    def display(self, field_name, context=None):
+    def display(self, field_name, context=None, no_value=''):
         """See IDocumentGenerationHelper. To implements."""
 
     def display_date(self, field_name, context=None, format='%d/%m/%Y %H:%M'):
