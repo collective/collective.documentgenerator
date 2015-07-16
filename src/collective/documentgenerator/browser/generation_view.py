@@ -46,8 +46,7 @@ class DocumentGenerationView(BrowserView):
         # the PODtemplates, so we use call_as_super_user to be sure to find
         # them..
 
-        with api.env.adopt_roles(['Manager']):
-            pod_template = self.get_pod_template()
+        pod_template = self.get_pod_template()
 
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
@@ -92,7 +91,8 @@ class DocumentGenerationView(BrowserView):
                 "Couldn't find POD template with UID '{}'".format(template_uid)
             )
 
-        pod_template = template_brains[0].getObject()
+        template_path = template_brains[0].getPath()
+        pod_template = self.context.unrestrictedTraverse(template_path)
         return pod_template
 
     def get_pod_template_uid(self):
@@ -203,8 +203,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         #  Bypass any File creation permission of the user. If the user isnt
         #  supposed to save generated document on the site, then its the permission
         #  to call the generation view that should be changed.
-        with api.env.adopt_roles(['Manager']):
-            persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
+        persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
 
         return persisted_doc
 

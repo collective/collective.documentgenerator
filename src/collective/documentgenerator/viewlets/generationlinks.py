@@ -19,8 +19,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
     def get_all_pod_templates(self):
         catalog = api.portal.get_tool(name='portal_catalog')
         brains = catalog.unrestrictedSearchResults(object_provides=IPODTemplate.__identifier__)
-        with api.env.adopt_roles(['Manager']):
-            pod_templates = [brain.getObject() for brain in brains]
+        pod_templates = [self.context.unrestrictedTraverse(brain.getPath()) for brain in brains]
 
         return pod_templates
 
