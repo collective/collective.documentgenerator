@@ -3,7 +3,7 @@
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.documentgenerator.interfaces import IDocumentFactory
-from collective.documentgenerator.interfaces import isNotContainerError
+from collective.documentgenerator.interfaces import isNotFolderishError
 
 from plone import api
 
@@ -25,7 +25,7 @@ class FileDocumentFactory(object):
     def create(self, doc_file, title='document', extension='odt'):
 
         if not IFolderish.providedBy(self.context):
-            raise isNotContainerError
+            raise isNotFolderishError
 
         container = self.context
 

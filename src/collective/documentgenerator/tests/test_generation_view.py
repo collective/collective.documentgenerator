@@ -140,16 +140,22 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         If the generation view is called on a non folderish the document file should be created
         on the parent.
         """
+        from collective.documentgenerator.interfaces import isNotFolderishError
+
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
         non_folderish = api.content.create(type='Document', id='doc', container=self.portal)
         generation_view = non_folderish.restrictedTraverse('@@persistent-document-generation')
 
         generation_view.request.set('doc_uid', test_UID)
-        generation_view()
+        error_raised = False
+        try:
+            generation_view()
+        except isNotFolderishError:
+            error_raised = True
 
-        msg = "File 'Document A' should have been created on portal."
-        self.assertTrue(hasattr(self.portal, 'general-template'), msg)
+        msg = "A 'isNotFolderishError' exception should have been raised."
+        self.assertTrue(error_raised, msg)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
