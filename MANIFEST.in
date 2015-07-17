@@ -1,3 +1,9 @@
 graft src/collective
 graft docs/
+graft buildout.d/
 include *.cfg *.rst *.in
+include *.py
+include .coveragerc
+include .travis.yml
+include Makefile
+
