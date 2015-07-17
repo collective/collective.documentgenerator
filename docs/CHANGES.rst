@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1 (unreleased)
+0.1 (2015-07-17)
 ----------------
 - Initial release.
   [gbastien]
