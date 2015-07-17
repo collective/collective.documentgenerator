@@ -3,6 +3,7 @@
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.documentgenerator.interfaces import IDocumentFactory
+from collective.documentgenerator.interfaces import isNotContainerError
 
 from plone import api
 
@@ -18,16 +19,15 @@ class FileDocumentFactory(object):
 
     implements(IDocumentFactory)
 
-    def __init__(self, context, request):
+    def __init__(self, context):
         self.context = context
-        self.request = request
 
     def create(self, doc_file, title='document', extension='odt'):
 
-        if IFolderish.providedBy(self.context):
-            container = self.context
-        else:
-            container = self.context.aq_parent
+        if not IFolderish.providedBy(self.context):
+            raise isNotContainerError
+
+        container = self.context
 
         document = api.content.create(
             type='File',

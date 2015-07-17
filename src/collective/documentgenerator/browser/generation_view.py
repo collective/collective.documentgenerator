@@ -14,7 +14,7 @@ from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from plone import api
 
-from zope.component import queryMultiAdapter
+from zope.component import queryAdapter
 
 import appy.pod.renderer
 import mimetypes
@@ -42,10 +42,6 @@ class DocumentGenerationView(BrowserView):
         """
         Generate a document and returns it as a downloadable file.
         """
-        # The user calling the generation action is not always allowed to access
-        # the PODtemplates, so we use call_as_super_user to be sure to find
-        # them..
-
         pod_template = self.get_pod_template()
 
         if not pod_template.can_be_generated(self.context):
@@ -198,12 +194,13 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
         title, extension = doc_name.split('.')
 
-        factory = queryMultiAdapter((self.context, self.request), IDocumentFactory)
+        factory = queryAdapter(self.context, IDocumentFactory)
 
         #  Bypass any File creation permission of the user. If the user isnt
         #  supposed to save generated document on the site, then its the permission
         #  to call the generation view that should be changed.
-        persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
+        with api.env.adopt_roles(['Manager']):
+            persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
 
         return persisted_doc
 

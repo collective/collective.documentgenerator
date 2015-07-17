@@ -102,3 +102,7 @@ class InvalidPythonPath(ValidationError):
 
 class InvalidUnoPath(ValidationError):
     __doc__ = _(u"Can't import python uno library with the python path")
+
+
+class isNotContainerError(Exception):
+    __doc__ = _(u"Can't create a persistent document on a non foldersih context.")
