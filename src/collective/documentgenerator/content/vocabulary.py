@@ -7,6 +7,8 @@ from z3c.form.i18n import MessageFactory as _
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+from collective.documentgenerator.config import POD_FORMATS
+
 
 class FormatsVocabularyFactory(object):
     """
@@ -14,11 +16,7 @@ class FormatsVocabularyFactory(object):
     """
 
     def __call__(self, context):
-        podFormats = (("doc", "Microsoft Word"),
-                      ("odt", "Open Document Format (text)"),
-                      ("rtf", "Rich Text Format (RTF)"),
-                      ("pdf", "Adobe PDF"))
-        vocabulary = SimpleVocabulary([SimpleTerm(pod_format, pod_format, label) for pod_format, label in podFormats])
+        vocabulary = SimpleVocabulary([SimpleTerm(pod_format, pod_format, label) for pod_format, label in POD_FORMATS])
         return vocabulary
 
 

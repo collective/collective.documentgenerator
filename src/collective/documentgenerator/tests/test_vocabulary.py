@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
-
-from plone import api
+import unittest
 
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-import unittest
+from plone import api
+from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.config import POD_FORMATS
 
 
 class TestVocabularies(unittest.TestCase):
@@ -68,3 +68,13 @@ class TestVocabularies(unittest.TestCase):
         merge_templates_voc = vocabulary(self.portal)
         pod_template = self.portal.podtemplates.test_template
         self.assertTrue(pod_template.UID() in merge_templates_voc)
+
+    def test_pod_formats_vocabulary(self):
+        """
+        Test the pod_formats vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.Formats'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        for pod_format, label in POD_FORMATS:
+            self.assertTrue(pod_format in voc)
