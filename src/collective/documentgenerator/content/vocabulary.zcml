@@ -2,16 +2,23 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="urbdial.divnot">
 
-    <!-- Portal Type Vocabulary -->
+    <!-- Formats Vocabulary -->
     <utility
-        factory=".vocabulary.PortalTypeVocabularyFactory"
-        name="collective.documentgenerator.PortalType"
+        factory=".vocabulary.FormatsVocabularyFactory"
+        name="collective.documentgenerator.Formats"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
-    <!-- Style Vocabulary -->
+    <!-- Portal Types Vocabulary -->
     <utility
-        factory=".vocabulary.StyleVocabularyFactory"
+        factory=".vocabulary.PortalTypesVocabularyFactory"
+        name="collective.documentgenerator.PortalTypes"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- Styles Vocabulary -->
+    <utility
+        factory=".vocabulary.StyleTemplatesVocabularyFactory"
         name="collective.documentgenerator.StyleTemplates"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />

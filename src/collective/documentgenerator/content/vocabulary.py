@@ -8,9 +8,23 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
-class PortalTypeVocabularyFactory(object):
+class FormatsVocabularyFactory(object):
     """
-    Vocabulary factory for pod_type field.
+    Vocabulary factory for pod_format field.
+    """
+
+    def __call__(self, context):
+        podFormats = (("doc", "Microsoft Word"),
+                      ("odt", "Open Document Format (text)"),
+                      ("rtf", "Rich Text Format (RTF)"),
+                      ("pdf", "Adobe PDF"))
+        vocabulary = SimpleVocabulary([SimpleTerm(pod_format, pod_format, label) for pod_format, label in podFormats])
+        return vocabulary
+
+
+class PortalTypesVocabularyFactory(object):
+    """
+    Vocabulary factory for pod_portal_type field.
     """
 
     def __call__(self, context):
@@ -20,9 +34,9 @@ class PortalTypeVocabularyFactory(object):
         return vocabulary
 
 
-class StyleVocabularyFactory(object):
+class StyleTemplatesVocabularyFactory(object):
     """
-    Vocabulary factory for style field.
+    Vocabulary factory for style_template field.
     """
 
     def __call__(self, context):

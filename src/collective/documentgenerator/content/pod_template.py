@@ -117,11 +117,19 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
+    form.widget('pod_format', SelectWidget)
+    pod_format = schema.List(
+        title=_(u'Format'),
+        description=_(u'pod_format'),
+        value_type=schema.Choice(source='collective.documentgenerator.Formats'),
+        required=True,
+    )
+
     form.widget('pod_portal_type', SelectWidget, multiple='multiple', size=15)
     pod_portal_type = schema.List(
         title=_(u'Allowed portal types'),
         description=_(u'pod_portal_type'),
-        value_type=schema.Choice(source='collective.documentgenerator.PortalType'),
+        value_type=schema.Choice(source='collective.documentgenerator.PortalTypes'),
         required=False,
     )
 

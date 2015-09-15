@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.documentgenerator.content.pod_template import IPODTemplate
 
 from plone import api
+from plone.memoize.view import memoize
 from plone.app.layout.viewlets import ViewletBase
 
 
@@ -14,7 +15,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
     render = ViewPageTemplateFile('./generationlinks.pt')
 
     def available(self):
-        return True
+        return bool(self.get_generable_templates())
 
     def get_all_pod_templates(self):
         catalog = api.portal.get_tool(name='portal_catalog')
@@ -23,6 +24,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
         return pod_templates
 
+    @memoize
     def get_generable_templates(self):
         pod_templates = self.get_all_pod_templates()
         generable_templates = [pt for pt in pod_templates if pt.can_be_generated(self.context)]
