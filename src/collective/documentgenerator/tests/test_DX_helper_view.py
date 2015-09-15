@@ -2,12 +2,11 @@
 import DateTime
 
 from zope.component import getUtility
+from plone.app.testing import login
 
 from plone import api
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
-
-from ecreall.helpers.testing.base import BaseTest
 
 from collective.documentgenerator.testing import DexterityIntegrationTests
 
@@ -59,7 +58,7 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         self.assertTrue(proxy.Description() != 'foobar', msg)
 
 
-class TestDexterityHelperViewMethods(DexterityIntegrationTests, BaseTest):
+class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
     """Test Dexterity implementation of helper view's methods."""
 
@@ -117,7 +116,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests, BaseTest):
 
         # new user that doesn't have permission
         api.user.create(username='foobar', email='foobar@example.com')
-        self.login('foobar')
+        login(self.portal, 'foobar')
         self.assertFalse(self.view.check_permission('amount', self.content))
 
         # manually set permission on a behavior's field
