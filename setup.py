@@ -48,6 +48,8 @@ setup(
         'plone.api',
         'plone.app.dexterity',
         'setuptools',
+        # fix about orderedselect
+        'z3c.form>=3.2.4',
     ],
     extras_require={
         'test': [
