@@ -119,12 +119,30 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.test_podtemplate.enabled = False
         msg = 'disabled template should not be generated'
         self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
+        # may be generated if enabled
+        self.test_podtemplate.enabled = True
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
         # Restrict allowed types to 'File'.
         self.test_podtemplate.enabled = True
         self.test_podtemplate.pod_portal_type = ['File']
         msg = 'disabled template should not be generated'
         self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
+        # may be generated on right context
+        self.test_podtemplate.pod_portal_type = ['Plone Site']
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
+
+        # Use a tal_condition, moreover test extra_expr_ctx
+        # context is the element we generate the template from, here self.portal
+        self.test_podtemplate.tal_condition = "python: context.portal_type == 'Document'"
+        self.assertFalse(self.test_podtemplate.can_be_generated(self.portal))
+        self.test_podtemplate.tal_condition = "python: context.portal_type == 'Plone Site'"
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
+        # we have also 'template' as extra_expr_ctx
+        self.test_podtemplate.tal_condition = "python: template.getId() == 'wrong_id'"
+        self.assertFalse(self.test_podtemplate.can_be_generated(self.portal))
+        self.test_podtemplate.tal_condition = "python: template.getId() == 'test_template_bis'"
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
     def test_get_style_template(self):
         style_template = self.portal.podtemplates.test_style_template
