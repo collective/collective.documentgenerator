@@ -172,3 +172,6 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         pod_template.odt_file = blob_file
 
         self.assertTrue(pod_template.has_been_modified())
+
+    def test_get_available_formats(self):
+        self.assertEquals(self.test_podtemplate.get_available_formats(), ['odt', ])
