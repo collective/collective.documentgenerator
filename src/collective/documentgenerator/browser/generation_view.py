@@ -31,6 +31,7 @@ class DocumentGenerationView(BrowserView):
         self.request = request
 
     def __call__(self):
+        self.pod_template = self.get_pod_template()
         return self.generate_and_download_doc()
 
     def generate_and_download_doc(self):
@@ -42,35 +43,33 @@ class DocumentGenerationView(BrowserView):
         """
         Generate a document and returns it as a downloadable file.
         """
-        pod_template = self.get_pod_template()
-
-        if not pod_template.can_be_generated(self.context):
+        if not self.pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
 
-        self.check_cyclic_merges(pod_template)
+        self.check_cyclic_merges(self.pod_template)
 
-        document_path = self.recursive_generate_doc(pod_template)
+        document_path = self.recursive_generate_doc(self.pod_template)
 
         rendered_document = open(document_path, 'rb')
         rendered = rendered_document.read()
         rendered_document.close()
         os.remove(document_path)
 
-        filename = u'{}.{}'.format(pod_template.title, self.get_generation_format())
+        filename = u'{}.{}'.format(self.pod_template.title, self.get_generation_format())
 
         return rendered, filename
 
-    def recursive_generate_doc(self, pod_template):
+    def recursive_generate_doc(self, pod_template, force_odt=False):
 
         sub_templates = pod_template.get_templates_to_merge()
         sub_documents = {}
         for context_name, sub_pod in sub_templates.iteritems():
-            sub_documents[context_name] = self.recursive_generate_doc(sub_pod)
+            sub_documents[context_name] = self.recursive_generate_doc(sub_pod, force_odt=True)
 
         document_template = pod_template.get_file()
         file_type = self.get_generation_format()
 
-        document_path = self.render_document(document_template, file_type, sub_documents)
+        document_path = self.render_document(document_template, file_type, sub_documents, force_odt=force_odt)
 
         return document_path
 
@@ -96,12 +95,21 @@ class DocumentGenerationView(BrowserView):
         return template_uid
 
     def get_generation_format(self):
-        generation_format = self.request.get('output_format', 'odt')
-        return generation_format
+        """
+        Get the format we want to generate the template in.
+        If 'output_format' found in the REQUEST is not an available format, we raise.
+        """
+        output_format = self.request.get('output_format')
+        if not output_format:
+            raise Exception("'output_format' was not found in the REQUEST!")
+        if output_format not in self.pod_template.get_available_formats():
+            raise Exception("Asked output format '{0}' "
+                            "is not available for template '{1}'!".format(output_format,
+                                                                          self.pod_template.getId()))
+        return output_format
 
-    def render_document(self, document_obj, file_type, sub_documents):
-        filename = document_obj.filename or '.odt'
-        temp_filename = tempfile.mktemp(filename)
+    def render_document(self, document_obj, file_type, sub_documents, force_odt=False):
+        temp_filename = tempfile.mktemp('.{0}'.format(force_odt and 'odt' or self.get_generation_format()))
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
@@ -181,6 +189,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     """
 
     def __call__(self):
+        super(PersistentDocumentGenerationView, self).__call__()
         persisted_doc = self.generate_persistent_doc()
         self.redirects(persisted_doc)
 

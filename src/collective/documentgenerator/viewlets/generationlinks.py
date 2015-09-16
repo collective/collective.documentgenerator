@@ -2,11 +2,11 @@
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from collective.documentgenerator.content.pod_template import IPODTemplate
-
 from plone import api
 from plone.memoize.view import memoize
 from plone.app.layout.viewlets import ViewletBase
+
+from collective.documentgenerator.content.pod_template import IPODTemplate
 
 
 class DocumentGeneratorLinksViewlet(ViewletBase):
@@ -35,11 +35,13 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
         base_url = self.context.absolute_url()
         links = []
         for template in self.get_generable_templates():
-            title = template.Title()
-            uid = template.UID()
-            link = '{base_url}/document-generation?doc_uid={uid}'.format(
-                base_url=base_url,
-                uid=uid,
-            )
-            links.append({'link': link, 'title': title})
+            for output_format in template.get_available_formats():
+                title = template.Title()
+                uid = template.UID()
+                link = '{base_url}/document-generation?doc_uid={uid}&output_format={output_format}'.format(
+                    base_url=base_url,
+                    uid=uid,
+                    output_format=output_format,
+                )
+                links.append({'link': link, 'title': title, 'output_format': output_format})
         return links

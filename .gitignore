@@ -11,6 +11,7 @@ dist
 build
 devel
 eggs
+htmlcov
 parts
 bin
 var

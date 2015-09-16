@@ -2,12 +2,14 @@
      tal:condition="view/available"
      i18n:domain="collective.documentgenerator">
 
-     <p>
-         <tal:title i18n:translate="">Documents to generate</tal:title>:
-
-    	 <tal:links repeat="infos view/get_links_info">
-    	 	<a tal:attributes="href python: infos['link']" tal:content="python: infos['title']"></a>,
-         </tal:links>
-    </p>
+    <span class="pod-template"
+	  style="position: relative;"
+	  tal:repeat="infos view/get_links_info">
+    	<a tal:attributes="href python: infos['link']">
+	    <img src="#"
+		 tal:attributes="src string:${view/portal_url}/++resource++collective.documentgenerator/${infos/output_format}.png" />
+	    <span tal:replace="infos/title">Template title</span>
+	</a>&nbsp;
+    </span>
 
 </div>

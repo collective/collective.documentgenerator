@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-20 15:09+0000\n"
+"POT-Creation-Date: 2015-09-16 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,8 +21,16 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../content/pod_template.py:110
+#: ../content/pod_template.py:135
 msgid "Allowed portal types"
+msgstr ""
+
+#: ../content/pod_template.py:127
+msgid "Available formats"
+msgstr ""
+
+#: ../interfaces.py:108
+msgid "Can't create a persistent document on a non foldersih context."
 msgstr ""
 
 #: ../interfaces.py:104
@@ -37,7 +45,7 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../setuphandlers.py:116
+#: ../setuphandlers.py:127
 msgid "Collection template"
 msgstr ""
 
@@ -49,23 +57,19 @@ msgstr ""
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../viewlets/generationlinks.pt:6
-msgid "Documents to generate"
-msgstr ""
-
 #: ../browser/controlpanel.py:77
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:117
+#: ../content/pod_template.py:45
 msgid "Enabled"
 msgstr ""
 
-#: ../setuphandlers.py:102
+#: ../setuphandlers.py:92
 msgid "General template"
 msgstr ""
 
-#: ../setuphandlers.py:87
+#: ../setuphandlers.py:78
 msgid "Header"
 msgstr ""
 
@@ -73,11 +77,15 @@ msgstr ""
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../content/pod_template.py:140
+#: ../content/pod_template.py:151
 msgid "Merge templates"
 msgstr ""
 
-#: ../content/vocabulary.py:31
+#: ../setuphandlers.py:105
+msgid "Multiple format template"
+msgstr ""
+
+#: ../content/vocabulary.py:43
 msgid "No value"
 msgstr ""
 
@@ -87,7 +95,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:37
+#: ../content/pod_template.py:38
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
@@ -96,7 +104,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:97
+#: ../content/pod_template.py:116
 msgid "POD context name"
 msgstr ""
 
@@ -116,7 +124,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:124
+#: ../content/pod_template.py:143
 msgid "Style template"
 msgstr ""
 
@@ -124,7 +132,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:72
+#: ../setuphandlers.py:64
 msgid "Styles n°2"
 msgstr ""
 
@@ -132,7 +140,7 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:91
+#: ../content/pod_template.py:110
 msgid "Template"
 msgstr ""
 
@@ -140,11 +148,15 @@ msgstr ""
 msgid "oo_port"
 msgstr ""
 
-#: ../content/pod_template.py:111
+#: ../content/pod_template.py:128
+msgid "pod_formats"
+msgstr ""
+
+#: ../content/pod_template.py:136
 msgid "pod_portal_type"
 msgstr ""
 
-#: ../content/pod_template.py:125
+#: ../content/pod_template.py:144
 msgid "style_template_descr"
 msgstr ""
 

@@ -84,6 +84,12 @@ class PODTemplate(Item):
             return templates_to_merge.get()
         return {}
 
+    def get_available_formats(self):
+        """
+        Returns formats in which current template may be generated.
+        """
+        return ['odt', ]
+
     @property
     def current_md5(self):
         md5 = ''
@@ -117,10 +123,9 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
-    form.widget('pod_format', SelectWidget)
-    pod_format = schema.List(
-        title=_(u'Format'),
-        description=_(u'pod_format'),
+    pod_formats = schema.List(
+        title=_(u'Available formats'),
+        description=_(u'pod_formats'),
         value_type=schema.Choice(source='collective.documentgenerator.Formats'),
         required=True,
     )
@@ -199,6 +204,12 @@ class ConfigurablePODTemplate(PODTemplate):
                 pod_context[line['pod_context_name'].encode('utf-8')] = pod_template
 
         return pod_context
+
+    def get_available_formats(self):
+        """
+        Returns formats in which current template may be generated.
+        """
+        return self.pod_formats
 
 
 class ISubTemplate(IPODTemplate):

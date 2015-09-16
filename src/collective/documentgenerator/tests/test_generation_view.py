@@ -78,6 +78,24 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         test_UID = pod_template.UID()
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
         view.request.set('doc_uid', test_UID)
+        # if an 'output_format' is not found in the REQUEST, it raises an Exception
+        with self.assertRaises(Exception) as cm:
+            view()
+        self.assertEquals(cm.exception.message,
+                          "'output_format' was not found in the REQUEST!")
+        # if 'output_format' is not in available pod_formats of template, it raises an Exception
+        self.assertNotIn('pdf', pod_template.get_available_formats())
+        view.request.set('output_format', 'pdf')
+        self.assertRaises(Exception, view)
+        with self.assertRaises(Exception) as cm:
+            view()
+        self.assertEquals(cm.exception.message,
+                          "Asked output format 'pdf' is not available for template 'test_template'!")
+
+        # right, ask available format
+        self.assertIn('odt', pod_template.get_available_formats())
+        view.request.set('output_format', 'odt')
+
         generated_doc = view()
         # Check if (partial) data of the generated document is the same as the
         # pod_template odt file.
@@ -119,6 +137,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
         generation_view.request.set('doc_uid', test_UID)
+        generation_view.request.set('output_format', 'odt')
         generation_view()
 
         msg = "File 'Document A' should have been created in folder."
@@ -148,6 +167,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generation_view = non_folderish.restrictedTraverse('@@persistent-document-generation')
 
         generation_view.request.set('doc_uid', test_UID)
+        generation_view.request.set('output_format', 'odt')
+
         error_raised = False
         try:
             generation_view()

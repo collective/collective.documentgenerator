@@ -4,7 +4,9 @@ Changelog
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added field IConfigurablePODTemplate.pod_formats to be able to select the
+  format we want to generate the POD template in.
+  [gbastien]
 
 
 0.1 (2015-07-17)

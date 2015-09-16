@@ -98,6 +98,28 @@ def install_demo(context):
             excludeFromNav=True
         )
 
+    if not hasattr(pod_folder, 'test_template_multiple'):
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_template_multiple',
+            title=_(u"Multiple format template"),
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/modele_general.odt'),
+                contentType='applications/odt',
+            ),
+            container=pod_folder,
+            excludeFromNav=True,
+            pod_formats=['odt', 'pdf', ],
+            pod_portal_type=['Document'],
+            style_template=[style_template.UID()],
+            merge_templates=[
+                {
+                    'template': sub_template.UID(),
+                    'pod_context_name': 'header',
+                }
+            ],
+        )
+
     if not hasattr(pod_folder, 'test_template_bis'):
         api.content.create(
             type='ConfigurablePODTemplate',
@@ -109,6 +131,7 @@ def install_demo(context):
             ),
             container=pod_folder,
             excludeFromNav=True,
+            pod_formats=['odt', 'pdf', ],
             pod_portal_type=['Collection'],
             style_template=[style_template.UID()],
             merge_templates=[
