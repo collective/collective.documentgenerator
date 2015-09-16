@@ -7,7 +7,7 @@ omit =
     src/collective/documentgenerator/__init__.py
     src/collective/documentgenerator/browser/__init__.py
     src/collective/documentgenerator/content/__init__.py
-    src/collective/documentgenerator/demo/__init__.py
+    src/collective/documentgenerator/demo/*
     src/collective/documentgenerator/events/__init__.py
     src/collective/documentgenerator/helper/__init__.py
     src/collective/documentgenerator/viewlets/__init__.py
