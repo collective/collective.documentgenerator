@@ -8,7 +8,7 @@ Changelog
   format we want to generate the POD template in.
   [gbastien]
 - When evaluating the tal_condition on the template, pass extra_expr_ctx
-  to the TAL expression so 'context' becomes the element on which the TAL
+  to the TAL expression so 'context' and 'here' become the element on which the TAL
   expression is actually evaluated instead of the pod_template and 'template'
   is the pod_template
   [gbastien]

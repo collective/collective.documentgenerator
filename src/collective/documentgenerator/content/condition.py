@@ -46,7 +46,8 @@ class ConfigurablePODTemplateCondition(PODTemplateCondition):
         """
         return self.pod_template.enabled and \
             self.evaluate_allowed_context(self.context) and \
-            ITALCondition(self.pod_template).evaluate(extra_expr_ctx={'context': self.context,
+            ITALCondition(self.pod_template).evaluate(extra_expr_ctx={'here': self.context,
+                                                                      'context': self.context,
                                                                       'template': self.pod_template})
 
     def evaluate_allowed_context(self, context):

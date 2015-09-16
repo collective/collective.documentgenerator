@@ -133,10 +133,12 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
         # Use a tal_condition, moreover test extra_expr_ctx
-        # context is the element we generate the template from, here self.portal
+        # context/here is the element we generate the template from, here self.portal
         self.test_podtemplate.tal_condition = "python: context.portal_type == 'Document'"
         self.assertFalse(self.test_podtemplate.can_be_generated(self.portal))
         self.test_podtemplate.tal_condition = "python: context.portal_type == 'Plone Site'"
+        self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
+        self.test_podtemplate.tal_condition = "python: here.portal_type == 'Plone Site'"
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
         # we have also 'template' as extra_expr_ctx
         self.test_podtemplate.tal_condition = "python: template.getId() == 'wrong_id'"
