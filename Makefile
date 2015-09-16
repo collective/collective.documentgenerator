@@ -9,7 +9,7 @@ bootstrap:
 
 buildout:
 	if ! test -f bin/buildout;then make bootstrap;fi
-	bin/buildout -Nvt 5
+	bin/buildout -Nt 5
 
 run:
 	if ! test -f bin/instance;then make buildout;fi
