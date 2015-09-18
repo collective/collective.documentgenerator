@@ -3,7 +3,10 @@ Changelog
 
 0.2 (unreleased)
 ----------------
-
+- Renamed 'doc_uid' parameter used by the 'document-generation' view to
+  'template_uid', more obvious, and makes it available in the viewlet
+  link infos dict.
+  [gbastien]
 - Added field IConfigurablePODTemplate.pod_formats to be able to select the
   format we want to generate the POD template in.
   [gbastien]

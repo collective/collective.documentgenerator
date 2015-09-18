@@ -91,7 +91,7 @@ class DocumentGenerationView(BrowserView):
         return pod_template
 
     def get_pod_template_uid(self):
-        template_uid = self.request.get('doc_uid', None)
+        template_uid = self.request.get('template_uid', None)
         return template_uid
 
     def get_generation_format(self):
