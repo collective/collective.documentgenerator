@@ -19,6 +19,7 @@ from zope import schema
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
+from zope.schema._messageid import _ as zope_message_factory
 
 from z3c.form.browser.select import SelectWidget
 
@@ -123,11 +124,21 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
+    def pod_formats_constraint(value):
+        """
+        By default, it seems that 'required' is not correctly validated
+        so we double check that the field is not empty...
+        """
+        if not value:
+            raise zope.interface.Invalid(zope_message_factory(u"Required input is missing."))
+        return True
+
     pod_formats = schema.List(
         title=_(u'Available formats'),
         description=_(u'pod_formats'),
         value_type=schema.Choice(source='collective.documentgenerator.Formats'),
         required=True,
+        constraint=pod_formats_constraint,
     )
 
     form.widget('pod_portal_type', SelectWidget, multiple='multiple', size=15)
