@@ -40,7 +40,7 @@ msgstr "Changements enregistrés"
 
 #: ../content/pod_template.py:155
 msgid "Choose the style template to apply for this template."
-msgstr ""
+msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
 #: ../setuphandlers.py:132
 msgid "Collection template"
