@@ -35,11 +35,11 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test_get_pod_template_uid(self):
         """
         By default, the template uid to generate should be in the argument
-        'doc_uid' of the request.
+        'template_uid' of the request.
         """
         test_UID = '12345'
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('doc_uid', test_UID)
+        view.request.set('template_uid', test_UID)
         msg = 'get_pod_template_uid() should return UID \'{}\''.format(test_UID)
         self.assertTrue(view.get_pod_template_uid() == test_UID, msg)
 
@@ -51,7 +51,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('doc_uid', test_UID)
+        view.request.set('template_uid', test_UID)
         self.assertTrue(view.get_pod_template() == pod_template)
 
     def test_get_pod_template_not_found(self):
@@ -62,7 +62,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         test_UID = 'TROLOLO'
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('doc_uid', test_UID)
+        view.request.set('template_uid', test_UID)
         error_raised = False
         try:
             view.get_pod_template()
@@ -77,7 +77,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
-        view.request.set('doc_uid', test_UID)
+        view.request.set('template_uid', test_UID)
         # if an 'output_format' is not found in the REQUEST, it raises an Exception
         with self.assertRaises(Exception) as cm:
             view()
@@ -114,7 +114,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertTrue(not pod_template.can_be_generated(self.portal))
 
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('doc_uid', test_UID)
+        view.request.set('template_uid', test_UID)
 
         unauthorized_raised = False
         try:
@@ -136,7 +136,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             container=self.portal,
         )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
-        generation_view.request.set('doc_uid', test_UID)
+        generation_view.request.set('template_uid', test_UID)
         generation_view.request.set('output_format', 'odt')
         generation_view()
 
@@ -166,7 +166,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         non_folderish = api.content.create(type='Document', id='doc', container=self.portal)
         generation_view = non_folderish.restrictedTraverse('@@persistent-document-generation')
 
-        generation_view.request.set('doc_uid', test_UID)
+        generation_view.request.set('template_uid', test_UID)
         generation_view.request.set('output_format', 'odt')
 
         error_raised = False

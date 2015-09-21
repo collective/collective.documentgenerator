@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../content/pod_template.py:135
+#: ../content/pod_template.py:146
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:127
+#: ../content/pod_template.py:137
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -38,7 +38,11 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../setuphandlers.py:127
+#: ../content/pod_template.py:155
+msgid "Choose the style template to apply for this template."
+msgstr ""
+
+#: ../setuphandlers.py:132
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -54,15 +58,15 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:45
+#: ../content/pod_template.py:46
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../setuphandlers.py:92
+#: ../setuphandlers.py:95
 msgid "General template"
 msgstr "Modèle général"
 
-#: ../setuphandlers.py:78
+#: ../setuphandlers.py:80
 msgid "Header"
 msgstr "En-tête"
 
@@ -70,11 +74,7 @@ msgstr "En-tête"
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
-#: ../content/pod_template.py:151
-msgid "Merge templates"
-msgstr "Modèles à fusionner"
-
-#: ../setuphandlers.py:105
+#: ../setuphandlers.py:109
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
@@ -88,7 +88,7 @@ msgstr "Aucune valeur"
 msgid "None"
 msgstr "Aucun"
 
-#: ../content/pod_template.py:38
+#: ../content/pod_template.py:39
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Document odt"
@@ -97,7 +97,7 @@ msgstr "Document odt"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:116
+#: ../content/pod_template.py:117
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -117,7 +117,15 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:143
+#: ../content/pod_template.py:147
+msgid "Select for which content types the template will be available."
+msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
+
+#: ../content/pod_template.py:138
+msgid "Select format in which the template will be generable."
+msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
+
+#: ../content/pod_template.py:154
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -125,7 +133,7 @@ msgstr "Modèle de style"
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../setuphandlers.py:64
+#: ../setuphandlers.py:65
 msgid "Styles n°2"
 msgstr "Styles n°2"
 
@@ -133,26 +141,19 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:110
+#: ../content/pod_template.py:111
 msgid "Template"
 msgstr "Modèle"
+
+#: ../content/pod_template.py:162
+msgid "Templates to merge."
+msgstr "Modèles à fusionner."
 
 #: ../browser/controlpanel.py:41
 msgid "oo_port"
 msgstr "Numéro du port Office"
 
-#: ../content/pod_template.py:128
-msgid "pod_formats"
-msgstr "Formats à générer"
-
-#: ../content/pod_template.py:136
-msgid "pod_portal_type"
-msgstr "Sélectionnez ici les types de contenus pour lesquels la génération du modèle est autorisée"
-
-#: ../content/pod_template.py:144
-msgid "style_template_descr"
-msgstr "Choisissez le modèle de style à appliquer pour ce modèle POD."
-
 #: ../browser/controlpanel.py:48
 msgid "uno path"
 msgstr "Python uno"
+

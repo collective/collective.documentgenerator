@@ -19,6 +19,7 @@ from zope import schema
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
+from zope.schema._messageid import _ as zope_message_factory
 
 from z3c.form.browser.select import SelectWidget
 
@@ -123,17 +124,27 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
+    def pod_formats_constraint(value):
+        """
+        By default, it seems that 'required' is not correctly validated
+        so we double check that the field is not empty...
+        """
+        if not value:
+            raise zope.interface.Invalid(zope_message_factory(u"Required input is missing."))
+        return True
+
     pod_formats = schema.List(
         title=_(u'Available formats'),
-        description=_(u'pod_formats'),
+        description=_(u'Select format in which the template will be generable.'),
         value_type=schema.Choice(source='collective.documentgenerator.Formats'),
         required=True,
+        constraint=pod_formats_constraint,
     )
 
-    form.widget('pod_portal_type', SelectWidget, multiple='multiple', size=15)
-    pod_portal_type = schema.List(
+    form.widget('pod_portal_types', SelectWidget, multiple='multiple', size=15)
+    pod_portal_types = schema.List(
         title=_(u'Allowed portal types'),
-        description=_(u'pod_portal_type'),
+        description=_(u'Select for which content types the template will be available.'),
         value_type=schema.Choice(source='collective.documentgenerator.PortalTypes'),
         required=False,
     )
@@ -141,14 +152,14 @@ class IConfigurablePODTemplate(IPODTemplate):
     form.widget('style_template', SelectWidget)
     style_template = schema.List(
         title=_(u'Style template'),
-        description=_(u'style_template_descr'),
+        description=_(u'Choose the style template to apply for this template.'),
         value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
         required=True,
     )
 
     form.widget('merge_templates', DataGridFieldFactory)
     merge_templates = schema.List(
-        title=_(u'Merge templates'),
+        title=_(u'Templates to merge.'),
         required=False,
         value_type=DictRow(
             schema=IMergeTemplatesRowSchema,

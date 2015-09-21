@@ -50,6 +50,7 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/styles.odt'),
                 contentType='applications/odt',
+                filename=u'styles.odt',
             ),
             container=pod_folder,
             excludeFromNav=True
@@ -65,6 +66,7 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/styles_2.odt'),
                 contentType='applications/odt',
+                filename=u'styles_2.odt',
             ),
             container=pod_folder,
             excludeFromNav=True
@@ -79,6 +81,7 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/sub_template.odt'),
                 contentType='applications/odt',
+                filename=u'sub_template.odt',
             ),
             container=pod_folder,
             excludeFromNav=True
@@ -93,6 +96,7 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
                 contentType='applications/odt',
+                filename=u'modele_general.odt',
             ),
             container=pod_folder,
             excludeFromNav=True
@@ -106,11 +110,12 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
                 contentType='applications/odt',
+                filename=u'modele_general.odt',
             ),
             container=pod_folder,
             excludeFromNav=True,
             pod_formats=['odt', 'pdf', ],
-            pod_portal_type=['Document'],
+            pod_portal_types=['Document'],
             style_template=[style_template.UID()],
             merge_templates=[
                 {
@@ -128,11 +133,12 @@ def install_demo(context):
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_collection.odt'),
                 contentType='applications/odt',
+                filename=u'modele_collection.odt',
             ),
             container=pod_folder,
             excludeFromNav=True,
             pod_formats=['odt', 'pdf', ],
-            pod_portal_type=['Collection'],
+            pod_portal_types=['Collection'],
             style_template=[style_template.UID()],
             merge_templates=[
                 {

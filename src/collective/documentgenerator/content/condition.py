@@ -55,5 +55,5 @@ class ConfigurablePODTemplateCondition(PODTemplateCondition):
         Evaluate if context is in pt selected list
         If not use, return True
         """
-        allowed_types = self.pod_template.pod_portal_type
+        allowed_types = self.pod_template.pod_portal_types
         return not allowed_types or context.portal_type in allowed_types

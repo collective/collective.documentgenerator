@@ -12,7 +12,7 @@ from collective.documentgenerator.config import POD_FORMATS
 
 class FormatsVocabularyFactory(object):
     """
-    Vocabulary factory for pod_format field.
+    Vocabulary factory for 'pod_formats' field.
     """
 
     def __call__(self, context):
@@ -22,7 +22,7 @@ class FormatsVocabularyFactory(object):
 
 class PortalTypesVocabularyFactory(object):
     """
-    Vocabulary factory for pod_portal_type field.
+    Vocabulary factory for 'pod_portal_types' field.
     """
 
     def __call__(self, context):
@@ -34,7 +34,7 @@ class PortalTypesVocabularyFactory(object):
 
 class StyleTemplatesVocabularyFactory(object):
     """
-    Vocabulary factory for style_template field.
+    Vocabulary factory for 'style_template' field.
     """
 
     def __call__(self, context):
@@ -52,7 +52,7 @@ class StyleTemplatesVocabularyFactory(object):
 
 class MergeTemplatesVocabularyFactory(object):
     """
-    Vocabulary factory for merge_templates field.
+    Vocabulary factory for 'merge_templates' field.
     """
 
     def __call__(self, context):

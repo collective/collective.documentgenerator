@@ -40,22 +40,22 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         podtemplate_type = portal_types.get(self.test_podtemplate.portal_type)
         self.assertTrue('IConfigurablePODTemplate' in podtemplate_type.schema)
 
-    def test_pod_portal_type_attribute(self):
+    def test_pod_portal_types_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'pod_portal_type'))
+        self.assertTrue(hasattr(test_podtemplate, 'pod_portal_types'))
 
-    def test_pod_portal_type_field_display(self):
+    def test_pod_portal_types_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
         contents = self.browser.contents
-        msg = "field 'pod_portal_type' is not displayed"
-        self.assertTrue('id="form-widgets-pod_portal_type"' in contents, msg)
-        msg = "field 'pod_portal_type' is not translated"
+        msg = "field 'pod_portal_types' is not displayed"
+        self.assertTrue('id="form-widgets-pod_portal_types"' in contents, msg)
+        msg = "field 'pod_portal_types' is not translated"
         self.assertTrue('Types de contenu autorisés' in contents, msg)
 
-    def test_pod_portal_type_field_edit(self):
+    def test_pod_portal_types_field_edit(self):
         self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
         contents = self.browser.contents
-        msg = "field 'pod_portal_type' is not editable"
+        msg = "field 'pod_portal_types' is not editable"
         self.assertTrue('Types de contenu autorisés' in contents, msg)
 
     def test_style_template_attribute(self):
@@ -112,7 +112,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertTrue(isinstance(condition_obj, ConfigurablePODTemplateCondition))
 
     def test_can_be_generated(self):
-        self.test_podtemplate.pod_portal_type = []
+        self.test_podtemplate.pod_portal_types = []
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
         # Disable the template.
@@ -125,11 +125,11 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
         # Restrict allowed types to 'File'.
         self.test_podtemplate.enabled = True
-        self.test_podtemplate.pod_portal_type = ['File']
+        self.test_podtemplate.pod_portal_types = ['File']
         msg = 'disabled template should not be generated'
         self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
         # may be generated on right context
-        self.test_podtemplate.pod_portal_type = ['Plone Site']
+        self.test_podtemplate.pod_portal_types = ['Plone Site']
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
         # Use a tal_condition, moreover test extra_expr_ctx
