@@ -1,4 +1,5 @@
-ul.pod-template li {
+div#doc-generation-view ul.pod-template li {
+    line-height: 0.5em;
     float: right;
     list-style: none;
     margin-left: 1em;
