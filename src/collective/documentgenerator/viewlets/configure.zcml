@@ -7,7 +7,7 @@
     <browser:viewlet
         for="*"
         name="document-generation-link"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         class="collective.documentgenerator.viewlets.generationlinks.DocumentGeneratorLinksViewlet"
         permission="zope2.View"
         />

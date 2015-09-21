@@ -1,3 +1,5 @@
-#doc-generation-view {
-    text-align: right;
+ul.pod-template li {
+    float: right;
+    list-style: none;
+    margin-left: 1em;
 }
