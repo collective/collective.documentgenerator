@@ -1,9 +1,15 @@
 graft src/collective
 graft docs/
-graft buildout.d/
 include *.cfg *.rst *.in
 include *.py
 include .coveragerc
 include .travis.yml
 include Makefile
-
+exclude .installed.cfg
+exclude .mr.developer.cfg
+exclude buildout.d
+recursive-exclude buildout.d/ *.cfg
+recursive-include docs *.GPL
+recursive-include docs *.png
+recursive-include docs *.rst
+global-exclude *.pyc
