@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2 (unreleased)
+0.2 (2015-09-22)
 ----------------
 - Renamed field 'pod_portal_type' to 'pod_portal_types' as this field
   is a multiselection field.
