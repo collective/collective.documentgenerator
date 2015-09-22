@@ -1,1 +1,7 @@
 - Simon Delcourt, simon.delcourt@imio.be
+- Gauthier Bastien, gauthier.bastien@imio.be
+- Vivian Antoine, vivian.antoine@imio.be
+- André Nuyens, andre.nuyens@imio.be
+- Franck NGAHA, franck.ngaha@imio.be
+- Christophe Boulanger, christophe.boulanger@imio.be
+- Cédric Messiant, cedricmessiant@ecreall.com
