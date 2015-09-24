@@ -23,6 +23,7 @@ script:
 
 after_success:
   - bin/createcoverage run bin/test
+  - pip install --upgrade pip
   - pip install -q coveralls
   - coveralls
 
