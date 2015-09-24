@@ -107,12 +107,21 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def test_display_date_method(self):
         field_name = 'effectiveDate'
         date_to_set = DateTime.DateTime('18/09/1986')
-        expected_date = '18 yolo 09 yolo 1986'
 
         field = self.AT_topic.getField(field_name)
         field.set(self.AT_topic, date_to_set)
 
-        result = self.view.display_date(field_name, format='%d yolo %m yolo %Y')
+        # toLocalizedTime
+        expected_date = u'Sep 18, 1986'
+        result = self.view.display_date(field_name)
+        expected_date = u'Sep 18, 1986 12:00 AM'
+        result = self.view.display_date(field_name, long_format=True)
+        expected_date = u'12:00 AM'
+        result = self.view.display_date(field_name, time_only=True)
+
+        # custom_format
+        expected_date = '18 yolo 09 yolo 1986'
+        result = self.view.display_date(field_name, custom_format='%d yolo %m yolo %Y')
 
         self._test_display(field_name, expected_date, result)
 

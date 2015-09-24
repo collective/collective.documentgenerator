@@ -81,9 +81,14 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
     def get_value(self, field_name):
         return getattr(self.real_context, field_name)
 
-    def display_date(self, field_name, format='%d/%m/%Y %H:%M'):
+    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
-        formatted_date = date.strftime(format)
+        if not custom_format:
+            # use toLocalizedTime
+            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
+        else:
+            formatted_date = date.strftime(custom_format)
+
         return formatted_date
 
     def display_voc(self, field_name, context=None, separator=', '):

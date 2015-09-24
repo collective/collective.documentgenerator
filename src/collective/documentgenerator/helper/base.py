@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.component import getMultiAdapter
+from zope.i18n import translate
 from zope.interface import implements
 
 from collective.documentgenerator.interfaces import IDisplayProxyObject
@@ -14,10 +15,14 @@ class DocumentGenerationHelperView(object):
     implements(IDocumentGenerationHelper)
 
     def __init__(self, context, request):
+        super(DocumentGenerationHelperView, self).__init__(context, request)
         self.real_context = context
         self.request = request
         self.context = self._get_proxy_object(context)
         self.appy_renderer = None
+        self.plone = self.context.restrictedTraverse('@@plone')
+        self.plone_portal_state = self.context.restrictedTraverse('@@plone_portal_state')
+        self.portal = self.plone_portal_state.portal()
 
     def _get_proxy_object(self, context):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
@@ -26,7 +31,7 @@ class DocumentGenerationHelperView(object):
     def display(self, field_name, context=None, no_value=''):
         """See IDocumentGenerationHelper. To implements."""
 
-    def display_date(self, field_name, context=None, format='%d/%m/%Y %H:%M'):
+    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
         """See IDocumentGenerationHelper. To implements."""
 
     def display_voc(self, field_name, context=None, separator=','):
@@ -40,6 +45,10 @@ class DocumentGenerationHelperView(object):
 
     def _set_appy_renderer(self, appy_renderer):
         self.appy_renderer = appy_renderer
+
+    def translate(self, msgid, domain="plone"):
+        """Let's translate a given msgid in given domain."""
+        return translate(msgid, domain, context=self.request)
 
 
 class DisplayProxyObject(object):

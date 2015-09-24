@@ -98,9 +98,19 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
     def test_display_date_method(self):
         field_name = 'birth_date'
         self.content.birth_date = DateTime.DateTime('18/09/1986')
-        expected = '18 foo 09 bar 1986'
-        result = self.view.display_date(field_name, format='%d foo %m bar %Y')
-        self.assertEqual(expected, result)
+
+        # toLocalizedTime
+        expected_date = u'Sep 18, 1986'
+        result = self.view.display_date(field_name)
+        expected_date = u'Sep 18, 1986 12:00 AM'
+        result = self.view.display_date(field_name, long_format=True)
+        expected_date = u'12:00 AM'
+        result = self.view.display_date(field_name, time_only=True)
+
+        # custom_format
+        expected_date = '18 yolo 09 yolo 1986'
+        result = self.view.display_date(field_name, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):
         field_name = 'languages'

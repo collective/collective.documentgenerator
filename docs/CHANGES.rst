@@ -4,8 +4,12 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Extend the base helper view to do @@plone, @@plone_portal_state view available
+  and added a method 'translate' to be able to translate a msgid in a given domain.
+  [gbastien]
+- Refactored the DocumentGenerationHelperView.display_date method to use
+  toLocalizedDate and adapted AT and DX implementations.
+  [gbastien]
 
 0.2 (2015-09-22)
 ----------------

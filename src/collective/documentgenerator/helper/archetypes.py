@@ -33,10 +33,14 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return renderer
 
-    def display_date(self, field_name, format='%d/%m/%Y %H:%M'):
+    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
         date_field = self.context.getField(field_name)
         date = date_field.get(self.context)
-        formatted_date = date.strftime(format)
+        if not custom_format:
+            # use toLocalizedTime
+            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
+        else:
+            formatted_date = date.strftime(custom_format)
 
         return formatted_date
 

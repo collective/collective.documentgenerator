@@ -33,9 +33,11 @@ class IDocumentGenerationHelper(Interface):
         Return a string representation of context's field 'field_name'.
         """
 
-    def display_date(self, field_name, context=None, format='%d/%m/%Y %H:%M'):
+    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
         """
         Return a string representation of context's date field 'field_name'.
+        It uses toLocalizedTime if no custom_format is given.  A custom_format is
+        a datetime strftime compatible like '%d/%m/%Y %H:%M'.
         """
 
     def display_voc(self, field_name, context=None, separator=','):
