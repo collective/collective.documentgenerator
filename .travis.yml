@@ -22,6 +22,7 @@ script:
   - bin/test
 
 after_success:
+  - bin/coverage erase
   - bin/createcoverage run bin/test
   - pip install -q coveralls
   - coveralls
