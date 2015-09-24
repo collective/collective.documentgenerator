@@ -138,6 +138,7 @@ class IConfigurablePODTemplate(IPODTemplate):
         description=_(u'Select format in which the template will be generable.'),
         value_type=schema.Choice(source='collective.documentgenerator.Formats'),
         required=True,
+        default=['odt', ],
         constraint=pod_formats_constraint,
     )
 
