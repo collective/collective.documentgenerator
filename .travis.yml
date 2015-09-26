@@ -24,7 +24,7 @@ script:
 after_success:
   - bin/coverage
   - pip install --upgrade pip
-  - pip install -q coveralls
+  - pip install -q coveralls==0.5
   - coveralls
 
 notifications:
