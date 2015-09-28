@@ -184,6 +184,10 @@ class ConfigurablePODTemplate(PODTemplate):
         """
         catalog = api.portal.get_tool('portal_catalog')
         style_template_UID = self.style_template
+        if not style_template_UID:
+            # do not query catalog if no style_template
+            return
+
         style_template_brain = catalog(UID=style_template_UID)
 
         if style_template_brain:
