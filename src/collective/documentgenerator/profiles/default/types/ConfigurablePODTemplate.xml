@@ -2,7 +2,7 @@
 <object name="ConfigurablePODTemplate" meta_type="Dexterity FTI" i18n:domain="collective.documentgenerator"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">ConfigurablePODTemplate</property>
- <property name="description" i18n:translate="">None</property>
+ <property name="description" i18n:translate="">A document to generate on a content.</property>
  <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
  <property name="factory">ConfigurablePODTemplate</property>
  <property
