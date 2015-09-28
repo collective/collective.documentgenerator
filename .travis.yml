@@ -22,10 +22,9 @@ script:
   - bin/test
 
 after_success:
-  - bin/coverage erase
-  - bin/createcoverage run bin/test
+  - bin/coverage
   - pip install --upgrade pip
-  - pip install -q coveralls
+  - pip install -q coveralls==0.5
   - coveralls
 
 notifications:
