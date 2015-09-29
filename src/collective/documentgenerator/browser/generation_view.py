@@ -24,56 +24,76 @@ import tempfile
 
 class DocumentGenerationView(BrowserView):
     """
-    Document generation with appy.
+    Document generation view.
     """
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
     def __call__(self):
-        self.pod_template = self.get_pod_template()
-        return self.generate_and_download_doc()
+        pod_template = self.get_pod_template()
+        output_format = self.get_generation_format()
+        return self.generate_and_download_doc(pod_template, output_format)
 
-    def generate_and_download_doc(self):
-        doc, doc_name = self.generate_doc()
-        self.set_header_response(doc_name)
+    def generate_and_download_doc(self, pod_template, output_format):
+        """
+        Generate a document of format 'output_format' from the template
+        'pod_template' and return it as a downloadable file.
+        """
+        doc, doc_name = self._generate_doc(pod_template, output_format)
+        self._set_header_response(doc_name)
         return doc
 
-    def generate_doc(self):
+    def _generate_doc(self, pod_template, output_format):
         """
-        Generate a document and returns it as a downloadable file.
+        Generate a document of format 'output_format' from the template
+        'pod_template'.
         """
-        if not self.pod_template.can_be_generated(self.context):
+        if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
 
-        self.check_cyclic_merges(self.pod_template)
+        # subtemplates should not refer to each other in a cyclic way.
+        self._check_cyclic_merges(pod_template)
 
-        document_path = self.recursive_generate_doc(self.pod_template)
+        # Recursive generation of the document and all its subtemplates.
+        document_path = self._recursive_generate_doc(pod_template, output_format)
 
         rendered_document = open(document_path, 'rb')
         rendered = rendered_document.read()
         rendered_document.close()
         os.remove(document_path)
 
-        filename = u'{}.{}'.format(self.pod_template.title, self.get_generation_format())
+        filename = u'{}.{}'.format(pod_template.title, output_format)
 
         return rendered, filename
 
-    def recursive_generate_doc(self, pod_template, force_odt=False):
-
+    def _recursive_generate_doc(self, pod_template, output_format):
+        """
+        Generate a document recursively by starting to generate all its
+        subtemplates before merging them in the final document.
+        Return the file path of the generated document.
+        """
         sub_templates = pod_template.get_templates_to_merge()
         sub_documents = {}
         for context_name, sub_pod in sub_templates.iteritems():
-            sub_documents[context_name] = self.recursive_generate_doc(sub_pod, force_odt=True)
+            # Force the subtemplate output_format to 'odt' because appy.pod
+            # can only merge documents in this format.
+            sub_documents[context_name] = self._recursive_generate_doc(
+                pod_template=sub_pod,
+                output_format='odt'
+            )
 
         document_template = pod_template.get_file()
-        file_type = self.get_generation_format()
 
-        document_path = self.render_document(document_template, file_type, sub_documents, force_odt=force_odt)
+        document_path = self._render_document(document_template, output_format, sub_documents)
 
         return document_path
 
     def get_pod_template(self):
+        """
+        Return the default PODTemplate that will be used when calling
+        this view.
+        """
         template_uid = self.get_pod_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
@@ -96,8 +116,8 @@ class DocumentGenerationView(BrowserView):
 
     def get_generation_format(self):
         """
-        Get the format we want to generate the template in.
-        If 'output_format' found in the REQUEST is not an available format, we raise.
+        Return the default document output format that will be used
+        when calling this view.
         """
         output_format = self.request.get('output_format')
         if not output_format:
@@ -108,17 +128,23 @@ class DocumentGenerationView(BrowserView):
                                                                           self.pod_template.getId()))
         return output_format
 
-    def render_document(self, document_obj, file_type, sub_documents, force_odt=False):
-        temp_filename = tempfile.mktemp('.{0}'.format(force_odt and 'odt' or self.get_generation_format()))
+    def _render_document(self, document_template, output_format, sub_documents):
+        """
+        Render a single document of type 'output_format' using the odt file
+        'document_template' as the generation template.
+        Subdocuments is a dictionnary of previously generated subtemplate
+        that will be merged into the current generated document.
+        """
+        temp_filename = tempfile.mktemp('.{extension}'.format(extension=output_format))
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
-
-        generation_context = self.get_generation_context(helper_view)
+        generation_context = self._get_generation_context(helper_view)
+        # enrich the generation context with previously generated documents
         generation_context.update(sub_documents)
 
         renderer = appy.pod.renderer.Renderer(
-            StringIO(document_obj.data),
+            StringIO(document_template.data),
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
@@ -131,7 +157,10 @@ class DocumentGenerationView(BrowserView):
 
         return temp_filename
 
-    def get_generation_context(self, helper_view):
+    def _get_generation_context(self, helper_view):
+        """
+        Return the generation context for the current document.
+        """
         generation_context = self.get_base_generation_context()
         generation_context.update(
             {
@@ -142,14 +171,22 @@ class DocumentGenerationView(BrowserView):
         return generation_context
 
     def get_base_generation_context(self):
+        """
+        Override this method to provide your own generation context.
+        """
         return {}
 
     def get_generation_context_helper(self):
+        """
+        Return the default helper view used for document generation.
+        """
         helper = self.context.unrestrictedTraverse('@@document_generation_helper_view')
         return helper
 
-    def set_header_response(self, filename):
-        # Tell the browser that the resulting page contains ODT
+    def _set_header_response(self, filename):
+        """
+        Tell the browser that the resulting page contains ODT.
+        """
         response = self.request.RESPONSE
         mimetype = mimetypes.guess_type(filename)[0]
         response.setHeader('Content-type', mimetype)
@@ -158,7 +195,11 @@ class DocumentGenerationView(BrowserView):
             u'inline;filename="{}"'.format(filename).encode('utf-8')
         )
 
-    def check_cyclic_merges(self, pod_template):
+    def _check_cyclic_merges(self, pod_template):
+        """
+        Check if the template 'pod_template' has subtemplates referring to each
+        other in a cyclic way.
+        """
         def traverse_check(pod_template, path):
 
             if pod_template in path:
@@ -186,20 +227,23 @@ class DocumentGenerationView(BrowserView):
 
 class PersistentDocumentGenerationView(DocumentGenerationView):
     """
+    Persistent document generation view.
     """
 
     def __call__(self):
-        super(PersistentDocumentGenerationView, self).__call__()
-        persisted_doc = self.generate_persistent_doc()
+        pod_template = self.get_pod_template()
+        output_format = self.get_generation_format()
+        persisted_doc = self.generate_persistent_doc(pod_template, output_format)
         self.redirects(persisted_doc)
 
-    def generate_persistent_doc(self):
+    def generate_persistent_doc(self, pod_template, output_format):
         """
-        Generate a document, create a 'File' on the context with the generated document
-        and redirect to the created File.
+        Generate a document of format 'output_format' from the template
+        'pod_template' and persist it by creating a File containing the
+        generated document on the current context.
         """
 
-        doc, doc_name = self.generate_doc()
+        doc, doc_name = self._generate_doc(pod_template, output_format)
 
         title, extension = doc_name.split('.')
 
@@ -214,6 +258,9 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         return persisted_doc
 
     def redirects(self, persisted_doc):
-        self.set_header_response(persisted_doc.getFile().filename)
+        """
+        Redirects to the created document.
+        """
+        self._set_header_response(persisted_doc.getFile().filename)
         response = self.request.response
         return response.redirect(persisted_doc.absolute_url() + '/external_edit')
