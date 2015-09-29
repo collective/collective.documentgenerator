@@ -22,7 +22,7 @@ script:
   - bin/test
 
 after_success:
-  - bin/coverage
+  - bin/createcoverage
   - pip install --upgrade pip
   - pip install -q coveralls==0.5
   - coveralls
