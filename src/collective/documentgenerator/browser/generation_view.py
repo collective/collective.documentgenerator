@@ -52,6 +52,15 @@ class DocumentGenerationView(BrowserView):
         if not pod_template.can_be_generated(self.context):
             raise Unauthorized('You are not allowed to generate this document.')
 
+        if output_format not in pod_template.get_available_formats():
+            raise Exception(
+                "Asked output format '{0}' "
+                "is not available for template '{1}'!".format(
+                    output_format,
+                    pod_template.getId()
+                )
+            )
+
         # subtemplates should not refer to each other in a cyclic way.
         self._check_cyclic_merges(pod_template)
 
@@ -122,10 +131,6 @@ class DocumentGenerationView(BrowserView):
         output_format = self.request.get('output_format')
         if not output_format:
             raise Exception("'output_format' was not found in the REQUEST!")
-        if output_format not in self.pod_template.get_available_formats():
-            raise Exception("Asked output format '{0}' "
-                            "is not available for template '{1}'!".format(output_format,
-                                                                          self.pod_template.getId()))
         return output_format
 
     def _render_document(self, document_template, output_format, sub_documents):

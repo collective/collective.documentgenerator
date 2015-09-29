@@ -115,6 +115,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         view = self.portal.restrictedTraverse('@@document-generation')
         view.request.set('template_uid', test_UID)
+        view.request.set('output_format', 'odt')
 
         unauthorized_raised = False
         try:
@@ -222,7 +223,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
     def _test_detect_cycle(self, template, should_raise, msg=''):
         exception_raised = False
         try:
-            self.generation_view.check_cyclic_merges(template)
+            self.generation_view._check_cyclic_merges(template)
         except CyclicMergeTemplatesException:
             exception_raised = True
 
