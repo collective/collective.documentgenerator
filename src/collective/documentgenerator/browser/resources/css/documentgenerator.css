@@ -7,7 +7,5 @@ div#doc-generation-view ul.pod-template li {
 
 div#doc-generation-view {
     text-align: right;
-    display: inline-block;
-    float: right;
     padding-right: 1em;
 }
