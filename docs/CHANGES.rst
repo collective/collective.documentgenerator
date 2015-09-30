@@ -10,6 +10,9 @@ Changelog
 - Refactored the DocumentGenerationHelperView.display_date method to use
   toLocalizedDate and adapted AT and DX implementations.
   [gbastien]
+- Refactor the generation view to pass the arguments `pod_template` and `output_format`
+  directly to the view call or its methods.
+  [gbastien, sdelcourt]
 
 0.2 (2015-09-22)
 ----------------
