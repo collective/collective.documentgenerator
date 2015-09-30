@@ -30,10 +30,18 @@ class DocumentGenerationView(BrowserView):
         self.context = context
         self.request = request
 
-    def __call__(self):
-        pod_template = self.get_pod_template()
-        output_format = self.get_generation_format()
+    def __call__(self, template_uid='', output_format=''):
+        pod_template, output_format = self._get_base_args(template_uid, output_format)
         return self.generate_and_download_doc(pod_template, output_format)
+
+    def _get_base_args(self, template_uid, output_format):
+        template_uid = template_uid or self.get_pod_template_uid()
+        pod_template = self.get_pod_template(template_uid)
+        output_format = output_format or self.get_generation_format()
+        if not output_format:
+            raise Exception("No 'output_format' found to generate this document")
+
+        return pod_template, output_format
 
     def generate_and_download_doc(self, pod_template, output_format):
         """
@@ -98,12 +106,11 @@ class DocumentGenerationView(BrowserView):
 
         return document_path
 
-    def get_pod_template(self):
+    def get_pod_template(self, template_uid):
         """
         Return the default PODTemplate that will be used when calling
         this view.
         """
-        template_uid = self.get_pod_template_uid()
         catalog = api.portal.get_tool('portal_catalog')
 
         template_brains = catalog.unrestrictedSearchResults(
@@ -129,8 +136,6 @@ class DocumentGenerationView(BrowserView):
         when calling this view.
         """
         output_format = self.request.get('output_format')
-        if not output_format:
-            raise Exception("'output_format' was not found in the REQUEST!")
         return output_format
 
     def _render_document(self, document_template, output_format, sub_documents):
@@ -235,9 +240,8 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     Persistent document generation view.
     """
 
-    def __call__(self):
-        pod_template = self.get_pod_template()
-        output_format = self.get_generation_format()
+    def __call__(self, template_uid='', output_format=''):
+        pod_template, output_format = self._get_base_args(template_uid, output_format)
         persisted_doc = self.generate_persistent_doc(pod_template, output_format)
         self.redirects(persisted_doc)
 

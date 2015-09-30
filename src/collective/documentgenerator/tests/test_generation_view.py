@@ -51,8 +51,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         pod_template = self.test_podtemplate
         test_UID = pod_template.UID()
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('template_uid', test_UID)
-        self.assertTrue(view.get_pod_template() == pod_template)
+        self.assertTrue(view.get_pod_template(test_UID) == pod_template)
 
     def test_get_pod_template_not_found(self):
         """
@@ -62,10 +61,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         test_UID = 'TROLOLO'
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('template_uid', test_UID)
         error_raised = False
         try:
-            view.get_pod_template()
+            view.get_pod_template(test_UID)
         except PODTemplateNotFoundError:
             error_raised = True
         self.assertTrue(error_raised)
@@ -82,7 +80,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         with self.assertRaises(Exception) as cm:
             view()
         self.assertEquals(cm.exception.message,
-                          "'output_format' was not found in the REQUEST!")
+                          "No 'output_format' found to generate this document")
         # if 'output_format' is not in available pod_formats of template, it raises an Exception
         self.assertNotIn('pdf', pod_template.get_available_formats())
         view.request.set('output_format', 'pdf')
