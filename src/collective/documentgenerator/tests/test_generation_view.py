@@ -39,8 +39,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         test_UID = '12345'
         view = self.portal.restrictedTraverse('@@document-generation')
         view.request.set('template_uid', test_UID)
-        msg = 'get_pod_template_uid() should return UID \'{}\''.format(test_UID)
-        self.assertTrue(view.get_pod_template_uid() == test_UID, msg)
+        self.assertTrue(view.get_pod_template_uid() == test_UID)
 
     def test_get_generation_format(self):
         """
@@ -49,8 +48,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         output_format = 'odt'
         view = self.portal.restrictedTraverse('@@document-generation')
         view.request.set('output_format', output_format)
-        msg = 'get_generation_format() should return UID \'{}\''.format(output_format)
-        self.assertTrue(view.get_generation_format() == output_format, msg)
+        self.assertTrue(view.get_generation_format() == output_format)
 
     def test__call__params_not_given(self):
         """
