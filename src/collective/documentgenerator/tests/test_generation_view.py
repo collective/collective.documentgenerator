@@ -3,6 +3,7 @@
 from AccessControl import Unauthorized
 
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
+from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
@@ -31,17 +32,38 @@ class TestGenerationView(unittest.TestCase):
 class TestGenerationViewMethods(PODTemplateIntegrationTest):
     """
     """
-
     def test_get_pod_template_uid(self):
         """
-        By default, the template uid to generate should be in the argument
-        'template_uid' of the request.
+        By default, this will get the 'template_uid' from the request.
         """
         test_UID = '12345'
         view = self.portal.restrictedTraverse('@@document-generation')
         view.request.set('template_uid', test_UID)
-        msg = 'get_pod_template_uid() should return UID \'{}\''.format(test_UID)
-        self.assertTrue(view.get_pod_template_uid() == test_UID, msg)
+        self.assertTrue(view.get_pod_template_uid() == test_UID)
+
+    def test_get_generation_format(self):
+        """
+        By default, this will get the 'output_format' from the request.
+        """
+        output_format = 'odt'
+        view = self.portal.restrictedTraverse('@@document-generation')
+        view.request.set('output_format', output_format)
+        self.assertTrue(view.get_generation_format() == output_format)
+
+    def test__call__params_not_given(self):
+        """
+        __call__ receives 'template_uid' and 'output_format' as params, if it is None,
+        it tries to get it using 'get_pod_template_uid' and 'get_generation_format' methods.
+        """
+        pod_template = self.test_podtemplate
+        template_uid = pod_template.UID()
+        view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
+        self.assertRaises(PODTemplateNotFoundError, view, template_uid=None, output_format=None)
+        # set parameters in REQUEST as it is default implementation of
+        # 'get_pod_template_uid' and 'get_generation_format' methods
+        view.request.set('template_uid', template_uid)
+        view.request.set('output_format', 'odt')
+        self.assertTrue(view())
 
     def test_get_pod_template(self):
         """
@@ -49,9 +71,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         template.
         """
         pod_template = self.test_podtemplate
-        test_UID = pod_template.UID()
+        template_uid = pod_template.UID()
         view = self.portal.restrictedTraverse('@@document-generation')
-        self.assertTrue(view.get_pod_template(test_UID) == pod_template)
+        self.assertTrue(view.get_pod_template(template_uid) == pod_template)
 
     def test_get_pod_template_not_found(self):
         """
@@ -59,11 +81,11 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         """
         from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
-        test_UID = 'TROLOLO'
+        template_uid = 'TROLOLO'
         view = self.portal.restrictedTraverse('@@document-generation')
         error_raised = False
         try:
-            view.get_pod_template(test_UID)
+            view.get_pod_template(template_uid)
         except PODTemplateNotFoundError:
             error_raised = True
         self.assertTrue(error_raised)
@@ -73,28 +95,25 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         Check if documents are rendered correctly.
         """
         pod_template = self.test_podtemplate
-        test_UID = pod_template.UID()
+        template_uid = pod_template.UID()
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
-        view.request.set('template_uid', test_UID)
-        # if an 'output_format' is not found in the REQUEST, it raises an Exception
+        # an 'output_format' must be given or it raises an Exception
         with self.assertRaises(Exception) as cm:
-            view()
+            view(template_uid, output_format='')
         self.assertEquals(cm.exception.message,
                           "No 'output_format' found to generate this document")
         # if 'output_format' is not in available pod_formats of template, it raises an Exception
         self.assertNotIn('pdf', pod_template.get_available_formats())
-        view.request.set('output_format', 'pdf')
         self.assertRaises(Exception, view)
         with self.assertRaises(Exception) as cm:
-            view()
+            view(template_uid, 'pdf')
         self.assertEquals(cm.exception.message,
                           "Asked output format 'pdf' is not available for template 'test_template'!")
 
         # right, ask available format
         self.assertIn('odt', pod_template.get_available_formats())
-        view.request.set('output_format', 'odt')
+        generated_doc = view(template_uid, 'odt')
 
-        generated_doc = view()
         # Check if (partial) data of the generated document is the same as the
         # pod_template odt file.
         original_doc = pod_template.get_file()
@@ -106,18 +125,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         exception should be raised when trying to generate that document.
         """
         pod_template = self.test_podtemplate
-        test_UID = pod_template.UID()
+        template_uid = pod_template.UID()
         # Make sure can_be_generated will return False.
         pod_template.can_be_generated = lambda x: False
         self.assertTrue(not pod_template.can_be_generated(self.portal))
 
         view = self.portal.restrictedTraverse('@@document-generation')
-        view.request.set('template_uid', test_UID)
-        view.request.set('output_format', 'odt')
-
         unauthorized_raised = False
         try:
-            view()
+            view(template_uid, 'odt')
         except Unauthorized:
             unauthorized_raised = True
         self.assertTrue(unauthorized_raised)
@@ -127,7 +143,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         Check if documents are rendered correctly.
         """
         pod_template = self.test_podtemplate
-        test_UID = pod_template.UID()
+        template_uid = pod_template.UID()
         generation_context = api.content.create(
             type='Folder',
             title='folder',
@@ -135,9 +151,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             container=self.portal,
         )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
-        generation_view.request.set('template_uid', test_UID)
-        generation_view.request.set('output_format', 'odt')
-        generation_view()
+        generation_view(template_uid, 'odt')
 
         msg = "File 'Document A' should have been created in folder."
         self.assertTrue(hasattr(generation_context, 'general-template'), msg)
@@ -161,16 +175,13 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         from collective.documentgenerator.interfaces import isNotFolderishError
 
         pod_template = self.test_podtemplate
-        test_UID = pod_template.UID()
+        template_uid = pod_template.UID()
         non_folderish = api.content.create(type='Document', id='doc', container=self.portal)
         generation_view = non_folderish.restrictedTraverse('@@persistent-document-generation')
 
-        generation_view.request.set('template_uid', test_UID)
-        generation_view.request.set('output_format', 'odt')
-
         error_raised = False
         try:
-            generation_view()
+            generation_view(template_uid, 'odt')
         except isNotFolderishError:
             error_raised = True
 

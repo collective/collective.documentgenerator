@@ -14,6 +14,7 @@ Changelog
   directly to the view call or its methods.
   [gbastien, sdelcourt]
 
+
 0.2 (2015-09-22)
 ----------------
 - Renamed field `pod_portal_type` to `pod_portal_types` as this field
