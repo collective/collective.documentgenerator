@@ -15,7 +15,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         if context is None:
             context = self.real_context
 
-        if self.checkPermission(field_name, context):
+        if self.check_permission(field_name, context):
             field_renderer = self.get_AT_field_renderer(field_name, context)
             display_value = field_renderer.render(no_value=no_value)
         else:
@@ -23,8 +23,8 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return display_value
 
-    def checkPermission(self, field_name, context):
-        return context.getField(field_name).checkPermission('r', context)
+    def check_permission(self, field_name, context):
+        return bool(context.getField(field_name).checkPermission('r', context))
 
     def get_AT_field_renderer(self, field_name, context):
         field = context.getField(field_name)

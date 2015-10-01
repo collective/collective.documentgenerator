@@ -120,6 +120,29 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         result = self.view.display_voc(field_name, separator=u'|')
         self.assertEqual(expected, result)
 
+    def test_display_list_method(self):
+        field_name = 'languages'
+        to_set = ('en', 'fr')
+        expected = u'en|fr'
+        self.content.languages = to_set
+        result = self.view.display_list(field_name, separator=u'|')
+        self.assertEqual(expected, result)
+
+    def test_list_method(self):
+        field_name = 'languages'
+        expected = ('en', 'fr')
+        self.content.languages = expected
+        result = self.view.list(field_name)
+        self.assertEqual(expected, result)
+
+    def test_display_text_method_without_appy_renderer(self):
+        field_name = 'fullname'
+        to_set = 'John Doe'
+        expected = ''
+        self.content.fullname = to_set
+        result = self.view.display_text(field_name)
+        self.assertEqual(expected, result)
+
     def test_check_permission(self):
         # test user has permission
         self.assertTrue(self.view.check_permission('amount', self.content))

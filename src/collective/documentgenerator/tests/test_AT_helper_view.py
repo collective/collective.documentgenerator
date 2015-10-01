@@ -2,6 +2,9 @@
 
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
 
+from plone import api
+from plone.app.testing import login
+
 import DateTime
 
 
@@ -181,3 +184,15 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
         result = self.view.display_text(field_name)
         self._test_display(field_name, expected, result)
+
+    def test_check_permission(self):
+        # test user has permission
+        self.assertTrue(self.view.check_permission('description', self.AT_topic))
+
+        # set field read permission to higher stuff
+        field = self.AT_topic.getField('description')
+        field.read_permission = 'Modify portal content'
+        # new user that doesn't have permission
+        api.user.create(username='foobar', email='foobar@example.com')
+        login(self.portal, 'foobar')
+        self.assertFalse(self.view.check_permission('description', self.AT_topic))

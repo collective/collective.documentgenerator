@@ -101,7 +101,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
     def display_text(self, field_name, context=None):
         if not self.appy_renderer:
-            return
+            return ''
 
         if context is None:
             context = self.real_context
