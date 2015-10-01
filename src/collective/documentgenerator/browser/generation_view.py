@@ -119,7 +119,7 @@ class DocumentGenerationView(BrowserView):
         )
         if not template_brains:
             raise PODTemplateNotFoundError(
-                "Couldn't find POD template with UID '{}'".format(template_uid)
+                "Couldn't find POD template with UID '{0}'".format(template_uid)
             )
 
         template_path = template_brains[0].getPath()
@@ -127,7 +127,7 @@ class DocumentGenerationView(BrowserView):
         return pod_template
 
     def get_pod_template_uid(self):
-        template_uid = self.request.get('template_uid', None)
+        template_uid = self.request.get('template_uid', '')
         return template_uid
 
     def get_generation_format(self):
