@@ -4,7 +4,8 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Make sure to not query a 'None' to ensure compatibility with ZCatalog 3.
+  [gbastien]
 
 
 0.3 (2015-09-30)
