@@ -82,6 +82,17 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         result = self.view.display(field_name)
         self._test_display(field_name, expected, result)
 
+    def test_display_method_on_unauthorized_field(self):
+        field_name = 'description'
+        to_set = 'Yolo!'
+        expected_text = ''
+
+        # hack the checkPermission method to always return False
+        description_field = self.AT_topic.getField(field_name)
+        description_field.checkPermission = lambda permission, context: False
+
+        self._test_display_method(field_name, expected_text, to_set)
+
     def test_display_method_on_text_field(self):
         field_name = 'description'
         expected_text = 'Yolo!'
@@ -136,3 +147,37 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         result = self.view.display_voc(field_name, separator=' swag ')
 
         self._test_display(field_name, expected_text, result)
+
+    def test_display_list_method(self):
+        field_name = 'customViewFields'
+        to_set = ['Title', 'Description', 'EffectiveDate']
+        expected_text = 'Title ; Description ; EffectiveDate'
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, to_set)
+
+        result = self.view.display_list(field_name, separator=' ; ')
+
+        self._test_display(field_name, expected_text, result)
+
+    def test_list_method(self):
+        field_name = 'customViewFields'
+        expected = ['Title', 'Description', 'EffectiveDate']
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, expected)
+
+        result = list(self.view.list(field_name))
+
+        self._test_display(field_name, expected, result)
+
+    def test_display_text_method_without_appy_renderer(self):
+        field_name = 'description'
+        to_set = 'Yolo!'
+        expected = ''
+
+        field = self.AT_topic.getField(field_name)
+        field.set(self.AT_topic, to_set)
+
+        result = self.view.display_text(field_name)
+        self._test_display(field_name, expected, result)
