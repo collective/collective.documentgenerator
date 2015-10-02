@@ -4,29 +4,28 @@
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema import ValidationError
-from collective.documentgenerator import _
 
 
 class ICollectiveDocumentGeneratorLayer(IDefaultBrowserLayer):
-    """Marker interface that defines a browser layer."""
+    """Browser layer marker interface."""
 
 
 class IDemoLayer(IDefaultBrowserLayer):
-    """Marker interface that defines a browser layer."""
+    """Demo browser layer marker interface."""
 
 
 class IDocumentFactory(Interface):
-    """Class implementing all the helpers method needed for document generation."""
+    """Create a persistent generated document."""
 
     def create(self, doc_file):
         """Create the object where the document 'doc_file' will be persisted."""
 
     def redirect(self, created_obj):
-        """Returns an http redirection after the object creation."""
+        """Return an http redirection after the object creation."""
 
 
 class IDocumentGenerationHelper(Interface):
-    """Class implementing all the helpers method needed for document generation."""
+    """View implementing all the helpers method needed for document generation."""
 
     def display(self, field_name, context=None):
         """
@@ -53,14 +52,14 @@ class IDocumentGenerationHelper(Interface):
 
 class IDisplayProxyObject(Interface):
     """
-    Wrapper which will return helper.display(field_name=attr) when trying
-    to acces an attribute 'attr' of context.
+    Wrapper returning helper.display(field_name=attr) when trying
+    to acces an attribute 'attr' of the wrapped object.
     """
 
     def is_field(self, attr_name):
         """
         Return True or False  wheter an attribute is a schema field of the object.
-        To be implemented for each content type (dexterity and Archetypes atm).
+        To implements for each content type (dexterity and Archetypes atm).
         """
 
 
@@ -73,38 +72,52 @@ class PODTemplateNotFoundError(Exception):
 
 
 class IPODTemplateCondition(Interface):
-    """Condition object adapting a pod_template and a context."""
+    """
+    Condition object adapting a pod_template and a context.
+    """
 
     def evaluate(self):
-        """Represent the condition evaluation by returning True or False."""
+        """
+        Represent the condition evaluation by returning True or False.
+        """
 
 
 class ITemplatesToMerge(Interface):
-    """Adapts a pod_template to return a dict of templates to merge with appy pod."""
+    """
+    Adapts a pod_template to return a dict of templates to merge with appy pod.
+    """
 
     def get(self):
-        """ Return the templates dict. eg: {'mytemplateid', mytemplateobj} ."""
+        """
+        Return the templates dict. eg: {'mytemplateid', mytemplateobj} .
+        """
 
 
 class IDocumentGeneratorSettings(Interface):
     """
-    Settings for Document Generator
+    Settings for Document Generator.
     """
 
 
 class CyclicMergeTemplatesException(Exception):
     """
-    Thrown when templates to merge refers to each othert in a cyclic way.
+    Templates to merge refers to each othert in a cyclic way.
     """
 
 
 class InvalidPythonPath(ValidationError):
-    __doc__ = _(u"Invalid Python path")
+    """
+    Invalid Python path.
+    """
 
 
 class InvalidUnoPath(ValidationError):
-    __doc__ = _(u"Can't import python uno library with the python path")
+    """
+    Can't import python uno library with the python path.
+    """
 
 
 class isNotFolderishError(Exception):
-    __doc__ = _(u"Can't create a persistent document on a non foldersih context.")
+    """
+    Can't create a persistent document on a non folderish context.
+    """
