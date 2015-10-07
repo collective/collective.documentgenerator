@@ -1,6 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="urbdial.divnot">
+    i18n_domain="collective.documentgenerator">
 
     <!-- Formats Vocabulary -->
     <utility
