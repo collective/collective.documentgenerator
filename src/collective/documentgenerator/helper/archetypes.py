@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.helper import DisplayProxyObject
-from collective.documentgenerator.helper import DocumentGenerationHelperView
+from collective.documentgenerator.helper.base import DisplayProxyObject
+from collective.documentgenerator.helper.base import DocumentGenerationHelperView
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
 from zope.component import getMultiAdapter

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <import-steps>
 
- <import-step>
+ <import-step
     id="documentgenerator-install-demo"
     handler="collective.documentgenerator.setuphandlers.install_demo"
     title="Installs demo profile for documentgenerator"

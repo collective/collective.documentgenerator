@@ -63,7 +63,7 @@ def _update_template_styles(pod_template, style_template_filename):
     # merge style from templateStyle in template
     cmd = '{path} {script} {tmp_file} {extension} -p{port} -t{style_template}'.format(
         path=config.get_uno_path(),
-        scrip=CONVSCRIPT,
+        script=CONVSCRIPT,
         tmp_file=temp_file.name,
         extension='odt',
         port=config.get_oo_port(),
