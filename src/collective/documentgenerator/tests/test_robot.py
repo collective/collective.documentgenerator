@@ -1,9 +1,12 @@
-import os
-import unittest
-import robotsuite
-from plone.testing import layered
+# -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import ACCEPTANCE
+
+from plone.testing import layered
+
+import os
+import robotsuite
+import unittest
 
 
 def test_suite():

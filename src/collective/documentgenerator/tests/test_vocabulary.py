@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import unittest
+from collective.documentgenerator.config import POD_FORMATS
+from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+
+from plone import api
 
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-from plone import api
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
-from collective.documentgenerator.config import POD_FORMATS
+import unittest
 
 
 class TestVocabularies(unittest.TestCase):

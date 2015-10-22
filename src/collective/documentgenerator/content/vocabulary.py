@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.config import POD_FORMATS
+
 from plone import api
 
 from z3c.form.i18n import MessageFactory as _
 
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-
-from collective.documentgenerator.config import POD_FORMATS
 
 
 class FormatsVocabularyFactory(object):

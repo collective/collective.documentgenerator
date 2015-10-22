@@ -15,7 +15,7 @@ import tempfile
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
-CONVSCRIPT = '%s/converter.py' % os.path.dirname(appy.pod.__file__)
+CONVSCRIPT = '{}/converter.py'.format(os.path.dirname(appy.pod.__file__))
 
 
 def update_styles_of_all_PODtemplate(style_template, event):
@@ -32,7 +32,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
             pod_template = brain.getObject()
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
-                logger.info(" %s => updated" % pod_template.Title())
+                logger.info(' {} => updated'.format(pod_template.Title()))
 
     # delete temporary styles files
     os.remove(style_template_file.name)
@@ -56,14 +56,19 @@ def _update_template_styles(pod_template, style_template_filename):
     """
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
-    new_template = open(temp_file.name, "w")
+    new_template = open(temp_file.name, 'w')
     new_template.write(pod_template.odt_file.data)
     new_template.close()
 
     # merge style from templateStyle in template
-    cmd = '%s %s %s %s -p%d -t%s' % \
-        (config.get_uno_path(), CONVSCRIPT, temp_file.name, 'odt',
-            config.get_oo_port(), style_template_filename)
+    cmd = '{path} {script} {tmp_file} {extension} -p{port} -t{style_template}'.format(
+        path=config.get_uno_path(),
+        scrip=CONVSCRIPT,
+        tmp_file=temp_file.name,
+        extension='odt',
+        port=config.get_oo_port(),
+        style_template=style_template_filename
+    )
     executeCommand(cmd.split())
 
     # read the merged file

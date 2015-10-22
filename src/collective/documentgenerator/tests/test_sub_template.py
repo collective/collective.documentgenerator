@@ -2,8 +2,8 @@
 
 from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.interfaces import IPODTemplateCondition
-from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
 

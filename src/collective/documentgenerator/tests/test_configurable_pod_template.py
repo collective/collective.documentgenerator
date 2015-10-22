@@ -3,8 +3,8 @@
 from Acquisition import aq_base
 
 from collective.documentgenerator.interfaces import IPODTemplateCondition
-from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
+from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
 
@@ -171,4 +171,4 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertTrue(to_merge['hello'] == pod_template)
 
     def test_get_available_formats(self):
-        self.assertEquals(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)
+        self.assertEqual(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)

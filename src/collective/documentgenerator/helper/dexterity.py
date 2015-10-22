@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
-from zope.component import getMultiAdapter
-from zope.component import getUtility
 
-from plone import api
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.behavior.interfaces import IBehavior
-from plone.autoform.interfaces import READ_PERMISSIONS_KEY
-from plone.supermodel.utils import mergedTaggedValueDict
+from collective.documentgenerator.helper import DisplayProxyObject
+from collective.documentgenerator.helper import DocumentGenerationHelperView
+from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
 from collective.excelexport.exportables.dexterityfields import get_ordered_fields
 
-from collective.documentgenerator.helper import DocumentGenerationHelperView
-from collective.documentgenerator.helper import DisplayProxyObject
-from collective.documentgenerator.interfaces import IFieldRendererForDocument
+from plone import api
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.autoform.interfaces import READ_PERMISSIONS_KEY
+from plone.behavior.interfaces import IBehavior
+from plone.supermodel.utils import mergedTaggedValueDict
+
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 
 
 class DXDocumentGenerationHelperView(DocumentGenerationHelperView):

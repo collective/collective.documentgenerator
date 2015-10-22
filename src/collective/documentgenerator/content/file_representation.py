@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from plone.dexterity.filerepresentation import ReadFileBase, DefaultWriteFile
+from plone.dexterity.filerepresentation import DefaultWriteFile
+from plone.dexterity.filerepresentation import ReadFileBase
 from plone.dexterity.utils import iterSchemata
 from plone.memoize.instance import memoize
 from plone.rfc822.interfaces import IPrimaryField

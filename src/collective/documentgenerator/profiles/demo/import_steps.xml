@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <import-steps>
 
- <import-step 
-    id="documentgenerator-install-demo" 
+ <import-step>
+    id="documentgenerator-install-demo"
     handler="collective.documentgenerator.setuphandlers.install_demo"
-	title="Installs demo profile for documentgenerator"
-	version="2011-09-15T15:00:00.00000">
+    title="Installs demo profile for documentgenerator"
+    version="2011-09-15T15:00:00.00000">
  </import-step>
 
 </import-steps>
- 

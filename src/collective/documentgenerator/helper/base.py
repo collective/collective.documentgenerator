@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from zope.component import getMultiAdapter
-from zope.i18n import translate
-from zope.interface import implements
 
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
+
+from zope.component import getMultiAdapter
+from zope.i18n import translate
+from zope.interface import implements
 
 
 class DocumentGenerationHelperView(object):
@@ -46,7 +47,7 @@ class DocumentGenerationHelperView(object):
     def _set_appy_renderer(self, appy_renderer):
         self.appy_renderer = appy_renderer
 
-    def translate(self, msgid, domain="plone"):
+    def translate(self, msgid, domain='plone'):
         """Let's translate a given msgid in given domain."""
         return translate(msgid, domain, context=self.request)
 

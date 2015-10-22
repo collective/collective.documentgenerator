@@ -7,8 +7,8 @@ from collective.documentgenerator.content.merge_templates import TemplatesToMerg
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
-from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
 from plone.namedfile.file import NamedBlobFile
@@ -174,4 +174,4 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         self.assertTrue(pod_template.has_been_modified())
 
     def test_get_available_formats(self):
-        self.assertEquals(self.test_podtemplate.get_available_formats(), ['odt', ])
+        self.assertEqual(self.test_podtemplate.get_available_formats(), ['odt', ])

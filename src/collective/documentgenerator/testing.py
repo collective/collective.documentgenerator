@@ -4,16 +4,16 @@
 from plone import api
 
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import login
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import applyProfile
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.testing import z2
 
 import collective.documentgenerator
@@ -39,12 +39,12 @@ class NakedPloneLayer(PloneSandboxLayer):
         z2.uninstallProduct(app, 'collective.documentgenerator')
 
 NAKED_PLONE_FIXTURE = NakedPloneLayer(
-    name="NAKED_PLONE_FIXTURE"
+    name='NAKED_PLONE_FIXTURE'
 )
 
 NAKED_PLONE_INTEGRATION = IntegrationTesting(
     bases=(NAKED_PLONE_FIXTURE,),
-    name="NAKED_PLONE_INTEGRATION"
+    name='NAKED_PLONE_INTEGRATION'
 )
 
 
@@ -64,18 +64,18 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
 
 TEST_INSTALL_FIXTURE = DocumentgeneratorLayer(
-    name="TEST_INSTALL_FIXTURE"
+    name='TEST_INSTALL_FIXTURE'
 )
 
 TEST_INSTALL_INTEGRATION = IntegrationTesting(
     bases=(TEST_INSTALL_FIXTURE,),
-    name="TEST_INSTALL_INTEGRATION"
+    name='TEST_INSTALL_INTEGRATION'
 )
 
 
 TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
     bases=(TEST_INSTALL_FIXTURE,),
-    name="TEST_INSTALL_FUNCTIONAL"
+    name='TEST_INSTALL_FUNCTIONAL'
 )
 
 
@@ -92,17 +92,17 @@ class ExamplePODTemplateLayer(DocumentgeneratorLayer):
 
 
 EXAMPLE_POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(
-    name="EXAMPLE_POD_TEMPLATE_FIXTURE"
+    name='EXAMPLE_POD_TEMPLATE_FIXTURE'
 )
 
 EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
     bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name="EXAMPLE_POD_TEMPLATE_INTEGRATION"
+    name='EXAMPLE_POD_TEMPLATE_INTEGRATION'
 )
 
 EXAMPLE_POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
     bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name="EXAMPLE_POD_TEMPLATE_FUNCTIONAL"
+    name='EXAMPLE_POD_TEMPLATE_FUNCTIONAL'
 )
 
 
@@ -112,7 +112,7 @@ ACCEPTANCE = FunctionalTesting(
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         z2.ZSERVER_FIXTURE
     ),
-    name="ACCEPTANCE"
+    name='ACCEPTANCE'
 )
 
 
@@ -138,7 +138,7 @@ class BrowserTest(BaseTest):
     def browser_login(self, user, password):
         login(self.portal, user)
         self.browser.open(self.portal.absolute_url() + '/logout')
-        self.browser.open(self.portal.absolute_url() + "/login_form")
+        self.browser.open(self.portal.absolute_url() + '/login_form')
         self.browser.getControl(name='__ac_name').value = user
         self.browser.getControl(name='__ac_password').value = password
         self.browser.getControl(name='submit').click()
@@ -215,7 +215,7 @@ class DexterityIntegrationTests(BaseTest):
 
         # create a test content type
         self.content = api.content.create(
-            container=self.portal, id='johndoe', type="member")
+            container=self.portal, id='johndoe', type='member')
 
 
 class DexterityFunctionnalTests(DexterityIntegrationTests):

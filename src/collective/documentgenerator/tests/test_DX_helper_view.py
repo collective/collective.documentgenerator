@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-import DateTime
 
-from zope.component import getUtility
-from plone.app.testing import login
+from collective.documentgenerator.testing import DexterityIntegrationTests
 
 from plone import api
+from plone.app.testing import login
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 
-from collective.documentgenerator.testing import DexterityIntegrationTests
+from zope.component import getUtility
+
+import DateTime
 
 
 class TestDexterityHelperView(DexterityIntegrationTests):
@@ -21,7 +22,7 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 
         helper_view = self.content.unrestrictedTraverse('@@document_generation_helper_view')
-        msg = "The helper should have been an instance of DXDocumentGenerationHelperView"
+        msg = 'The helper should have been an instance of DXDocumentGenerationHelperView'
         self.assertTrue(isinstance(helper_view, DXDocumentGenerationHelperView), msg)
 
     def test_DX_proxy_object_registration(self):
@@ -31,7 +32,7 @@ class TestDexterityHelperView(DexterityIntegrationTests):
 
         helper_view = self.content.unrestrictedTraverse('@@document_generation_helper_view')
         proxy = helper_view.context
-        msg = "The proxy object should have been an instance of DXDisplayProxyObject"
+        msg = 'The proxy object should have been an instance of DXDisplayProxyObject'
         self.assertTrue(isinstance(proxy, DXDisplayProxyObject), msg)
 
     def test_DX_proxy_object_behaviour(self):
@@ -47,14 +48,13 @@ class TestDexterityHelperView(DexterityIntegrationTests):
 
         proxy.display = lambda field_name: 'foobar'
 
-        msg = "The proxy should have call proxy.display() method."
+        msg = 'The proxy should have call proxy.display() method.'
         self.assertTrue(proxy.fullname == 'foobar', msg)
 
         # description is in IBasic behavior
         self.assertTrue(proxy.description == 'foobar', msg)
 
-        msg = "If we try to access the attribute value through the accessor, it should return \
-               the real value stored on the schema's field."
+        msg = "If we try to access the attribute value through the accessor, it should return the real value stored on the schema's field."
         self.assertTrue(proxy.Description() != 'foobar', msg)
 
 
@@ -155,7 +155,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         # manually set permission on a behavior's field
         schema = getUtility(
             IBehavior,
-            "plone.app.dexterity.behaviors.metadata.IBasic").interface
+            'plone.app.dexterity.behaviors.metadata.IBasic').interface
         schema.setTaggedValue(
             READ_PERMISSIONS_KEY, {'description': 'cmf.ManagePortal'})
 

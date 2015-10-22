@@ -21,7 +21,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
         helper_view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
-        msg = "The helper should have been an instance of ATDocumentGenerationHelperView"
+        msg = 'The helper should have been an instance of ATDocumentGenerationHelperView'
         self.assertTrue(isinstance(helper_view, ATDocumentGenerationHelperView), msg)
 
     def test_AT_proxy_object_registration(self):
@@ -33,7 +33,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
 
         helper_view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
         proxy = helper_view.context
-        msg = "The proxy object should have been an instance of ATDisplayProxyObject"
+        msg = 'The proxy object should have been an instance of ATDisplayProxyObject'
         self.assertTrue(isinstance(proxy, ATDisplayProxyObject), msg)
 
     def test_AT_proxy_object_behaviour(self):
@@ -53,8 +53,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         msg = "The proxy should have call proxy.display() method as 'title' is a schema's field."
         self.assertTrue(proxy.description == 'yolo', msg)
 
-        msg = "If we try to access the attribute value through the accessor, it should return \
-               the real value stored on the schema's field."
+        msg = "If we try to access the attribute value through the accessor, it should return the real value stored on the schema's field."
         self.assertTrue(proxy.Title() != 'yolo', msg)
 
 

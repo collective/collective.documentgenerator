@@ -2,11 +2,11 @@
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone import api
-from plone.memoize.view import memoize
-from plone.app.layout.viewlets import ViewletBase
-
 from collective.documentgenerator.content.pod_template import IPODTemplate
+
+from plone import api
+from plone.app.layout.viewlets import ViewletBase
+from plone.memoize.view import memoize
 
 
 class DocumentGeneratorLinksViewlet(ViewletBase):

@@ -7,10 +7,10 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 
 from plone import api
 
-POD_FORMATS = (("doc", "Microsoft Word"),
-               ("odt", "Open Document Format (text)"),
-               ("rtf", "Rich Text Format (RTF)"),
-               ("pdf", "Adobe PDF"))
+POD_FORMATS = (('doc', 'Microsoft Word'),
+               ('odt', 'Open Document Format (text)'),
+               ('rtf', 'Rich Text Format (RTF)'),
+               ('pdf', 'Adobe PDF'))
 
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,
@@ -19,16 +19,16 @@ POD_TEMPLATE_TYPES = {
     StyleTemplate.__name__: StyleTemplate,
 }
 
-DEFAULT_PYTHON_UNO_PATH = "/usr/bin/python"
+DEFAULT_PYTHON_UNO_PATH = '/usr/bin/python'
 
 
 def get_uno_path():
     return api.portal.get_registry_record(
-        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path"
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path'
     )
 
 
 def get_oo_port():
     return api.portal.get_registry_record(
-        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port"
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port'
     )

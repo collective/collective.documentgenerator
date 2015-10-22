@@ -11,7 +11,7 @@ logger = logging.getLogger('collective.documentgenerator')
 
 
 def isNotCurrentProfile(context):
-    return context.readDataFile("collectivedocumentgenerator_marker.txt") is None
+    return context.readDataFile('collectivedocumentgenerator_marker.txt') is None
 
 
 def post_install(context):
@@ -92,7 +92,7 @@ def install_demo(context):
         api.content.create(
             type='PODTemplate',
             id='test_template',
-            title=_(u"General template"),
+            title=_(u'General template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
                 contentType='applications/odt',
@@ -106,7 +106,7 @@ def install_demo(context):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_multiple',
-            title=_(u"Multiple format template"),
+            title=_(u'Multiple format template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
                 contentType='applications/odt',
@@ -129,7 +129,7 @@ def install_demo(context):
         api.content.create(
             type='ConfigurablePODTemplate',
             id='test_template_bis',
-            title=_(u"Collection template"),
+            title=_(u'Collection template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_collection.odt'),
                 contentType='applications/odt',

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from DateTime import DateTime
+
 from Products.Archetypes.interfaces.base import IBaseFolder
 
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
-
-from DateTime import DateTime
 
 from plone import api
 

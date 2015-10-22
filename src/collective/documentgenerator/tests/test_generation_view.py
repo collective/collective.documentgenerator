@@ -5,8 +5,8 @@ from AccessControl import Unauthorized
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
-from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
 
@@ -100,15 +100,19 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # an 'output_format' must be given or it raises an Exception
         with self.assertRaises(Exception) as cm:
             view(template_uid, output_format='')
-        self.assertEquals(cm.exception.message,
-                          "No 'output_format' found to generate this document")
+        self.assertEqual(
+            cm.exception.message,
+            "No 'output_format' found to generate this document"
+        )
         # if 'output_format' is not in available pod_formats of template, it raises an Exception
         self.assertNotIn('pdf', pod_template.get_available_formats())
         self.assertRaises(Exception, view)
         with self.assertRaises(Exception) as cm:
             view(template_uid, 'pdf')
-        self.assertEquals(cm.exception.message,
-                          "Asked output format 'pdf' is not available for template 'test_template'!")
+        self.assertEqual(
+            cm.exception.message,
+            "Asked output format 'pdf' is not available for template 'test_template'!"
+        )
 
         # right, ask available format
         self.assertIn('odt', pod_template.get_available_formats())
@@ -242,7 +246,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
         template = self.template_a
         self.assertTrue(template.merge_templates == [])
 
-        msg = "Cyclic merge detection should not raise anything when no subtemplates to merge."
+        msg = 'Cyclic merge detection should not raise anything when no subtemplates to merge.'
         self._test_detect_cycle(template, should_raise=False, msg=msg)
 
     def test_detect_cycle_on_linear_merge(self):
@@ -253,7 +257,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
         template_a.set_merge_templates(template_b, 'pod_b')
         template_b.set_merge_templates(template_c, 'pod_c')
 
-        msg = "Cyclic merge detection should not raise anything when import chain is not cyclic."
+        msg = 'Cyclic merge detection should not raise anything when import chain is not cyclic.'
         self._test_detect_cycle(template_a, should_raise=False, msg=msg)
 
     def test_detect_cycle_on_linear_merge_with_duplicates(self):
@@ -266,7 +270,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
         template_a.set_merge_templates(template_c, 'pod_c')
         template_b.set_merge_templates(template_c, 'pod_c')
 
-        msg = "Cyclic merge detection should not raise anything when import chain is not cyclic."
+        msg = 'Cyclic merge detection should not raise anything when import chain is not cyclic.'
         self._test_detect_cycle(template_a, should_raise=False, msg=msg)
 
     def test_detect_cycle_on_self_reference(self):
@@ -274,7 +278,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
         # import a configurable template on itself
         template.set_merge_templates(template, 'a')
 
-        msg = "Cyclic merge detection should raise Exception when a template tries to import itself."
+        msg = 'Cyclic merge detection should raise Exception when a template tries to import itself.'
         self._test_detect_cycle(template, should_raise=True, msg=msg)
 
     def test_detect_cycle_on_simple_cycle(self):
@@ -286,7 +290,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
         template_b.set_merge_templates(template_c, 'pod_c')
         template_c.set_merge_templates(template_a, 'pod_a')
 
-        msg = "Cyclic merge detection should raise Exception with cycle a -> b -> c -> a ."
+        msg = 'Cyclic merge detection should raise Exception with cycle a -> b -> c -> a .'
         self._test_detect_cycle(template_a, should_raise=True, msg=msg)
 
     def test_detect_cycle_on_inner_cycle(self):
@@ -298,5 +302,5 @@ class TestCyclicMergesDetection(unittest.TestCase):
         template_b.set_merge_templates(template_c, 'pod_c')
         template_c.set_merge_templates(template_b, 'pod_b')
 
-        msg = "Cyclic merge detection should raise Exception with cycle b -> c -> b ."
+        msg = 'Cyclic merge detection should raise Exception with cycle b -> c -> b .'
         self._test_detect_cycle(template_a, should_raise=True, msg=msg)

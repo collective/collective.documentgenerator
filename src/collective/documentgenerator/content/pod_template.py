@@ -15,13 +15,13 @@ from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
+from z3c.form.browser.select import SelectWidget
+
 from zope import schema
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
 from zope.schema._messageid import _ as zope_message_factory
-
-from z3c.form.browser.select import SelectWidget
 
 import logging
 import zope
@@ -130,7 +130,7 @@ class IConfigurablePODTemplate(IPODTemplate):
         so we double check that the field is not empty...
         """
         if not value:
-            raise zope.interface.Invalid(zope_message_factory(u"Required input is missing."))
+            raise zope.interface.Invalid(zope_message_factory(u'Required input is missing.'))
         return True
 
     pod_formats = schema.List(
