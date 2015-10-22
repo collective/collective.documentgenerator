@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
+from collective.documentgenerator import _
+
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema import ValidationError
@@ -106,18 +108,12 @@ class CyclicMergeTemplatesException(Exception):
 
 
 class InvalidPythonPath(ValidationError):
-    """
-    Invalid Python path.
-    """
+    __doc__ = _(u'Invalid Python path')
 
 
 class InvalidUnoPath(ValidationError):
-    """
-    Can't import python uno library with the python path.
-    """
+    __doc__ = _(u"Can't import python uno library with the python path")
 
 
 class isNotFolderishError(Exception):
-    """
-    Can't create a persistent document on a non folderish context.
-    """
+    __doc__ = _(u"Can't create a persistent document on a non foldersih context.")
