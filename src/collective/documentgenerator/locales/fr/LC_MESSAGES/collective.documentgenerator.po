@@ -27,7 +27,7 @@ msgid "Available formats"
 msgstr "Formats disponibles"
 
 #: ../interfaces.py:110
-msgid "Can't create a persistent document on a non foldersih context."
+msgid "Can't create a persistent document on a non folderish context."
 msgstr "Impossible de créer un document persistant si le contexte n'est pas un conteneur."
 
 #: ../interfaces.py:106

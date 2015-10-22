@@ -34,7 +34,7 @@ msgid "Available formats"
 msgstr ""
 
 #: ../interfaces.py:110
-msgid "Can't create a persistent document on a non foldersih context."
+msgid "Can't create a persistent document on a non folderish context."
 msgstr ""
 
 #: ../interfaces.py:106

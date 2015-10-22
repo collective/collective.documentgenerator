@@ -116,4 +116,4 @@ class InvalidUnoPath(ValidationError):
 
 
 class isNotFolderishError(Exception):
-    __doc__ = _(u"Can't create a persistent document on a non foldersih context.")
+    __doc__ = _(u"Can't create a persistent document on a non folderish context.")
