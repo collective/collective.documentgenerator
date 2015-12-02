@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.5 (2015-12-02)
 ----------------
 
 - Added `ConfigurablePODTemplateCondition._extra_expr_ctx` method so it is easy
