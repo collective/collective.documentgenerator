@@ -2,7 +2,7 @@ div#doc-generation-view ul.pod-template li {
     line-height: 0.5em;
     display: inline;
     list-style: none;
-    margin-left: 1em;
+    margin-left: 0.5em;
 }
 
 div#doc-generation-view {
