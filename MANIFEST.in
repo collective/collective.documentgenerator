@@ -1,5 +1,5 @@
 graft src/collective
-graft docs/
+graft docs
 include *.cfg *.rst *.in
 include *.py
 include .coveragerc
@@ -8,7 +8,7 @@ include Makefile
 exclude .installed.cfg
 exclude .mr.developer.cfg
 exclude buildout.d
-recursive-exclude buildout.d/ *.cfg
+recursive-exclude buildout.d *.cfg
 recursive-include docs *.GPL
 recursive-include docs *.png
 recursive-include docs *.rst
