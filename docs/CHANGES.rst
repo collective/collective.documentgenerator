@@ -4,7 +4,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Make sure to not query a 'None' to ensure compatibility with ZCatalog 3.
+- Make sure to not query a `None` to ensure compatibility with ZCatalog 3.
+  [gbastien]
+- Take into account the `oo_port` paramater defined in the registry.
   [gbastien]
 
 

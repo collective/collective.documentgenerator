@@ -158,6 +158,7 @@ class DocumentGenerationView(BrowserView):
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
+            ooPort=config.get_oo_port(),
         )
 
         # it is only now that we can initialize helper view's appy pod renderer
