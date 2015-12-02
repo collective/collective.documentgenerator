@@ -4,7 +4,10 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added `ConfigurablePODTemplateCondition._extra_expr_ctx` method so it is easy
+  to extend the context of the ITALCondition expression without overriding
+  the `evaluate` method.
+  [gbastien]
 
 
 0.4 (2015-12-02)
