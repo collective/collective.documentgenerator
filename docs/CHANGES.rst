@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4 (unreleased)
+0.4 (2015-12-02)
 ----------------
 
 - Make sure to not query a `None` to ensure compatibility with ZCatalog 3.
