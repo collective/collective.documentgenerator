@@ -1,6 +1,6 @@
 div#doc-generation-view ul.pod-template li {
     line-height: 0.5em;
-    display: inline;
+    display: inline-block;
     list-style: none;
     margin-left: 0.5em;
 }

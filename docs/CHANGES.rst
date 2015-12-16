@@ -4,7 +4,9 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- CSS fix, display POD templates in the viewlet using display: inline-block;
+  instead of display: inline; so attached tags may be aligned on it.
+  [gbastien]
 
 
 0.5 (2015-12-02)
