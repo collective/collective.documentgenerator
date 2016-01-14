@@ -1,10 +1,21 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- CSS fix, display POD templates in the viewlet using display: inline-block;
+  instead of display: inline; so attached tags may be aligned on it.
+  [gbastien]
+
+
+0.5 (2015-12-02)
+----------------
+
+- Added `ConfigurablePODTemplateCondition._extra_expr_ctx` method so it is easy
+  to extend the context of the ITALCondition expression without overriding
+  the `evaluate` method.
+  [gbastien]
 
 
 0.4 (2015-12-02)
