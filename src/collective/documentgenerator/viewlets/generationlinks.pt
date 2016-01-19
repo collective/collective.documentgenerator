@@ -4,7 +4,8 @@
 
     <ul class="pod-template">
       <li tal:repeat="infos view/get_links_info">
-        <a tal:attributes="href python: infos['link']">
+        <a tal:attributes="href infos/link;
+                           title infos/description;">
           <img src="#"
                tal:attributes="src string:${view/portal_url}/++resource++collective.documentgenerator/${infos/output_format}.png" />
           <span tal:replace="infos/title">Template title</span>

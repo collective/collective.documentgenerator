@@ -37,11 +37,16 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
         for template in self.get_generable_templates():
             for output_format in template.get_available_formats():
                 title = template.Title()
+                description = template.Description()
                 uid = template.UID()
                 link = '{base_url}/document-generation?template_uid={uid}&output_format={output_format}'.format(
                     base_url=base_url,
                     uid=uid,
                     output_format=output_format,
                 )
-                links.append({'link': link, 'title': title, 'output_format': output_format, 'template_uid': uid})
+                links.append({'link': link,
+                              'title': title,
+                              'description': description,
+                              'output_format': output_format,
+                              'template_uid': uid})
         return links

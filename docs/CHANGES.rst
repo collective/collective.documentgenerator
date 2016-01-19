@@ -7,6 +7,9 @@ Changelog
 - CSS fix, display POD templates in the viewlet using display: inline-block;
   instead of display: inline; so attached tags may be aligned on it.
   [gbastien]
+- Added 'description' to the list of available data to display in the generationlinks viewlet.
+  The POD template description is now displayed when hovering the POD template title.
+  [gbastien]
 
 
 0.5 (2015-12-02)
