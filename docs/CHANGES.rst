@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6 (unreleased)
+0.6 (2016-01-21)
 ----------------
 
 - CSS fix, display POD templates in the viewlet using display: inline-block;
