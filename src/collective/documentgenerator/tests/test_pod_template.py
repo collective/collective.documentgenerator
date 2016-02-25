@@ -18,7 +18,7 @@ from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import Interface
 
-import unittest
+import unittest2 as unittest
 
 
 class TestPODTemplate(unittest.TestCase):
@@ -58,13 +58,13 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         msg = "field 'odt_file' is not displayed"
         self.assertTrue('id="form-widgets-odt_file"' in contents, msg)
         msg = "field 'odt_file' is not translated"
-        self.assertTrue('Document odt' in contents, msg)
+        self.assertTrue('Canevas' in contents, msg)
 
     def test_odt_file_field_edit(self):
         self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
         contents = self.browser.contents
         msg = "field 'odt_file' is not editable"
-        self.assertTrue('Document odt' in contents, msg)
+        self.assertTrue('Canevas' in contents, msg)
 
     def test_initial_md5_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
