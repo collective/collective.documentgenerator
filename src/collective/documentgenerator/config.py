@@ -7,10 +7,16 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 
 from plone import api
 
-POD_FORMATS = (('doc', 'Microsoft Word'),
-               ('odt', 'Open Document Format (text)'),
-               ('rtf', 'Rich Text Format (RTF)'),
-               ('pdf', 'Adobe PDF'))
+ODS_FORMATS = [('ods', 'Open Document Format (tab)'),
+               ('xls', 'Microsoft Excel')]
+
+ODT_FORMATS = [('odt', 'Open Document Format (text)'),
+               ('doc', 'Microsoft Word'),
+               ('rtf', 'Rich Text Format (RTF)')]
+
+NEUTRAL_FORMATS = [('pdf', 'Adobe PDF')]
+
+POD_FORMATS = ODS_FORMATS + ODT_FORMATS + NEUTRAL_FORMATS
 
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,

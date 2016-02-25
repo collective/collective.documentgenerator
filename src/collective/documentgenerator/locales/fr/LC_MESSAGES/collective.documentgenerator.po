@@ -95,7 +95,7 @@ msgstr "Aucun"
 #: ../content/pod_template.py:39
 #: ../content/style_template.py:26
 msgid "ODT File"
-msgstr "Document odt"
+msgstr "Canevas"
 
 #: ../setuphandlers.py:30
 msgid "POD Templates"

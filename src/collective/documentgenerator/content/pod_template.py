@@ -15,16 +15,20 @@ from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
+from z3c.form import validator
 from z3c.form.browser.select import SelectWidget
 
 from zope import schema
+from zope.component import provideAdapter
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implements
-from zope.schema._messageid import _ as zope_message_factory
+from zope.interface import Interface
+from zope.interface import Invalid
 
 import logging
-import zope
+
+
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
 
@@ -103,7 +107,7 @@ class PODTemplate(Item):
         return has_been_modified
 
 
-class IMergeTemplatesRowSchema(zope.interface.Interface):
+class IMergeTemplatesRowSchema(Interface):
     """
     Schema for DataGridField widget's row of field 'merge_templates'
     """
@@ -119,19 +123,44 @@ class IMergeTemplatesRowSchema(zope.interface.Interface):
     )
 
 
+class PodFormatsValidator(validator.SimpleFieldValidator):
+    """ z3c.form validator class for international phone numbers """
+
+    def validate(self, selected_formats):
+        # thanks to widget, we get just-loaded file.filename.
+        widgets = self.view.widgets
+        current_filename = ""
+        for element in widgets.items():
+            if element[0] == 'odt_file':
+                current_filename = element[1].filename
+        if current_filename:
+            # avoid circular import.
+            from collective.documentgenerator.config import ODS_FORMATS
+            from collective.documentgenerator.config import ODT_FORMATS
+            from collective.documentgenerator.config import NEUTRAL_FORMATS
+            FORMATS_DICT = {'ods': ODS_FORMATS + NEUTRAL_FORMATS,
+                            'odt': ODT_FORMATS + NEUTRAL_FORMATS}
+            extension = current_filename.split('.')[-1]
+            authorise_element_list = FORMATS_DICT[extension]
+            authorise_extension_list = [elem[0] for elem in authorise_element_list]
+            if len(selected_formats) == 0:
+                raise Invalid(_(u"No format selected"))
+            for element in selected_formats:
+                if element not in authorise_extension_list:
+                    error_message = u"Element {0} is not valid for .{1} caneva : \"{2}\"".format(self.get_invalid_error(element), extension, current_filename)
+                    raise Invalid(_(error_message))
+
+    def get_invalid_error(self, extension):
+        from collective.documentgenerator.config import POD_FORMATS
+        for element in POD_FORMATS:
+            if element[0] == extension:
+                return element[1]
+
+
 class IConfigurablePODTemplate(IPODTemplate):
     """
     ConfigurablePODTemplate dexterity schema.
     """
-
-    def pod_formats_constraint(value):
-        """
-        By default, it seems that 'required' is not correctly validated
-        so we double check that the field is not empty...
-        """
-        if not value:
-            raise zope.interface.Invalid(zope_message_factory(u'Required input is missing.'))
-        return True
 
     pod_formats = schema.List(
         title=_(u'Available formats'),
@@ -139,7 +168,6 @@ class IConfigurablePODTemplate(IPODTemplate):
         value_type=schema.Choice(source='collective.documentgenerator.Formats'),
         required=True,
         default=['odt', ],
-        constraint=pod_formats_constraint,
     )
 
     form.widget('pod_portal_types', SelectWidget, multiple='multiple', size=15)
@@ -168,6 +196,12 @@ class IConfigurablePODTemplate(IPODTemplate):
         ),
         default=[],
     )
+
+# Set conditions for which fields the validator class applies
+validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate['pod_formats'])
+
+# Register the validator so it will be looked up by z3c.form machinery
+provideAdapter(PodFormatsValidator)
 
 
 class ConfigurablePODTemplate(PODTemplate):
