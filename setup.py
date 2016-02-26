@@ -55,6 +55,7 @@ setup(
         'test': [
             'plone.app.robotframework',
             'plone.app.testing',
+            'uno',
         ],
     },
     entry_points="""
