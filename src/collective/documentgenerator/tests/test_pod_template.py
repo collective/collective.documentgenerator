@@ -195,8 +195,8 @@ class TestPODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
         pod_template.pod_formats.append('xls')
         view = pod_template.restrictedTraverse('edit')
         view.form_instance.update()
-        validator = PodFormatsValidator(pod_template, pod_template.REQUEST, view.form_instance,IConfigurablePODTemplate['pod_formats'], pod_template.widget)
-        msg = "Element Microsoft Excel is not valid for .odt caneva : \"modele_collection.odt\""
+        validator = PodFormatsValidator(pod_template, pod_template.REQUEST, view.form_instance, IConfigurablePODTemplate['pod_formats'], pod_template.widget)
+        msg = "Element Microsoft Excel is not valid for .odt template : \"" + pod_template.odt_file.filename + "\""
         with self.assertRaises(Invalid) as cm:
             validator.validate(pod_template.pod_formats)
         self.assertEqual(msg, str(cm.exception.message))
