@@ -147,8 +147,12 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                 raise Invalid(_(u"No format selected"))
             for element in selected_formats:
                 if element not in authorise_extension_list:
-                    error_message = u"Element {0} is not valid for .{1} caneva : \"{2}\"".format(self.get_invalid_error(element), extension, current_filename)
-                    raise Invalid(_(error_message))
+                    elem = self.get_invalid_error(element)
+                    error_message = _(u"element_not_valid",
+                                      default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
+                                      mapping={u"elem": elem, u"extension": extension, u"template": current_filename})
+                    translated = self.context.translate(error_message)
+                    raise Invalid(translated)
 
     def get_invalid_error(self, extension):
         from collective.documentgenerator.config import POD_FORMATS
