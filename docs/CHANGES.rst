@@ -4,7 +4,9 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added a validator on the configurablePODTemplates which check if the chosen generations
+  formats are corrects with the kind of file provided.
+  [boulch, DieKatze]
 
 
 0.6 (2016-01-21)
