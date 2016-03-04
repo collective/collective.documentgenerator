@@ -22,7 +22,7 @@ from zope.interface import Interface
 from zope.interface import Invalid
 
 
-import unittest2 as unittest
+import unittest
 
 from collective.documentgenerator.content.pod_template import PodFormatsValidator
 
