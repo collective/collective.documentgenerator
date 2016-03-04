@@ -10,6 +10,7 @@ install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg 
   - virtualenv-2.7 .
+  - bin/pip install uno
   - bin/buildout -Nc travis.cfg
   - bin/translation-manage -c
 
