@@ -7,9 +7,10 @@ from collective.documentgenerator.utils import compute_md5
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from collective.documentgenerator.config import NEUTRAL_FORMATS
 from collective.documentgenerator.config import ODS_FORMATS
 from collective.documentgenerator.config import ODT_FORMATS
-from collective.documentgenerator.config import NEUTRAL_FORMATS
+from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.content.style_template import StyleTemplate
 
 from plone import api
@@ -155,7 +156,6 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                     raise Invalid(translated)
 
     def get_invalid_error(self, extension):
-        from collective.documentgenerator.config import POD_FORMATS
         for element in POD_FORMATS:
             if element[0] == extension:
                 return element[1]
