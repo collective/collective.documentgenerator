@@ -7,6 +7,10 @@ from collective.documentgenerator.utils import compute_md5
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from collective.documentgenerator.config import ODS_FORMATS
+from collective.documentgenerator.config import ODT_FORMATS
+from collective.documentgenerator.config import NEUTRAL_FORMATS
+from collective.documentgenerator.content.style_template import StyleTemplate
 
 from plone import api
 from plone.autoform import directives as form
@@ -134,10 +138,6 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             if element[0] == 'odt_file':
                 current_filename = element[1].filename
         if current_filename:
-            # avoid circular import.
-            from collective.documentgenerator.config import ODS_FORMATS
-            from collective.documentgenerator.config import ODT_FORMATS
-            from collective.documentgenerator.config import NEUTRAL_FORMATS
             FORMATS_DICT = {'ods': ODS_FORMATS + NEUTRAL_FORMATS,
                             'odt': ODT_FORMATS + NEUTRAL_FORMATS}
             extension = current_filename.split('.')[-1]
@@ -278,3 +278,10 @@ class SubTemplate(PODTemplate):
     """
 
     implements(ISubTemplate)
+
+POD_TEMPLATE_TYPES = {
+    PODTemplate.__name__: PODTemplate,
+    ConfigurablePODTemplate.__name__: ConfigurablePODTemplate,
+    SubTemplate.__name__: SubTemplate,
+    StyleTemplate.__name__: StyleTemplate,
+}

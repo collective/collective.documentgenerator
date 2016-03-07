@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import POD_TEMPLATE_TYPES
+from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
 
