@@ -143,7 +143,7 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             extension = current_filename.split('.')[-1]
             authorise_element_list = FORMATS_DICT[extension]
             authorise_extension_list = [elem[0] for elem in authorise_element_list]
-            if len(selected_formats) == 0:
+            if not selected_formats:
                 raise Invalid(_(u"No format selected"))
             for element in selected_formats:
                 if element not in authorise_extension_list:
