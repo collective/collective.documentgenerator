@@ -152,8 +152,7 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                     error_message = _(u"element_not_valid",
                                       default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
                                       mapping={u"elem": elem, u"extension": extension, u"template": current_filename})
-                    translated = self.context.translate(error_message)
-                    raise Invalid(translated)
+                    raise Invalid(error_message)
 
     def get_invalid_error(self, extension):
         for element in POD_FORMATS:

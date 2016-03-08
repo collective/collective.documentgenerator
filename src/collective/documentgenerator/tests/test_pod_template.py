@@ -18,6 +18,7 @@ from plone.namedfile.file import NamedBlobFile
 from zope.component import getGlobalSiteManager
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
+from zope.i18n import translate
 from zope.interface import Interface
 from zope.interface import Invalid
 
@@ -195,8 +196,16 @@ class TestPODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
         pod_template.pod_formats.append('xls')
         view = pod_template.restrictedTraverse('edit')
         view.form_instance.update()
-        validator = PodFormatsValidator(pod_template, pod_template.REQUEST, view.form_instance, IConfigurablePODTemplate['pod_formats'], pod_template.widget)
-        msg = "Element Microsoft Excel (.xls) is not valid for .odt template : \"" + pod_template.odt_file.filename + "\""
+        validator = PodFormatsValidator(pod_template,
+                                        pod_template.REQUEST,
+                                        view.form_instance,
+                                        IConfigurablePODTemplate['pod_formats'],
+                                        pod_template.widget)
+        msg = translate(u"element_not_valid",
+                        default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
+                        mapping={u"elem": "Microsoft Excel (.xls)",
+                                 u"extension": "odt",
+                                 u"template": pod_template.odt_file.filename})
         with self.assertRaises(Invalid) as cm:
             validator.validate(pod_template.pod_formats)
-        self.assertEqual(msg, str(cm.exception.message))
+        self.assertEqual(msg, translate(cm.exception.message))
