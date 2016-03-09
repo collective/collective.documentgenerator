@@ -5,7 +5,7 @@ from plone import api
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
                ('xls', 'Microsoft Excel (.xls)'),)
 
-ODT_FORMATS = (('odt', 'LibreOffice Doc (.odt)'),
+ODT_FORMATS = (('odt', 'LibreOffice Writer (.odt)'),
                ('doc', 'Microsoft Word (.doc)'),
                ('rtf', 'Rich Text Format (.RTF)'),)
 
