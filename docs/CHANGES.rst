@@ -9,7 +9,9 @@ Changelog
   and to which we also pass the `**kwargs`.
   This way, it is possible for example to turn `Renderer.raiseOnError` to True.
   [gbastien]
-
+- Added meta_type for content_types `PODTemplate`, `ConfigurablePODTemplate`, `SubTemplate`
+  and `StyleTemplate`, this way it can be used to filter out objectValues/objectIds.
+  [gbastien]
 
 0.6 (2016-01-21)
 ----------------
