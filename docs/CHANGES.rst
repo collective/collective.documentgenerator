@@ -4,7 +4,11 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Pass `**kwargs` to DocumentGenerationView._render_document so it is possible to pass
+  arbitrary parameters to appy.pod.renderer.Renderer that is called in _render_document
+  and to which we also pass the `**kwargs`.
+  This way, it is possible for example to turn `Renderer.raiseOnError` to True.
+  [gbastien]
 
 
 0.6 (2016-01-21)
