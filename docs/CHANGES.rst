@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7 (unreleased)
+0.7 (2016-03-22)
 ----------------
 
 - Pass `**kwargs` to DocumentGenerationView._render_document so it is possible to pass
