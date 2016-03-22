@@ -92,3 +92,25 @@ class TestDemoProfile(unittest.TestCase):
 
         msg = 'Test style templates should be out of navigation'
         self.assertTrue(site.podtemplates.test_style_template.exclude_from_nav(), msg)
+
+    def test_PODTemplateOds_creation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Ods test podtemplate doesn\'t exist'
+        self.assertTrue(hasattr(site.podtemplates, 'test_ods_template'), msg)
+        self.assertEqual(site.podtemplates.test_ods_template.portal_type, 'ConfigurablePODTemplate')
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Ods test pod templates should be unique'
+        self.assertTrue(not hasattr(site.podtemplates, 'test_ods_template-1'), msg)
+
+    def test_PODTemplateOds_out_of_navigation(self):
+        site = api.portal.get()
+
+        applyProfile(site, 'collective.documentgenerator:demo')
+
+        msg = 'Ods test pod templates should be out of navigation'
+        self.assertTrue(site.podtemplates.test_ods_template.exclude_from_nav(), msg)

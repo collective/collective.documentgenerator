@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.content.pod_template import ConfigurablePODTemplate
-from collective.documentgenerator.content.pod_template import PODTemplate
-from collective.documentgenerator.content.pod_template import SubTemplate
-from collective.documentgenerator.content.style_template import StyleTemplate
-
 from plone import api
 
-POD_FORMATS = (('doc', 'Microsoft Word'),
-               ('odt', 'Open Document Format (text)'),
-               ('rtf', 'Rich Text Format (RTF)'),
-               ('pdf', 'Adobe PDF'))
+ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
+               ('xls', 'Microsoft Excel (.xls)'),)
 
-POD_TEMPLATE_TYPES = {
-    PODTemplate.__name__: PODTemplate,
-    ConfigurablePODTemplate.__name__: ConfigurablePODTemplate,
-    SubTemplate.__name__: SubTemplate,
-    StyleTemplate.__name__: StyleTemplate,
-}
+ODT_FORMATS = (('odt', 'LibreOffice Writer (.odt)'),
+               ('doc', 'Microsoft Word (.doc)'),
+               ('rtf', 'Rich Text Format (.RTF)'),)
+
+NEUTRAL_FORMATS = (('pdf', 'Adobe PDF (.pdf)'),)
+
+POD_FORMATS = ODS_FORMATS + ODT_FORMATS + NEUTRAL_FORMATS
 
 DEFAULT_PYTHON_UNO_PATH = '/usr/bin/python'
 

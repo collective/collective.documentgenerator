@@ -6,6 +6,7 @@ all: run
 bootstrap:
 	virtualenv-2.7 .
 	./bin/python bootstrap.py --setuptools-version=18.8
+	./bin/pip install uno
 
 buildout:
 	if ! test -f bin/buildout;then make bootstrap;fi

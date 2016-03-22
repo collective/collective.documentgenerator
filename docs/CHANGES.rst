@@ -12,6 +12,10 @@ Changelog
 - Added meta_type for content_types `PODTemplate`, `ConfigurablePODTemplate`, `SubTemplate`
   and `StyleTemplate`, this way it can be used to filter out objectValues/objectIds.
   [gbastien]
+- Added a validator on the configurablePODTemplates which check if the chosen generations
+  formats are corrects with the kind of file provided.
+  [boulch, DieKatze]
+
 
 0.6 (2016-01-21)
 ----------------
