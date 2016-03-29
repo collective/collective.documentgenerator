@@ -174,6 +174,10 @@ msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre
 msgid "input_field"
 msgstr "Champs de saisie"
 
+#: ../demo/helper.py:84
+msgid "last_change"
+msgstr "Dernière modification"
+
 #: ../browser/controlpanel.py:42
 msgid "oo_port"
 msgstr "Numéro du port Office"

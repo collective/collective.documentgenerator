@@ -80,6 +80,6 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         return IBaseFolder.providedBy(self.real_context)
 
     def summary(self, obj):
-        summary = '%s - %s - Dernière modification %s' % \
-            (obj.Title(), obj.creators[0], obj.modification_date.strftime('%d/%m/%Y %H:%M'))
+        summary = '%s - %s - %s %s' % \
+            (obj.Title(), obj.creators[0], _(u'last_change'), obj.modification_date.strftime('%d/%m/%Y %H:%M'))
         return summary
