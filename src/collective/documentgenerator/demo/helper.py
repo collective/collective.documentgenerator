@@ -4,6 +4,7 @@ from DateTime import DateTime
 
 from Products.Archetypes.interfaces.base import IBaseFolder
 
+from collective.documentgenerator.utils import translate as _
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 
 from plone import api
@@ -67,17 +68,18 @@ class DemoHelperView(ATDocumentGenerationHelperView):
     def display_code(self, field_name):
         code = []
         if self.is_default_field(field_name):
-            code.append('Champs de saisie : context.' + field_name)
+            code.append('%s : context.%s' % (_(u'input_field'), field_name))
         elif self.is_rich_text_field(field_name):
-            code.append('Commentaire : do text from view.display_text(\'' + field_name + '\')')
+            code.append("%s : do text from view.display_text('%s')" % (_(u'comment'), field_name))
         elif self.is_line_field(field_name):
-            code.append('Champs de saisie : line')
-            code.append('Commentaire : do text for line in view.list(\'' + field_name + '\')')
+            code.append('%s : line' % _(u'input_field'))
+            code.append("%s : do text for line in view.list('%s')" % (_(u'comment'), field_name))
         return code
 
     def is_folderish(self):
         return IBaseFolder.providedBy(self.real_context)
 
     def summary(self, obj):
-        summary = obj.Title() + ' - ' + obj.creators[0] + ' - Dernière modififcation ' + obj.modification_date.strftime('%d/%m/%Y %H:%M')
+        summary = obj.Title() + ' - ' + obj.creators[0] + ' - Dernière modififcation ' \
+            + obj.modification_date.strftime('%d/%m/%Y %H:%M')
         return summary
