@@ -18,11 +18,11 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../content/pod_template.py:180
+#: ../content/pod_template.py:179
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:171
+#: ../content/pod_template.py:170
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -42,7 +42,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:189
+#: ../content/pod_template.py:188
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
@@ -62,7 +62,7 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:50
+#: ../content/pod_template.py:55
 msgid "Enabled"
 msgstr "Activé"
 
@@ -82,7 +82,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:147
+#: ../content/pod_template.py:149
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -96,7 +96,7 @@ msgstr "Aucune valeur"
 msgid "None"
 msgstr "Aucun"
 
-#: ../content/pod_template.py:43
+#: ../content/pod_template.py:48
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Canevas"
@@ -105,7 +105,7 @@ msgstr "Canevas"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:121
+#: ../content/pod_template.py:127
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -125,15 +125,19 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:181
+#: ../content/pod_template.py:180
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:172
+#: ../content/pod_template.py:171
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../content/pod_template.py:188
+#: ../setuphandlers.py:155
+msgid "Spreadsheet template"
+msgstr "Modèle de tableur"
+
+#: ../content/pod_template.py:187
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -149,18 +153,30 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:115
+#: ../content/pod_template.py:121
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:196
+#: ../content/pod_template.py:195
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
+#: ../demo/helper.py:73
+msgid "comment"
+msgstr "Commentaire"
+
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:152
+#: ../content/pod_template.py:153
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
+
+#: ../demo/helper.py:71
+msgid "input_field"
+msgstr "Champs de saisie"
+
+#: ../demo/helper.py:84
+msgid "last_change"
+msgstr "Dernière modification"
 
 #: ../browser/controlpanel.py:42
 msgid "oo_port"
