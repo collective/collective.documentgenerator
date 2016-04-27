@@ -33,6 +33,8 @@ from zope.interface import Invalid
 
 import logging
 
+from Products.CMFPlone.utils import safe_unicode
+
 
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
@@ -135,10 +137,10 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
     def validate(self, selected_formats):
         # thanks to widget, we get just-loaded file.filename.
         widgets = self.view.widgets
-        current_filename = ""
+        current_filename = u""
         for element in widgets.items():
             if element[0] == 'odt_file':
-                current_filename = element[1].filename
+                current_filename = safe_unicode(element[1].filename)
         if current_filename:
             FORMATS_DICT = {'ods': ODS_FORMATS + NEUTRAL_FORMATS,
                             'odt': ODT_FORMATS + NEUTRAL_FORMATS}

@@ -7,6 +7,9 @@ from plone import api
 from plone.namedfile.file import NamedBlobFile
 
 import logging
+
+from Products.CMFPlone.utils import safe_unicode
+
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -131,9 +134,9 @@ def install_demo(context):
             id='test_template_bis',
             title=_(u'Collection template'),
             odt_file=NamedBlobFile(
-                data=context.readDataFile('templates/modele_collection.odt'),
+                data=context.readDataFile(safe_unicode('templates/modèle_collection.odt')),
                 contentType='applications/odt',
-                filename=u'modele_collection.odt',
+                filename=u'modèle_collection.odt',
             ),
             container=pod_folder,
             excludeFromNav=True,
