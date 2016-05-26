@@ -4,7 +4,10 @@ Changelog
 0.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- In `DocumentGenerationView._render_document`, pass `portal` as `imageResolver`
+  to `appy.pod.renderer.Renderer` so private images can be accessed by
+  LibreOffice in XHTML fields.
+  [gbastien]
 
 
 0.7 (2016-03-22)

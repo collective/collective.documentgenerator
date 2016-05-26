@@ -159,6 +159,7 @@ class DocumentGenerationView(BrowserView):
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
             ooPort=config.get_oo_port(),
+            imageResolver=api.portal.get(),
             **kwargs
         )
 
