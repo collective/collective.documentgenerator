@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8 (unreleased)
+0.8 (2016-06-03)
 ----------------
 
 - In `DocumentGenerationView._render_document`, pass `portal` as `imageResolver`
