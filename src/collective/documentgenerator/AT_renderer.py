@@ -44,6 +44,8 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
 
         voc = self.field.Vocabulary(self.context)
         raw_values = self.field.get(self.context)
+        if type(raw_values) not in [list, tuple]:
+            raw_values = [raw_values]
         values = [display_value(voc, val) for val in raw_values]
         display = ', '.join(values)
 
