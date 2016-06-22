@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.9 (unreleased)
+0.9 (2016-06-22)
 ----------------
 
 - Handle case of rendering value of single selection widget.
