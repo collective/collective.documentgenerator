@@ -4,7 +4,8 @@ Changelog
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Handle case of rendering value of single selection widget.
+  [sdelcourt]
 
 
 0.8 (2016-06-03)
