@@ -4,8 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Get generation view name from a method.
+  [sgeulette]
 
 0.9 (2016-06-22)
 ----------------
