@@ -1,32 +1,51 @@
 Users
 =====
 
-How to add a new POD template
------------------------------
+**How to add a new POD template?**
+----------------------------------
 
 In your Plone site, you can add two sorts of template :
 
- - PODTemplate : composed of title, description and odt file to be uploaded
- - ConfigurablePODTemplate : the same field than PODTemplate to which we add a filter on the type of the object,
-   a field that contain a tal expression and an enabled field.
+- PODTemplate : composed of title, description and odt file to be uploaded
+- ConfigurablePODTemplate : adding configurable fields to basic template
 
-    .. figure:: images/AddPODTTemplateMenu.png 
+  * output formats selection
+  * portal types selection
+  * style template selection
+  * subtemplate selection
+  * tal expression as condition (`behavior <https://github.com/collective/collective.behavior.talcondition>`_).
+  * enabling flag
 
-       Add element.
+    .. figure:: images/AddPODTTemplateMenu.png
 
-Il you want, you can organize your PODTemplate and ConfigurablePODTemplate in one or more folder.
+       Add element
 
-How to create a new odt file using appy
----------------------------------------
+If you want, you can organize your templates in one or more folder.
 
-You can find the documentation here  `appy <http://appyframework.org/podWritingTemplates.html>`_
+**How to write the template ?**
+-------------------------------
 
-How to generate document
-------------------------
+The `appy framework <http://appyframework.org>`_ is used to interpret the template and render it using the context.
 
-A viewlet display all the available PODTemplate and ConfigurablePODTemplate on a Plone Object.
+You can find a `documentation <http://appyframework.org/podWritingTemplates.html>`_ explaining the syntax that can be used.
+
+You can do the following things:
+
+- use context field
+- use python expression
+- do an if... then... else...
+- do a loop for a paragraph, a section, a table, a row, a cell
+- transform xhtml to text
+
+Base helper methods can be used in templates and custom methods can be added.
+
+**How to generate document?**
+-----------------------------
+
+A viewlet displays all the available PODTemplate and ConfigurablePODTemplate following the current context.
+
+Clicking the template link will render it and propose to download the generated document.
 
     .. figure:: images/viewlet.png
 
        Viewlet
-
