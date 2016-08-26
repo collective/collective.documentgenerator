@@ -25,8 +25,6 @@ Output formats are those that can be produced by libreoffice:
 * doc, docx, xls, xlsx formats
 * pdf, csv, rtf
 
-Helper methods are available to be used in templates.
-
 You can use a demo profile to easily test the product.
 
 Usage
@@ -35,7 +33,7 @@ Usage
 **How to add a new POD template?**
 ----------------------------------
 
-In your Plone site, you can add two sorts of template :
+In your Plone site, you can add two sorts of main templates :
 
 - PODTemplate : composed of title, description and odt file to be uploaded
 - ConfigurablePODTemplate : adding configurable fields to basic template
@@ -58,8 +56,7 @@ You can find a `documentation <http://appyframework.org/podWritingTemplates.html
 
 You can do the following things:
 
-- use context field
-- use python expression
+- use basic python expression to access context fields or methods
 - do an if... then... else...
 - do a loop for a paragraph, a section, a table, a row, a cell
 - transform xhtml to text
