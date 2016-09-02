@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.demo.helper import DemoHelperView
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
 
 
@@ -16,3 +17,9 @@ class TestBaseHelperViewMethods(ArchetypesIntegrationTests):
         msgid = u'month_may'
         translation = self.view.translate(msgid, domain='plonelocales')
         self.assertTrue(translation == u'May')
+
+    def test_getDGHV(self):
+        new_dghv = self.view.getDGHV(self.portal['podtemplates'])
+        isinstance(new_dghv, DemoHelperView)
+        self.assertEqual(new_dghv.real_context, self.portal['podtemplates'])
+        self.assertEqual(new_dghv.display('title'), 'POD Templates')

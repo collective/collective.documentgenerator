@@ -51,6 +51,10 @@ class DocumentGenerationHelperView(object):
         """Let's translate a given msgid in given domain."""
         return translate(msgid, domain, context=self.request)
 
+    def getDGHV(self, obj):
+        """ get another object 'document_generation_helper_view' view """
+        return getMultiAdapter((obj, self.request), name=u'document_generation_helper_view')
+
 
 class DisplayProxyObject(object):
     """
