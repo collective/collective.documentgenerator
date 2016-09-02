@@ -19,10 +19,10 @@ class IDemoLayer(IDefaultBrowserLayer):
 class IDocumentFactory(Interface):
     """Create a persistent generated document."""
 
-    def create(self, doc_file):
+    def create(doc_file):
         """Create the object where the document 'doc_file' will be persisted."""
 
-    def redirect(self, created_obj):
+    def redirect(created_obj):
         """Return an http redirection after the object creation."""
 
 
@@ -36,19 +36,19 @@ class IDocumentGenerationHelper(Interface):
             If content is unicode and flag as_utf8 is True, it will be encoded.
         """
 
-    def display(self, field_name):
+    def display(field_name):
         """
         Return a string representation of context's field 'field_name'.
         """
 
-    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
+    def display_date(field_name, long_format=None, time_only=None, custom_format=None):
         """
         Return a string representation of context's date field 'field_name'.
         It uses toLocalizedTime if no custom_format is given.  A custom_format is
         a datetime strftime compatible like '%d/%m/%Y %H:%M'.
         """
 
-    def display_voc(self, field_name, separator=','):
+    def display_voc(field_name, separator=','):
         """
         Return a join of display values of context's field 'field_name'.
         """
@@ -58,7 +58,7 @@ class IDocumentGenerationHelper(Interface):
         Return the odt rendered html content of 'field_name'.
         """
 
-    def list_voc(self, field_name, get='value'):
+    def list_voc(field_name, get='value'):
         """
         Return a list of display values of context's field 'field_name'.
         """
@@ -70,7 +70,7 @@ class IDisplayProxyObject(Interface):
     to acces an attribute 'attr' of the wrapped object.
     """
 
-    def is_field(self, attr_name):
+    def is_field(attr_name):
         """
         Return True or False  wheter an attribute is a schema field of the object.
         To implements for each content type (dexterity and Archetypes atm).
@@ -90,7 +90,7 @@ class IPODTemplateCondition(Interface):
     Condition object adapting a pod_template and a context.
     """
 
-    def evaluate(self):
+    def evaluate():
         """
         Represent the condition evaluation by returning True or False.
         """
@@ -101,7 +101,7 @@ class ITemplatesToMerge(Interface):
     Adapts a pod_template to return a dict of templates to merge with appy pod.
     """
 
-    def get(self):
+    def get():
         """
         Return the templates dict. eg: {'mytemplateid', mytemplateobj} .
         """
