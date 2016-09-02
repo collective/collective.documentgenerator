@@ -29,6 +29,9 @@ class DocumentGenerationHelperView(object):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
         return proxy_obj
 
+    def get_value(self, field_name, default=None, as_utf8=False):
+        """See IDocumentGenerationHelper. To implements."""
+
     def display(self, field_name, no_value=''):
         """See IDocumentGenerationHelper. To implements."""
 

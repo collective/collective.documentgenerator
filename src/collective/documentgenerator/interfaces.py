@@ -29,6 +29,13 @@ class IDocumentFactory(Interface):
 class IDocumentGenerationHelper(Interface):
     """View implementing all the helpers method needed for document generation."""
 
+    def get_value(field_name, default=None, as_utf8=False):
+        """
+            Return the content stored in the object field_name attribute.
+            If content is None, a default can be used.
+            If content is unicode and flag as_utf8 is True, it will be encoded.
+        """
+
     def display(self, field_name):
         """
         Return a string representation of context's field 'field_name'.
@@ -44,6 +51,11 @@ class IDocumentGenerationHelper(Interface):
     def display_voc(self, field_name, separator=','):
         """
         Return a join of display values of context's field 'field_name'.
+        """
+
+    def display_html(field_name):
+        """
+        Return the odt rendered html content of 'field_name'.
         """
 
     def list_voc(self, field_name, get='value'):
