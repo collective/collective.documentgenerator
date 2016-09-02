@@ -186,7 +186,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
     def test_check_permission(self):
         # test user has permission
-        self.assertTrue(self.view.check_permission('description', self.AT_topic))
+        self.assertTrue(self.view.check_permission('description'))
 
         # set field read permission to higher stuff
         field = self.AT_topic.getField('description')
@@ -194,4 +194,4 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         # new user that doesn't have permission
         api.user.create(username='foobar', email='foobar@example.com')
         login(self.portal, 'foobar')
-        self.assertFalse(self.view.check_permission('description', self.AT_topic))
+        self.assertFalse(self.view.check_permission('description'))

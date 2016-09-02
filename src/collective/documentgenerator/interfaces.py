@@ -29,24 +29,24 @@ class IDocumentFactory(Interface):
 class IDocumentGenerationHelper(Interface):
     """View implementing all the helpers method needed for document generation."""
 
-    def display(self, field_name, context=None):
+    def display(self, field_name):
         """
         Return a string representation of context's field 'field_name'.
         """
 
-    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         """
         Return a string representation of context's date field 'field_name'.
         It uses toLocalizedTime if no custom_format is given.  A custom_format is
         a datetime strftime compatible like '%d/%m/%Y %H:%M'.
         """
 
-    def display_voc(self, field_name, context=None, separator=','):
+    def display_voc(self, field_name, separator=','):
         """
         Return a join of display values of context's field 'field_name'.
         """
 
-    def list_voc(self, field_name, context=None, get='value'):
+    def list_voc(self, field_name, get='value'):
         """
         Return a list of display values of context's field 'field_name'.
         """

@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Remove context parameter from helper methods to avoid changing context
+  [sgeulette]
 - Get generation view name from a method.
   [sgeulette]
 

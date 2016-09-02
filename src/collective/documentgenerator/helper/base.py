@@ -19,29 +19,29 @@ class DocumentGenerationHelperView(object):
         super(DocumentGenerationHelperView, self).__init__(context, request)
         self.real_context = context
         self.request = request
-        self.context = self._get_proxy_object(context)
+        self.context = self._get_proxy_object()
         self.appy_renderer = None
         self.plone = self.context.restrictedTraverse('@@plone')
         self.plone_portal_state = self.context.restrictedTraverse('@@plone_portal_state')
         self.portal = self.plone_portal_state.portal()
 
-    def _get_proxy_object(self, context):
+    def _get_proxy_object(self):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
         return proxy_obj
 
-    def display(self, field_name, context=None, no_value=''):
+    def display(self, field_name, no_value=''):
         """See IDocumentGenerationHelper. To implements."""
 
-    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         """See IDocumentGenerationHelper. To implements."""
 
-    def display_voc(self, field_name, context=None, separator=','):
+    def display_voc(self, field_name, separator=','):
         """See IDocumentGenerationHelper. To implements."""
 
-    def display_html(self, field_name, context=None):
+    def display_html(self, field_name):
         """See IDocumentGenerationHelper. To implements."""
 
-    def list_voc(self, field_name, context=None, list_keys=False, list_values=True):
+    def list_voc(self, field_name, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
 
     def _set_appy_renderer(self, appy_renderer):

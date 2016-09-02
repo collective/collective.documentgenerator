@@ -145,12 +145,12 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
     def test_check_permission(self):
         # test user has permission
-        self.assertTrue(self.view.check_permission('amount', self.content))
+        self.assertTrue(self.view.check_permission('amount'))
 
         # new user that doesn't have permission
         api.user.create(username='foobar', email='foobar@example.com')
         login(self.portal, 'foobar')
-        self.assertFalse(self.view.check_permission('amount', self.content))
+        self.assertFalse(self.view.check_permission('amount'))
 
         # manually set permission on a behavior's field
         schema = getUtility(
@@ -159,4 +159,4 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         schema.setTaggedValue(
             READ_PERMISSIONS_KEY, {'description': 'cmf.ManagePortal'})
 
-        self.assertFalse(self.view.check_permission('description', self.content))
+        self.assertFalse(self.view.check_permission('description'))

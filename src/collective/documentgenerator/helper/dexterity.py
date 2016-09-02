@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
 
-from collective.documentgenerator.helper import DisplayProxyObject
-from collective.documentgenerator.helper import DocumentGenerationHelperView
-from collective.documentgenerator.interfaces import IFieldRendererForDocument
-
-from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+from zope.component import getMultiAdapter, getUtility
 
 from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
@@ -13,8 +9,10 @@ from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.supermodel.utils import mergedTaggedValueDict
 
-from zope.component import getMultiAdapter
-from zope.component import getUtility
+from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+
+from .base import DisplayProxyObject, DocumentGenerationHelperView
+from ..interfaces import IFieldRendererForDocument
 
 
 class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
@@ -44,13 +42,17 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return None
 
-    def display(self, field_name, context=None, no_value=''):
-        """Display field value."""
-        if context is None:
-            context = self.real_context
+    def get_field_renderer(self, field_name):
+        """Get the dexterity field renderer for this field."""
+        field = self.get_field(field_name)
+        renderer = getMultiAdapter(
+            (field, self.real_context, self.request), IFieldRendererForDocument)
+        return renderer
 
-        if self.check_permission(field_name, context):
-            field_renderer = self.get_field_renderer(field_name, context)
+    def display(self, field_name, no_value=''):
+        """Display field value."""
+        if self.check_permission(field_name):
+            field_renderer = self.get_field_renderer(field_name)
             display_value = field_renderer.render_value()
             if not display_value:
                 display_value = no_value
@@ -59,7 +61,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return display_value
 
-    def check_permission(self, field_name, context):
+    def check_permission(self, field_name):
         """Check field permission."""
         schema = self.get_field_schema(field_name)
         read_permissions = mergedTaggedValueDict(
@@ -69,20 +71,12 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             return True
 
         user = api.user.get_current()
-        return api.user.has_permission(permission, user=user, obj=context)
-
-    def get_field_renderer(self, field_name, context):
-        """Get the dexterity field renderer for this field."""
-        field = self.get_field(field_name)
-        renderer = getMultiAdapter(
-            (field, context, self.request), IFieldRendererForDocument)
-
-        return renderer
+        return api.user.has_permission(permission, user=user, obj=self.real_context)
 
     def get_value(self, field_name):
         return getattr(self.real_context, field_name)
 
-    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
         if not custom_format:
             # use toLocalizedTime
@@ -92,20 +86,14 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return formatted_date
 
-    def display_voc(self, field_name, context=None, separator=', '):
-        if context is None:
-            context = self.real_context
-
-        field_renderer = self.get_field_renderer(field_name, context)
+    def display_voc(self, field_name, separator=', '):
+        field_renderer = self.get_field_renderer(field_name)
         field_renderer.exportable.separator = separator
         return field_renderer.render_value()
 
-    def display_text(self, field_name, context=None):
+    def display_text(self, field_name):
         if not self.appy_renderer:
             return ''
-
-        if context is None:
-            context = self.real_context
 
         html_text = self.get_value(field_name)
         display = self.appy_renderer.renderXhtml(html_text)
