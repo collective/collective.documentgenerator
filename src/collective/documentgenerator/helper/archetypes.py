@@ -31,9 +31,17 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return renderer
 
+    def get_value(self, field_name, default=None, as_utf8=False):
+        field = self.real_context.getField(field_name)
+        value = field.get(self.real_context)
+        if value is None:
+            return default
+        if as_utf8 and isinstance(value, unicode):
+            value = value.encode('utf8')
+        return value
+
     def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
-        date_field = self.real_context.getField(field_name)
-        date = date_field.get(self.real_context)
+        date = self.get_value(field_name)
         if not custom_format:
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
@@ -46,8 +54,8 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         display_value = self.real_context.restrictedTraverse('@@at_utils').translate
 
         field = self.real_context.getField(field_name)
-        voc = field.Vocabulary(self.real_context)
         raw_values = field.get(self.real_context)
+        voc = field.Vocabulary(self.real_context)
         values = [display_value(voc, val) for val in raw_values]
         display = separator.join(values)
 
@@ -57,21 +65,18 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         if not self.appy_renderer:
             return ''
 
-        html_field = self.real_context.getField(field_name)
-        html_text = html_field.get(self.real_context)
+        html_text = self.get_value(field_name)
         display = self.appy_renderer.renderXhtml(html_text)
         return display
 
     def display_list(self, field_name, separator=', '):
-        field = self.real_context.getField(field_name)
-        values = field.get(self.real_context)
+        values = self.get_value(field_name)
         display = separator.join(values)
 
         return display
 
     def list(self, field_name):
-        field = self.real_context.getField(field_name)
-        values = field.get(self.real_context)
+        values = self.get_value(field_name)
 
         return values
 

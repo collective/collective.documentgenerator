@@ -4,6 +4,7 @@
 from zope.component import getMultiAdapter, getUtility
 
 from plone import api
+from plone.app.textfield import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
@@ -73,8 +74,15 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         user = api.user.get_current()
         return api.user.has_permission(permission, user=user, obj=self.real_context)
 
-    def get_value(self, field_name):
-        return getattr(self.real_context, field_name)
+    def get_value(self, field_name, default=None, as_utf8=False):
+        value = getattr(self.real_context, field_name)
+        if value is None:
+            return default
+        if isinstance(value, RichTextValue):
+            value = value.output
+        if as_utf8 and isinstance(value, unicode):
+            value = value.encode('utf8')
+        return value
 
     def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
@@ -94,7 +102,6 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
     def display_text(self, field_name):
         if not self.appy_renderer:
             return ''
-
         html_text = self.get_value(field_name)
         display = self.appy_renderer.renderXhtml(html_text)
         return display
