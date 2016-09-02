@@ -30,3 +30,8 @@ A viewlet display all the available PODTemplate and ConfigurablePODTemplate on a
 
        Viewlet
 
+
+How to launch openoffice in server mode (needed for style templates)
+--------------------------------------------------------------------
+
+soffice -invisible -headless "-accept=socket,host=localhost,port=2002;urp;"
