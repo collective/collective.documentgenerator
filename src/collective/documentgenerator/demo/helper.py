@@ -70,7 +70,7 @@ class DemoHelperView(ATDocumentGenerationHelperView):
         if self.is_default_field(field_name):
             code.append('%s : context.%s' % (_(u'input_field'), field_name))
         elif self.is_rich_text_field(field_name):
-            code.append("%s : do text from view.display_text('%s')" % (_(u'comment'), field_name))
+            code.append("%s : do text from view.display_html('%s')" % (_(u'comment'), field_name))
         elif self.is_line_field(field_name):
             code.append('%s : line' % _(u'input_field'))
             code.append("%s : do text for line in view.list('%s')" % (_(u'comment'), field_name))

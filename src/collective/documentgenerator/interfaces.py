@@ -53,9 +53,15 @@ class IDocumentGenerationHelper(Interface):
         Return a join of display values of context's field 'field_name'.
         """
 
+    def display_text(field_name):
+        """
+        Return the html version of the simple text field 'field_name'.
+        The simple text field doesn't contain html but only text with possible carriage returns.
+        """
+
     def display_html(field_name):
         """
-        Return the odt rendered html content of 'field_name'.
+        Return the odt rendered html content of the richtext field 'field_name'.
         """
 
     def list_voc(field_name, get='value'):

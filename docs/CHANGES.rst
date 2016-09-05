@@ -4,6 +4,10 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Rename display_text to display_html (for rich text fields)
+  [sgeulette]
+- Add display_text for text fields to render intelligent html
+  [sgeulette]
 - Add method to get attribute value
   [sgeulette]
 - Add method to get helper view on another object

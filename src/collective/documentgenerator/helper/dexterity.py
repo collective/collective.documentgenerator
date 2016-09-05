@@ -100,6 +100,10 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         return field_renderer.render_value()
 
     def display_text(self, field_name):
+        text = self.get_value(field_name)
+        return self.portal.portal_transforms.convert('web_intelligent_plain_text_to_html', text).getData()
+
+    def display_html(self, field_name):
         if not self.appy_renderer:
             return ''
         html_text = self.get_value(field_name)
