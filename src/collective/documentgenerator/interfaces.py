@@ -64,6 +64,13 @@ class IDocumentGenerationHelper(Interface):
         Return the odt rendered html content of the richtext field 'field_name'.
         """
 
+    def display_widget(fieldname, clean=True, soup=False):
+        """
+        Display the html widget rendering for special fields (like datagrid or progress bar).
+        clean parameter: cleans some useless html parts (hidden, required).
+        soup parameter: returns a soup object.
+        """
+
     def list_voc(field_name, get='value'):
         """
         Return all display values of the context's field 'field_name' vocabulary.

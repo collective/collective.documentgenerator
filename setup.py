@@ -42,6 +42,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'appy',
+        'beautifulsoup4',
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',

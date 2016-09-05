@@ -54,7 +54,8 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         # description is in IBasic behavior
         self.assertTrue(proxy.description == 'foobar', msg)
 
-        msg = "If we try to access the attribute value through the accessor, it should return the real value stored on the schema's field."
+        msg = ("If we try to access the attribute value through the accessor, it should return the real value "
+               "stored on the schema's field.")
         self.assertTrue(proxy.Description() != 'foobar', msg)
 
 
@@ -150,6 +151,26 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.content.fullname = to_set
         result = self.view.display_html(field_name)
         self.assertEqual(expected, result)
+
+    def test_display_widget_method(self):
+        field_name = 'subscription'
+        to_set = 'gold'
+        self.content.subscription = to_set
+        # simple call
+        result = self.view.display_widget(field_name)
+        expected = ('\n<span class="select-widget choice-field" id="form-widgets-subscription">'
+                    '<span class="selected-option">gold</span></span>\n')
+        self.assertEqual(result, expected)
+        # call without cleaning
+        result = self.view.display_widget(field_name, clean=False)
+        expected = ('\n<span id="form-widgets-subscription" class="select-widget choice-field">'
+                    '<span class="selected-option">gold</span></span>\n\n')
+        self.assertEqual(result, expected)
+        # call with soup
+        result = self.view.display_widget(field_name, soup=True)
+        expected = '<span class="selected-option">gold</span>'
+        self.assertEqual(str(result.find('span', class_='selected-option')), expected)
+        self.assertEqual(result.find('span', class_='selected-option').text, u'gold')
 
     def test_check_permission(self):
         # test user has permission

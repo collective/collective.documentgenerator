@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Add display_widget method
+  [sgeulette]
 - Rename display_text to display_html (for rich text fields)
   [sgeulette]
 - Add display_text for text fields to render intelligent html

@@ -44,6 +44,9 @@ class DocumentGenerationHelperView(object):
     def display_html(self, field_name):
         """See IDocumentGenerationHelper. To implements."""
 
+    def display_widget(self, fieldname, clean=True, soup=False):
+        """See IDocumentGenerationHelper. To implements."""
+
     def list_voc(self, field_name, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
 
+from bs4 import BeautifulSoup as Soup
+
 from zope.component import getMultiAdapter, getUtility
 
 from plone import api
@@ -118,6 +120,29 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
     def list(self, field_name):
         values = self.get_value(field_name)
         return values
+
+    def display_widget(self, field_name, clean=True, soup=False):
+        obj_view = getMultiAdapter((self.real_context, self.request), name=u'view')
+        obj_view.updateFieldsFromSchemata()
+        for field in obj_view.fields:
+            if field != field_name:
+                obj_view.fields = obj_view.fields.omit(field)
+        obj_view.updateWidgets()
+        widget = obj_view.widgets[field_name]
+        rendered = widget.render()  # unicode
+        if clean or soup:
+            souped = Soup(rendered, "html.parser")
+            if clean:
+                for tag in souped.find_all(class_='required'):
+                    tag.extract()
+                for tag in souped.find_all(type='hidden'):
+                    tag.extract()
+            if soup:
+                return souped
+            else:
+                return str(souped)  # is utf8
+        else:
+            return rendered.encode('utf8')
 
 
 class DXDisplayProxyObject(DisplayProxyObject):
