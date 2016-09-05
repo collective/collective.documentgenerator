@@ -66,7 +66,7 @@ class IDocumentGenerationHelper(Interface):
 
     def list_voc(field_name, get='value'):
         """
-        Return a list of display values of context's field 'field_name'.
+        Return all display values of the context's field 'field_name' vocabulary.
         """
 
 
