@@ -21,8 +21,8 @@ class DocumentGenerationHelperView(object):
         self.request = request
         self.context = self._get_proxy_object()
         self.appy_renderer = None
-        self.plone = self.context.restrictedTraverse('@@plone')
-        self.plone_portal_state = self.context.restrictedTraverse('@@plone_portal_state')
+        self.plone = getMultiAdapter((context, request), name=u'plone')
+        self.plone_portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
         self.portal = self.plone_portal_state.portal()
 
     def _get_proxy_object(self):
