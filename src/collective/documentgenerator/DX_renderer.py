@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Adapters for dexterity fields rendering."""
 
+import datetime
+
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
 from collective.excelexport.interfaces import IExportable
@@ -36,4 +38,20 @@ class DexterityDateExportableAdapter(DexterityExportableAdapter):
     def render_value(self):
         """Format the date."""
         value = self.exportable.render_value(self.context)
-        return value.strftime('%d/%m/%Y %H:%M')
+        plone = getMultiAdapter((self.context, self.request), name=u'plone')
+        if type(value) == datetime.date:
+            value = datetime.datetime(value.year, value.month, value.day)
+        return plone.toLocalizedTime(value)
+
+
+class DexterityDatetimeExportableAdapter(DexterityExportableAdapter):
+
+    """Adapter for collective.excelexport datetime field exportable."""
+
+    implements(IFieldRendererForDocument)
+
+    def render_value(self):
+        """Format the date."""
+        value = self.exportable.render_value(self.context)
+        plone = getMultiAdapter((self.context, self.request), name=u'plone')
+        return plone.toLocalizedTime(value, long_format=True)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
 
+import datetime
 from bs4 import BeautifulSoup as Soup
 
 from zope.component import getMultiAdapter, getUtility
@@ -88,6 +89,8 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
     def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
+        if type(date) == datetime.date:
+            date = datetime.datetime(date.year, date.month, date.day)
         if not custom_format:
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)

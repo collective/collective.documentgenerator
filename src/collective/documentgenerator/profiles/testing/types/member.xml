@@ -38,6 +38,11 @@
         &lt;required&gt;False&lt;/required&gt;
         &lt;title&gt;Birth date&lt;/title&gt;
       &lt;/field&gt;
+      &lt;field name="birth_datetime" type="zope.schema.Datetime"&gt;
+        &lt;description/&gt;
+        &lt;required&gt;False&lt;/required&gt;
+        &lt;title&gt;Birth date with time&lt;/title&gt;
+      &lt;/field&gt;
       &lt;field name="subscription" type="zope.schema.Choice"&gt;
         &lt;description/&gt;
         &lt;required&gt;False&lt;/required&gt;

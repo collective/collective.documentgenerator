@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Manage correctly datetime.date and datetime.datetime
+  [sgeulette]
 - Add display_widget method
   [sgeulette]
 - Rename display_text to display_html (for rich text fields)
