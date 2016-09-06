@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Add content icons
+  [sgeulette]
 - Manage correctly datetime.date and datetime.datetime
   [sgeulette]
 - Add display_widget method
