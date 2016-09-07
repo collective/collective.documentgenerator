@@ -1,11 +1,68 @@
 Changelog
 =========
 
-0.6 (unreleased)
+0.10 (unreleased)
+-----------------
+
+- Add content icons
+  [sgeulette]
+- Manage correctly datetime.date and datetime.datetime
+  [sgeulette]
+- Add display_widget method
+  [sgeulette]
+- Rename display_text to display_html (for rich text fields)
+  [sgeulette]
+- Add display_text for text fields to render intelligent html
+  [sgeulette]
+- Add method to get attribute value
+  [sgeulette]
+- Add method to get helper view on another object
+  [sgeulette]
+- Remove context parameter from helper methods to avoid changing context
+  [sgeulette]
+- Get generation view name from a method.
+  [sgeulette]
+
+0.9 (2016-06-22)
+----------------
+
+- Handle case of rendering value of single selection widget.
+  [sdelcourt]
+
+
+0.8 (2016-06-03)
+----------------
+
+- In `DocumentGenerationView._render_document`, pass `portal` as `imageResolver`
+  to `appy.pod.renderer.Renderer` so private images can be accessed by
+  LibreOffice in XHTML fields.
+  [gbastien]
+
+
+0.7 (2016-03-22)
+----------------
+
+- Pass `**kwargs` to DocumentGenerationView._render_document so it is possible to pass
+  arbitrary parameters to appy.pod.renderer.Renderer that is called in _render_document
+  and to which we also pass the `**kwargs`.
+  This way, it is possible for example to turn `Renderer.raiseOnError` to True.
+  [gbastien]
+- Added meta_type for content_types `PODTemplate`, `ConfigurablePODTemplate`, `SubTemplate`
+  and `StyleTemplate`, this way it can be used to filter out objectValues/objectIds.
+  [gbastien]
+- Added a validator on the configurablePODTemplates which check if the chosen generations
+  formats are corrects with the kind of file provided.
+  [boulch, DieKatze]
+
+
+0.6 (2016-01-21)
 ----------------
 
 - CSS fix, display POD templates in the viewlet using display: inline-block;
   instead of display: inline; so attached tags may be aligned on it.
+  [gbastien]
+- Added 'description' to the list of available data to display in the generationlinks viewlet.
+  The POD template description is now displayed when hovering the POD template title.
   [gbastien]
 
 

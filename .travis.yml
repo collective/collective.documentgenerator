@@ -6,7 +6,7 @@ python:
 install:
   - easy_install --version
   - pip install setuptools==7.0
-  - sudo apt-get -qq install libfreetype6-dev liblcms1-dev
+  - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg 
   - virtualenv-2.7 .

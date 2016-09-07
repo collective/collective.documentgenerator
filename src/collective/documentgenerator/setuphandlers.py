@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import POD_TEMPLATE_TYPES
+from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 
 import logging
+
+from Products.CMFPlone.utils import safe_unicode
+
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -131,9 +134,9 @@ def install_demo(context):
             id='test_template_bis',
             title=_(u'Collection template'),
             odt_file=NamedBlobFile(
-                data=context.readDataFile('templates/modele_collection.odt'),
+                data=context.readDataFile(safe_unicode('templates/modèle_collection.odt')),
                 contentType='applications/odt',
-                filename=u'modele_collection.odt',
+                filename=u'modèle_collection.odt',
             ),
             container=pod_folder,
             excludeFromNav=True,
@@ -146,4 +149,21 @@ def install_demo(context):
                     'pod_context_name': 'header',
                 }
             ],
+        )
+
+    if not hasattr(pod_folder, 'test_ods_template'):
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_ods_template',
+            title=_(u'Spreadsheet template'),
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/modele_general.ods'),
+                contentType='applications/odt',
+                filename=u'modele_collection.odt',
+            ),
+            container=pod_folder,
+            excludeFromNav=True,
+            pod_formats=['ods', 'xls', ],
+            pod_portal_types=['Document'],
+            style_template=[style_template.UID()],
         )

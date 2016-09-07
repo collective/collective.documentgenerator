@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-09-28 12:49+0000\n"
+"POT-Creation-Date: 2016-03-29 13:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.documentgenerator\n"
 
-#: ../browser/controlpanel.py:62
+#: ../browser/controlpanel.py:63
 msgid ""
 msgstr ""
 
@@ -25,31 +25,31 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../content/pod_template.py:147
+#: ../content/pod_template.py:179
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:137
+#: ../content/pod_template.py:170
 msgid "Available formats"
 msgstr ""
 
-#: ../interfaces.py:110
+#: ../interfaces.py:119
 msgid "Can't create a persistent document on a non folderish context."
 msgstr ""
 
-#: ../interfaces.py:106
+#: ../interfaces.py:115
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:75
+#: ../browser/controlpanel.py:76
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:72
+#: ../browser/controlpanel.py:73
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:156
+#: ../content/pod_template.py:188
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
@@ -61,15 +61,15 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:61
+#: ../browser/controlpanel.py:62
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../browser/controlpanel.py:77
+#: ../browser/controlpanel.py:78
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:46
+#: ../content/pod_template.py:55
 msgid "Enabled"
 msgstr ""
 
@@ -81,12 +81,16 @@ msgstr ""
 msgid "Header"
 msgstr ""
 
-#: ../interfaces.py:102
+#: ../interfaces.py:111
 msgid "Invalid Python path"
 msgstr ""
 
 #: ../setuphandlers.py:109
 msgid "Multiple format template"
+msgstr ""
+
+#: ../content/pod_template.py:149
+msgid "No format selected"
 msgstr ""
 
 #: ../content/vocabulary.py:43
@@ -99,7 +103,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:39
+#: ../content/pod_template.py:48
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
@@ -108,7 +112,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:117
+#: ../content/pod_template.py:127
 msgid "POD context name"
 msgstr ""
 
@@ -116,27 +120,31 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:49
+#: ../browser/controlpanel.py:50
 msgid "Path of python with uno"
 msgstr ""
 
-#: ../browser/controlpanel.py:42
+#: ../browser/controlpanel.py:43
 msgid "Port Number of OO"
 msgstr ""
 
-#: ../browser/controlpanel.py:64
+#: ../browser/controlpanel.py:65
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:148
+#: ../content/pod_template.py:180
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:138
+#: ../content/pod_template.py:171
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../content/pod_template.py:155
+#: ../setuphandlers.py:155
+msgid "Spreadsheet template"
+msgstr ""
+
+#: ../content/pod_template.py:187
 msgid "Style template"
 msgstr ""
 
@@ -152,19 +160,36 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:111
+#: ../content/pod_template.py:121
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:163
+#: ../content/pod_template.py:195
 msgid "Templates to merge."
 msgstr ""
 
-#: ../browser/controlpanel.py:41
+#: ../demo/helper.py:73
+msgid "comment"
+msgstr ""
+
+#. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
+#: ../content/pod_template.py:153
+msgid "element_not_valid"
+msgstr ""
+
+#: ../demo/helper.py:71
+msgid "input_field"
+msgstr ""
+
+#: ../demo/helper.py:84
+msgid "last_change"
+msgstr ""
+
+#: ../browser/controlpanel.py:42
 msgid "oo_port"
 msgstr ""
 
-#: ../browser/controlpanel.py:48
+#: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr ""
 

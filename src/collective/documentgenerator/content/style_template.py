@@ -33,3 +33,4 @@ class StyleTemplate(Item):
     """
 
     implements(IStyleTemplate)
+    meta_type = 'StyleTemplate'

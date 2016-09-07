@@ -118,10 +118,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('odt', pod_template.get_available_formats())
         generated_doc = view(template_uid, 'odt')
 
-        # Check if (partial) data of the generated document is the same as the
-        # pod_template odt file.
-        original_doc = pod_template.get_file()
-        self.assertTrue(original_doc.data[1200:2500] in generated_doc)
+        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc)
 
     def test_unauthorized_generation(self):
         """
@@ -162,11 +159,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         persistent_doc = getattr(generation_context, 'general-template')
         generated_doc = persistent_doc.getFile()
-        # Check if (partial) data of the generated document is the same as the
-        # pod_template odt file.
-        original_doc = pod_template.get_file()
-        generated = generated_doc.getBlob().open('r').read()
-        self.assertTrue(original_doc.data[1200:2500] in generated)
+        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
 
         self.assertTrue(generated_doc.getFilename() == u'General template.odt')
         self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')

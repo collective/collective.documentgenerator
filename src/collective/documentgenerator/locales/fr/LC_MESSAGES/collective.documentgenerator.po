@@ -18,31 +18,31 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../content/pod_template.py:147
+#: ../content/pod_template.py:179
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:137
+#: ../content/pod_template.py:170
 msgid "Available formats"
 msgstr "Formats disponibles"
 
-#: ../interfaces.py:110
+#: ../interfaces.py:119
 msgid "Can't create a persistent document on a non folderish context."
 msgstr "Impossible de créer un document persistant si le contexte n'est pas un conteneur."
 
-#: ../interfaces.py:106
+#: ../interfaces.py:115
 msgid "Can't import python uno library with the python path"
 msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
 
-#: ../browser/controlpanel.py:75
+#: ../browser/controlpanel.py:76
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../browser/controlpanel.py:72
+#: ../browser/controlpanel.py:73
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:156
+#: ../content/pod_template.py:188
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
@@ -54,15 +54,15 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../browser/controlpanel.py:61
+#: ../browser/controlpanel.py:62
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
-#: ../browser/controlpanel.py:77
+#: ../browser/controlpanel.py:78
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:46
+#: ../content/pod_template.py:55
 msgid "Enabled"
 msgstr "Activé"
 
@@ -74,13 +74,17 @@ msgstr "Modèle général"
 msgid "Header"
 msgstr "En-tête"
 
-#: ../interfaces.py:102
+#: ../interfaces.py:111
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
 #: ../setuphandlers.py:109
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
+
+#: ../content/pod_template.py:149
+msgid "No format selected"
+msgstr "Aucun format sélectionné"
 
 #: ../content/vocabulary.py:43
 msgid "No value"
@@ -92,16 +96,16 @@ msgstr "Aucune valeur"
 msgid "None"
 msgstr "Aucun"
 
-#: ../content/pod_template.py:39
+#: ../content/pod_template.py:48
 #: ../content/style_template.py:26
 msgid "ODT File"
-msgstr "Document odt"
+msgstr "Canevas"
 
 #: ../setuphandlers.py:30
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:117
+#: ../content/pod_template.py:127
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -109,27 +113,31 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
-#: ../browser/controlpanel.py:49
+#: ../browser/controlpanel.py:50
 msgid "Path of python with uno"
 msgstr "Chemin d'un python avec la librairie uno"
 
-#: ../browser/controlpanel.py:42
+#: ../browser/controlpanel.py:43
 msgid "Port Number of OO"
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../browser/controlpanel.py:64
+#: ../browser/controlpanel.py:65
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:148
+#: ../content/pod_template.py:180
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:138
+#: ../content/pod_template.py:171
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../content/pod_template.py:155
+#: ../setuphandlers.py:155
+msgid "Spreadsheet template"
+msgstr "Modèle de tableur"
+
+#: ../content/pod_template.py:187
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -145,18 +153,36 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:111
+#: ../content/pod_template.py:121
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:163
+#: ../content/pod_template.py:195
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../browser/controlpanel.py:41
+#: ../demo/helper.py:73
+msgid "comment"
+msgstr "Commentaire"
+
+#. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
+#: ../content/pod_template.py:153
+msgid "element_not_valid"
+msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
+
+#: ../demo/helper.py:71
+msgid "input_field"
+msgstr "Champs de saisie"
+
+#: ../demo/helper.py:84
+msgid "last_change"
+msgstr "Dernière modification"
+
+#: ../browser/controlpanel.py:42
 msgid "oo_port"
 msgstr "Numéro du port Office"
 
-#: ../browser/controlpanel.py:48
+#: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr "Python uno"
+

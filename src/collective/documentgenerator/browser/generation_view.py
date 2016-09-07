@@ -138,7 +138,7 @@ class DocumentGenerationView(BrowserView):
         output_format = self.request.get('output_format')
         return output_format
 
-    def _render_document(self, document_template, output_format, sub_documents):
+    def _render_document(self, document_template, output_format, sub_documents, **kwargs):
         """
         Render a single document of type 'output_format' using the odt file
         'document_template' as the generation template.
@@ -159,6 +159,8 @@ class DocumentGenerationView(BrowserView):
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
             ooPort=config.get_oo_port(),
+            imageResolver=api.portal.get(),
+            **kwargs
         )
 
         # it is only now that we can initialize helper view's appy pod renderer

@@ -19,36 +19,61 @@ class IDemoLayer(IDefaultBrowserLayer):
 class IDocumentFactory(Interface):
     """Create a persistent generated document."""
 
-    def create(self, doc_file):
+    def create(doc_file):
         """Create the object where the document 'doc_file' will be persisted."""
 
-    def redirect(self, created_obj):
+    def redirect(created_obj):
         """Return an http redirection after the object creation."""
 
 
 class IDocumentGenerationHelper(Interface):
     """View implementing all the helpers method needed for document generation."""
 
-    def display(self, field_name, context=None):
+    def get_value(field_name, default=None, as_utf8=False):
+        """
+            Return the content stored in the object field_name attribute.
+            If content is None, a default can be used.
+            If content is unicode and flag as_utf8 is True, it will be encoded.
+        """
+
+    def display(field_name):
         """
         Return a string representation of context's field 'field_name'.
         """
 
-    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(field_name, long_format=None, time_only=None, custom_format=None):
         """
         Return a string representation of context's date field 'field_name'.
         It uses toLocalizedTime if no custom_format is given.  A custom_format is
         a datetime strftime compatible like '%d/%m/%Y %H:%M'.
         """
 
-    def display_voc(self, field_name, context=None, separator=','):
+    def display_voc(field_name, separator=','):
         """
         Return a join of display values of context's field 'field_name'.
         """
 
-    def list_voc(self, field_name, context=None, get='value'):
+    def display_text(field_name):
         """
-        Return a list of display values of context's field 'field_name'.
+        Return the html version of the simple text field 'field_name'.
+        The simple text field doesn't contain html but only text with possible carriage returns.
+        """
+
+    def display_html(field_name):
+        """
+        Return the odt rendered html content of the richtext field 'field_name'.
+        """
+
+    def display_widget(fieldname, clean=True, soup=False):
+        """
+        Display the html widget rendering for special fields (like datagrid or progress bar).
+        clean parameter: cleans some useless html parts (hidden, required).
+        soup parameter: returns a soup object.
+        """
+
+    def list_voc(field_name, get='value'):
+        """
+        Return all display values of the context's field 'field_name' vocabulary.
         """
 
 
@@ -58,7 +83,7 @@ class IDisplayProxyObject(Interface):
     to acces an attribute 'attr' of the wrapped object.
     """
 
-    def is_field(self, attr_name):
+    def is_field(attr_name):
         """
         Return True or False  wheter an attribute is a schema field of the object.
         To implements for each content type (dexterity and Archetypes atm).
@@ -78,7 +103,7 @@ class IPODTemplateCondition(Interface):
     Condition object adapting a pod_template and a context.
     """
 
-    def evaluate(self):
+    def evaluate():
         """
         Represent the condition evaluation by returning True or False.
         """
@@ -89,7 +114,7 @@ class ITemplatesToMerge(Interface):
     Adapts a pod_template to return a dict of templates to merge with appy pod.
     """
 
-    def get(self):
+    def get():
         """
         Return the templates dict. eg: {'mytemplateid', mytemplateobj} .
         """

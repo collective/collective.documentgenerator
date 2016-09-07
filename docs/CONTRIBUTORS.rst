@@ -5,3 +5,4 @@
 - Franck NGAHA, franck.ngaha@imio.be
 - Christophe Boulanger, christophe.boulanger@imio.be
 - Cédric Messiant, cedricmessiant@ecreall.com
+- Stephan Geulette, stephan.geulette@imio.be

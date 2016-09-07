@@ -19,7 +19,7 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='0.6.dev0',
+    version='0.10.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (http://appyframework.org) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -42,6 +42,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'appy',
+        'beautifulsoup4',
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',

@@ -9,7 +9,7 @@ from plone.behavior.interfaces import IBehavior
 
 from zope.component import getUtility
 
-import DateTime
+import datetime
 
 
 class TestDexterityHelperView(DexterityIntegrationTests):
@@ -54,7 +54,8 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         # description is in IBasic behavior
         self.assertTrue(proxy.description == 'foobar', msg)
 
-        msg = "If we try to access the attribute value through the accessor, it should return the real value stored on the schema's field."
+        msg = ("If we try to access the attribute value through the accessor, it should return the real value "
+               "stored on the schema's field.")
         self.assertTrue(proxy.Description() != 'foobar', msg)
 
 
@@ -84,9 +85,17 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
     def test_display_method_on_datefield(self):
         field_name = 'birth_date'
-        to_set = DateTime.DateTime('18/09/1986')
-        expected = '18/09/1986 00:00'
+        to_set = datetime.date(1986, 9, 18)
+        expected = 'Sep 18, 1986'
         self.content.birth_date = to_set
+        result = self.view.display(field_name)
+        self.assertEqual(expected, result)
+
+    def test_display_method_on_datetimefield(self):
+        field_name = 'birth_datetime'
+        to_set = datetime.datetime(1986, 9, 18, 10, 0)
+        expected = 'Sep 18, 1986 10:00 AM'
+        self.content.birth_datetime = to_set
         result = self.view.display(field_name)
         self.assertEqual(expected, result)
 
@@ -96,20 +105,32 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertTrue(displayed == 'foobar', msg)
 
     def test_display_date_method(self):
-        field_name = 'birth_date'
-        self.content.birth_date = DateTime.DateTime('18/09/1986')
+        field_name = 'birth_datetime'
+        self.content.birth_datetime = datetime.datetime(1986, 9, 18, 10, 0)
 
         # toLocalizedTime
         expected_date = u'Sep 18, 1986'
         result = self.view.display_date(field_name)
-        expected_date = u'Sep 18, 1986 12:00 AM'
+        self.assertEqual(expected_date, result)
+        expected_date = u'Sep 18, 1986 10:00 AM'
         result = self.view.display_date(field_name, long_format=True)
-        expected_date = u'12:00 AM'
+        self.assertEqual(expected_date, result)
+        expected_date = u'10:00 AM'
         result = self.view.display_date(field_name, time_only=True)
+        self.assertEqual(expected_date, result)
 
         # custom_format
         expected_date = '18 yolo 09 yolo 1986'
         result = self.view.display_date(field_name, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
+
+        # date
+        self.content.birth_datetime = datetime.date(1986, 9, 18)
+        expected_date = u'Sep 18, 1986'
+        result = self.view.display_date(field_name)
+        self.assertEqual(expected_date, result)
+        expected_date = u'Sep 18, 1986 12:00 AM'
+        result = self.view.display_date(field_name, long_format=True)
         self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):
@@ -135,22 +156,50 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         result = self.view.list(field_name)
         self.assertEqual(expected, result)
 
-    def test_display_text_method_without_appy_renderer(self):
+    def test_display_text_method(self):
+        field_name = 'description'
+        to_set = 'My description\r\nMy life\r\nhttp://www.imio.be'
+        expected = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
+        self.content.description = to_set
+        result = self.view.display_text(field_name)
+        self.assertEqual(expected, result)
+
+    def test_display_html_method_without_appy_renderer(self):
         field_name = 'fullname'
         to_set = 'John Doe'
         expected = ''
         self.content.fullname = to_set
-        result = self.view.display_text(field_name)
+        result = self.view.display_html(field_name)
         self.assertEqual(expected, result)
+
+    def test_display_widget_method(self):
+        field_name = 'subscription'
+        to_set = 'gold'
+        self.content.subscription = to_set
+        # simple call
+        result = self.view.display_widget(field_name)
+        expected = ('\n<span class="select-widget choice-field" id="form-widgets-subscription">'
+                    '<span class="selected-option">gold</span></span>\n')
+        self.assertEqual(result, expected)
+        # call without cleaning
+        result = self.view.display_widget(field_name, clean=False)
+        expected = ('\n<span id="form-widgets-subscription" class="select-widget choice-field">'
+                    '<span class="selected-option">gold</span></span>\n\n')
+        self.assertEqual(result, expected)
+        # call with soup
+        result = self.view.display_widget(field_name, soup=True)
+        expected = '<span class="selected-option">gold</span>'
+        self.assertEqual(str(result.find('span', class_='selected-option')), expected)
+        self.assertEqual(result.find('span', class_='selected-option').text, u'gold')
 
     def test_check_permission(self):
         # test user has permission
-        self.assertTrue(self.view.check_permission('amount', self.content))
+        self.assertTrue(self.view.check_permission('amount'))
 
         # new user that doesn't have permission
         api.user.create(username='foobar', email='foobar@example.com')
         login(self.portal, 'foobar')
-        self.assertFalse(self.view.check_permission('amount', self.content))
+        self.assertFalse(self.view.check_permission('amount'))
 
         # manually set permission on a behavior's field
         schema = getUtility(
@@ -159,4 +208,4 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         schema.setTaggedValue(
             READ_PERMISSIONS_KEY, {'description': 'cmf.ManagePortal'})
 
-        self.assertFalse(self.view.check_permission('description', self.content))
+        self.assertFalse(self.view.check_permission('description'))

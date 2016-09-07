@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
 
-from collective.documentgenerator.helper import DisplayProxyObject
-from collective.documentgenerator.helper import DocumentGenerationHelperView
-from collective.documentgenerator.interfaces import IFieldRendererForDocument
+import datetime
+from bs4 import BeautifulSoup as Soup
 
-from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+from zope.component import getMultiAdapter, getUtility
 
 from plone import api
+from plone.app.textfield import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.supermodel.utils import mergedTaggedValueDict
 
-from zope.component import getMultiAdapter
-from zope.component import getUtility
+from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+
+from .base import DisplayProxyObject, DocumentGenerationHelperView
+from ..interfaces import IFieldRendererForDocument
 
 
 class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
@@ -44,13 +46,17 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return None
 
-    def display(self, field_name, context=None, no_value=''):
-        """Display field value."""
-        if context is None:
-            context = self.real_context
+    def get_field_renderer(self, field_name):
+        """Get the dexterity field renderer for this field."""
+        field = self.get_field(field_name)
+        renderer = getMultiAdapter(
+            (field, self.real_context, self.request), IFieldRendererForDocument)
+        return renderer
 
-        if self.check_permission(field_name, context):
-            field_renderer = self.get_field_renderer(field_name, context)
+    def display(self, field_name, no_value=''):
+        """Display field value."""
+        if self.check_permission(field_name):
+            field_renderer = self.get_field_renderer(field_name)
             display_value = field_renderer.render_value()
             if not display_value:
                 display_value = no_value
@@ -59,7 +65,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return display_value
 
-    def check_permission(self, field_name, context):
+    def check_permission(self, field_name):
         """Check field permission."""
         schema = self.get_field_schema(field_name)
         read_permissions = mergedTaggedValueDict(
@@ -69,21 +75,22 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             return True
 
         user = api.user.get_current()
-        return api.user.has_permission(permission, user=user, obj=context)
+        return api.user.has_permission(permission, user=user, obj=self.real_context)
 
-    def get_field_renderer(self, field_name, context):
-        """Get the dexterity field renderer for this field."""
-        field = self.get_field(field_name)
-        renderer = getMultiAdapter(
-            (field, context, self.request), IFieldRendererForDocument)
+    def get_value(self, field_name, default=None, as_utf8=False):
+        value = getattr(self.real_context, field_name)
+        if value is None:
+            return default
+        if isinstance(value, RichTextValue):
+            value = value.output
+        if as_utf8 and isinstance(value, unicode):
+            value = value.encode('utf8')
+        return value
 
-        return renderer
-
-    def get_value(self, field_name):
-        return getattr(self.real_context, field_name)
-
-    def display_date(self, field_name, context=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
+        if type(date) == datetime.date:
+            date = datetime.datetime(date.year, date.month, date.day)
         if not custom_format:
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
@@ -92,21 +99,18 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return formatted_date
 
-    def display_voc(self, field_name, context=None, separator=', '):
-        if context is None:
-            context = self.real_context
-
-        field_renderer = self.get_field_renderer(field_name, context)
+    def display_voc(self, field_name, separator=', '):
+        field_renderer = self.get_field_renderer(field_name)
         field_renderer.exportable.separator = separator
         return field_renderer.render_value()
 
-    def display_text(self, field_name, context=None):
+    def display_text(self, field_name):
+        text = self.get_value(field_name)
+        return self.portal.portal_transforms.convert('web_intelligent_plain_text_to_html', text).getData()
+
+    def display_html(self, field_name):
         if not self.appy_renderer:
             return ''
-
-        if context is None:
-            context = self.real_context
-
         html_text = self.get_value(field_name)
         display = self.appy_renderer.renderXhtml(html_text)
         return display
@@ -119,6 +123,29 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
     def list(self, field_name):
         values = self.get_value(field_name)
         return values
+
+    def display_widget(self, field_name, clean=True, soup=False):
+        obj_view = getMultiAdapter((self.real_context, self.request), name=u'view')
+        obj_view.updateFieldsFromSchemata()
+        for field in obj_view.fields:
+            if field != field_name:
+                obj_view.fields = obj_view.fields.omit(field)
+        obj_view.updateWidgets()
+        widget = obj_view.widgets[field_name]
+        rendered = widget.render()  # unicode
+        if clean or soup:
+            souped = Soup(rendered, "html.parser")
+            if clean:
+                for tag in souped.find_all(class_='required'):
+                    tag.extract()
+                for tag in souped.find_all(type='hidden'):
+                    tag.extract()
+            if soup:
+                return souped
+            else:
+                return str(souped)  # is utf8
+        else:
+            return rendered.encode('utf8')
 
 
 class DXDisplayProxyObject(DisplayProxyObject):

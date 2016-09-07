@@ -121,4 +121,13 @@
         permission="zope2.View"
         />
 
+    <adapter
+        for="zope.schema.interfaces.IDatetime
+             zope.interface.Interface
+             zope.interface.Interface"
+        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+        factory="collective.documentgenerator.DX_renderer.DexterityDatetimeExportableAdapter"
+        permission="zope2.View"
+        />
+
 </configure>

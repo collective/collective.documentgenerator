@@ -44,6 +44,8 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
 
         voc = self.field.Vocabulary(self.context)
         raw_values = self.field.get(self.context)
+        if type(raw_values) not in [list, tuple]:
+            raw_values = [raw_values]
         values = [display_value(voc, val) for val in raw_values]
         display = ', '.join(values)
 
@@ -67,7 +69,7 @@ class RichTextATFieldRenderer(DefaultATFieldRenderer):
 
     def render_value(self):
         msg = "!!! the field '{field_name}' is a html richtext , use \
-              'do text from view.display_text('{field_name}')' in a commentary instead !!!'".format(
+              'do text from view.display_html('{field_name}')' in a commentary instead !!!'".format(
             field_name=self.field.getName()
         )
         return msg
