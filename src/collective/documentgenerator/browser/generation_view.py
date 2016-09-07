@@ -257,7 +257,9 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
         doc, doc_name = self._generate_doc(pod_template, output_format)
 
-        title, extension = doc_name.split('.')
+        splitted_name = doc_name.split('.')
+        title = '.'.join(splitted_name[:-1])
+        extension = splitted_name[-1]
 
         factory = queryAdapter(self.context, IDocumentFactory)
 
