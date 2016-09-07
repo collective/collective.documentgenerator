@@ -22,6 +22,9 @@ Changelog
   [sgeulette]
 - Get generation view name from a method.
   [sgeulette]
+- Use RadioFieldWidget for Bool field 'enabled' so it is displayed on the
+  pod_template view when it is False.
+  [gbastien]
 
 0.9 (2016-06-22)
 ----------------

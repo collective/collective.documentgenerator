@@ -21,6 +21,7 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
 from z3c.form import validator
+from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
 
 from zope import schema
@@ -53,6 +54,7 @@ class IPODTemplate(model.Schema):
     form.omitted('initial_md5')
     initial_md5 = schema.TextLine()
 
+    form.widget('enabled', RadioFieldWidget)
     enabled = schema.Bool(
         title=_(u'Enabled'),
         default=True,
