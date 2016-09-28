@@ -97,7 +97,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
         else:
-            formatted_date = date.strftime(custom_format)
+            formatted_date = date.strftime(custom_format).decode('utf8')
 
         return formatted_date
 
@@ -117,7 +117,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         display = self.appy_renderer.renderXhtml(html_text)
         return display
 
-    def display_list(self, field_name, separator=', '):
+    def display_list(self, field_name, separator=u', '):
         values = self.get_value(field_name)
         display = separator.join(values)
         return display
