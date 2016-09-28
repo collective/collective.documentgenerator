@@ -89,6 +89,8 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
     def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         date = self.get_value(field_name)
+        if date is None:
+            return u''
         if type(date) == datetime.date:
             date = datetime.datetime(date.year, date.month, date.day)
         if not custom_format:
