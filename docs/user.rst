@@ -51,7 +51,11 @@ Clicking the template link will render it and propose to download the generated 
        Viewlet
 
 
-**How to launch openoffice in server mode (needed for style templates)**
+**How to launch libreoffice in drived capability mode (needed for style templates, format conversion)**
 ------------------------------------------------------------------------
 
-soffice -invisible -headless "-accept=socket,host=localhost,port=2002;urp;"
+On desktop pc (First run the command, before normally using libreoffice):
+soffice "--accept=socket,host=localhost,port=2002;urp;"
+
+On server:
+soffice --invisible --headless "--accept=socket,host=localhost,port=2002;urp;"
