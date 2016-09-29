@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Use forceOoCall in renderer to call libreoffice to render b.e. table of contents in odt
+  [sgeulette]
 - Changed viewlet podtemplate search. Defined template in zcml.
   [sgeulette]
 - Add content icons

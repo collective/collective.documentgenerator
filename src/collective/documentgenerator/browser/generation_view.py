@@ -160,6 +160,7 @@ class DocumentGenerationView(BrowserView):
             pythonWithUnoPath=config.get_uno_path(),
             ooPort=config.get_oo_port(),
             imageResolver=api.portal.get(),
+            forceOoCall=True,
             **kwargs
         )
 
