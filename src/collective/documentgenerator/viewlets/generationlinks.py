@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from collective.documentgenerator.content.pod_template import IPODTemplate
-
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.view import memoize
 
+from ..config import VIEWLET_TYPES
+
 
 class DocumentGeneratorLinksViewlet(ViewletBase):
     """This viewlet displays available documents to generate."""
-
-    render = ViewPageTemplateFile('./generationlinks.pt')
 
     def available(self):
         return bool(self.get_generable_templates())
 
     def get_all_pod_templates(self):
         catalog = api.portal.get_tool(name='portal_catalog')
-        brains = catalog.unrestrictedSearchResults(object_provides=IPODTemplate.__identifier__)
+        brains = catalog.unrestrictedSearchResults(portal_type=VIEWLET_TYPES)
         pod_templates = [self.context.unrestrictedTraverse(brain.getPath()) for brain in brains]
 
         return pod_templates

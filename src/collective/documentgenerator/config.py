@@ -15,6 +15,8 @@ POD_FORMATS = ODS_FORMATS + ODT_FORMATS + NEUTRAL_FORMATS
 
 DEFAULT_PYTHON_UNO_PATH = '/usr/bin/python'
 
+VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
+
 
 def get_uno_path():
     return api.portal.get_registry_record(

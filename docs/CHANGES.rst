@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Changed viewlet podtemplate search. Defined template in zcml.
+  [sgeulette]
 - Add content icons
   [sgeulette]
 - Manage correctly datetime.date and datetime.datetime

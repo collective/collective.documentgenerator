@@ -9,6 +9,7 @@
         name="document-generation-link"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
         class="collective.documentgenerator.viewlets.generationlinks.DocumentGeneratorLinksViewlet"
+        template="generationlinks.pt"
         permission="zope2.View"
         />
 
