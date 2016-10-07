@@ -4,8 +4,8 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Replace unrestrictedTraverse by getMultiAdapter.
+  [sgeulette]
 
 0.10 (2016-10-05)
 -----------------

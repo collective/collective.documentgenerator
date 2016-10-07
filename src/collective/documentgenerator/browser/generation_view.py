@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
 
 from Products.Five import BrowserView
@@ -194,8 +195,7 @@ class DocumentGenerationView(BrowserView):
         """
         Return the default helper view used for document generation.
         """
-        helper = self.context.unrestrictedTraverse('@@document_generation_helper_view')
-        return helper
+        return getMultiAdapter((self.context, self.request), name='document_generation_helper_view')
 
     def _set_header_response(self, filename):
         """
