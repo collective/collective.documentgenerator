@@ -72,7 +72,7 @@ class TestConfigView(PODTemplateFunctionalTest):
         self.browser.open('@@collective.documentgenerator-controlpanel')
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name='form.widgets.uno_path')
-        pythonpath_input.value = os.path.abspath('../../bin/python_yolo')
+        pythonpath_input.value = os.path.abspath('../../bin/python')
         form.submit('Sauver')
         msg = "python path validator should have raised an 'python do not have uno library' warning"
         self.assertTrue(
