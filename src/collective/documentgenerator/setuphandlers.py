@@ -149,6 +149,12 @@ def install_demo(context):
                     'pod_context_name': 'header',
                 }
             ],
+            context_variables=[
+                {
+                    'name': 'details',
+                    'value': '1',
+                }
+            ]
         )
 
     if not hasattr(pod_folder, 'test_ods_template'):

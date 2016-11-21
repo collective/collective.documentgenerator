@@ -172,3 +172,6 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
     def test_get_available_formats(self):
         self.assertEqual(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)
+
+    def test_get_context_variables(self):
+        self.assertDictEqual(self.test_podtemplate.get_context_variables(), {'details': '1'})

@@ -185,6 +185,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         msg = "A 'isNotFolderishError' exception should have been raised."
         self.assertTrue(error_raised, msg)
 
+    def test__get_generation_context(self):
+        pod_template = self.portal.podtemplates['test_template_bis']
+        view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
+        hpv = view.get_generation_context_helper()
+        self.assertDictEqual(view._get_generation_context(hpv, pod_template), {'details': '1',
+                             'context': hpv.context, 'view': hpv})
+        self.assertDictEqual(view._get_generation_context(hpv, self.test_podtemplate),
+                             {'context': hpv.context, 'view': hpv})
+
 
 class TestCyclicMergesDetection(unittest.TestCase):
     """

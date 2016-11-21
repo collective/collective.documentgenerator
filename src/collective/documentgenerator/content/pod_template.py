@@ -297,6 +297,15 @@ class ConfigurablePODTemplate(PODTemplate):
         """
         return self.pod_formats
 
+    def get_context_variables(self):
+        """
+            Returns context_variables as dict
+        """
+        ret = {}
+        for line in self.context_variables or []:
+            ret[line['name']] = line['value']
+        return ret
+
 
 class ISubTemplate(IPODTemplate):
     """

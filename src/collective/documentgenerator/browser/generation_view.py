@@ -4,6 +4,7 @@ from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
 
 from Products.Five import BrowserView
+from Products.CMFPlone.utils import base_hasattr
 
 from StringIO import StringIO
 
@@ -101,9 +102,7 @@ class DocumentGenerationView(BrowserView):
                 output_format='odt'
             )
 
-        document_template = pod_template.get_file()
-
-        document_path = self._render_document(document_template, output_format, sub_documents)
+        document_path = self._render_document(pod_template, output_format, sub_documents)
 
         return document_path
 
@@ -139,18 +138,19 @@ class DocumentGenerationView(BrowserView):
         output_format = self.request.get('output_format')
         return output_format
 
-    def _render_document(self, document_template, output_format, sub_documents, **kwargs):
+    def _render_document(self, pod_template, output_format, sub_documents, **kwargs):
         """
         Render a single document of type 'output_format' using the odt file
         'document_template' as the generation template.
         Subdocuments is a dictionnary of previously generated subtemplate
         that will be merged into the current generated document.
         """
+        document_template = pod_template.get_file()
         temp_filename = tempfile.mktemp('.{extension}'.format(extension=output_format))
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
-        generation_context = self._get_generation_context(helper_view)
+        generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
         # enrich the generation context with previously generated documents
         generation_context.update(sub_documents)
 
@@ -172,7 +172,12 @@ class DocumentGenerationView(BrowserView):
 
         return temp_filename
 
-    def _get_generation_context(self, helper_view):
+    def _get_context_variables(self, pod_template):
+        if base_hasattr(pod_template, 'get_context_variables'):
+            return pod_template.get_context_variables()
+        return {}
+
+    def _get_generation_context(self, helper_view, pod_template=None):
         """
         Return the generation context for the current document.
         """
@@ -183,6 +188,8 @@ class DocumentGenerationView(BrowserView):
                 'view': helper_view
             }
         )
+        if pod_template:
+            generation_context.update(self._get_context_variables(pod_template))
         return generation_context
 
     def get_base_generation_context(self):
