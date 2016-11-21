@@ -133,6 +133,21 @@ class IMergeTemplatesRowSchema(Interface):
     )
 
 
+class IContextVariablesRowSchema(Interface):
+    """
+    Schema for DataGridField widget's row of field 'context_variables'
+    """
+    name = schema.TextLine(
+        title=_(u'Variable name'),
+        required=True,
+    )
+
+    value = schema.TextLine(
+        title=_(u'Value'),
+        required=True,
+    )
+
+
 class PodFormatsValidator(validator.SimpleFieldValidator):
     """ z3c.form validator class for international phone numbers """
 
@@ -204,6 +219,18 @@ class IConfigurablePODTemplate(IPODTemplate):
         ),
         default=[],
     )
+
+    form.widget('context_variables', DataGridFieldFactory)
+    context_variables = schema.List(
+        title=_(u'Context variables.'),
+        required=False,
+        value_type=DictRow(
+            schema=IContextVariablesRowSchema,
+            required=False
+        ),
+    )
+
+
 
 # Set conditions for which fields the validator class applies
 validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate['pod_formats'])
