@@ -177,7 +177,7 @@ class DocumentGenerationView(BrowserView):
             return pod_template.get_context_variables()
         return {}
 
-    def _get_generation_context(self, helper_view, pod_template=None):
+    def _get_generation_context(self, helper_view, pod_template):
         """
         Return the generation context for the current document.
         """
@@ -188,8 +188,7 @@ class DocumentGenerationView(BrowserView):
                 'view': helper_view
             }
         )
-        if pod_template:
-            generation_context.update(self._get_context_variables(pod_template))
+        generation_context.update(self._get_context_variables(pod_template))
         return generation_context
 
     def get_base_generation_context(self):
