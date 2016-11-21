@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-03-29 13:57+0000\n"
+"POT-Creation-Date: 2016-11-21 12:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,19 +25,19 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../content/pod_template.py:179
+#: ../content/pod_template.py:199
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:170
+#: ../content/pod_template.py:190
 msgid "Available formats"
 msgstr ""
 
-#: ../interfaces.py:119
+#: ../interfaces.py:144
 msgid "Can't create a persistent document on a non folderish context."
 msgstr ""
 
-#: ../interfaces.py:115
+#: ../interfaces.py:140
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
@@ -49,16 +49,20 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:188
+#: ../content/pod_template.py:208
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:132
+#: ../setuphandlers.py:135
 msgid "Collection template"
 msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
+msgstr ""
+
+#: ../content/pod_template.py:226
+msgid "Context variables."
 msgstr ""
 
 #: ../browser/controlpanel.py:62
@@ -69,27 +73,35 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:55
+#: ../content/pod_template.py:59
 msgid "Enabled"
 msgstr ""
 
-#: ../setuphandlers.py:95
+#: ../setuphandlers.py:98
 msgid "General template"
 msgstr ""
 
-#: ../setuphandlers.py:80
+#: ../setuphandlers.py:83
 msgid "Header"
 msgstr ""
 
-#: ../interfaces.py:111
+#: ../configure.zcml:33
+msgid "Installs the collective.documentgenerator add-on."
+msgstr ""
+
+#: ../configure.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr ""
+
+#: ../interfaces.py:136
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../setuphandlers.py:109
+#: ../setuphandlers.py:112
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:149
+#: ../content/pod_template.py:168
 msgid "No format selected"
 msgstr ""
 
@@ -103,16 +115,16 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:48
+#: ../content/pod_template.py:51
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
 
-#: ../setuphandlers.py:30
+#: ../setuphandlers.py:33
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:127
+#: ../content/pod_template.py:131
 msgid "POD context name"
 msgstr ""
 
@@ -132,19 +144,23 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:180
+#: ../content/pod_template.py:200
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:171
+#: ../content/pod_template.py:191
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:155
+#: ../setuphandlers.py:158
 msgid "Spreadsheet template"
 msgstr ""
 
-#: ../content/pod_template.py:187
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr ""
+
+#: ../content/pod_template.py:207
 msgid "Style template"
 msgstr ""
 
@@ -152,7 +168,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:65
+#: ../setuphandlers.py:68
 msgid "Styles n°2"
 msgstr ""
 
@@ -160,12 +176,36 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:121
+#: ../content/pod_template.py:125
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:195
+#: ../content/pod_template.py:215
 msgid "Templates to merge."
+msgstr ""
+
+#: ../content/pod_template.py:227
+msgid "These context variables are added to the odt_file context."
+msgstr ""
+
+#: ../content/pod_template.py:146
+msgid "Value"
+msgstr ""
+
+#: ../content/pod_template.py:141
+msgid "Variable name"
+msgstr ""
+
+#: ../configure.zcml:33
+msgid "collective.documentgenerator"
+msgstr ""
+
+#: ../configure.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr ""
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
 msgstr ""
 
 #: ../demo/helper.py:73
@@ -173,7 +213,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:153
+#: ../content/pod_template.py:172
 msgid "element_not_valid"
 msgstr ""
 
@@ -192,4 +232,3 @@ msgstr ""
 #: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr ""
-

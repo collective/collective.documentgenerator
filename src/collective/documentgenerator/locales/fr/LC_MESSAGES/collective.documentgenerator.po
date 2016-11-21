@@ -18,19 +18,19 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../content/pod_template.py:179
+#: ../content/pod_template.py:199
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:170
+#: ../content/pod_template.py:190
 msgid "Available formats"
 msgstr "Formats disponibles"
 
-#: ../interfaces.py:119
+#: ../interfaces.py:144
 msgid "Can't create a persistent document on a non folderish context."
 msgstr "Impossible de créer un document persistant si le contexte n'est pas un conteneur."
 
-#: ../interfaces.py:115
+#: ../interfaces.py:140
 msgid "Can't import python uno library with the python path"
 msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
 
@@ -42,17 +42,21 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:188
+#: ../content/pod_template.py:208
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:132
+#: ../setuphandlers.py:135
 msgid "Collection template"
 msgstr "Modèle collection"
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
+
+#: ../content/pod_template.py:226
+msgid "Context variables."
+msgstr "Variables du contexte"
 
 #: ../browser/controlpanel.py:62
 msgid "Document Generator settings"
@@ -62,27 +66,35 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:55
+#: ../content/pod_template.py:59
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../setuphandlers.py:95
+#: ../setuphandlers.py:98
 msgid "General template"
 msgstr "Modèle général"
 
-#: ../setuphandlers.py:80
+#: ../setuphandlers.py:83
 msgid "Header"
 msgstr "En-tête"
 
-#: ../interfaces.py:111
+#: ../configure.zcml:33
+msgid "Installs the collective.documentgenerator add-on."
+msgstr ""
+
+#: ../configure.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr ""
+
+#: ../interfaces.py:136
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
-#: ../setuphandlers.py:109
+#: ../setuphandlers.py:112
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:149
+#: ../content/pod_template.py:168
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -96,16 +108,16 @@ msgstr "Aucune valeur"
 msgid "None"
 msgstr "Aucun"
 
-#: ../content/pod_template.py:48
+#: ../content/pod_template.py:51
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Canevas"
 
-#: ../setuphandlers.py:30
+#: ../setuphandlers.py:33
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:127
+#: ../content/pod_template.py:131
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -125,19 +137,23 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:180
+#: ../content/pod_template.py:200
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:171
+#: ../content/pod_template.py:191
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:155
+#: ../setuphandlers.py:158
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
-#: ../content/pod_template.py:187
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr ""
+
+#: ../content/pod_template.py:207
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -145,7 +161,7 @@ msgstr "Modèle de style"
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../setuphandlers.py:65
+#: ../setuphandlers.py:68
 msgid "Styles n°2"
 msgstr "Styles n°2"
 
@@ -153,20 +169,44 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:121
+#: ../content/pod_template.py:125
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:195
+#: ../content/pod_template.py:215
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
+
+#: ../content/pod_template.py:227
+msgid "These context variables are added to the odt_file context."
+msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
+
+#: ../content/pod_template.py:146
+msgid "Value"
+msgstr "Valeur"
+
+#: ../content/pod_template.py:141
+msgid "Variable name"
+msgstr "Nom de variable"
+
+#: ../configure.zcml:33
+msgid "collective.documentgenerator"
+msgstr ""
+
+#: ../configure.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr ""
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
+msgstr ""
 
 #: ../demo/helper.py:73
 msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:153
+#: ../content/pod_template.py:172
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
@@ -185,4 +225,3 @@ msgstr "Numéro du port Office"
 #: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr "Python uno"
-

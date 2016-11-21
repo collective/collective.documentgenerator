@@ -223,13 +223,13 @@ class IConfigurablePODTemplate(IPODTemplate):
     form.widget('context_variables', DataGridFieldFactory)
     context_variables = schema.List(
         title=_(u'Context variables.'),
+        description=_("These context variables are added to the odt_file context."),
         required=False,
         value_type=DictRow(
             schema=IContextVariablesRowSchema,
             required=False
         ),
     )
-
 
 
 # Set conditions for which fields the validator class applies
