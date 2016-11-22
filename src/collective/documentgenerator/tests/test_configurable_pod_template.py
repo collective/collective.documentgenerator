@@ -191,4 +191,4 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertRaises(Invalid, fct, data)
         # no exception
         data = Dummy([{'name': u'det', 'value': u'1'}])
-        self.assertNone(fct(data))
+        self.assertIsNone(fct(data))
