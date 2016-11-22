@@ -2,6 +2,7 @@
 
 from Acquisition import aq_base
 
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
@@ -9,6 +10,7 @@ from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from plone import api
 
 from zope.component import queryMultiAdapter
+from zope.interface import Invalid
 
 import unittest
 
@@ -175,3 +177,18 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
     def test_get_context_variables(self):
         self.assertDictEqual(self.test_podtemplate.get_context_variables(), {'details': '1'})
+
+    def test_validate_context_variables(self):
+        class Dummy(object):
+            def __init__(self, data):
+                self.context_variables = data
+        fct = IConfigurablePODTemplate.getTaggedValue('invariants')[0]
+        # check forbidden name
+        data = Dummy([{'name': u'uids', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # check duplicated name
+        data = Dummy([{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # no exception
+        data = Dummy([{'name': u'det', 'value': u'1'}])
+        self.assertNone(fct(data))
