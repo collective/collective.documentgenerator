@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.11 (unreleased)
+0.11 (2016-11-22)
 -----------------
 
 - Replaced unrestrictedTraverse by getMultiAdapter.
