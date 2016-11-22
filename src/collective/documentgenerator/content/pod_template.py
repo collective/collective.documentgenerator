@@ -238,7 +238,7 @@ class IConfigurablePODTemplate(IPODTemplate):
         forbidden = ['context', 'view', 'uids', 'brains']
         for line in data.context_variables or []:
             if line['name'] in forbidden:
-                raise Invalid(_("You can't use one of these words: ${list}", mapping={'list': ','.join(forbidden)}))
+                raise Invalid(_("You can't use one of these words: ${list}", mapping={'list': ', '.join(forbidden)}))
             if line['name'] in keys:
                 raise Invalid(_("You have twice used the same name '${name}'", mapping={'name': line['name']}))
             else:

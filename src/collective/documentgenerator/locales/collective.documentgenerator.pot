@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-21 12:03+0000\n"
+"POT-Creation-Date: 2016-11-22 13:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:59
+#: ../content/pod_template.py:60
 msgid "Enabled"
 msgstr ""
 
@@ -101,7 +101,7 @@ msgstr ""
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:168
+#: ../content/pod_template.py:169
 msgid "No format selected"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:51
+#: ../content/pod_template.py:52
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
@@ -124,7 +124,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:131
+#: ../content/pod_template.py:132
 msgid "POD context name"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:158
+#: ../setuphandlers.py:164
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:125
+#: ../content/pod_template.py:126
 msgid "Template"
 msgstr ""
 
@@ -188,12 +188,20 @@ msgstr ""
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
-#: ../content/pod_template.py:146
+#: ../content/pod_template.py:147
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:141
+#: ../content/pod_template.py:142
 msgid "Variable name"
+msgstr ""
+
+#: ../content/pod_template.py:241
+msgid "You can't use one of these words: ${list}"
+msgstr ""
+
+#: ../content/pod_template.py:243
+msgid "You have twice used the same name '${name}'"
 msgstr ""
 
 #: ../configure.zcml:33
@@ -213,7 +221,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:172
+#: ../content/pod_template.py:173
 msgid "element_not_valid"
 msgstr ""
 

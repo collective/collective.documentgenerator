@@ -66,7 +66,7 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:59
+#: ../content/pod_template.py:60
 msgid "Enabled"
 msgstr "Activé"
 
@@ -94,7 +94,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:168
+#: ../content/pod_template.py:169
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -108,7 +108,7 @@ msgstr "Aucune valeur"
 msgid "None"
 msgstr "Aucun"
 
-#: ../content/pod_template.py:51
+#: ../content/pod_template.py:52
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Canevas"
@@ -117,7 +117,7 @@ msgstr "Canevas"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:131
+#: ../content/pod_template.py:132
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -145,7 +145,7 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:158
+#: ../setuphandlers.py:164
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -169,7 +169,7 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:125
+#: ../content/pod_template.py:126
 msgid "Template"
 msgstr "Modèle"
 
@@ -181,13 +181,21 @@ msgstr "Modèles à fusionner."
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 
-#: ../content/pod_template.py:146
+#: ../content/pod_template.py:147
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:141
+#: ../content/pod_template.py:142
 msgid "Variable name"
 msgstr "Nom de variable"
+
+#: ../content/pod_template.py:241
+msgid "You can't use one of these words: ${list}"
+msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
+
+#: ../content/pod_template.py:243
+msgid "You have twice used the same name '${name}'"
+msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
 #: ../configure.zcml:33
 msgid "collective.documentgenerator"
@@ -206,7 +214,7 @@ msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:172
+#: ../content/pod_template.py:173
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
