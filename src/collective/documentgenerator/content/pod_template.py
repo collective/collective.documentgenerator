@@ -31,6 +31,7 @@ from zope.component import queryMultiAdapter
 from zope.interface import implements
 from zope.interface import Interface
 from zope.interface import Invalid
+from zope.interface import invariant
 
 import logging
 
@@ -231,6 +232,17 @@ class IConfigurablePODTemplate(IPODTemplate):
         ),
     )
 
+    @invariant
+    def validate_context_variables(data):
+        keys = []
+        forbidden = ['context', 'view', 'uids', 'brains']
+        for line in data.context_variables or []:
+            if line['name'] in forbidden:
+                raise Invalid(_("You can't use one of these words: ${list}", mapping={'list': ','.join(forbidden)}))
+            if line['name'] in keys:
+                raise Invalid(_("You have twice used the same name '${name}'", mapping={'name': line['name']}))
+            else:
+                keys.append(line['name'])
 
 # Set conditions for which fields the validator class applies
 validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate['pod_formats'])

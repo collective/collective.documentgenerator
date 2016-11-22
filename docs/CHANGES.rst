@@ -4,9 +4,10 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Replace unrestrictedTraverse by getMultiAdapter.
+- Replaced unrestrictedTraverse by getMultiAdapter.
   [sgeulette]
-- Add context variables field on configurablepodtemplate.
+- Added context variables field on configurablepodtemplate, and validator.
+  Added those variables in generation context.
   [sgeulette]
 - Moved fr setting from default profile to testing
   [sgeulette]
