@@ -53,9 +53,14 @@ class DocumentGenerationHelperView(object):
     def _set_appy_renderer(self, appy_renderer):
         self.appy_renderer = appy_renderer
 
-    def translate(self, msgid, domain='plone'):
+    def translate(self, msgid, domain='plone', mapping={}, target_language=None, default=None):
         """Let's translate a given msgid in given domain."""
-        return translate(msgid, domain, context=self.request)
+        return translate(msgid,
+                         domain,
+                         mapping=mapping,
+                         context=self.request,
+                         target_language=target_language,
+                         default=default)
 
     def getDGHV(self, obj, appy_rdr=None):
         """ get another object 'document_generation_helper_view' view """

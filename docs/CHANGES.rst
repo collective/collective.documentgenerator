@@ -4,8 +4,9 @@ Changelog
 0.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Pass every parameters to DocumentGenerationHelperView.translate
+  that zope.i18n.translate manages.
+  [gbastien]
 
 0.11 (2016-11-22)
 -----------------
