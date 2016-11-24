@@ -145,7 +145,7 @@ class IContextVariablesRowSchema(Interface):
 
     value = schema.TextLine(
         title=_(u'Value'),
-        required=True,
+        required=False,
     )
 
 

@@ -7,6 +7,8 @@ Changelog
 - Pass every parameters to DocumentGenerationHelperView.translate
   that zope.i18n.translate manages.
   [gbastien]
+- Made context variable value not required
+  [sgeulette]
 
 0.11 (2016-11-22)
 -----------------
