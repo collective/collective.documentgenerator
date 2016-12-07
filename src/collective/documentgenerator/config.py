@@ -7,6 +7,7 @@ ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
 
 ODT_FORMATS = (('odt', 'LibreOffice Writer (.odt)'),
                ('doc', 'Microsoft Word (.doc)'),
+               ('docx', 'Microsoft Word XML (.docx)'),
                ('rtf', 'Rich Text Format (.RTF)'),)
 
 NEUTRAL_FORMATS = (('pdf', 'Adobe PDF (.pdf)'),)

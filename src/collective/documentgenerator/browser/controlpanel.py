@@ -29,7 +29,7 @@ def check_for_uno(value):
         return True
     if 'python' not in value and os.system(value + ' -V') != 0:
         raise interfaces.InvalidPythonPath()
-    if os.system(value + ' -c "import uno"') != 0:
+    if os.system(value + ' -c "import unohelper"') != 0:
         raise interfaces.InvalidUnoPath()
     return True
 

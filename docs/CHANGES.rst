@@ -4,8 +4,12 @@ Changelog
 0.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Validate path to python by importing `unohelper` instead importing
+  `uno` because `uno` could have been installed using `pip install uno`
+  but is not sufficient to generate the document.
+  [gbastien]
+- Added `.docx` format in which it is possible to generate template.
+  [gbastien]
 
 0.12 (2016-12-07)
 -----------------
