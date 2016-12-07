@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.12 (unreleased)
+0.12 (2016-12-07)
 -----------------
 
 - Pass every parameters to DocumentGenerationHelperView.translate
