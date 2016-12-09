@@ -10,6 +10,8 @@ Changelog
   [gbastien]
 - Added `.docx` format in which it is possible to generate template.
   [gbastien]
+- Set oo_port from environment variable at install
+  [sgeulette]
 
 0.12 (2016-12-07)
 -----------------

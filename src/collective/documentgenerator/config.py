@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 from plone import api
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
@@ -29,3 +30,11 @@ def get_oo_port():
     return api.portal.get_registry_record(
         'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port'
     )
+
+
+def set_oo_port():
+    """ Get environment value ste in buildout to define port """
+    oo_port = os.getenv('OO_PORT', None)
+    if oo_port:
+        api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                       'IDocumentGeneratorControlPanelSchema.oo_port', int(oo_port))

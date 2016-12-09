@@ -50,6 +50,15 @@ class TestConfig(unittest.TestCase):
         unopath = config.get_uno_path()
         self.assertTrue(unopath == newvalue)
 
+    def test_set_oo_port(self):
+        from collective.documentgenerator import config
+        self.assertEqual(config.get_oo_port(), 2002)
+        config.set_oo_port()
+        self.assertEqual(config.get_oo_port(), 2002)
+        os.environ['OO_PORT'] = '6969'
+        config.set_oo_port()
+        self.assertEqual(config.get_oo_port(), 6969)
+
 
 class TestConfigView(PODTemplateFunctionalTest):
     """
