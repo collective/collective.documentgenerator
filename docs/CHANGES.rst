@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.13 (unreleased)
+0.13 (2016-12-09)
 -----------------
 
 - Validate path to python by importing `unohelper` instead importing
