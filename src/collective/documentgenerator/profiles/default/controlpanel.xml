@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <object name="portal_controlpanel"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-        i18n:domain="documentgenerator"
+        i18n:domain="collective.documentgenerator"
         purge="False">
 
     <configlet
-        title="documentgenerator"
+        title="Document Generator settings"
         action_id="collective.documentgenerator.settings"
         appId="collective.documentgenerator"
         category="Products"

@@ -46,7 +46,7 @@ msgstr "Changements enregistrés"
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:135
+#: ../setuphandlers.py:138
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -62,6 +62,10 @@ msgstr "Variables du contexte"
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
+#: ../profiles/default/controlpanel.xml
+msgid "Documentgenerator configuration"
+msgstr "Configuration du générateur de documents"
+
 #: ../browser/controlpanel.py:78
 msgid "Edit cancelled"
 msgstr "Édition annulée"
@@ -70,27 +74,19 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../setuphandlers.py:98
+#: ../setuphandlers.py:101
 msgid "General template"
 msgstr "Modèle général"
 
-#: ../setuphandlers.py:83
+#: ../setuphandlers.py:86
 msgid "Header"
 msgstr "En-tête"
-
-#: ../configure.zcml:33
-msgid "Installs the collective.documentgenerator add-on."
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "Installs the collective.documentgenerator demo profile."
-msgstr ""
 
 #: ../interfaces.py:136
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
-#: ../setuphandlers.py:112
+#: ../setuphandlers.py:115
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
@@ -113,7 +109,7 @@ msgstr "Aucun"
 msgid "ODT File"
 msgstr "Canevas"
 
-#: ../setuphandlers.py:33
+#: ../setuphandlers.py:36
 msgid "POD Templates"
 msgstr "Modèles POD"
 
@@ -145,13 +141,9 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:164
+#: ../setuphandlers.py:167
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
-
-#: ../testing.zcml:14
-msgid "Steps to ease tests of collective.documentgenerator"
-msgstr ""
 
 #: ../content/pod_template.py:207
 msgid "Style template"
@@ -161,7 +153,7 @@ msgstr "Modèle de style"
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../setuphandlers.py:68
+#: ../setuphandlers.py:71
 msgid "Styles n°2"
 msgstr "Styles n°2"
 
@@ -197,18 +189,6 @@ msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
-#: ../configure.zcml:33
-msgid "collective.documentgenerator"
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "collective.documentgenerator demo"
-msgstr ""
-
-#: ../testing.zcml:14
-msgid "collective.documentgenerator tests"
-msgstr ""
-
 #: ../demo/helper.py:73
 msgid "comment"
 msgstr "Commentaire"
@@ -233,3 +213,4 @@ msgstr "Numéro du port Office"
 #: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr "Python uno"
+

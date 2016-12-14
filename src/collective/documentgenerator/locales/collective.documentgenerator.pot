@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-22 13:31+0000\n"
+"POT-Creation-Date: 2016-12-14 15:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:135
+#: ../setuphandlers.py:138
 msgid "Collection template"
 msgstr ""
 
@@ -69,6 +69,10 @@ msgstr ""
 msgid "Document Generator settings"
 msgstr ""
 
+#: ../profiles/default/controlpanel.xml
+msgid "Documentgenerator configuration"
+msgstr ""
+
 #: ../browser/controlpanel.py:78
 msgid "Edit cancelled"
 msgstr ""
@@ -77,27 +81,19 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../setuphandlers.py:98
+#: ../setuphandlers.py:101
 msgid "General template"
 msgstr ""
 
-#: ../setuphandlers.py:83
+#: ../setuphandlers.py:86
 msgid "Header"
-msgstr ""
-
-#: ../configure.zcml:33
-msgid "Installs the collective.documentgenerator add-on."
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "Installs the collective.documentgenerator demo profile."
 msgstr ""
 
 #: ../interfaces.py:136
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../setuphandlers.py:112
+#: ../setuphandlers.py:115
 msgid "Multiple format template"
 msgstr ""
 
@@ -120,7 +116,7 @@ msgstr ""
 msgid "ODT File"
 msgstr ""
 
-#: ../setuphandlers.py:33
+#: ../setuphandlers.py:36
 msgid "POD Templates"
 msgstr ""
 
@@ -152,12 +148,8 @@ msgstr ""
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:164
+#: ../setuphandlers.py:167
 msgid "Spreadsheet template"
-msgstr ""
-
-#: ../testing.zcml:14
-msgid "Steps to ease tests of collective.documentgenerator"
 msgstr ""
 
 #: ../content/pod_template.py:207
@@ -168,7 +160,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:68
+#: ../setuphandlers.py:71
 msgid "Styles n°2"
 msgstr ""
 
@@ -204,18 +196,6 @@ msgstr ""
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
-#: ../configure.zcml:33
-msgid "collective.documentgenerator"
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "collective.documentgenerator demo"
-msgstr ""
-
-#: ../testing.zcml:14
-msgid "collective.documentgenerator tests"
-msgstr ""
-
 #: ../demo/helper.py:73
 msgid "comment"
 msgstr ""
@@ -240,3 +220,4 @@ msgstr ""
 #: ../browser/controlpanel.py:49
 msgid "uno path"
 msgstr ""
+

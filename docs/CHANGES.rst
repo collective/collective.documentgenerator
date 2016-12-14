@@ -4,8 +4,12 @@ Changelog
 0.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Use correct name for entry to documentgenerator configuration
+  in the control panel.
+  [gbastien]
+- Added formats `.doc` and `.docx` to the demo template
+  `test_template_multiple`.
+  [gbastien]
 
 0.13 (2016-12-09)
 -----------------
