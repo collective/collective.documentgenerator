@@ -11,7 +11,7 @@
         category="Products"
         condition_expr=""
         url_expr="string:${portal_url}/@@collective.documentgenerator-controlpanel"
-        icon_expr="string:${portal_url}/maintenance_icon.png"
+        icon_expr="string:${portal_url}/++resource++collective.documentgenerator/configurable.png"
         visible="True"
         i18n:attributes="title">
             <permission>Manage portal</permission>
