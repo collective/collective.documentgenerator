@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 
 from collective.documentgenerator import _
@@ -42,14 +43,14 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u'oo_port'),
         description=_(u'Port Number of OO'),
         required=False,
-        default=2002
+        default=int(os.getenv('OO_PORT', 2002))
     )
 
     uno_path = schema.TextLine(
         title=_(u'uno path'),
         description=_(u'Path of python with uno'),
         required=False,
-        default=u'/usr/bin/python',
+        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python')),
         constraint=check_for_uno
     )
 

@@ -10,6 +10,8 @@ Changelog
 - Added formats `.doc` and `.docx` to the demo template
   `test_template_multiple`.
   [gbastien]
+- Set default value for oo_port and uno_path from environment variable
+  [sgeulette]
 
 0.13 (2016-12-09)
 -----------------

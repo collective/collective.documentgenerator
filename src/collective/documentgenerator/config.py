@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from Products.CMFPlone.utils import safe_unicode
 from plone import api
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
@@ -15,7 +16,7 @@ NEUTRAL_FORMATS = (('pdf', 'Adobe PDF (.pdf)'),)
 
 POD_FORMATS = ODS_FORMATS + ODT_FORMATS + NEUTRAL_FORMATS
 
-DEFAULT_PYTHON_UNO_PATH = '/usr/bin/python'
+DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
@@ -33,8 +34,16 @@ def get_oo_port():
 
 
 def set_oo_port():
-    """ Get environment value ste in buildout to define port """
+    """ Get environment value in buildout to define port """
     oo_port = os.getenv('OO_PORT', None)
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_port', int(oo_port))
+
+
+def set_uno_path():
+    """ Get environment value in buildout to define path """
+    python_uno = os.getenv('PYTHON_UNO', None)
+    if python_uno:
+        api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                       'IDocumentGeneratorControlPanelSchema.uno_path', safe_unicode(python_uno))

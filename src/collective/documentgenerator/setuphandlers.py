@@ -10,8 +10,6 @@ import logging
 
 from Products.CMFPlone.utils import safe_unicode
 
-from config import set_oo_port
-
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -23,7 +21,6 @@ def post_install(context):
     """Post install script"""
     if isNotCurrentProfile(context):
         return
-    set_oo_port()
 
 
 def install_demo(context):
