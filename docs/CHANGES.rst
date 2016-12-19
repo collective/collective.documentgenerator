@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.14 (unreleased)
+0.14 (2016-12-19)
 -----------------
 
 - Use correct name for entry to documentgenerator configuration
