@@ -156,20 +156,28 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         result = self.view.list(field_name)
         self.assertEqual(expected, result)
 
-    def test_display_text_method(self):
+    def test_display_text_as_html_method(self):
         field_name = 'description'
         to_set = 'My description\r\nMy life\r\nhttp://www.imio.be'
         expected = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
         self.content.description = to_set
-        result = self.view.display_text(field_name)
+        result = self.view.display_text_as_html(field_name)
         self.assertEqual(expected, result)
 
-    def test_display_html_method_without_appy_renderer(self):
+    def test_display_html_as_text_method(self):
+        field_name = 'description'
+        to_set = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
+        expected = 'My description\nMy life\nhttp://www.imio.be'
+        self.content.description = to_set
+        result = self.view.display_html_as_text(field_name)
+        self.assertEqual(expected, result)
+
+    def test_render_xhtml_method_without_appy_renderer(self):
         field_name = 'fullname'
         to_set = 'John Doe'
         expected = ''
         self.content.fullname = to_set
-        result = self.view.display_html(field_name)
+        result = self.view.render_xhtml(field_name)
         self.assertEqual(expected, result)
 
     def test_display_widget_method(self):

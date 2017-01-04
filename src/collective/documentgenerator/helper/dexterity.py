@@ -106,26 +106,6 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         field_renderer.exportable.separator = separator
         return field_renderer.render_value()
 
-    def display_text(self, field_name):
-        text = self.get_value(field_name)
-        return self.portal.portal_transforms.convert('web_intelligent_plain_text_to_html', text).getData()
-
-    def display_html(self, field_name):
-        if not self.appy_renderer:
-            return ''
-        html_text = self.get_value(field_name)
-        display = self.appy_renderer.renderXhtml(html_text)
-        return display
-
-    def display_list(self, field_name, separator=u', '):
-        values = self.get_value(field_name)
-        display = separator.join(values)
-        return display
-
-    def list(self, field_name):
-        values = self.get_value(field_name)
-        return values
-
     def display_widget(self, field_name, clean=True, soup=False):
         obj_view = getMultiAdapter((self.real_context, self.request), name=u'view')
         obj_view.updateFieldsFromSchemata()

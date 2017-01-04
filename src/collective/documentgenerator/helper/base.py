@@ -31,24 +31,50 @@ class DocumentGenerationHelperView(object):
 
     def get_value(self, field_name, default=None, as_utf8=False):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
 
     def display(self, field_name, no_value=''):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
 
     def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
 
     def display_voc(self, field_name, separator=','):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
 
-    def display_html(self, field_name):
-        """See IDocumentGenerationHelper. To implements."""
+    def display_text_as_html(self, field_name):
+        text = self.get_value(field_name)
+        return self.portal.portal_transforms.convert('web_intelligent_plain_text_to_html', text).getData()
+
+    def display_html_as_text(self, field_name):
+        html = self.get_value(field_name)
+        return self.portal.portal_transforms.convert('html_to_web_intelligent_plain_text', html).getData().strip('\n ')
+
+    def render_xhtml(self, field_name):
+        if not self.appy_renderer:
+            return ''
+        html_text = self.get_value(field_name)
+        display = self.appy_renderer.renderXhtml(html_text)
+        return display
 
     def display_widget(self, fieldname, clean=True, soup=False):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
+
+    def display_list(self, field_name, separator=', '):
+        values = self.get_value(field_name)
+        display = separator.join(values)
+        return display
+
+    def list(self, field_name):
+        return self.get_value(field_name)
 
     def list_voc(self, field_name, list_keys=False, list_values=True):
         """See IDocumentGenerationHelper. To implements."""
+        raise NotImplementedError()
 
     def _set_appy_renderer(self, appy_renderer):
         self.appy_renderer = appy_renderer

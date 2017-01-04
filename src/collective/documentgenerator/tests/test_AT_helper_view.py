@@ -173,7 +173,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
         self._test_display(field_name, expected, result)
 
-    def test_display_text_method(self):
+    def test_display_text_as_html_method(self):
         field_name = 'description'
         to_set = 'My description\r\nMy life\r\nhttp://www.imio.be'
         expected = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
@@ -181,10 +181,10 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         field = self.AT_topic.getField(field_name)
         field.set(self.AT_topic, to_set)
 
-        result = self.view.display_text(field_name)
+        result = self.view.display_text_as_html(field_name)
         self._test_display(field_name, expected, result)
 
-    def test_display_html_method_without_appy_renderer(self):
+    def test_render_xhtml_method_without_appy_renderer(self):
         field_name = 'description'
         to_set = 'Yolo!'
         expected = ''
@@ -192,7 +192,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         field = self.AT_topic.getField(field_name)
         field.set(self.AT_topic, to_set)
 
-        result = self.view.display_html(field_name)
+        result = self.view.render_xhtml(field_name)
         self._test_display(field_name, expected, result)
 
     def test_check_permission(self):

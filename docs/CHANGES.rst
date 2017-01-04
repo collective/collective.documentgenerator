@@ -4,8 +4,12 @@ Changelog
 0.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Raise NotImplementedError in not implemented methods.
+  [sgeulette]
+- Rename display_html by render_xhtml and display_text by display_text_as_html.
+  [sgeulette]
+- Add display_html_as_text
+  [sgeulette]
 
 0.14 (2016-12-19)
 -----------------
