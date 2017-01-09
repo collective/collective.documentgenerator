@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Add display_html_as_text
   [sgeulette]
+- Add get_state
+  [sgeulette]
 
 0.14 (2016-12-19)
 -----------------

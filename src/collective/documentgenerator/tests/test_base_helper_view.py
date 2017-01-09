@@ -23,3 +23,7 @@ class TestBaseHelperViewMethods(ArchetypesIntegrationTests):
         isinstance(new_dghv, DemoHelperView)
         self.assertEqual(new_dghv.real_context, self.portal['podtemplates'])
         self.assertEqual(new_dghv.display('title'), 'POD Templates')
+
+    def test_get_state(self):
+        # no workflow
+        self.assertEqual(self.view.get_state(title=True), '-')

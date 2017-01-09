@@ -53,7 +53,8 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         msg = "The proxy should have call proxy.display() method as 'title' is a schema's field."
         self.assertTrue(proxy.description == 'yolo', msg)
 
-        msg = "If we try to access the attribute value through the accessor, it should return the real value stored on the schema's field."
+        msg = ("If we try to access the attribute value through the accessor, it should return the real value "
+               "stored on the schema's field.")
         self.assertTrue(proxy.Title() != 'yolo', msg)
 
 

@@ -2,7 +2,7 @@
 
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
-
+from plone import api
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
@@ -94,6 +94,17 @@ class DocumentGenerationHelperView(object):
         if appy_rdr is not None:
             view.appy_renderer = appy_rdr
         return view
+
+    def get_state(self, title=True):
+        """ Return state of object. """
+        obj = self.real_context
+        state = api.content.get_state(obj, default=None)
+        if not state:
+            return '-'
+        if title:
+            wtool = api.portal.get_tool('portal_workflow')
+            state = wtool.getTitleForStateOnType(state, obj.portal_type)
+        return state
 
 
 class DisplayProxyObject(object):
