@@ -46,7 +46,7 @@ setup(
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',
-        'plone.api',
+        'plone.api>=1.3.3',
         'plone.app.dexterity',
         'setuptools',
         # fix about orderedselect
