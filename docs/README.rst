@@ -44,6 +44,7 @@ In your Plone site, you can add two sorts of main templates :
   * subtemplate selection
   * tal expression as condition (`behavior <https://github.com/collective/collective.behavior.talcondition>`_).
   * enabling flag
+  * context variables list
 
 If you want, you can organize your templates in one or more folder.
 
