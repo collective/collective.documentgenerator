@@ -12,6 +12,8 @@ Changelog
   [sgeulette]
 - Add get_state
   [sgeulette]
+- Add context_var method to safely get an optional context variable
+  [sgeulette]
 
 0.14 (2016-12-19)
 -----------------
