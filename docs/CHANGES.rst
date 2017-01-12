@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.15 (unreleased)
------------------
+1.0.0 (2017-01-12)
+------------------
 
 - Raise NotImplementedError in not implemented methods.
   [sgeulette]
