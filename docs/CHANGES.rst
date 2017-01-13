@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2017-01-13)
 ------------------
 
 - Removed useless parameter in getDGHV method
