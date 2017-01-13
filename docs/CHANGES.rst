@@ -4,8 +4,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Removed useless parameter in getDGHV method
+  [sgeulette]
 
 1.0.0 (2017-01-12)
 ------------------

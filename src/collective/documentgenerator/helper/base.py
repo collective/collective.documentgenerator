@@ -88,11 +88,10 @@ class DocumentGenerationHelperView(object):
                          target_language=target_language,
                          default=default)
 
-    def getDGHV(self, obj, appy_rdr=None):
+    def getDGHV(self, obj):
         """ get another object 'document_generation_helper_view' view """
         view = getMultiAdapter((obj, self.request), name=u'document_generation_helper_view')
-        if appy_rdr is not None:
-            view.appy_renderer = appy_rdr
+        view.appy_renderer = self.appy_renderer
         return view
 
     def get_state(self, title=True):
