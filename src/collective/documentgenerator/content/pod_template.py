@@ -21,6 +21,8 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 
 from z3c.form import validator
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
 
@@ -170,9 +172,10 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             for element in selected_formats:
                 if element not in authorise_extension_list:
                     elem = self.get_invalid_error(element)
-                    error_message = _(u"element_not_valid",
-                                      default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
-                                      mapping={u"elem": elem, u"extension": extension, u"template": current_filename})
+                    error_message = _(
+                        u"element_not_valid",
+                        default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
+                        mapping={u"elem": elem, u"extension": extension, u"template": current_filename})
                     raise Invalid(error_message)
 
     def get_invalid_error(self, extension):
@@ -186,6 +189,7 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
+    form.widget('pod_formats', OrderedSelectFieldWidget, multiple='multiple', size=5)
     pod_formats = schema.List(
         title=_(u'Available formats'),
         description=_(u'Select format in which the template will be generable.'),
@@ -194,7 +198,7 @@ class IConfigurablePODTemplate(IPODTemplate):
         default=['odt', ],
     )
 
-    form.widget('pod_portal_types', SelectWidget, multiple='multiple', size=15)
+    form.widget('pod_portal_types', CheckBoxFieldWidget, multiple='multiple', size=15)
     pod_portal_types = schema.List(
         title=_(u'Allowed portal types'),
         description=_(u'Select for which content types the template will be available.'),

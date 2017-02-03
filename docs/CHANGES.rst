@@ -4,13 +4,17 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix widget for fields `IConfigurablePODTemplate.pod_formats` and
+  `IConfigurablePODTemplate.pod_portal_types` to avoid override by another
+  package like it is the case when using `collective.z3cform.select2`.
+  Use CheckBoxWidget for `IConfigurablePODTemplate.pod_portal_types` to ease
+  selection in large containing several elements.
+  [gbastien]
 
 1.0.1 (2017-01-13)
 ------------------
 
-- Removed useless parameter in getDGHV method
+- Removed useless parameter in getDGHV method.
   [sgeulette]
 
 1.0.0 (2017-01-12)
