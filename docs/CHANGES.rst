@@ -8,7 +8,7 @@ Changelog
   `IConfigurablePODTemplate.pod_portal_types` to avoid override by another
   package like it is the case when using `collective.z3cform.select2`.
   Use CheckBoxWidget for `IConfigurablePODTemplate.pod_portal_types` to ease
-  selection in large containing several elements.
+  selection when displaying several elements.
   [gbastien]
 
 1.0.1 (2017-01-13)
