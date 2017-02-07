@@ -10,6 +10,9 @@ Changelog
   Use CheckBoxWidget for `IConfigurablePODTemplate.pod_portal_types` to ease
   selection when displaying several elements.
   [gbastien]
+- Set appy renderer on view element stored in generation context.
+  Useful when view has been overrided in generation context getter.
+  [sgeulette]
 
 1.0.1 (2017-01-13)
 ------------------
