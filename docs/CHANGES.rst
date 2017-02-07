@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.2 (unreleased)
+1.0.2 (2017-02-07)
 ------------------
 
 - Fix widget for fields `IConfigurablePODTemplate.pod_formats` and
