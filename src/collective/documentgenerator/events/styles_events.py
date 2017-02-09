@@ -38,6 +38,10 @@ def update_styles_of_all_PODtemplate(style_template, event):
     os.remove(style_template_file.name)
 
 
+def podtemplate_modified(pod_template, event):
+    update_PODtemplate_styles(pod_template, event)
+
+
 def update_PODtemplate_styles(pod_template, event):
     """
     Update styles on a pod_template using external styles.

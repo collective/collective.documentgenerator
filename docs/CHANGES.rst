@@ -4,8 +4,8 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added utils method to update templates.
+  [sgeulette]
 
 1.0.2 (2017-02-07)
 ------------------

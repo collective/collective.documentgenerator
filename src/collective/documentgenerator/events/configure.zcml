@@ -13,7 +13,7 @@
 
   <subscriber for="..content.pod_template.IPODTemplate
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-              handler=".styles_events.update_PODtemplate_styles" />
+              handler=".styles_events.podtemplate_modified" />
 
   <subscriber for="..content.pod_template.IPODTemplate
                    zope.lifecycleevent.interfaces.IObjectCreatedEvent"
