@@ -25,16 +25,20 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertEqual(self.test_podtemplate.initial_md5, mgodt)
         modified = self.test_podtemplate.modification_date
         # replace file
-        update_templates([('/podtemplates/test_template', path('modele_general.ods'))])
+        ret = update_templates([('/podtemplates/test_template', path('modele_general.ods'))])
         self.assertEqual(compute_md5(self.test_podtemplate.odt_file.data), mgods)
+        self.assertEquals(ret[0][2], 'replaced')
         self.assertNotEquals(modified, self.test_podtemplate.modification_date)
         modified = self.test_podtemplate.modification_date
         # bad plone obj path => no change
-        update_templates([('/podtemplates/test_template_bad', path('modele_general.odt'))])
+        ret = update_templates([('/podtemplates/test_template_bad', path('modele_general.odt'))])
         self.assertEqual(modified, self.test_podtemplate.modification_date)
+        self.assertEquals(ret[0][2], 'plone path error')
         # bad file path => no change
-        update_templates([('/podtemplates/test_template', path('modele_general.bad'))])
+        ret = update_templates([('/podtemplates/test_template', path('modele_general.bad'))])
         self.assertEqual(modified, self.test_podtemplate.modification_date)
+        self.assertEquals(ret[0][2], 'os path error')
         # same file => no change
-        update_templates([('/podtemplates/test_template', path('modele_general.ods'))])
+        ret = update_templates([('/podtemplates/test_template', path('modele_general.ods'))])
         self.assertEqual(modified, self.test_podtemplate.modification_date)
+        self.assertEquals(ret[0][2], 'unchanged')
