@@ -4,8 +4,8 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Update styles templates only with force param
+  [sgeulette]
 
 1.0.3 (2017-02-10)
 ------------------

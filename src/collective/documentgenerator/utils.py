@@ -59,6 +59,9 @@ def update_templates(templates, profile='', force=False):
                     ret.append((ppath, ospath, 'unchanged'))
                     continue
                 obj.initial_md5 = new_md5
+            elif not force:
+                ret.append((ppath, ospath, 'unchanged'))
+                continue
             obj.odt_file.data = data
             modified(obj)
             ret.append((ppath, ospath, 'replaced'))
