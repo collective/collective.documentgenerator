@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.4 (unreleased)
+1.0.4 (2017-02-14)
 ------------------
 
 - Update styles templates only with force param.
