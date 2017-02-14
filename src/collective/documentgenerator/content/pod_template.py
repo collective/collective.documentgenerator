@@ -110,9 +110,9 @@ class PODTemplate(Item):
 
     @property
     def current_md5(self):
-        md5 = ''
+        md5 = u''
         if self.odt_file:
-            md5 = compute_md5(self.odt_file.data)
+            md5 = safe_unicode(compute_md5(self.odt_file.data))
         return md5
 
     def has_been_modified(self):

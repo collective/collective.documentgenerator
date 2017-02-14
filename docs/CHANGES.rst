@@ -4,8 +4,11 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Update styles templates only with force param
+- Update styles templates only with force param.
   [sgeulette]
+- Make sure `current_md5` is stored as unicode or it fails to validate when
+  manually validating stored data.
+  [gbastien]
 
 1.0.3 (2017-02-10)
 ------------------
