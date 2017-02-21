@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from appy.pod.renderer import Renderer
+from appy.pod.styles_manager import TableProperties
+
 from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
 
@@ -18,7 +21,6 @@ from plone import api
 
 from zope.component import queryAdapter
 
-import appy.pod.renderer
 import mimetypes
 import os
 import tempfile
@@ -153,8 +155,14 @@ class DocumentGenerationView(BrowserView):
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
         # enrich the generation context with previously generated documents
         generation_context.update(sub_documents)
+        # enable optimalColumnWidths if enabled in the config
+        stylesMapping = {}
+        optimalColumnWidths = False
+        if config.get_optimize_tables():
+            stylesMapping = {'table': TableProperties(optimalColumnWidths=True)}
+            optimalColumnWidths = "OCW_.*"
 
-        renderer = appy.pod.renderer.Renderer(
+        renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
             temp_filename,
@@ -162,6 +170,8 @@ class DocumentGenerationView(BrowserView):
             ooPort=config.get_oo_port(),
             imageResolver=api.portal.get(),
             forceOoCall=True,
+            optimalColumnWidths=optimalColumnWidths,
+            stylesMapping=stylesMapping,
             **kwargs
         )
 

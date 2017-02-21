@@ -33,6 +33,12 @@ def get_oo_port():
     )
 
 
+def get_optimize_tables():
+    return api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables'
+    )
+
+
 def set_oo_port():
     """ Get environment value in buildout to define port """
     oo_port = os.getenv('OO_PORT', None)

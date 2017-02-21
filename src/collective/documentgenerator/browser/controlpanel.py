@@ -41,17 +41,26 @@ class IDocumentGeneratorControlPanelSchema(Interface):
 
     oo_port = schema.Int(
         title=_(u'oo_port'),
-        description=_(u'Port Number of OO'),
+        description=_(u'Port Number of OO.'),
         required=False,
         default=int(os.getenv('OO_PORT', 2002))
     )
 
     uno_path = schema.TextLine(
         title=_(u'uno path'),
-        description=_(u'Path of python with uno'),
+        description=_(u'Path of python with uno.'),
         required=False,
         default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python')),
         constraint=check_for_uno
+    )
+
+    optimize_tables = schema.Bool(
+        title=_(u'Optimize tables'),
+        description=_(u'This will apply the "Optimize table columns width" of '
+                      u'LibreOffice to tables that do not use the '
+                      u'"table-layout: fixed" CSS style.'),
+        required=False,
+        default=False
     )
 
 

@@ -4,8 +4,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added parameter `optimize_tables` to be able to use the `optimalColumnWidths`
+  functionnality of appy.pod.
+  [gbastien]
 
 1.0.4 (2017-02-14)
 ------------------

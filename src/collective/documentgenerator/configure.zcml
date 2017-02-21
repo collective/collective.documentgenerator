@@ -47,4 +47,19 @@
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
 
+    <genericsetup:upgradeSteps
+        source="1"
+        destination="2"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeDepends
+            title="Reapply registry.xml"
+            description="This will add new parameter 'optimize_tables'"
+            import_steps="plone.app.registry" />
+        <genericsetup:upgradeDepends
+            title="Reapply controlpanel"
+            description="This will update title and icon that changed"
+            import_steps="controlpanel" />
+
+    </genericsetup:upgradeSteps>
+
 </configure>

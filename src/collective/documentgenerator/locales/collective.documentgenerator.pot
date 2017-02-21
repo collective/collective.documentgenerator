@@ -1,10 +1,7 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-12-14 15:39+0000\n"
+"POT-Creation-Date: 2017-02-15 15:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,9 +12,9 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: collective.documentgenerator\n"
+"Domain: DOMAIN\n"
 
-#: ../browser/controlpanel.py:63
+#: ../browser/controlpanel.py:73
 msgid ""
 msgstr ""
 
@@ -25,35 +22,35 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../content/pod_template.py:199
+#: ../content/pod_template.py:203
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:190
+#: ../content/pod_template.py:194
 msgid "Available formats"
 msgstr ""
 
-#: ../interfaces.py:144
+#: ../interfaces.py:149
 msgid "Can't create a persistent document on a non folderish context."
 msgstr ""
 
-#: ../interfaces.py:140
+#: ../interfaces.py:145
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:76
+#: ../browser/controlpanel.py:86
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:73
+#: ../browser/controlpanel.py:83
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:212
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:138
+#: ../setuphandlers.py:135
 msgid "Collection template"
 msgstr ""
 
@@ -61,43 +58,40 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:226
+#: ../content/pod_template.py:230
 msgid "Context variables."
 msgstr ""
 
-#: ../browser/controlpanel.py:62
+#: ../browser/controlpanel.py:72
+#: ../profiles/default/controlpanel.xml
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../profiles/default/controlpanel.xml
-msgid "Documentgenerator configuration"
-msgstr ""
-
-#: ../browser/controlpanel.py:78
+#: ../browser/controlpanel.py:88
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:60
+#: ../content/pod_template.py:62
 msgid "Enabled"
 msgstr ""
 
-#: ../setuphandlers.py:101
+#: ../setuphandlers.py:98
 msgid "General template"
 msgstr ""
 
-#: ../setuphandlers.py:86
+#: ../setuphandlers.py:83
 msgid "Header"
 msgstr ""
 
-#: ../interfaces.py:136
+#: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../setuphandlers.py:115
+#: ../setuphandlers.py:112
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:169
+#: ../content/pod_template.py:171
 msgid "No format selected"
 msgstr ""
 
@@ -111,16 +105,20 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/pod_template.py:52
+#: ../content/pod_template.py:54
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
 
-#: ../setuphandlers.py:36
+#: ../browser/controlpanel.py:58
+msgid "Optimize tables"
+msgstr ""
+
+#: ../setuphandlers.py:33
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:132
+#: ../content/pod_template.py:134
 msgid "POD context name"
 msgstr ""
 
@@ -128,31 +126,31 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:50
-msgid "Path of python with uno"
+#: ../browser/controlpanel.py:51
+msgid "Path of python with uno."
 msgstr ""
 
-#: ../browser/controlpanel.py:43
-msgid "Port Number of OO"
+#: ../browser/controlpanel.py:44
+msgid "Port Number of OO."
 msgstr ""
 
-#: ../browser/controlpanel.py:65
+#: ../browser/controlpanel.py:75
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:200
+#: ../content/pod_template.py:204
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:191
+#: ../content/pod_template.py:195
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:167
+#: ../setuphandlers.py:164
 msgid "Spreadsheet template"
 msgstr ""
 
-#: ../content/pod_template.py:207
+#: ../content/pod_template.py:211
 msgid "Style template"
 msgstr ""
 
@@ -160,7 +158,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:71
+#: ../setuphandlers.py:68
 msgid "Styles n°2"
 msgstr ""
 
@@ -168,31 +166,35 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:126
+#: ../content/pod_template.py:128
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:215
+#: ../content/pod_template.py:219
 msgid "Templates to merge."
 msgstr ""
 
-#: ../content/pod_template.py:227
+#: ../content/pod_template.py:231
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
-#: ../content/pod_template.py:147
+#: ../browser/controlpanel.py:59
+msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
+msgstr ""
+
+#: ../content/pod_template.py:149
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:142
+#: ../content/pod_template.py:144
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:241
+#: ../content/pod_template.py:245
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:243
+#: ../content/pod_template.py:247
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
@@ -201,7 +203,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:173
+#: ../content/pod_template.py:175
 msgid "element_not_valid"
 msgstr ""
 
@@ -213,11 +215,11 @@ msgstr ""
 msgid "last_change"
 msgstr ""
 
-#: ../browser/controlpanel.py:42
+#: ../browser/controlpanel.py:43
 msgid "oo_port"
 msgstr ""
 
-#: ../browser/controlpanel.py:49
+#: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr ""
 
