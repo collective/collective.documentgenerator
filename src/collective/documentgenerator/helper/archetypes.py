@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.helper.base import DisplayProxyObject
-from collective.documentgenerator.helper.base import DocumentGenerationHelperView
-from collective.documentgenerator.interfaces import IFieldRendererForDocument
-from plone.api.validation import mutually_exclusive_parameters
-
 from zope.component import getMultiAdapter
+
+from collective.documentgenerator.helper.base import DisplayProxyObject, DocumentGenerationHelperView
+from collective.documentgenerator.interfaces import IFieldRendererForDocument
 
 
 class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
@@ -40,19 +38,6 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         if as_utf8 and isinstance(value, unicode):
             value = value.encode('utf8')
         return value
-
-    @mutually_exclusive_parameters('field_name', 'date')
-    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
-
-        if field_name:
-            date = self.get_value(field_name)
-
-        if not custom_format:
-            # use toLocalizedTime
-            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
-        else:
-            formatted_date = date.strftime(custom_format)
-        return formatted_date
 
     def display_voc(self, field_name, separator=', '):
         display_value = self.real_context.restrictedTraverse('@@at_utils').translate

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import datetime
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from plone import api
@@ -7,6 +7,7 @@ from plone.api.validation import mutually_exclusive_parameters
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
+from Products.CMFPlone.utils import safe_unicode
 
 
 class DocumentGenerationHelperView(object):
@@ -40,8 +41,22 @@ class DocumentGenerationHelperView(object):
 
     @mutually_exclusive_parameters('field_name', 'date')
     def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
-        """See IDocumentGenerationHelper. To implements."""
-        raise NotImplementedError()
+        if field_name:
+            date = self.get_value(field_name)
+
+        if date is None:
+            return u''
+
+        if type(date) == datetime.date:
+            date = datetime.datetime(date.year, date.month, date.day)
+
+        if not custom_format:
+            # use toLocalizedTime
+            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
+        else:
+            formatted_date = date.strftime(custom_format).decode('utf8')
+
+        return safe_unicode(formatted_date)
 
     def display_voc(self, field_name, separator=','):
         """See IDocumentGenerationHelper. To implements."""

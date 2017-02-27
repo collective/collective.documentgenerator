@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
 
-import datetime
 from bs4 import BeautifulSoup as Soup
-from plone.api.validation import mutually_exclusive_parameters
-
-from zope.component import getMultiAdapter, getUtility
-
+from collective.excelexport.exportables.dexterityfields import get_ordered_fields
 from plone import api
 from plone.app.textfield import RichTextValue
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.autoform.interfaces import READ_PERMISSIONS_KEY
+from plone.autoform.interfaces import IFormFieldProvider, READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.supermodel.utils import mergedTaggedValueDict
-
-from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+from zope.component import getMultiAdapter, getUtility
 
 from .base import DisplayProxyObject, DocumentGenerationHelperView
 from ..interfaces import IFieldRendererForDocument
@@ -87,25 +81,6 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         if as_utf8 and isinstance(value, unicode):
             value = value.encode('utf8')
         return value
-
-    @mutually_exclusive_parameters('field_name', 'date')
-    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
-        if field_name:
-            date = self.get_value(field_name)
-
-        if date is None:
-            return u''
-
-        if type(date) == datetime.date:
-            date = datetime.datetime(date.year, date.month, date.day)
-
-        if not custom_format:
-            # use toLocalizedTime
-            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
-        else:
-            formatted_date = date.strftime(custom_format).decode('utf8')
-
-        return formatted_date
 
     def display_voc(self, field_name, separator=', '):
         field_renderer = self.get_field_renderer(field_name)
