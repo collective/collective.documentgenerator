@@ -105,32 +105,60 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertTrue(displayed == 'foobar', msg)
 
     def test_display_date_method(self):
-        field_name = 'birth_datetime'
+        effective_field_name = 'birth_datetime'
         self.content.birth_datetime = datetime.datetime(1986, 9, 18, 10, 0)
 
         # toLocalizedTime
         expected_date = u'Sep 18, 1986'
-        result = self.view.display_date(field_name)
+        result = self.view.display_date(field_name=effective_field_name)
         self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime)
+        self.assertEqual(expected_date, result)
+
         expected_date = u'Sep 18, 1986 10:00 AM'
-        result = self.view.display_date(field_name, long_format=True)
+        result = self.view.display_date(field_name=effective_field_name, long_format=True)
         self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
+        self.assertEqual(expected_date, result)
+
         expected_date = u'10:00 AM'
-        result = self.view.display_date(field_name, time_only=True)
+        result = self.view.display_date(field_name=effective_field_name, time_only=True)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, time_only=True)
         self.assertEqual(expected_date, result)
 
         # custom_format
         expected_date = '18 yolo 09 yolo 1986'
-        result = self.view.display_date(field_name, custom_format='%d yolo %m yolo %Y')
+        result = self.view.display_date(field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
 
         # date
         self.content.birth_datetime = datetime.date(1986, 9, 18)
         expected_date = u'Sep 18, 1986'
-        result = self.view.display_date(field_name)
+        result = self.view.display_date(field_name=effective_field_name)
         self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime)
+        self.assertEqual(expected_date, result)
+
         expected_date = u'Sep 18, 1986 12:00 AM'
-        result = self.view.display_date(field_name, long_format=True)
+        result = self.view.display_date(field_name=effective_field_name, long_format=True)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
+        self.assertEqual(expected_date, result)
+
+        expected_date = u'12:00 AM'
+        result = self.view.display_date(field_name=effective_field_name, time_only=True)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, time_only=True)
+        self.assertEqual(expected_date, result)
+
+        # custom_format
+        expected_date = '18 yolo 09 yolo 1986'
+        result = self.view.display_date(field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):
