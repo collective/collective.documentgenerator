@@ -3,6 +3,7 @@
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from plone import api
+from plone.api.validation import mutually_exclusive_parameters
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
@@ -37,7 +38,8 @@ class DocumentGenerationHelperView(object):
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
-    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
+    @mutually_exclusive_parameters('field_name', 'date')
+    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 

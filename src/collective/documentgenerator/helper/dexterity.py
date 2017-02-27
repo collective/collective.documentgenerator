@@ -3,6 +3,7 @@
 
 import datetime
 from bs4 import BeautifulSoup as Soup
+from plone.api.validation import mutually_exclusive_parameters
 
 from zope.component import getMultiAdapter, getUtility
 
@@ -87,12 +88,17 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             value = value.encode('utf8')
         return value
 
-    def display_date(self, field_name, long_format=None, time_only=None, custom_format=None):
-        date = self.get_value(field_name)
+    @mutually_exclusive_parameters('field_name', 'date')
+    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
+        if field_name:
+            date = self.get_value(field_name)
+
         if date is None:
             return u''
+
         if type(date) == datetime.date:
             date = datetime.datetime(date.year, date.month, date.day)
+
         if not custom_format:
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
