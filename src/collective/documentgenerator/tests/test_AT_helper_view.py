@@ -119,25 +119,37 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         self.assertTrue(displayed == 'yolo', msg)
 
     def test_display_date_method(self):
-        field_name = 'effectiveDate'
+        effective_field_name = 'effectiveDate'
         date_to_set = DateTime.DateTime('18/09/1986')
 
-        field = self.AT_topic.getField(field_name)
+        field = self.AT_topic.getField(effective_field_name)
         field.set(self.AT_topic, date_to_set)
 
         # toLocalizedTime
         expected_date = u'Sep 18, 1986'
-        result = self.view.display_date(field_name)
+        result = self.view.display_date(field_name=effective_field_name)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=date_to_set)
+        self.assertEqual(expected_date, result)
+
         expected_date = u'Sep 18, 1986 12:00 AM'
-        result = self.view.display_date(field_name, long_format=True)
+        result = self.view.display_date(field_name=effective_field_name, long_format=True)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=date_to_set, long_format=True)
+        self.assertEqual(expected_date, result)
+
         expected_date = u'12:00 AM'
-        result = self.view.display_date(field_name, time_only=True)
+        result = self.view.display_date(field_name=effective_field_name, time_only=True)
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=date_to_set, time_only=True)
+        self.assertEqual(expected_date, result)
 
         # custom_format
         expected_date = '18 yolo 09 yolo 1986'
-        result = self.view.display_date(field_name, custom_format='%d yolo %m yolo %Y')
-
-        self._test_display(field_name, expected_date, result)
+        result = self.view.display_date(field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
+        result = self.view.display_date(date=date_to_set, custom_format='%d yolo %m yolo %Y')
+        self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):
         field_name = 'customViewFields'
