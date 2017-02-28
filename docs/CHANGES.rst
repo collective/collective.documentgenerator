@@ -4,6 +4,8 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Added parameter 'date' in display_date witch is mutually exclusive with 'field_name' to add ability to use a date field or   a date object with display_date.
+  [odelaere]
 - Added parameter `optimize_tables` to be able to use the `optimalColumnWidths`
   functionnality of appy.pod.
   [gbastien]
