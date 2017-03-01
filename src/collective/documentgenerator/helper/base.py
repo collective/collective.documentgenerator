@@ -62,12 +62,16 @@ class DocumentGenerationHelperView(object):
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
-    def display_text_as_html(self, field_name):
-        text = self.get_value(field_name)
+    @mutually_exclusive_parameters('field_name', 'text')
+    def display_text_as_html(self, field_name=None, text=None):
+        if field_name:
+            text = self.get_value(field_name)
         return self.portal.portal_transforms.convert('web_intelligent_plain_text_to_html', text).getData()
 
-    def display_html_as_text(self, field_name):
-        html = self.get_value(field_name)
+    @mutually_exclusive_parameters('field_name', 'html')
+    def display_html_as_text(self, field_name=None, html=None):
+        if field_name:
+            html = self.get_value(field_name)
         return self.portal.portal_transforms.convert('html_to_web_intelligent_plain_text', html).getData().strip('\n ')
 
     def render_xhtml(self, field_name):
