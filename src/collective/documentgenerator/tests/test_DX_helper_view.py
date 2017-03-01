@@ -185,20 +185,35 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(expected, result)
 
     def test_display_text_as_html_method(self):
-        field_name = 'description'
+        actual_field_name = 'description'
         to_set = 'My description\r\nMy life\r\nhttp://www.imio.be'
         expected = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
+
         self.content.description = to_set
-        result = self.view.display_text_as_html(field_name)
+        result = self.view.display_text_as_html(field_name=actual_field_name)
         self.assertEqual(expected, result)
 
-    def test_display_html_as_text_method(self):
-        field_name = 'description'
-        to_set = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
-        expected = 'My description\nMy life\nhttp://www.imio.be'
-        self.content.description = to_set
-        result = self.view.display_html_as_text(field_name)
+        result = self.view.display_text_as_html(text=to_set)
         self.assertEqual(expected, result)
+
+        result = self.view.display_text_as_html()
+        self.assertFalse(result, "Expected result to be None or '' but is " + result)
+
+    def test_display_html_as_text_method(self):
+        actual_field_name = 'description'
+        to_set = '<p>My description<br />My life<br /><a href="http://www.imio.be" ' \
+                 'rel="nofollow">http://www.imio.be</a></p>'
+        expected = 'My description\nMy life\nhttp://www.imio.be'
+
+        self.content.description = to_set
+        result = self.view.display_html_as_text(field_name=actual_field_name)
+        self.assertEqual(expected, result)
+
+        result = self.view.display_html_as_text(html=to_set)
+        self.assertEqual(expected, result)
+
+        result = self.view.display_html_as_text()
+        self.assertFalse(result, "Expected result to be None or '' but is " + result)
 
     def test_render_xhtml_method_without_appy_renderer(self):
         field_name = 'fullname'

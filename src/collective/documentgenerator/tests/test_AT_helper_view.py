@@ -187,15 +187,40 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         self._test_display(field_name, expected, result)
 
     def test_display_text_as_html_method(self):
-        field_name = 'description'
+        actual_field_name = 'description'
         to_set = 'My description\r\nMy life\r\nhttp://www.imio.be'
         expected = 'My description<br />My life<br /><a href="http://www.imio.be" rel="nofollow">http://www.imio.be</a>'
 
-        field = self.AT_topic.getField(field_name)
+        field = self.AT_topic.getField(actual_field_name)
         field.set(self.AT_topic, to_set)
 
-        result = self.view.display_text_as_html(field_name)
-        self._test_display(field_name, expected, result)
+        result = self.view.display_text_as_html(field_name=actual_field_name)
+        self.assertEqual(result, expected)
+
+        result = self.view.display_text_as_html(text=to_set)
+        self.assertEqual(result, expected)
+
+        result = self.view.display_text_as_html()
+        self.assertFalse(result, "Expected result to be None or '' but is " + result)
+
+    def test_display_html_as_text_method(self):
+        # use title because description does not allow mimetype text/html
+        actual_field_name = 'title'
+        to_set = '<p>My description<br />My life<br /><a href="http://www.imio.be" ' \
+                 'rel="nofollow">http://www.imio.be</a></p>'
+        expected = 'My description\nMy life\nhttp://www.imio.be'
+
+        field = self.AT_topic.getField(actual_field_name)
+        field.set(self.AT_topic, to_set)
+
+        result = self.view.display_html_as_text(field_name=actual_field_name)
+        self.assertEqual(result, expected)
+
+        result = self.view.display_html_as_text(html=to_set)
+        self.assertEqual(result, expected)
+
+        result = self.view.display_html_as_text()
+        self.assertFalse(result, "Expected result to be None or '' but is " + result)
 
     def test_render_xhtml_method_without_appy_renderer(self):
         field_name = 'description'
