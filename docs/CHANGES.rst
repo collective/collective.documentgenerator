@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.5 (unreleased)
+1.0.5 (2017-03-10)
 ------------------
 
 - Added parameter 'html' in display_html_as_text witch is mutually exclusive with 'field_name' to add ability to use a date field or an html formatted string with display_html_as_text.
