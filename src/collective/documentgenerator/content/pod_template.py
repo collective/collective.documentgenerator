@@ -135,6 +135,11 @@ class IMergeTemplatesRowSchema(Interface):
         required=True,
     )
 
+    form.widget('do_rendering', RadioFieldWidget)
+    do_rendering = schema.Bool(
+        title=_(u'Do rendering'),
+    )
+
 
 class IContextVariablesRowSchema(Interface):
     """
@@ -283,9 +288,9 @@ class ConfigurablePODTemplate(PODTemplate):
 
         return style_template
 
-    def set_merge_templates(self, pod_template, pod_context_name, position=-1):
+    def set_merge_templates(self, pod_template, pod_context_name, do_rendering=True, position=-1):
         old_value = list(self.merge_templates)
-        newline = {'template': pod_template.UID(), 'pod_context_name': pod_context_name}
+        newline = {'template': pod_template.UID(), 'pod_context_name': pod_context_name, 'do_rendering': do_rendering}
         if position >= 0:
             old_value.insert(position, newline)
         else:
@@ -303,7 +308,7 @@ class ConfigurablePODTemplate(PODTemplate):
         if self.merge_templates:
             for line in self.merge_templates:
                 pod_template = catalog(UID=line['template'])[0].getObject()
-                pod_context[line['pod_context_name'].encode('utf-8')] = pod_template
+                pod_context[line['pod_context_name'].encode('utf-8')] = (pod_template, line['do_rendering'])
 
         return pod_context
 

@@ -59,7 +59,13 @@
             title="Reapply controlpanel"
             description="This will update title and icon that changed"
             import_steps="controlpanel" />
-
     </genericsetup:upgradeSteps>
+
+    <genericsetup:upgradeStep
+        title="collective.documentgenerator: upgrade to 3"
+        source="2"
+        destination="3"
+        handler="collective.documentgenerator.migrations.migrate_to_3.migrate"
+        profile="collective.documentgenerator:default" />
 
 </configure>

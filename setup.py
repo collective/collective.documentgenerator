@@ -46,6 +46,7 @@ setup(
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',
+        'imio.migrator',
         'plone.api>=1.3.3',
         'plone.app.dexterity',
         'setuptools',

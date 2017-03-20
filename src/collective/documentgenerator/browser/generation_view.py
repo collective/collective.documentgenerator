@@ -96,13 +96,16 @@ class DocumentGenerationView(BrowserView):
         """
         sub_templates = pod_template.get_templates_to_merge()
         sub_documents = {}
-        for context_name, sub_pod in sub_templates.iteritems():
+        for context_name, (sub_pod, do_rendering) in sub_templates.iteritems():
             # Force the subtemplate output_format to 'odt' because appy.pod
             # can only merge documents in this format.
-            sub_documents[context_name] = self._recursive_generate_doc(
-                pod_template=sub_pod,
-                output_format='odt'
-            )
+            if do_rendering:
+                sub_documents[context_name] = self._recursive_generate_doc(
+                    pod_template=sub_pod,
+                    output_format='odt'
+                )
+            else:
+                sub_documents[context_name] = sub_pod
 
         document_path = self._render_document(pod_template, output_format, sub_documents)
 
@@ -253,7 +256,7 @@ class DocumentGenerationView(BrowserView):
 
             sub_templates = pod_template.get_templates_to_merge()
 
-            for name, sub_template in sub_templates.iteritems():
+            for name, (sub_template, do_rendering) in sub_templates.iteritems():
                 traverse_check(sub_template, new_path)
 
         traverse_check(pod_template, [])

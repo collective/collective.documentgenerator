@@ -166,11 +166,12 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
             {
                 'template': pod_template.UID(),
                 'pod_context_name': 'hello',
+                'do_rendering': False,
             }
         ]
         to_merge = pod_template.get_templates_to_merge()
         self.assertTrue(len(to_merge) == 1)
-        self.assertTrue(to_merge['hello'] == pod_template)
+        self.assertTrue(to_merge['hello'] == (pod_template, False))
 
     def test_get_available_formats(self):
         self.assertEqual(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)

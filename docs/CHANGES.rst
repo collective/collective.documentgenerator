@@ -4,8 +4,9 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added do_rendering field in IMergeTemplatesRowSchema schema. If selected, the subtemplate is rendered first
+  and the path is the value in context dict. Else the subtemplate object is the value in context dict.
+  [sgeulette]
 
 1.0.5 (2017-03-10)
 ------------------

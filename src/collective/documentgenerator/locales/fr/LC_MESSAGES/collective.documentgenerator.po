@@ -18,11 +18,11 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../content/pod_template.py:203
+#: ../content/pod_template.py:208
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:194
+#: ../content/pod_template.py:199
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -42,7 +42,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:212
+#: ../content/pod_template.py:217
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
@@ -54,9 +54,13 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../content/pod_template.py:230
+#: ../content/pod_template.py:235
 msgid "Context variables."
 msgstr "Variables du contexte"
+
+#: ../content/pod_template.py:140
+msgid "Do rendering"
+msgstr "Pré-rendu"
 
 #: ../browser/controlpanel.py:72
 #: ../profiles/default/controlpanel.xml
@@ -79,6 +83,14 @@ msgstr "Modèle général"
 msgid "Header"
 msgstr "En-tête"
 
+#: ../configure.zcml:33
+msgid "Installs the collective.documentgenerator add-on."
+msgstr "Installs the collective.documentgenerator add-on."
+
+#: ../configure.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr "Installs the collective.documentgenerator demo profile."
+
 #: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
@@ -87,7 +99,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:171
+#: ../content/pod_template.py:176
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -134,11 +146,11 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:204
+#: ../content/pod_template.py:209
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:195
+#: ../content/pod_template.py:200
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
@@ -146,7 +158,11 @@ msgstr "Sélectionnez les formats dans lesquels le modèle pourra être génér�
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
-#: ../content/pod_template.py:211
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr "Steps to ease tests of collective.documentgenerator"
+
+#: ../content/pod_template.py:216
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -166,11 +182,11 @@ msgstr "Sous modèle"
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:219
+#: ../content/pod_template.py:224
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../content/pod_template.py:231
+#: ../content/pod_template.py:236
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 
@@ -178,28 +194,40 @@ msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\"."
 
-#: ../content/pod_template.py:149
+#: ../content/pod_template.py:154
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:144
+#: ../content/pod_template.py:149
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:245
+#: ../content/pod_template.py:250
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:247
+#: ../content/pod_template.py:252
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
+
+#: ../configure.zcml:33
+msgid "collective.documentgenerator"
+msgstr "collective.documentgenerator"
+
+#: ../configure.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr "collective.documentgenerator demo"
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
+msgstr "collective.documentgenerator tests"
 
 #: ../demo/helper.py:73
 msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:175
+#: ../content/pod_template.py:180
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
@@ -218,4 +246,3 @@ msgstr "Numéro du port Office"
 #: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr "Python uno"
-
