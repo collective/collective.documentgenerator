@@ -118,7 +118,7 @@ def install_demo(context):
             container=pod_folder,
             excludeFromNav=True,
             pod_formats=['odt', 'pdf', 'doc', 'docx'],
-            pod_portal_types=['Document'],
+            pod_portal_types=['Document', 'Folder'],
             style_template=[style_template.UID()],
             merge_templates=[
                 {
@@ -142,7 +142,7 @@ def install_demo(context):
             container=pod_folder,
             excludeFromNav=True,
             pod_formats=['odt', 'pdf', ],
-            pod_portal_types=['Collection'],
+            pod_portal_types=['Collection', 'Folder'],
             style_template=[style_template.UID()],
             merge_templates=[
                 {

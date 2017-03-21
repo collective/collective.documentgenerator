@@ -2,6 +2,7 @@
 
 from AccessControl import Unauthorized
 
+from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
@@ -195,9 +196,21 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertDictEqual(view._get_generation_context(hpv, self.test_podtemplate),
                              {'context': hpv.context, 'view': hpv})
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
+
         # check helper views are different
-        # check generation context subtemplates with pre-rendering
+        self.assertNotEquals(hpv, gen_context['view'])
+
         # check generation context subtemplates without pre-rendering
+        self.assertIsInstance(gen_context['header'], SubTemplate)
+
+        # check generation context subtemplates with pre-rendering
+        pod_template = self.portal.podtemplates['test_template_multiple']
+        view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
+        # The gotten helper view is not really the used one at generation
+        hpv = view.get_generation_context_helper()
+        rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
+        self.assertIsInstance(gen_context['header'], str)
+        self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/)[0-9a-zA-Z]+(\.odt)$')
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
