@@ -52,7 +52,7 @@ class DocumentGenerationView(BrowserView):
         Generate a document of format 'output_format' from the template
         'pod_template' and return it as a downloadable file.
         """
-        doc, doc_name = self._generate_doc(pod_template, output_format)
+        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
         self._set_header_response(doc_name)
         return doc
 
@@ -77,7 +77,7 @@ class DocumentGenerationView(BrowserView):
         self._check_cyclic_merges(pod_template)
 
         # Recursive generation of the document and all its subtemplates.
-        document_path = self._recursive_generate_doc(pod_template, output_format)
+        document_path, gen_context = self._recursive_generate_doc(pod_template, output_format)
 
         rendered_document = open(document_path, 'rb')
         rendered = rendered_document.read()
@@ -86,7 +86,7 @@ class DocumentGenerationView(BrowserView):
 
         filename = u'{}.{}'.format(pod_template.title, output_format)
 
-        return rendered, filename
+        return rendered, filename, gen_context
 
     def _recursive_generate_doc(self, pod_template, output_format):
         """
@@ -103,13 +103,13 @@ class DocumentGenerationView(BrowserView):
                 sub_documents[context_name] = self._recursive_generate_doc(
                     pod_template=sub_pod,
                     output_format='odt'
-                )
+                )[0]
             else:
                 sub_documents[context_name] = sub_pod
 
-        document_path = self._render_document(pod_template, output_format, sub_documents)
+        document_path, gen_context = self._render_document(pod_template, output_format, sub_documents)
 
-        return document_path
+        return document_path, gen_context
 
     def get_pod_template(self, template_uid):
         """
@@ -187,7 +187,8 @@ class DocumentGenerationView(BrowserView):
 
         renderer.run()
 
-        return temp_filename
+        # return also generation_context to test ist content in tests
+        return temp_filename, generation_context
 
     def _get_context_variables(self, pod_template):
         if base_hasattr(pod_template, 'get_context_variables'):
@@ -279,7 +280,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         generated document on the current context.
         """
 
-        doc, doc_name = self._generate_doc(pod_template, output_format)
+        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
 
         splitted_name = doc_name.split('.')
         title = '.'.join(splitted_name[:-1])

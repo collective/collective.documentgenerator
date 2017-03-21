@@ -124,6 +124,7 @@ def install_demo(context):
                 {
                     'template': sub_template.UID(),
                     'pod_context_name': 'header',
+                    'do_rendering': True,
                 }
             ],
         )
@@ -147,6 +148,7 @@ def install_demo(context):
                 {
                     'template': sub_template.UID(),
                     'pod_context_name': 'header',
+                    'do_rendering': False,
                 }
             ],
             context_variables=[

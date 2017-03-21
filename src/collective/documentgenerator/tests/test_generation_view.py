@@ -188,11 +188,16 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test__get_generation_context(self):
         pod_template = self.portal.podtemplates['test_template_bis']
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
+        # The gotten helper view is not really the used one at generation
         hpv = view.get_generation_context_helper()
         self.assertDictEqual(view._get_generation_context(hpv, pod_template), {'details': '1',
                              'context': hpv.context, 'view': hpv})
         self.assertDictEqual(view._get_generation_context(hpv, self.test_podtemplate),
                              {'context': hpv.context, 'view': hpv})
+        rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
+        # check helper views are different
+        # check generation context subtemplates with pre-rendering
+        # check generation context subtemplates without pre-rendering
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
