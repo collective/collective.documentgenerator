@@ -189,25 +189,30 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test__get_generation_context(self):
         pod_template = self.portal.podtemplates['test_template_bis']
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
-        # The gotten helper view is not really the used one at generation
         hpv = view.get_generation_context_helper()
+        # Check context variables
         self.assertDictEqual(view._get_generation_context(hpv, pod_template), {'details': '1',
                              'context': hpv.context, 'view': hpv})
+        # Check configurable pod template
         self.assertDictEqual(view._get_generation_context(hpv, self.test_podtemplate),
                              {'context': hpv.context, 'view': hpv})
+
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
 
-        # check helper views are different
+        # The gotten helper view (hpv) is not the used one at generation
         self.assertNotEquals(hpv, gen_context['view'])
 
-        # check generation context subtemplates without pre-rendering
+        # Check generation context subtemplates without pre-rendering
+        self.assertEqual(pod_template.merge_templates[0]['do_rendering'], False)
+        self.assertIn('header', gen_context)
         self.assertIsInstance(gen_context['header'], SubTemplate)
 
-        # check generation context subtemplates with pre-rendering
-        pod_template = self.portal.podtemplates['test_template_multiple']
-        view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
-        # The gotten helper view is not really the used one at generation
-        hpv = view.get_generation_context_helper()
+        # Check generation context subtemplates with pre-rendering
+        mt_conf = pod_template.merge_templates
+        mt_conf[0]['do_rendering'] = True
+        pod_template.merge_templates = mt_conf
+        self.assertEqual(pod_template.merge_templates[0]['do_rendering'], True)
+        # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
         self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/)[0-9a-zA-Z]+(\.odt)$')

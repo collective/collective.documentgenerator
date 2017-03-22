@@ -118,7 +118,7 @@ def install_demo(context):
             container=pod_folder,
             excludeFromNav=True,
             pod_formats=['odt', 'pdf', 'doc', 'docx'],
-            pod_portal_types=['Document', 'Folder'],
+            pod_portal_types=['Document'],
             style_template=[style_template.UID()],
             merge_templates=[
                 {

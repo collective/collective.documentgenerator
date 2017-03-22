@@ -10,7 +10,7 @@ Changelog
 - Return generation context from rendering methods to use it in tests
   [sgeulette]
 - Added unit testing for do_rendering feature
-  [odelaere]
+  [odelaere, sgeulette]
 
 1.0.5 (2017-03-10)
 ------------------
