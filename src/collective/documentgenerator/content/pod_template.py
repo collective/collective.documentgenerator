@@ -243,14 +243,14 @@ class IConfigurablePODTemplate(IPODTemplate):
     )
 
     @invariant
-    def validate_pod_generation_context_variables(data):
+    def validate_context_variables(data):
         keys = []
         forbidden = ['context', 'view', 'uids', 'brains', 'self']
         to_check = copy.deepcopy(data.context_variables or [])
         to_check.extend(copy.deepcopy(data.merge_templates or []))
 
         for line in to_check:
-            value = ('name' in line and line['name'])or ('pod_context_name' in line and line['pod_context_name'])
+            value = ('name' in line and line['name']) or ('pod_context_name' in line and line['pod_context_name'])
 
             if value in forbidden:
                 raise Invalid(_("You can't use one of these words: ${list}", mapping={'list': ', '.join(forbidden)}))
