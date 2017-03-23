@@ -215,7 +215,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
-        self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/)[0-9a-zA-Z]+(\.odt)$')
+        self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/)[[:print:]]+(\.odt)$')
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
