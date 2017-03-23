@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 
 from collective.documentgenerator import _
 from collective.documentgenerator.interfaces import IPODTemplateCondition
@@ -242,16 +243,22 @@ class IConfigurablePODTemplate(IPODTemplate):
     )
 
     @invariant
-    def validate_context_variables(data):
+    def validate_pod_generation_context_variables(data):
         keys = []
-        forbidden = ['context', 'view', 'uids', 'brains']
-        for line in data.context_variables or []:
-            if line['name'] in forbidden:
+        forbidden = ['context', 'view', 'uids', 'brains', 'self']
+        to_check = copy.deepcopy(data.context_variables or [])
+        to_check.extend(copy.deepcopy(data.merge_templates or []))
+
+        for line in to_check:
+            value = ('name' in line and line['name'])or ('pod_context_name' in line and line['pod_context_name'])
+
+            if value in forbidden:
                 raise Invalid(_("You can't use one of these words: ${list}", mapping={'list': ', '.join(forbidden)}))
-            if line['name'] in keys:
-                raise Invalid(_("You have twice used the same name '${name}'", mapping={'name': line['name']}))
+
+            if value in keys:
+                raise Invalid(_("You have twice used the same name '${name}'", mapping={'name': value}))
             else:
-                keys.append(line['name'])
+                keys.append(value)
 
 # Set conditions for which fields the validator class applies
 validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate['pod_formats'])
