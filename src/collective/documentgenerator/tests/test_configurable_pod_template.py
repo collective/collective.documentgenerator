@@ -181,15 +181,62 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
     def test_validate_context_variables(self):
         class Dummy(object):
-            def __init__(self, data):
-                self.context_variables = data
+            def __init__(self, context_variables=None, merge_templates=None):
+                self.context_variables = context_variables
+                self.merge_templates = merge_templates
+
         fct = IConfigurablePODTemplate.getTaggedValue('invariants')[0]
+        # check no sub template and no variable
+        self.assertIsNone(fct(Dummy()))
+
+        # check no sub template but variables present
         # check forbidden name
-        data = Dummy([{'name': u'uids', 'value': u'1'}])
+        data = Dummy(context_variables=[{'name': u'uids', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # check duplicated name
-        data = Dummy([{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
+        data = Dummy(context_variables=[{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # no exception
-        data = Dummy([{'name': u'det', 'value': u'1'}])
+        data = Dummy(context_variables=[{'name': u'det', 'value': u'1'}])
+        self.assertIsNone(fct(data))
+
+        # check no variables but sub template present
+        # check forbidden name
+        data = Dummy(merge_templates=[{'pod_context_name': u'uids', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # check duplicated name
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # no exception
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}])
+        self.assertIsNone(fct(data))
+
+        # check both variables but sub template present
+        # check forbidden name
+        data = Dummy(context_variables=[{'name': u'det', 'value': u'1'}],
+                     merge_templates=[{'pod_context_name': u'uids', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # revert
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}],
+                     context_variables=[{'name': u'self', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # check duplicated name
+        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'}, {'pod_context_name': u'same', 'value': u'1'}],
+                     context_variables=[{'name': u'random1', 'value': u'1'}, {'name': u'random2', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # revert
+        data = Dummy(context_variables=[{'name': u'same', 'value': u'1'}, {'name': u'same', 'value': u'1'}],
+                     merge_templates=[{'pod_context_name': u'random1', 'value': u'1'}, {'pod_context_name': u'random2', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # duplicate in both lists
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'pod_context_name': u'1'}, {'pod_context_name': u'det', 'value': u'1'}],
+                     context_variables=[{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # duplicate 1 in each list
+        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'}, {'pod_context_name': u'random1', 'value': u'1'}],
+                     context_variables=[{'name': u'same', 'value': u'1'}, {'name': u'random2', 'value': u'1'}])
+        self.assertRaises(Invalid, fct, data)
+        # no exception
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}],
+                     context_variables=[{'name': u'something else', 'value': u'1'}])
         self.assertIsNone(fct(data))
