@@ -25,6 +25,7 @@ from zope.component import queryAdapter
 import mimetypes
 import os
 import tempfile
+from .. import _
 
 
 class DocumentGenerationView(BrowserView):
@@ -158,11 +159,8 @@ class DocumentGenerationView(BrowserView):
         helper_view = self.get_generation_context_helper()
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
         # enrich the generation context with previously generated documents
-        # if they do not overwrite the current context variables
-        utils.validate_dict_update(generation_context, sub_documents,
-                                   "Duplicate context variable found. "
-                                   "Sub dcument context name already exists in generation context.")
-        generation_context.update(sub_documents)
+        utils.update_dict_with_validation(generation_context, sub_documents,
+                                          _("Error when merging merge_templates in generation context for key."))
         # enable optimalColumnWidths if enabled in the config
         stylesMapping = {}
         optimalColumnWidths = False
@@ -205,13 +203,10 @@ class DocumentGenerationView(BrowserView):
         Return the generation context for the current document.
         """
         generation_context = self.get_base_generation_context()
-        generation_context.update(
-            {
-                'context': getattr(helper_view, 'context', None),
-                'view': helper_view
-            }
-        )
-        generation_context.update(self._get_context_variables(pod_template))
+        utils.update_dict_with_validation(generation_context,
+                                          {'context': getattr(helper_view, 'context', None),
+                                           'view': helper_view})
+        utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template))
         return generation_context
 
     def get_base_generation_context(self):

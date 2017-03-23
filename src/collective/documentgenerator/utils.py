@@ -11,6 +11,8 @@ from Products.CMFPlone.utils import base_hasattr
 
 from zope.interface import Invalid
 
+from . import _
+
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -70,7 +72,9 @@ def update_templates(templates, profile='', force=False):
     return ret
 
 
-def validate_dict_update(original_dict, update_dict, error_message='Overwrite value is not allowed.'):
-    for key in update_dict.keys():
+def update_dict_with_validation(original_dict, update_dict, error_message=_("Dict update collision on key")):
+    for key in update_dict:
         if key in original_dict:
-            raise Invalid(error_message + '\nDuplicate Dict key is : ' + 'name')
+            raise Invalid(_("${error_message} '${key}'", mapping={'error_message': error_message, 'key': key}))
+
+        original_dict[key] = update_dict[key]
