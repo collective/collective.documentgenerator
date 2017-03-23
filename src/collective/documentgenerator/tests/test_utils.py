@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.utils import update_templates, compute_md5
+from collective.documentgenerator.utils import update_templates, compute_md5, validate_dict_update
 import collective.documentgenerator as cdg
+from zope.interface import Invalid
 
 
 class TestUtils(PODTemplateIntegrationTest):
@@ -42,3 +43,17 @@ class TestUtils(PODTemplateIntegrationTest):
         ret = update_templates([('/podtemplates/test_template', path('modele_general.ods'))])
         self.assertEqual(modified, self.test_podtemplate.modification_date)
         self.assertEquals(ret[0][2], 'unchanged')
+
+    def test_validate_dict_update(self):
+        # if dict have no common keys, nothing is returned
+        self.assertIsNone(validate_dict_update({}, {}))
+        self.assertIsNone(validate_dict_update({'test1': 1}, {'test2': 2}))
+        self.assertIsNone(validate_dict_update({'test1': 1}, {}))
+        self.assertIsNone(validate_dict_update({}, {'test2': 2}))
+        self.assertIsNone(validate_dict_update({'test': 1}, {'test1': 2, 'test2': 2}))
+
+        # if dict have at least 1 common keys, Invalid is raised
+        self.assertRaises(Invalid, validate_dict_update, {'test': 1, 'test2': 2}, {'test': 2})
+        self.assertRaises(Invalid, validate_dict_update, {'test1': 1, 'test_1': 1}, {'test1': 1, 'test2': 1})
+        self.assertRaises(Invalid, validate_dict_update, {'test': 1}, {'test': 2, 'test1': 1, 'test2': 1})
+        self.assertRaises(Invalid, validate_dict_update, {'test': 1}, {'test': 2})

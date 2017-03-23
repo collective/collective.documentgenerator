@@ -9,6 +9,8 @@ from zope.lifecycleevent import modified
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 
+from zope.interface import Invalid
+
 logger = logging.getLogger('collective.documentgenerator')
 
 
@@ -66,3 +68,9 @@ def update_templates(templates, profile='', force=False):
             modified(obj)
             ret.append((ppath, ospath, 'replaced'))
     return ret
+
+
+def validate_dict_update(original_dict, update_dict, error_message='Overwrite value is not allowed.'):
+    for key in update_dict.keys():
+        if key in original_dict:
+            raise Invalid(error_message + '\nDuplicate Dict key is : ' + 'name')

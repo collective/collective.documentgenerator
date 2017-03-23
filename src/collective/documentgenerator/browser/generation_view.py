@@ -12,6 +12,7 @@ from Products.CMFPlone.utils import base_hasattr
 from StringIO import StringIO
 
 from collective.documentgenerator import config
+from collective.documentgenerator import utils
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import IDocumentFactory
@@ -157,6 +158,10 @@ class DocumentGenerationView(BrowserView):
         helper_view = self.get_generation_context_helper()
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
         # enrich the generation context with previously generated documents
+        # if they do not overwrite the current context variables
+        utils.validate_dict_update(generation_context, sub_documents,
+                                   "Duplicate context variable found. "
+                                   "Sub dcument context name already exists in generation context.")
         generation_context.update(sub_documents)
         # enable optimalColumnWidths if enabled in the config
         stylesMapping = {}
