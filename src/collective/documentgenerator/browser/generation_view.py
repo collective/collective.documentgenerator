@@ -160,7 +160,7 @@ class DocumentGenerationView(BrowserView):
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
         # enrich the generation context with previously generated documents
         utils.update_dict_with_validation(generation_context, sub_documents,
-                                          _("Error when merging merge_templates in generation context for key."))
+                                          _("Error when merging merge_templates in generation context"))
         # enable optimalColumnWidths if enabled in the config
         stylesMapping = {}
         optimalColumnWidths = False
@@ -205,8 +205,10 @@ class DocumentGenerationView(BrowserView):
         generation_context = self.get_base_generation_context()
         utils.update_dict_with_validation(generation_context,
                                           {'context': getattr(helper_view, 'context', None),
-                                           'view': helper_view})
-        utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template))
+                                           'view': helper_view},
+                                          _("Error when merging helper_view in generation context"))
+        utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
+                                          _("Error when merging context_variables in generation context"))
         return generation_context
 
     def get_base_generation_context(self):
