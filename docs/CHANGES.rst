@@ -13,6 +13,8 @@ Changelog
   [odelaere, sgeulette]
 - Improved validation for ConfigurablePodTemplate
   [odelaere]
+- Added validation to hamper generation context corruption at génération time
+  [odelaere]
 
 1.0.5 (2017-03-10)
 ------------------
