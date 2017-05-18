@@ -15,6 +15,8 @@ Changelog
   [odelaere]
 - Added validation to avoid generation context corruption at generation time
   [odelaere]
+- Manage boolean values in context variables
+  [sgeulette]
 
 1.0.5 (2017-03-10)
 ------------------

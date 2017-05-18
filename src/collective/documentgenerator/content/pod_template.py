@@ -331,7 +331,15 @@ class ConfigurablePODTemplate(PODTemplate):
         """
         ret = {}
         for line in self.context_variables or []:
-            ret[line['name']] = line['value']
+            # Simple boolean conversion actually implemented
+            # May be improved with ZPublisher.Converters, managing boolean, int, date, string, text, ...
+            # Those last values in a list box with string as default value
+            val = line['value']
+            if val == 'True':
+                val = True
+            elif val == 'False':
+                val = False
+            ret[line['name']] = val
         return ret
 
 
