@@ -17,7 +17,8 @@ Changelog
   [odelaere]
 - Manage boolean values in context variables
   [sgeulette]
-
+- Removed meta_type attribute causing error when pasting
+  [sgeulette]
 1.0.5 (2017-03-10)
 ------------------
 

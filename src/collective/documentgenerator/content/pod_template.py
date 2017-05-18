@@ -72,7 +72,6 @@ class PODTemplate(Item):
     """
 
     implements(IPODTemplate)
-    meta_type = 'PODTemplate'
 
     def get_file(self):
         return self.odt_file
@@ -273,7 +272,6 @@ class ConfigurablePODTemplate(PODTemplate):
     """
 
     implements(IConfigurablePODTemplate)
-    meta_type = 'ConfigurablePODTemplate'
 
     def get_style_template(self):
         """
@@ -355,7 +353,6 @@ class SubTemplate(PODTemplate):
     """
 
     implements(ISubTemplate)
-    meta_type = 'SubTemplate'
 
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,
