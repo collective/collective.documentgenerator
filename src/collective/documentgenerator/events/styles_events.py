@@ -80,7 +80,9 @@ def _update_template_styles(pod_template, style_template_filename):
     if os.path.isfile(resTempFileName):
         resTemplate = open(resTempFileName, 'rb')
         # update template
-        result = NamedBlobFile(data=resTemplate.read(), contentType='applications/odt')
+        result = NamedBlobFile(data=resTemplate.read(),
+                               contentType='applications/odt',
+                               filename=pod_template.odt_file.filename)
         pod_template.odt_file = result
         os.remove(resTempFileName)
 

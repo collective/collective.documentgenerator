@@ -19,6 +19,9 @@ Changelog
   [sgeulette]
 - Removed meta_type attribute causing error when pasting
   [sgeulette]
+- Do not lose filename when updating a Pod template with it's styles template
+  [gbastien]
+
 1.0.5 (2017-03-10)
 ------------------
 

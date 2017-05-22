@@ -157,7 +157,7 @@ class IContextVariablesRowSchema(Interface):
 
 
 class PodFormatsValidator(validator.SimpleFieldValidator):
-    """ z3c.form validator class for international phone numbers """
+    """ z3c.form validator class for Pod formats """
 
     def validate(self, selected_formats):
         # thanks to widget, we get just-loaded file.filename.
