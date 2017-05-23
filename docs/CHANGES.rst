@@ -25,6 +25,9 @@ Changelog
   [gbastien]
 - Define a correct portal_type description for StyleTmplate so it is displayed in the folder_factories
   [gbastien]
+- Modified generated filename, before it was POD template title and format, now it it build using POD template title,
+  context title and format
+  [gbastien]
 
 1.0.5 (2017-03-10)
 ------------------

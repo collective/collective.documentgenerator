@@ -8,6 +8,8 @@ from AccessControl import Unauthorized
 
 from Products.Five import BrowserView
 from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import normalizeString
+from Products.CMFPlone.utils import safe_unicode
 
 from StringIO import StringIO
 
@@ -86,7 +88,9 @@ class DocumentGenerationView(BrowserView):
         rendered_document.close()
         os.remove(document_path)
 
-        filename = u'{}.{}'.format(pod_template.title, output_format)
+        # to avoid problems with long filename we take 120 first characters
+        first_part = u'{0}-{1}'.format(pod_template.title, safe_unicode(self.context.Title()))
+        filename = '{0}.{1}'.format(normalizeString(first_part), output_format)
 
         return rendered, filename, gen_context
 
