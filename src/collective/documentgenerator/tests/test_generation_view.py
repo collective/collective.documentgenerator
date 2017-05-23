@@ -156,13 +156,13 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generation_view(template_uid, 'odt')
 
         msg = "File 'Document A' should have been created in folder."
-        self.assertTrue(hasattr(generation_context, 'general-template'), msg)
+        self.assertTrue('general-template-folder' in generation_context.objectIds(), msg)
 
-        persistent_doc = getattr(generation_context, 'general-template')
+        persistent_doc = getattr(generation_context, 'general-template-folder')
         generated_doc = persistent_doc.getFile()
         self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
 
-        self.assertTrue(generated_doc.getFilename() == u'General template.odt')
+        self.assertTrue(generated_doc.getFilename() == u'general-template-folder.odt')
         self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):
