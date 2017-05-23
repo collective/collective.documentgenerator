@@ -21,6 +21,10 @@ Changelog
   [sgeulette]
 - Do not lose filename when updating a Pod template with it's styles template
   [gbastien]
+- Ease override of term title of the `collective.documentgenerator.StyleTemplates` vocabulary
+  [gbastien]
+- Define a correct portal_type description for StyleTmplate so it is displayed in the folder_factories
+  [gbastien]
 
 1.0.5 (2017-03-10)
 ------------------

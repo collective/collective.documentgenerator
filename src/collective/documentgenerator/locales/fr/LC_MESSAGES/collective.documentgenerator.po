@@ -14,6 +14,14 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
+#: ../utils.py:78
+msgid "${error_message} for key = '${key}'"
+msgstr ""
+
+#: ../profiles/default/types/StyleTemplate.xml
+msgid "A document that holds styles to include into a POD template."
+msgstr "Un document qui contient les styles à incorporer dans un modèle de document POD."
+
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
@@ -46,7 +54,7 @@ msgstr "Changements enregistrés"
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:135
+#: ../setuphandlers.py:136
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -57,6 +65,10 @@ msgstr "Modèle de document POD"
 #: ../content/pod_template.py:235
 msgid "Context variables."
 msgstr "Variables du contexte"
+
+#: ../utils.py:75
+msgid "Dict update collision on key"
+msgstr ""
 
 #: ../content/pod_template.py:140
 msgid "Do rendering"
@@ -71,9 +83,21 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:62
+#: ../content/pod_template.py:63
 msgid "Enabled"
 msgstr "Activé"
+
+#: ../browser/generation_view.py:211
+msgid "Error when merging context_variables in generation context"
+msgstr ""
+
+#: ../browser/generation_view.py:209
+msgid "Error when merging helper_view in generation context"
+msgstr ""
+
+#: ../browser/generation_view.py:163
+msgid "Error when merging merge_templates in generation context"
+msgstr ""
 
 #: ../setuphandlers.py:98
 msgid "General template"
@@ -82,14 +106,6 @@ msgstr "Modèle général"
 #: ../setuphandlers.py:83
 msgid "Header"
 msgstr "En-tête"
-
-#: ../configure.zcml:33
-msgid "Installs the collective.documentgenerator add-on."
-msgstr "Installs the collective.documentgenerator add-on."
-
-#: ../configure.zcml:41
-msgid "Installs the collective.documentgenerator demo profile."
-msgstr "Installs the collective.documentgenerator demo profile."
 
 #: ../interfaces.py:141
 msgid "Invalid Python path"
@@ -107,13 +123,7 @@ msgstr "Aucun format sélectionné"
 msgid "No value"
 msgstr "Aucune valeur"
 
-#: ../profiles/default/types/PODTemplate.xml
-#: ../profiles/default/types/StyleTemplate.xml
-#: ../profiles/default/types/SubTemplate.xml
-msgid "None"
-msgstr "Aucun"
-
-#: ../content/pod_template.py:54
+#: ../content/pod_template.py:55
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr "Canevas"
@@ -154,13 +164,9 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:164
+#: ../setuphandlers.py:166
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
-
-#: ../testing.zcml:14
-msgid "Steps to ease tests of collective.documentgenerator"
-msgstr "Steps to ease tests of collective.documentgenerator"
 
 #: ../content/pod_template.py:216
 msgid "Style template"
@@ -202,25 +208,13 @@ msgstr "Valeur"
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:250
+#: ../content/pod_template.py:255
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:252
+#: ../content/pod_template.py:258
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
-
-#: ../configure.zcml:33
-msgid "collective.documentgenerator"
-msgstr "collective.documentgenerator"
-
-#: ../configure.zcml:41
-msgid "collective.documentgenerator demo"
-msgstr "collective.documentgenerator demo"
-
-#: ../testing.zcml:14
-msgid "collective.documentgenerator tests"
-msgstr "collective.documentgenerator tests"
 
 #: ../demo/helper.py:73
 msgid "comment"
@@ -246,3 +240,4 @@ msgstr "Numéro du port Office"
 #: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr "Python uno"
+

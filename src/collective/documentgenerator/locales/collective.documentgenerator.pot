@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-03-20 16:16+0000\n"
+"POT-Creation-Date: 2017-05-23 08:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 
 #: ../browser/controlpanel.py:73
 msgid ""
+msgstr ""
+
+#: ../utils.py:78
+msgid "${error_message} for key = '${key}'"
+msgstr ""
+
+#: ../profiles/default/types/StyleTemplate.xml
+msgid "A document that holds styles to include into a POD template."
 msgstr ""
 
 #: ../profiles/default/types/ConfigurablePODTemplate.xml
@@ -50,7 +58,7 @@ msgstr ""
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:135
+#: ../setuphandlers.py:136
 msgid "Collection template"
 msgstr ""
 
@@ -60,6 +68,10 @@ msgstr ""
 
 #: ../content/pod_template.py:235
 msgid "Context variables."
+msgstr ""
+
+#: ../utils.py:75
+msgid "Dict update collision on key"
 msgstr ""
 
 #: ../content/pod_template.py:140
@@ -75,8 +87,20 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:62
+#: ../content/pod_template.py:63
 msgid "Enabled"
+msgstr ""
+
+#: ../browser/generation_view.py:211
+msgid "Error when merging context_variables in generation context"
+msgstr ""
+
+#: ../browser/generation_view.py:209
+msgid "Error when merging helper_view in generation context"
+msgstr ""
+
+#: ../browser/generation_view.py:163
+msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
 #: ../setuphandlers.py:98
@@ -85,14 +109,6 @@ msgstr ""
 
 #: ../setuphandlers.py:83
 msgid "Header"
-msgstr ""
-
-#: ../configure.zcml:33
-msgid "Installs the collective.documentgenerator add-on."
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "Installs the collective.documentgenerator demo profile."
 msgstr ""
 
 #: ../interfaces.py:141
@@ -111,13 +127,7 @@ msgstr ""
 msgid "No value"
 msgstr ""
 
-#: ../profiles/default/types/PODTemplate.xml
-#: ../profiles/default/types/StyleTemplate.xml
-#: ../profiles/default/types/SubTemplate.xml
-msgid "None"
-msgstr ""
-
-#: ../content/pod_template.py:54
+#: ../content/pod_template.py:55
 #: ../content/style_template.py:26
 msgid "ODT File"
 msgstr ""
@@ -158,12 +168,8 @@ msgstr ""
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:164
+#: ../setuphandlers.py:166
 msgid "Spreadsheet template"
-msgstr ""
-
-#: ../testing.zcml:14
-msgid "Steps to ease tests of collective.documentgenerator"
 msgstr ""
 
 #: ../content/pod_template.py:216
@@ -206,24 +212,12 @@ msgstr ""
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:250
+#: ../content/pod_template.py:255
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:252
+#: ../content/pod_template.py:258
 msgid "You have twice used the same name '${name}'"
-msgstr ""
-
-#: ../configure.zcml:33
-msgid "collective.documentgenerator"
-msgstr ""
-
-#: ../configure.zcml:41
-msgid "collective.documentgenerator demo"
-msgstr ""
-
-#: ../testing.zcml:14
-msgid "collective.documentgenerator tests"
 msgstr ""
 
 #: ../demo/helper.py:73
@@ -250,3 +244,4 @@ msgstr ""
 #: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr ""
+

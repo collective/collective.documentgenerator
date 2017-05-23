@@ -43,11 +43,16 @@ class StyleTemplatesVocabularyFactory(object):
         voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
 
         for brain in style_template_brains:
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
+            voc_terms.append(SimpleTerm(brain.UID,
+                                        brain.UID,
+                                        self._renderTermTitle(brain)))
 
         vocabulary = SimpleVocabulary(voc_terms)
 
         return vocabulary
+
+    def _renderTermTitle(self, brain):
+        return brain.Title
 
 
 class MergeTemplatesVocabularyFactory(object):

@@ -2,7 +2,7 @@
 <object name="StyleTemplate" meta_type="Dexterity FTI" i18n:domain="collective.documentgenerator"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">StyleTemplate</property>
- <property name="description" i18n:translate="">None</property>
+ <property name="description" i18n:translate="">A document that holds styles to include into a POD template.</property>
  <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/style.png</property>
  <property name="factory">StyleTemplate</property>
  <property
