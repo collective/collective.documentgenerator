@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.6 (unreleased)
+1.0.6 (2017-05-31)
 ------------------
 
 - Added do_rendering field in IMergeTemplatesRowSchema schema. If selected, the subtemplate is rendered first
