@@ -20,6 +20,8 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
+HAS_PLONE_5 = api.env.plone_version().startswith('5')
+
 
 def get_uno_path():
     return api.portal.get_registry_record(

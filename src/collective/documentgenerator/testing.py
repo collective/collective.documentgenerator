@@ -32,7 +32,24 @@ class NakedPloneLayer(PloneSandboxLayer):
         # Load ZCML
         self.loadZCML(package=collective.documentgenerator,
                       name='testing.zcml')
-        z2.installProduct(app, 'collective.documentgenerator')
+
+    def setUpPloneSite(self, portal):
+        """ Setup Plone
+        """
+
+        # Default workflow
+        wftool = portal['portal_workflow']
+        wftool.setDefaultChain('simple_publication_workflow')
+
+        # Add default Plone content
+        try:
+            applyProfile(portal, 'plone.app.contenttypes:plone-content')
+            # portal.portal_workflow.setDefaultChain(
+            #     'simple_publication_workflow')
+        except KeyError:
+            # BBB Plone 4
+            # Products.ATContentTypes is installed by default in Plone4's tests
+            pass
 
     def tearDownZope(self, app):
         """Tear down Zope."""
@@ -52,6 +69,12 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
+        super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
+
+        # Set tests in 'fr'
+        api.portal.set_registry_record('plone.available_languages', ['en', 'fr'])
+        api.portal.set_registry_record('plone.default_language', 'fr')
+
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.documentgenerator:default')
 

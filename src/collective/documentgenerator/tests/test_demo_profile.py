@@ -42,7 +42,7 @@ class TestDemoProfile(unittest.TestCase):
         applyProfile(site, 'collective.documentgenerator:demo')
 
         msg = 'Pod templates folder should be out of navigation'
-        self.assertTrue(site.podtemplates.exclude_from_nav(), msg)
+        self.assertTrue(site.podtemplates.exclude_from_nav, msg)
 
     def test_PODTemplateModel_creation(self):
         site = api.portal.get()
@@ -69,7 +69,7 @@ class TestDemoProfile(unittest.TestCase):
         applyProfile(site, 'collective.documentgenerator:demo')
 
         msg = 'Test pod templates should be out of navigation'
-        self.assertTrue(site.podtemplates.test_template.exclude_from_nav(), msg)
+        self.assertTrue(site.podtemplates.test_template.exclude_from_nav, msg)
 
     def test_StyleTemplate_creation(self):
         site = api.portal.get()
@@ -91,7 +91,7 @@ class TestDemoProfile(unittest.TestCase):
         applyProfile(site, 'collective.documentgenerator:demo')
 
         msg = 'Test style templates should be out of navigation'
-        self.assertTrue(site.podtemplates.test_style_template.exclude_from_nav(), msg)
+        self.assertTrue(site.podtemplates.test_style_template.exclude_from_nav, msg)
 
     def test_PODTemplateOds_creation(self):
         site = api.portal.get()
@@ -113,4 +113,4 @@ class TestDemoProfile(unittest.TestCase):
         applyProfile(site, 'collective.documentgenerator:demo')
 
         msg = 'Ods test pod templates should be out of navigation'
-        self.assertTrue(site.podtemplates.test_ods_template.exclude_from_nav(), msg)
+        self.assertTrue(site.podtemplates.test_ods_template.exclude_from_nav, msg)

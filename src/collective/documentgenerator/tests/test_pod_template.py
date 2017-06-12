@@ -200,7 +200,7 @@ class TestPODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
                                         pod_template.REQUEST,
                                         view.form_instance,
                                         IConfigurablePODTemplate['pod_formats'],
-                                        pod_template.widget)
+                                        view.form_instance.widgets['pod_formats'])
         msg = translate(u"element_not_valid",
                         default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
                         mapping={u"elem": "Microsoft Excel (.xls)",

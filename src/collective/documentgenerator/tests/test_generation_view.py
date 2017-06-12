@@ -2,6 +2,7 @@
 
 from AccessControl import Unauthorized
 
+from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
@@ -159,11 +160,18 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertTrue('general-template-folder' in generation_context.objectIds(), msg)
 
         persistent_doc = getattr(generation_context, 'general-template-folder')
-        generated_doc = persistent_doc.getFile()
+        if HAS_PLONE_5:
+            generated_doc = persistent_doc.file
+            filename = persistent_doc.file.filename
+            content_type = persistent_doc.file.contentType
+        else:
+            generated_doc = persistent_doc.getFile()
+            filename = generated_doc.getFilename()
+            content_type = generated_doc.getContentType()
         self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
 
-        self.assertTrue(generated_doc.getFilename() == u'general-template-folder.odt')
-        self.assertTrue(generated_doc.getContentType() == 'application/vnd.oasis.opendocument.text')
+        self.assertEqual(filename, u'general-template-folder.odt')
+        self.assertEqual(content_type, 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):
         """

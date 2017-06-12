@@ -306,6 +306,10 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         """
         Redirects to the created document.
         """
-        self._set_header_response(persisted_doc.getFile().filename)
+        if config.HAS_PLONE_5:
+            filename = persisted_doc.file.filename
+        else:
+            filename = persisted_doc.getFile().filename
+        self._set_header_response(filename)
         response = self.request.response
         return response.redirect(persisted_doc.absolute_url() + '/external_edit')

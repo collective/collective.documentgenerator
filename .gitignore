@@ -22,6 +22,8 @@ lib
 lib64
 include
 local
+src/appy
+src/collective.excelexport
 
 # Installer logs
 pip-log.txt

@@ -4,22 +4,23 @@ import appy
 from StringIO import StringIO
 from plone import api
 from collective.documentgenerator.demo.helper import DemoHelperView
-from collective.documentgenerator.testing import ArchetypesIntegrationTests
+from collective.documentgenerator.testing import DexterityIntegrationTests
 
 
-class TestBaseHelperViewMethods(ArchetypesIntegrationTests):
+class TestBaseHelperViewMethods(DexterityIntegrationTests):
     """
     Test base helper view's methods.
     """
 
     def setUp(self):
         super(TestBaseHelperViewMethods, self).setUp()
-        self.view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
+        self.view = self.content.unrestrictedTraverse(
+            '@@document_generation_helper_view')
 
     def test_translate_method(self):
         msgid = u'month_may'
         translation = self.view.translate(msgid, domain='plonelocales')
-        self.assertTrue(translation == u'May')
+        self.assertTrue(translation == u'Mai')
 
     def test_getDGHV(self):
         new_dghv = self.view.getDGHV(self.portal['podtemplates'])
@@ -28,8 +29,8 @@ class TestBaseHelperViewMethods(ArchetypesIntegrationTests):
         self.assertEqual(new_dghv.display('title'), 'POD Templates')
 
     def test_get_state(self):
-        # no workflow
-        self.assertEqual(self.view.get_state(title=True), '-')
+        # use 'simple_publication_workflow'
+        self.assertEqual(self.view.get_state(title=True), 'Private')
 
     def test_context_var(self):
         pod_template = self.portal.podtemplates.get('test_template_multiple')
