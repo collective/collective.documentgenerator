@@ -5,7 +5,6 @@ from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATIO
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
 
 from plone import api
-from plone.app.testing import applyProfile
 
 import unittest
 

@@ -15,6 +15,7 @@ from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.testing import z2
+from collective.documentgenerator.config import HAS_PLONE_5
 
 import collective.documentgenerator
 
@@ -72,8 +73,9 @@ class DocumentgeneratorLayer(NakedPloneLayer):
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
-        api.portal.set_registry_record('plone.available_languages', ['en', 'fr'])
-        api.portal.set_registry_record('plone.default_language', 'fr')
+        if HAS_PLONE_5:
+            api.portal.set_registry_record('plone.available_languages', ['en', 'fr'])
+            api.portal.set_registry_record('plone.default_language', 'fr')
 
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.documentgenerator:default')
