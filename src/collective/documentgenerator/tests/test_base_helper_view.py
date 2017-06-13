@@ -3,7 +3,7 @@
 import appy
 from StringIO import StringIO
 from plone import api
-from collective.documentgenerator.demo.config import HAS_PLONE_5
+from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.demo.helper import DemoHelperView
 from collective.documentgenerator.demo.helper import ATDemoHelperView
 from collective.documentgenerator.demo.helper import DXDemoHelperView
