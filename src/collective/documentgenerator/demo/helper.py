@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from DateTime import DateTime
+from zope.event import notify
 
 from Products.Archetypes.interfaces.base import IBaseFolder
 
@@ -11,6 +12,7 @@ from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import translate as _
 
 from plone import api
+from plone.dexterity.events import EditCancelledEvent
 from plone.app.textfield import RichText
 from plone.dexterity.interfaces import IDexterityContainer
 
@@ -146,6 +148,8 @@ class DXDemoHelperView(DXDocumentGenerationHelperView, BaseDemoHelperView):
         with api.env.adopt_roles(['Manager']):
             edit_form = self.real_context.unrestrictedTraverse('@@edit').form_instance
             edit_form.update()
+            notify(EditCancelledEvent(self.real_context))
+
         fields = edit_form.fields.values()
         return [f.field for f in fields]
 
