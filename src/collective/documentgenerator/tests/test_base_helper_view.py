@@ -3,7 +3,10 @@
 import appy
 from StringIO import StringIO
 from plone import api
+from collective.documentgenerator.demo.config import HAS_PLONE_5
 from collective.documentgenerator.demo.helper import DemoHelperView
+from collective.documentgenerator.demo.helper import ATDemoHelperView
+from collective.documentgenerator.demo.helper import DXDemoHelperView
 from collective.documentgenerator.testing import DexterityIntegrationTests
 
 
@@ -24,7 +27,11 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
 
     def test_getDGHV(self):
         new_dghv = self.view.getDGHV(self.portal['podtemplates'])
-        isinstance(new_dghv, DemoHelperView)
+        self.assertTrue(isinstance(new_dghv, DemoHelperView))
+        if HAS_PLONE_5:
+            self.assertTrue(isinstance(new_dghv, DXDemoHelperView))
+        else:
+            self.assertTrue(isinstance(new_dghv, ATDemoHelperView))
         self.assertEqual(new_dghv.real_context, self.portal['podtemplates'])
         self.assertEqual(new_dghv.display('title'), 'POD Templates')
 

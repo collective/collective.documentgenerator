@@ -7,7 +7,14 @@
     <!-- helper view for demo profile -->
     <browser:page
         for="Products.Archetypes.interfaces.IBaseObject"
-        class="collective.documentgenerator.demo.helper.DemoHelperView"
+        class="collective.documentgenerator.demo.helper.ATDemoHelperView"
+        layer="collective.documentgenerator.interfaces.IDemoLayer"
+        permission="zope2.View"
+        name="document_generation_helper_view"
+     />
+    <browser:page
+        for="plone.dexterity.interfaces.IDexterityContent"
+        class="collective.documentgenerator.demo.helper.DXDemoHelperView"
         layer="collective.documentgenerator.interfaces.IDemoLayer"
         permission="zope2.View"
         name="document_generation_helper_view"
