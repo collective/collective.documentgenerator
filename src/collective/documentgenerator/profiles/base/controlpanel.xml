@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="collective.documentgenerator"
+        purge="False">
+
+    <configlet
+        title="Document Generator settings"
+        action_id="collective.documentgenerator.settings"
+        appId="collective.documentgenerator"
+        category="Products"
+        condition_expr=""
+        url_expr="string:${portal_url}/@@collective.documentgenerator-controlpanel"
+        icon_expr="string:${portal_url}/++resource++collective.documentgenerator/configurable.png"
+        visible="True"
+        i18n:attributes="title">
+            <permission>Manage portal</permission>
+    </configlet>
+
+</object>

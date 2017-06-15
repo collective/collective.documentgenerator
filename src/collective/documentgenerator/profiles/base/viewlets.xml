@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object>
+   <hidden manager="plone.belowcontenttitle" skinname="*">
+      <viewlet name="document-generation-link" remove="True" />
+   </hidden>
+</object>
