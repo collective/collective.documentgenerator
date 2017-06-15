@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.documentgenerator">
 
@@ -22,50 +23,7 @@
     <include package=".helper"/>
     <include package=".viewlets" />
 
+    <include file="profiles.zcml"/>
     <include file="renderer.zcml"/>
-
-    <genericsetup:registerProfile
-        name="default"
-        title="collective.documentgenerator"
-        directory="profiles/default"
-        description="Installs the collective.documentgenerator add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:registerProfile
-        name="demo"
-        title="collective.documentgenerator demo"
-        directory="profiles/demo"
-        description="Installs the collective.documentgenerator demo profile."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:importStep
-        name="collectivedocumentgenerator-postInstall"
-        title="collective.documentgenerator post_install import step"
-        description="Post install import step from collective.documentgenerator"
-        handler=".setuphandlers.post_install">
-    </genericsetup:importStep>
-
-    <genericsetup:upgradeSteps
-        source="1"
-        destination="2"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'optimize_tables'"
-            import_steps="plone.app.registry" />
-        <genericsetup:upgradeDepends
-            title="Reapply controlpanel"
-            description="This will update title and icon that changed"
-            import_steps="controlpanel" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 3"
-        source="2"
-        destination="3"
-        handler="collective.documentgenerator.migrations.migrate_to_3.migrate"
-        profile="collective.documentgenerator:default" />
 
 </configure>

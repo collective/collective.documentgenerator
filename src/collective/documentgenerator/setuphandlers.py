@@ -3,6 +3,10 @@
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 
+from Products.CMFPlone import interfaces as Plone
+from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
+from zope.interface import implementer
+
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 try:
@@ -181,3 +185,23 @@ def install_demo(context):
             pod_portal_types=['Document'],
             style_template=[style_template.UID()],
         )
+
+
+@implementer(Plone.INonInstallable)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Do not show on Plone's list of installable profiles."""
+        return [
+            u'collective.documentgenerator:universal',
+        ]
+
+
+@implementer(QuickInstaller.INonInstallable)
+class HiddenProducts(object):
+
+    def getNonInstallableProducts(self):
+        """Do not show on QuickInstaller's list of installable products."""
+        return [
+            u'collective.documentgenerator:universal',
+        ]
