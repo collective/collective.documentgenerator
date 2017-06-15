@@ -193,7 +193,7 @@ class HiddenProfiles(object):
     def getNonInstallableProfiles(self):
         """Do not show on Plone's list of installable profiles."""
         return [
-            u'collective.documentgenerator:universal',
+            u'collective.documentgenerator:install-base',
         ]
 
 
@@ -203,5 +203,5 @@ class HiddenProducts(object):
     def getNonInstallableProducts(self):
         """Do not show on QuickInstaller's list of installable products."""
         return [
-            u'collective.documentgenerator:universal',
+            u'collective.documentgenerator:install-base',
         ]

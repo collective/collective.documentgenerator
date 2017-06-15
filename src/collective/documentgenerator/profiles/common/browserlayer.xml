@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<layers>
-  <layer
-    name="collective.documentgenerator"
-    interface="collective.documentgenerator.interfaces.ICollectiveDocumentGeneratorLayer"
-  />
-</layers>

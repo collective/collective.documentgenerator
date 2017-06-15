@@ -7,9 +7,9 @@
     i18n_domain="collective.documentgenerator">
 
     <genericsetup:registerProfile
-        name="universal"
+        name="install-base"
         title="collective.documentgenerator"
-        directory="profiles/common"
+        directory="profiles/base"
         description="Installs the collective.documentgenerator add-on."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
