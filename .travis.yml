@@ -3,10 +3,15 @@ language: python
 python:
   - 2.7
 
+cache:
+  directories:
+  - eggs
+  - downloads
+
 env:
   - PLONE_VERSION=4
   - PLONE_VERSION=5.0
-  - PLONE_VERSION=5.1
+#  - PLONE_VERSION=5.1
 
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
@@ -15,7 +20,7 @@ install:
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - python bootstrap.py -c travis.cfg 
   - virtualenv-2.7 .
-  - bin/buildout -Nc travis.cfg
+  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True -c travis.cfg
   - bin/translation-manage -c
 
 before_script:
