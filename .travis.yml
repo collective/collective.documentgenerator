@@ -11,14 +11,14 @@ cache:
 env:
   - PLONE_VERSION=4
   - PLONE_VERSION=5.0
-#  - PLONE_VERSION=5.1
+  - PLONE_VERSION=5.1
 
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
   - mkdir -p buildout-cache/{eggs,downloads}
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
-  - python bootstrap.py -c travis.cfg 
+  - python bootstrap.py -c travis.cfg --version=2.5.3
   - virtualenv-2.7 .
   - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True -c travis.cfg
   - bin/translation-manage -c
