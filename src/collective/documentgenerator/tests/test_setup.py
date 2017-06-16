@@ -5,7 +5,6 @@ from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATIO
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
 
 from plone import api
-from plone.app.testing import applyProfile
 
 import unittest
 
@@ -22,17 +21,15 @@ class TestInstallDependencies(unittest.TestCase):
         """
         dexterity should be installed when we install documentgenerator
         """
-        self.assertTrue(not self.installer.isProductInstalled('plone.app.dexterity'))
-        applyProfile(self.portal, 'collective.documentgenerator:demo')
-        self.assertTrue(self.installer.isProductInstalled('plone.app.dexterity'))
+        dependencies = self.portal.portal_setup.getProfileDependencyChain('collective.documentgenerator:default')
+        self.assertTrue(u'profile-plone.app.dexterity:default' in dependencies)
 
     def test_z3cformdatagridfield_is_dependency_of_documentgenerator(self):
         """
         z3cform.datagridfield should be installed when we install documentgenerator
         """
-        self.assertTrue(not self.installer.isProductInstalled('collective.z3cform.datagridfield'))
-        applyProfile(self.portal, 'collective.documentgenerator:demo')
-        self.assertTrue(self.installer.isProductInstalled('collective.z3cform.datagridfield'))
+        dependencies = self.portal.portal_setup.getProfileDependencyChain('collective.documentgenerator:default')
+        self.assertTrue(u'profile-collective.z3cform.datagridfield:default' in dependencies)
 
 
 class TestSetup(unittest.TestCase):

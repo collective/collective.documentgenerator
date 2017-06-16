@@ -1,9 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.documentgenerator">
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.TypesWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -13,6 +15,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.DecimalWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -22,6 +25,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.SelectionWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -31,6 +35,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.MultiSelectionWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -40,6 +45,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.KeywordWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -49,6 +55,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.InAndOutWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -58,6 +65,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.PicklistWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -67,6 +75,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.IObjectField
              Products.Archetypes.Widget.CalendarWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -76,6 +85,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.ITextField
              Products.Archetypes.Widget.RichWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -85,6 +95,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="Products.Archetypes.interfaces.field.ILinesField
              Products.Archetypes.Widget.LinesWidget
              Products.Archetypes.interfaces.IBaseObject"
@@ -94,6 +105,7 @@
      />
 
     <adapter
+        zcml:condition="not-have plone-5"
         for="archetypes.querywidget.interfaces.IQueryField
              Products.Archetypes.Widget.TypesWidget
              Products.Archetypes.interfaces.IBaseObject"

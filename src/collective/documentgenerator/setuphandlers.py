@@ -3,8 +3,17 @@
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 
+from Products.CMFPlone import interfaces as Plone
+from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
+from zope.interface import implementer
+
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+try:
+    from Products.CMFPlone.interfaces.constrains import IConstrainTypes
+except ImportError:
+    # BBB Plone 4
+    from Products.CMFPlone.interfaces import IConstrainTypes
 
 import logging
 
@@ -33,15 +42,16 @@ def install_demo(context):
             title=_(u'POD Templates'),
             id='podtemplates',
             container=portal,
-            excludeFromNav=True
+            exclude_from_nav=True
         )
         templates_folder.setTitle('POD Templates')
         templates_folder.reindexObject()
 
     pod_folder = getattr(portal, 'podtemplates')
-    pod_folder.setConstrainTypesMode(1)
-    pod_folder.setLocallyAllowedTypes(POD_TEMPLATE_TYPES.keys())
-    pod_folder.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES.keys())
+    constrain_types = IConstrainTypes(pod_folder)
+    constrain_types.setConstrainTypesMode(1)
+    constrain_types.setLocallyAllowedTypes(POD_TEMPLATE_TYPES.keys())
+    constrain_types.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES.keys())
 
     # Create some test content
     style_template_id = 'test_style_template'
@@ -56,7 +66,7 @@ def install_demo(context):
                 filename=u'styles.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True
+            exclude_from_nav=True
         )
     style_template = getattr(pod_folder, style_template_id)
 
@@ -72,7 +82,7 @@ def install_demo(context):
                 filename=u'styles_2.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True
+            exclude_from_nav=True
         )
 
     sub_template_id = 'sub_template'
@@ -87,7 +97,7 @@ def install_demo(context):
                 filename=u'sub_template.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True
+            exclude_from_nav=True
         )
     sub_template = getattr(pod_folder, sub_template_id)
 
@@ -102,7 +112,7 @@ def install_demo(context):
                 filename=u'modele_general.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True
+            exclude_from_nav=True
         )
 
     if not hasattr(pod_folder, 'test_template_multiple'):
@@ -116,7 +126,7 @@ def install_demo(context):
                 filename=u'modele_general.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True,
+            exclude_from_nav=True,
             pod_formats=['odt', 'pdf', 'doc', 'docx'],
             pod_portal_types=['Document'],
             style_template=[style_template.UID()],
@@ -140,7 +150,7 @@ def install_demo(context):
                 filename=u'modèle_collection.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True,
+            exclude_from_nav=True,
             pod_formats=['odt', 'pdf', ],
             pod_portal_types=['Collection', 'Folder'],
             style_template=[style_template.UID()],
@@ -170,8 +180,28 @@ def install_demo(context):
                 filename=u'modele_collection.odt',
             ),
             container=pod_folder,
-            excludeFromNav=True,
+            exclude_from_nav=True,
             pod_formats=['ods', 'xls', ],
             pod_portal_types=['Document'],
             style_template=[style_template.UID()],
         )
+
+
+@implementer(Plone.INonInstallable)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Do not show on Plone's list of installable profiles."""
+        return [
+            u'collective.documentgenerator:install-base',
+        ]
+
+
+@implementer(QuickInstaller.INonInstallable)
+class HiddenProducts(object):
+
+    def getNonInstallableProducts(self):
+        """Do not show on QuickInstaller's list of installable products."""
+        return [
+            u'collective.documentgenerator:install-base',
+        ]

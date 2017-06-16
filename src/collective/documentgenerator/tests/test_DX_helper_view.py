@@ -86,7 +86,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
     def test_display_method_on_datefield(self):
         field_name = 'birth_date'
         to_set = datetime.date(1986, 9, 18)
-        expected = 'Sep 18, 1986'
+        expected = u'18/09/1986'
         self.content.birth_date = to_set
         result = self.view.display(field_name)
         self.assertEqual(expected, result)
@@ -94,7 +94,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
     def test_display_method_on_datetimefield(self):
         field_name = 'birth_datetime'
         to_set = datetime.datetime(1986, 9, 18, 10, 0)
-        expected = 'Sep 18, 1986 10:00 AM'
+        expected = u'18/09/1986 10:00'
         self.content.birth_datetime = to_set
         result = self.view.display(field_name)
         self.assertEqual(expected, result)
@@ -108,20 +108,20 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         effective_field_name = 'birth_datetime'
         self.content.birth_datetime = datetime.datetime(1986, 9, 18, 10, 0)
 
-        # toLocalizedTime
-        expected_date = u'Sep 18, 1986'
+        # toLocalizedTime in 'fr'
+        expected_date = u'18/09/1986'
         result = self.view.display_date(field_name=effective_field_name)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'Sep 18, 1986 10:00 AM'
+        expected_date = u'18/09/1986 10:00'
         result = self.view.display_date(field_name=effective_field_name, long_format=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'10:00 AM'
+        expected_date = u'10:00'
         result = self.view.display_date(field_name=effective_field_name, time_only=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime, time_only=True)
@@ -136,19 +136,19 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         # date
         self.content.birth_datetime = datetime.date(1986, 9, 18)
-        expected_date = u'Sep 18, 1986'
+        expected_date = u'18/09/1986'
         result = self.view.display_date(field_name=effective_field_name)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'Sep 18, 1986 12:00 AM'
+        expected_date = u'18/09/1986 00:00'
         result = self.view.display_date(field_name=effective_field_name, long_format=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'12:00 AM'
+        expected_date = u'00:00'
         result = self.view.display_date(field_name=effective_field_name, time_only=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=self.content.birth_datetime, time_only=True)

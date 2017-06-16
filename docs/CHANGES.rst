@@ -4,8 +4,13 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Make package compatible with both Plone4 and Plone5 at the same time :
+  - Created Plone version specific profiles (plone4 and plone5);
+  - Removed support for AT in the Plone5 version;
+  - Adapted demo profile to work with Dexterity (plone.app.contenttypes).
+  [gbastien]
+- Run every tests in 'french' so we are sure that translations work everywhere.
+  [gbastien]
 
 1.0.6 (2017-05-31)
 ------------------

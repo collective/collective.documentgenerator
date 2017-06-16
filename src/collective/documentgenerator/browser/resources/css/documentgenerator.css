@@ -9,3 +9,7 @@ div#doc-generation-view {
     text-align: right;
     padding-right: 1em;
 }
+
+span.icon-controlpanel-collective_documentgenerator_settings::before {
+    content: "\e80e";
+}

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
 
 from plone import api
 from plone.app.testing import login
 
 import DateTime
+import unittest
 
 
+@unittest.skipIf(HAS_PLONE_5, "Do not launch AT specific tests on Plone 5")
 class TestArchetypesHelperView(ArchetypesIntegrationTests):
     """
     Test Archetypes helper view.
@@ -58,6 +61,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         self.assertTrue(proxy.Title() != 'yolo', msg)
 
 
+@unittest.skipIf(HAS_PLONE_5, "Do not launch AT specific tests on Plone 5")
 class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     """
     Test Archetypes implementation of helper view's methods.

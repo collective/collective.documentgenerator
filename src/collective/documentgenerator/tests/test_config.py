@@ -104,4 +104,5 @@ class TestConfigView(PODTemplateFunctionalTest):
         form = self.browser.getForm('form')
         form.submit('Annuler')
         msg = 'We should have gone back on general control panel view'
-        self.assertTrue(self.browser.url == 'http://nohost/plone/plone_control_panel', msg)
+        control_panel_url = self.browser.getLink('Configuration du site').url
+        self.assertTrue(self.browser.url == control_panel_url, msg)
