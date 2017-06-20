@@ -149,7 +149,7 @@ class DocumentGenerationView(BrowserView):
         output_format = self.request.get('output_format')
         return output_format
 
-    def _render_document(self, pod_template, output_format, sub_documents, **kwargs):
+    def _render_document(self, pod_template, output_format, sub_documents, raiseOnError=False, **kwargs):
         """
         Render a single document of type 'output_format' using the odt file
         'document_template' as the generation template.
@@ -165,6 +165,7 @@ class DocumentGenerationView(BrowserView):
         # enrich the generation context with previously generated documents
         utils.update_dict_with_validation(generation_context, sub_documents,
                                           _("Error when merging merge_templates in generation context"))
+
         # enable optimalColumnWidths if enabled in the config
         stylesMapping = {}
         optimalColumnWidths = False
@@ -172,12 +173,21 @@ class DocumentGenerationView(BrowserView):
             stylesMapping = {'table': TableProperties(optimalColumnWidths=True)}
             optimalColumnWidths = "OCW_.*"
 
+        # if raiseOnError is not enabled, enabled it in the config excepted if user is a Manager
+        # and currently generated document use odt format
+        if not raiseOnError:
+            if config.get_raiseOnError_for_non_managers():
+                raiseOnError = True
+                if 'Manager' in api.user.get_roles() and output_format == 'odt':
+                    raiseOnError = False
+
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
             ooPort=config.get_oo_port(),
+            raiseOnError=raiseOnError,
             imageResolver=api.portal.get(),
             forceOoCall=True,
             optimalColumnWidths=optimalColumnWidths,

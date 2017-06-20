@@ -11,6 +11,13 @@ Changelog
   [gbastien]
 - Run every tests in 'french' so we are sure that translations work everywhere.
   [gbastien]
+- Added parameter `raiseOnError_for_non_managers` to be able to raise a Plone
+  error instead generating the document where errors are included.  This avoid
+  generating a document containing errors where some data may be lost like in 
+  PDF where errors are not viewable or even in ODT when users do not understand
+  that errors in comments are important.  This will enable the `raiseOnError`
+  parameter of appy.pod.renderer.Renderer.
+  [gbastien]
 
 1.0.6 (2017-05-31)
 ------------------

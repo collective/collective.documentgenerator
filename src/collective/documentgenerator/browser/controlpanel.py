@@ -63,6 +63,17 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=False
     )
 
+    raiseOnError_for_non_managers = schema.Bool(
+        title=_(u'Raise an error instead generating the document'),
+        description=_(u'If enabled, this will avoid generating a document '
+                      u'containing an error, instead a common Plone error will '
+                      u'be raised.  Nevertheless to ease debugging, Managers '
+                      u'will continue to get errors in the generated document '
+                      u'if it uses .odt format.'),
+        required=False,
+        default=False
+    )
+
 
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
 

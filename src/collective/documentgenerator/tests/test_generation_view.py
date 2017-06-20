@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import os
 from AccessControl import Unauthorized
 
 from collective.documentgenerator.config import HAS_PLONE_5
+from collective.documentgenerator.config import get_raiseOnError_for_non_managers
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
+from collective.documentgenerator.utils import translate as _
 
 from plone import api
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_NAME
+from plone.namedfile.file import NamedBlobFile
 
 import unittest
 
@@ -224,6 +230,65 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
         self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/).+(\.odt)$')
+
+    def test_raiseOnError_for_non_managers(self):
+        # create a POD template that will fail in every case
+        current_path = os.path.dirname(__file__)
+        failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'r').read()
+        failing_template = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='failing_template',
+            title=_(u'Failing template'),
+            odt_file=NamedBlobFile(
+                data=failing_template_data,
+                contentType='applications/odt',
+                filename=u'modele_general.odt',
+            ),
+            pod_formats=['odt'],
+            container=self.portal.podtemplates,
+            exclude_from_nav=True
+        )
+        # create a user that is not Manager
+        api.user.create(
+            email='test@test.be',
+            username='user',
+            password='user',
+            roles=['Member'],
+            properties={})
+
+        # disabled by default
+        self.assertFalse(get_raiseOnError_for_non_managers())
+        # when disabled, generating by anybody will always produce a document
+        view = failing_template.restrictedTraverse('@@document-generation')
+        template_UID = failing_template.UID()
+        # generated for 'Manager'
+        self.assertTrue('Manager' in api.user.get_current().getRoles())
+        self.assertTrue(
+            'mimetypeapplication/vnd.oasis.opendocument.text' in
+            view(template_uid=template_UID, output_format='odt'))
+        # generated for non 'Manager'
+        login(self.portal, 'user')
+        self.assertFalse('Manager' in api.user.get_current().getRoles())
+        self.assertTrue(
+            'mimetypeapplication/vnd.oasis.opendocument.text' in
+            view(template_uid=template_UID, output_format='odt'))
+
+        # enable raiseOnError_for_non_managers and test again
+        login(self.portal, TEST_USER_NAME)
+        api.portal.set_registry_record(
+            'collective.documentgenerator.browser.controlpanel.'
+            'IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers',
+            True)
+        self.assertTrue(
+            'mimetypeapplication/vnd.oasis.opendocument.text' in
+            view(template_uid=template_UID, output_format='odt'))
+        login(self.portal, 'user')
+        # raises an error instead generating the document
+        with self.assertRaises(Exception) as cm:
+            view(template_uid=template_UID, output_format='odt')
+        self.assertTrue(
+            u'Error while evaluating expression "view.unknown_method()".' in
+            cm.exception.message)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):

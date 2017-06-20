@@ -89,8 +89,8 @@ class TestConfigView(PODTemplateFunctionalTest):
             msg
         )
 
-    # Test removed because bad uno package has been removed from Makefile
-    def ttest_python_path_with_correct_uno_python(self):
+    @unittest.skip("Test removed because bad uno package has been removed from Makefile")
+    def test_python_path_with_correct_uno_python(self):
         self.browser.open('@@collective.documentgenerator-controlpanel')
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name='form.widgets.uno_path')

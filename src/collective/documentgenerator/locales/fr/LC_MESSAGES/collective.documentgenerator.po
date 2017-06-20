@@ -18,11 +18,11 @@ msgstr ""
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
-#: ../profiles/default/types/StyleTemplate.xml
+#: ../profiles/base/types/StyleTemplate.xml
 msgid "A document that holds styles to include into a POD template."
 msgstr "Un document qui contient les styles à incorporer dans un modèle de document POD."
 
-#: ../profiles/default/types/ConfigurablePODTemplate.xml
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
@@ -42,11 +42,11 @@ msgstr "Impossible de créer un document persistant si le contexte n'est pas un 
 msgid "Can't import python uno library with the python path"
 msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
 
-#: ../browser/controlpanel.py:86
+#: ../browser/controlpanel.py:97
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../browser/controlpanel.py:83
+#: ../browser/controlpanel.py:94
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
@@ -54,11 +54,11 @@ msgstr "Changements enregistrés"
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:136
+#: ../setuphandlers.py:146
 msgid "Collection template"
 msgstr "Modèle collection"
 
-#: ../profiles/default/types/ConfigurablePODTemplate.xml
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
@@ -74,12 +74,12 @@ msgstr ""
 msgid "Do rendering"
 msgstr "Pré-rendu"
 
-#: ../browser/controlpanel.py:72
-#: ../profiles/default/controlpanel.xml
+#: ../browser/controlpanel.py:83
+#: ../profiles/base/controlpanel.xml
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
-#: ../browser/controlpanel.py:88
+#: ../browser/controlpanel.py:99
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
@@ -87,31 +87,35 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:211
+#: ../browser/generation_view.py:225
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:209
+#: ../browser/generation_view.py:223
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:163
+#: ../browser/generation_view.py:167
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../setuphandlers.py:98
+#: ../setuphandlers.py:108
 msgid "General template"
 msgstr "Modèle général"
 
-#: ../setuphandlers.py:83
+#: ../setuphandlers.py:93
 msgid "Header"
 msgstr "En-tête"
+
+#: ../browser/controlpanel.py:68
+msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
+msgstr "Une fois activé, ceci évite qu'un document contenant une erreur soit généré, à la place, une erreur Plone sera produite.  Néanmoins, pour faciliter le déboguage, les administrateurs continueront à obtenir les erreurs dans les documents générés s'ils le sont au format .odt"
 
 #: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
-#: ../setuphandlers.py:112
+#: ../setuphandlers.py:122
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
@@ -132,7 +136,7 @@ msgstr "Canevas"
 msgid "Optimize tables"
 msgstr "Optimiser les tables"
 
-#: ../setuphandlers.py:33
+#: ../setuphandlers.py:42
 msgid "POD Templates"
 msgstr "Modèles POD"
 
@@ -140,7 +144,7 @@ msgstr "Modèles POD"
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
-#: ../profiles/default/types/PODTemplate.xml
+#: ../profiles/base/types/PODTemplate.xml
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
@@ -152,7 +156,11 @@ msgstr "Chemin d'un python avec la librairie uno"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../browser/controlpanel.py:75
+#: ../browser/controlpanel.py:67
+msgid "Raise an error instead generating the document"
+msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
+
+#: ../browser/controlpanel.py:86
 msgid "Save"
 msgstr "Sauver"
 
@@ -164,7 +172,7 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:166
+#: ../setuphandlers.py:176
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -172,15 +180,15 @@ msgstr "Modèle de tableur"
 msgid "Style template"
 msgstr "Modèle de style"
 
-#: ../profiles/default/types/StyleTemplate.xml
+#: ../profiles/base/types/StyleTemplate.xml
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../setuphandlers.py:68
+#: ../setuphandlers.py:78
 msgid "Styles n°2"
 msgstr "Styles n°2"
 
-#: ../profiles/default/types/SubTemplate.xml
+#: ../profiles/base/types/SubTemplate.xml
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
@@ -216,7 +224,7 @@ msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
-#: ../demo/helper.py:73
+#: ../demo/helper.py:75
 msgid "comment"
 msgstr "Commentaire"
 
@@ -225,11 +233,11 @@ msgstr "Commentaire"
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
-#: ../demo/helper.py:71
+#: ../demo/helper.py:73
 msgid "input_field"
 msgstr "Champs de saisie"
 
-#: ../demo/helper.py:84
+#: ../demo/helper.py:83
 msgid "last_change"
 msgstr "Dernière modification"
 

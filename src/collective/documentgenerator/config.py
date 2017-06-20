@@ -41,6 +41,13 @@ def get_optimize_tables():
     )
 
 
+def get_raiseOnError_for_non_managers():
+    return api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.'
+        'IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers'
+    )
+
+
 def set_oo_port():
     """ Get environment value in buildout to define port """
     oo_port = os.getenv('OO_PORT', None)

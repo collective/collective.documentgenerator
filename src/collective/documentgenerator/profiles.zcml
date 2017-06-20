@@ -68,6 +68,16 @@
         handler="collective.documentgenerator.migrations.migrate_to_3.migrate"
         profile="collective.documentgenerator:default" />
 
+    <genericsetup:upgradeSteps
+        source="3"
+        destination="4"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeDepends
+            title="Reapply registry.xml"
+            description="This will add new parameter 'enable_raiseOnError_for_non_managers'"
+            import_steps="plone.app.registry" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

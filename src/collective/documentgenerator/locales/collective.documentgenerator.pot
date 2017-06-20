@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-05-23 08:27+0000\n"
+"POT-Creation-Date: 2017-06-20 11:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../browser/controlpanel.py:73
+#: ../browser/controlpanel.py:84
 msgid ""
 msgstr ""
 
@@ -22,11 +22,11 @@ msgstr ""
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
-#: ../profiles/default/types/StyleTemplate.xml
+#: ../profiles/base/types/StyleTemplate.xml
 msgid "A document that holds styles to include into a POD template."
 msgstr ""
 
-#: ../profiles/default/types/ConfigurablePODTemplate.xml
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
 msgid "A document to generate on a content."
 msgstr ""
 
@@ -46,11 +46,11 @@ msgstr ""
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:86
+#: ../browser/controlpanel.py:97
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:83
+#: ../browser/controlpanel.py:94
 msgid "Changes saved"
 msgstr ""
 
@@ -58,11 +58,11 @@ msgstr ""
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:136
+#: ../setuphandlers.py:146
 msgid "Collection template"
 msgstr ""
 
-#: ../profiles/default/types/ConfigurablePODTemplate.xml
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
@@ -78,12 +78,12 @@ msgstr ""
 msgid "Do rendering"
 msgstr ""
 
-#: ../browser/controlpanel.py:72
-#: ../profiles/default/controlpanel.xml
+#: ../browser/controlpanel.py:83
+#: ../profiles/base/controlpanel.xml
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../browser/controlpanel.py:88
+#: ../browser/controlpanel.py:99
 msgid "Edit cancelled"
 msgstr ""
 
@@ -91,31 +91,35 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:211
+#: ../browser/generation_view.py:225
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:209
+#: ../browser/generation_view.py:223
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:163
+#: ../browser/generation_view.py:167
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../setuphandlers.py:98
+#: ../setuphandlers.py:108
 msgid "General template"
 msgstr ""
 
-#: ../setuphandlers.py:83
+#: ../setuphandlers.py:93
 msgid "Header"
+msgstr ""
+
+#: ../browser/controlpanel.py:68
+msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
 msgstr ""
 
 #: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr ""
 
-#: ../setuphandlers.py:112
+#: ../setuphandlers.py:122
 msgid "Multiple format template"
 msgstr ""
 
@@ -136,7 +140,7 @@ msgstr ""
 msgid "Optimize tables"
 msgstr ""
 
-#: ../setuphandlers.py:33
+#: ../setuphandlers.py:42
 msgid "POD Templates"
 msgstr ""
 
@@ -144,7 +148,7 @@ msgstr ""
 msgid "POD context name"
 msgstr ""
 
-#: ../profiles/default/types/PODTemplate.xml
+#: ../profiles/base/types/PODTemplate.xml
 msgid "PODTemplate"
 msgstr ""
 
@@ -156,7 +160,11 @@ msgstr ""
 msgid "Port Number of OO."
 msgstr ""
 
-#: ../browser/controlpanel.py:75
+#: ../browser/controlpanel.py:67
+msgid "Raise an error instead generating the document"
+msgstr ""
+
+#: ../browser/controlpanel.py:86
 msgid "Save"
 msgstr ""
 
@@ -168,7 +176,7 @@ msgstr ""
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:166
+#: ../setuphandlers.py:176
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -176,15 +184,15 @@ msgstr ""
 msgid "Style template"
 msgstr ""
 
-#: ../profiles/default/types/StyleTemplate.xml
+#: ../profiles/base/types/StyleTemplate.xml
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:68
+#: ../setuphandlers.py:78
 msgid "Styles n°2"
 msgstr ""
 
-#: ../profiles/default/types/SubTemplate.xml
+#: ../profiles/base/types/SubTemplate.xml
 msgid "SubTemplate"
 msgstr ""
 
@@ -220,7 +228,7 @@ msgstr ""
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
-#: ../demo/helper.py:73
+#: ../demo/helper.py:75
 msgid "comment"
 msgstr ""
 
@@ -229,11 +237,11 @@ msgstr ""
 msgid "element_not_valid"
 msgstr ""
 
-#: ../demo/helper.py:71
+#: ../demo/helper.py:73
 msgid "input_field"
 msgstr ""
 
-#: ../demo/helper.py:84
+#: ../demo/helper.py:83
 msgid "last_change"
 msgstr ""
 
