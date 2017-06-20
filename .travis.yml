@@ -15,6 +15,9 @@ env:
 
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
+  - sudo soffice --invisible --headless --nofirststartwizard --nologo "--accept=socket,host=localhost,port=2002;urp;" &
+  - /usr/bin/python3 -c "import uno; print(uno.pyuno)"
+  - /usr/bin/python3 -c "import uno;resolver=context.ServiceManager.createInstanceWithContext('com.sun.star.bridge.UnoUrlResolver',uno.getComponentContext());docContext=resolver.resolve('uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext');print(docContext)"
   - mkdir -p buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
   - echo "[buildout]" > $HOME/.buildout/default.cfg
