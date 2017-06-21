@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.1 (unreleased)
+2.0.1 (2017-06-21)
 ------------------
 
 - Use `plone.i18n.normalizer.interfaces.IFileNameNormalizer` to normalize
