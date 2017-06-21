@@ -13,11 +13,13 @@ Changelog
   [gbastien]
 - Added parameter `raiseOnError_for_non_managers` to be able to raise a Plone
   error instead generating the document where errors are included.  This avoid
-  generating a document containing errors where some data may be lost like in 
+  generating a document containing errors where some data may be lost like in
   PDF where errors are not viewable or even in ODT when users do not understand
   that errors in comments are important.  This will enable the `raiseOnError`
   parameter of appy.pod.renderer.Renderer.
   [gbastien]
+- Call styles update at pod template creation
+  [sgeulette]
 
 1.0.6 (2017-05-31)
 ------------------
