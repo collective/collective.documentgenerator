@@ -9,6 +9,9 @@ Changelog
   `IIDNormalizer` for which max_length is fixed to 50.  Here max_length is fixed
   to 1023 so we may manage very long element title to generate filename.
   [gbastien]
+- Manage style_modification_md5 field to detect if the template has been modified by a user.
+  Updated update_templates method to use it.
+  [sgeulette]
 
 2.0.0 (2017-06-21)
 ------------------

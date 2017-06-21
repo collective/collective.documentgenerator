@@ -39,9 +39,7 @@ def update_templates(templates, profile='', force=False):
         :param str profile: profile path stored on template (or various identification)
         :param bool force: force overrides of templates
     """
-    # Don't use profile now
-    # Don't use has_been_modified method now (incorrect)
-    # Don't use is_modified or current_md5
+    # Don't use profile now !
     portal = api.portal.getSite()
     ret = []
     for (ppath, ospath) in templates:
@@ -57,15 +55,15 @@ def update_templates(templates, profile='', force=False):
             continue
         with open(ospath, 'rb') as f:
             data = f.read()
-            if base_hasattr(obj, 'initial_md5'):
-                new_md5 = compute_md5(data)
-                if obj.initial_md5 == new_md5:
-                    ret.append((ppath, ospath, 'unchanged'))
-                    continue
-                obj.initial_md5 = new_md5
-            elif not force:
+            new_md5 = compute_md5(data)
+            if obj.initial_md5 == new_md5:
                 ret.append((ppath, ospath, 'unchanged'))
                 continue
+            elif obj.has_been_modified() and not force:
+                ret.append((ppath, ospath, 'kept'))
+                continue
+            obj.initial_md5 = new_md5
+            obj.style_modification_md5 = new_md5
             obj.odt_file.data = data
             modified(obj)
             ret.append((ppath, ospath, 'replaced'))

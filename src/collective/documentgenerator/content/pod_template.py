@@ -56,7 +56,10 @@ class IPODTemplate(model.Schema):
     )
 
     form.omitted('initial_md5')
-    initial_md5 = schema.TextLine()
+    initial_md5 = schema.TextLine(description=u'Initially loaded file md5. Will be compared with os file md5.')
+
+    form.omitted('style_modification_md5')
+    style_modification_md5 = schema.TextLine(description=u'Working md5, stored when styles only update.')
 
     form.widget('enabled', RadioFieldWidget)
     enabled = schema.Bool(
@@ -116,8 +119,12 @@ class PODTemplate(Item):
         return md5
 
     def has_been_modified(self):
-        has_been_modified = self.current_md5 != self.initial_md5
-        return has_been_modified
+        """
+            Current md5 will also be different from initial_md5 without user modification but if style modification.
+            Current_md5 will be equal to style_modification_md5 if style only update.
+            This last one will be updated after style modification only. See events
+        """
+        return self.current_md5 != self.style_modification_md5
 
 
 class IMergeTemplatesRowSchema(Interface):

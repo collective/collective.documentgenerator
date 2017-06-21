@@ -8,6 +8,10 @@
               handler=".pod_templates_events.set_initial_md5" />
 
   <subscriber for="..content.style_template.IStyleTemplate
+                   zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+              handler=".styles_events.styletemplate_created" />
+
+  <subscriber for="..content.style_template.IStyleTemplate
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".styles_events.update_styles_of_all_PODtemplate" />
 
