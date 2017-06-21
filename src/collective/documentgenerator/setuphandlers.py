@@ -62,7 +62,7 @@ def install_demo(context):
             title='Styles',
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/styles.odt'),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'styles.odt',
             ),
             container=pod_folder,
@@ -78,7 +78,7 @@ def install_demo(context):
             title=_(u'Styles n°2'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/styles_2.odt'),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'styles_2.odt',
             ),
             container=pod_folder,
@@ -93,7 +93,7 @@ def install_demo(context):
             title=_(u'Header'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/sub_template.odt'),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'sub_template.odt',
             ),
             container=pod_folder,
@@ -108,7 +108,7 @@ def install_demo(context):
             title=_(u'General template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'modele_general.odt',
             ),
             container=pod_folder,
@@ -122,7 +122,7 @@ def install_demo(context):
             title=_(u'Multiple format template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.odt'),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'modele_general.odt',
             ),
             container=pod_folder,
@@ -146,7 +146,7 @@ def install_demo(context):
             title=_(u'Collection template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile(safe_unicode('templates/modèle_collection.odt')),
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'modèle_collection.odt',
             ),
             container=pod_folder,
@@ -176,8 +176,8 @@ def install_demo(context):
             title=_(u'Spreadsheet template'),
             odt_file=NamedBlobFile(
                 data=context.readDataFile('templates/modele_general.ods'),
-                contentType='applications/odt',
-                filename=u'modele_collection.odt',
+                contentType='application/vnd.oasis.opendocument.spreadsheet',
+                filename=u'modele_general.ods',
             ),
             container=pod_folder,
             exclude_from_nav=True,

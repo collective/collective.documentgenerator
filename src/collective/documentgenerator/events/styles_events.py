@@ -34,6 +34,8 @@ def update_styles_of_all_PODtemplate(style_template, event):
         pod_templates = catalog(object_provides=IPODTemplate.__identifier__)
         for brain in pod_templates:
             pod_template = brain.getObject()
+            if pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
+                return
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
                 logger.info(' {} => updated'.format(pod_template.Title()))
@@ -51,7 +53,7 @@ def update_PODtemplate_styles(pod_template, event):
     Update styles on a pod_template using external styles.
     """
     style_template = pod_template.get_style_template()
-    if not style_template:
+    if not style_template or pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
         return
     style_odt = style_template.odt_file
     style_template_file = create_temporary_file(style_odt, 'style_template.odt')
@@ -94,7 +96,7 @@ def _update_template_styles(pod_template, style_template_filename):
         resTemplate = open(resTempFileName, 'rb')
         # update template
         result = NamedBlobFile(data=resTemplate.read(),
-                               contentType='applications/odt',
+                               contentType='application/vnd.oasis.opendocument.text',
                                filename=pod_template.odt_file.filename)
         pod_template.odt_file = result
         os.remove(resTempFileName)

@@ -241,7 +241,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             title=_(u'Failing template'),
             odt_file=NamedBlobFile(
                 data=failing_template_data,
-                contentType='applications/odt',
+                contentType='application/vnd.oasis.opendocument.text',
                 filename=u'modele_general.odt',
             ),
             pod_formats=['odt'],

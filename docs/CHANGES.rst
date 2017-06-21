@@ -22,6 +22,8 @@ Changelog
   [sgeulette]
 - Raise exception when style update fails
   [sgeulette]
+- Corrected mimetype of demo templates. Update style only for odt.
+  [sgeulette]
 
 1.0.6 (2017-05-31)
 ------------------

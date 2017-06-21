@@ -174,7 +174,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
         template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
         template_file = file(template_path, 'rb').read()
-        blob_file = NamedBlobFile(data=template_file, contentType='applications/odt')
+        blob_file = NamedBlobFile(data=template_file, contentType='application/vnd.oasis.opendocument.text')
 
         pod_template.odt_file = blob_file
 
