@@ -49,7 +49,7 @@ notifications:
     recipients:
       - devs@imio.be
     on_success: change
-    on_failure: change
+    on_failure: always
   irc:
     channels:
       - "irc.freenode.org#imio"
