@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.7 (unreleased)
+2.0.0 (2017-06-21)
 ------------------
 
 - Make package compatible with both Plone4 and Plone5 at the same time :
