@@ -7,7 +7,6 @@ import os
 from zope import i18n
 from zope.lifecycleevent import modified
 from plone import api
-from Products.CMFPlone.utils import base_hasattr
 
 from zope.interface import Invalid
 
@@ -73,6 +72,7 @@ def update_templates(templates, profile='', force=False):
 def update_dict_with_validation(original_dict, update_dict, error_message=_("Dict update collision on key")):
     for key in update_dict:
         if key in original_dict:
-            raise Invalid(_("${error_message} for key = '${key}'", mapping={'error_message': error_message, 'key': key}))
+            raise Invalid(_("${error_message} for key = '${key}'",
+                            mapping={'error_message': error_message, 'key': key}))
 
         original_dict[key] = update_dict[key]

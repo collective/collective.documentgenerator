@@ -117,7 +117,7 @@ def _update_template_styles(pod_template, style_template_filename):
                                filename=pod_template.odt_file.filename)
         pod_template.odt_file = result
         os.remove(resTempFileName)
-        #if only styles were modified: update the style_modification_md5 attribute
+        # if only styles were modified: update the style_modification_md5 attribute
         if style_changes_only:
             pod_template.style_modification_md5 = pod_template.current_md5
 
