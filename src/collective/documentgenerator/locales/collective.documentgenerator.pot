@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-06-20 11:29+0000\n"
+"POT-Creation-Date: 2017-06-21 08:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../utils.py:78
+#: ../utils.py:79
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
@@ -30,11 +30,11 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:215
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:199
+#: ../content/pod_template.py:206
 msgid "Available formats"
 msgstr ""
 
@@ -54,7 +54,7 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:217
+#: ../content/pod_template.py:224
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
@@ -66,15 +66,15 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:235
+#: ../content/pod_template.py:242
 msgid "Context variables."
 msgstr ""
 
-#: ../utils.py:75
+#: ../utils.py:76
 msgid "Dict update collision on key"
 msgstr ""
 
-#: ../content/pod_template.py:140
+#: ../content/pod_template.py:147
 msgid "Do rendering"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../content/pod_template.py:63
+#: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr ""
 
@@ -115,6 +115,14 @@ msgstr ""
 msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
 msgstr ""
 
+#: ../profiles.zcml:15
+msgid "Installs the collective.documentgenerator add-on."
+msgstr ""
+
+#: ../profiles.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr ""
+
 #: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr ""
@@ -123,7 +131,7 @@ msgstr ""
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:176
+#: ../content/pod_template.py:183
 msgid "No format selected"
 msgstr ""
 
@@ -132,7 +140,7 @@ msgid "No value"
 msgstr ""
 
 #: ../content/pod_template.py:55
-#: ../content/style_template.py:26
+#: ../content/style_template.py:29
 msgid "ODT File"
 msgstr ""
 
@@ -144,7 +152,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:134
+#: ../content/pod_template.py:141
 msgid "POD context name"
 msgstr ""
 
@@ -160,6 +168,10 @@ msgstr ""
 msgid "Port Number of OO."
 msgstr ""
 
+#: ../events/styles_events.py:92
+msgid "Problem during styles update on template '${tmpl}': ${err}"
+msgstr ""
+
 #: ../browser/controlpanel.py:67
 msgid "Raise an error instead generating the document"
 msgstr ""
@@ -168,11 +180,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:209
+#: ../content/pod_template.py:216
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:200
+#: ../content/pod_template.py:207
 msgid "Select format in which the template will be generable."
 msgstr ""
 
@@ -180,7 +192,11 @@ msgstr ""
 msgid "Spreadsheet template"
 msgstr ""
 
-#: ../content/pod_template.py:216
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr ""
+
+#: ../content/pod_template.py:223
 msgid "Style template"
 msgstr ""
 
@@ -196,15 +212,15 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:128
+#: ../content/pod_template.py:135
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:224
+#: ../content/pod_template.py:231
 msgid "Templates to merge."
 msgstr ""
 
-#: ../content/pod_template.py:236
+#: ../content/pod_template.py:243
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
@@ -212,20 +228,32 @@ msgstr ""
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr ""
 
-#: ../content/pod_template.py:154
+#: ../content/pod_template.py:161
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:149
+#: ../content/pod_template.py:156
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:255
+#: ../content/pod_template.py:262
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:258
+#: ../content/pod_template.py:265
 msgid "You have twice used the same name '${name}'"
+msgstr ""
+
+#: ../profiles.zcml:15
+msgid "collective.documentgenerator"
+msgstr ""
+
+#: ../profiles.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr ""
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
 msgstr ""
 
 #: ../demo/helper.py:75
@@ -233,7 +261,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:180
+#: ../content/pod_template.py:187
 msgid "element_not_valid"
 msgstr ""
 
@@ -252,4 +280,3 @@ msgstr ""
 #: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr ""
-

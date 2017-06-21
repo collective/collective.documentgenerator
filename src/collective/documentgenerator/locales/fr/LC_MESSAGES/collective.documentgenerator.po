@@ -14,9 +14,9 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../utils.py:78
+#: ../utils.py:79
 msgid "${error_message} for key = '${key}'"
-msgstr ""
+msgstr "${error_message} pour la clé '${key}'"
 
 #: ../profiles/base/types/StyleTemplate.xml
 msgid "A document that holds styles to include into a POD template."
@@ -26,11 +26,11 @@ msgstr "Un document qui contient les styles à incorporer dans un modèle de doc
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:215
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:199
+#: ../content/pod_template.py:206
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -50,7 +50,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:217
+#: ../content/pod_template.py:224
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
@@ -62,15 +62,15 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../content/pod_template.py:235
+#: ../content/pod_template.py:242
 msgid "Context variables."
 msgstr "Variables du contexte"
 
-#: ../utils.py:75
+#: ../utils.py:76
 msgid "Dict update collision on key"
-msgstr ""
+msgstr "Collision dans la mise à jour du dictionnaire"
 
-#: ../content/pod_template.py:140
+#: ../content/pod_template.py:147
 msgid "Do rendering"
 msgstr "Pré-rendu"
 
@@ -83,21 +83,21 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../content/pod_template.py:63
+#: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr "Activé"
 
 #: ../browser/generation_view.py:225
 msgid "Error when merging context_variables in generation context"
-msgstr ""
+msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
 #: ../browser/generation_view.py:223
 msgid "Error when merging helper_view in generation context"
-msgstr ""
+msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
 #: ../browser/generation_view.py:167
 msgid "Error when merging merge_templates in generation context"
-msgstr ""
+msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
 #: ../setuphandlers.py:108
 msgid "General template"
@@ -111,6 +111,14 @@ msgstr "En-tête"
 msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
 msgstr "Une fois activé, ceci évite qu'un document contenant une erreur soit généré, à la place, une erreur Plone sera produite.  Néanmoins, pour faciliter le déboguage, les administrateurs continueront à obtenir les erreurs dans les documents générés s'ils le sont au format .odt"
 
+#: ../profiles.zcml:15
+msgid "Installs the collective.documentgenerator add-on."
+msgstr "Installs the collective.documentgenerator add-on."
+
+#: ../profiles.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr "Installs the collective.documentgenerator demo profile."
+
 #: ../interfaces.py:141
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
@@ -119,7 +127,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:176
+#: ../content/pod_template.py:183
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -128,7 +136,7 @@ msgid "No value"
 msgstr "Aucune valeur"
 
 #: ../content/pod_template.py:55
-#: ../content/style_template.py:26
+#: ../content/style_template.py:29
 msgid "ODT File"
 msgstr "Canevas"
 
@@ -140,7 +148,7 @@ msgstr "Optimiser les tables"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:134
+#: ../content/pod_template.py:141
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -156,6 +164,10 @@ msgstr "Chemin d'un python avec la librairie uno"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
+#: ../events/styles_events.py:92
+msgid "Problem during styles update on template '${tmpl}': ${err}"
+msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
+
 #: ../browser/controlpanel.py:67
 msgid "Raise an error instead generating the document"
 msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
@@ -164,11 +176,11 @@ msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le 
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:209
+#: ../content/pod_template.py:216
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:200
+#: ../content/pod_template.py:207
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
@@ -176,7 +188,11 @@ msgstr "Sélectionnez les formats dans lesquels le modèle pourra être génér�
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
-#: ../content/pod_template.py:216
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr "Steps to ease tests of collective.documentgenerator"
+
+#: ../content/pod_template.py:223
 msgid "Style template"
 msgstr "Modèle de style"
 
@@ -192,15 +208,15 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:128
+#: ../content/pod_template.py:135
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:224
+#: ../content/pod_template.py:231
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../content/pod_template.py:236
+#: ../content/pod_template.py:243
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 
@@ -208,28 +224,40 @@ msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\"."
 
-#: ../content/pod_template.py:154
+#: ../content/pod_template.py:161
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:149
+#: ../content/pod_template.py:156
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:255
+#: ../content/pod_template.py:262
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:258
+#: ../content/pod_template.py:265
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
+
+#: ../profiles.zcml:15
+msgid "collective.documentgenerator"
+msgstr "collective.documentgenerator"
+
+#: ../profiles.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr "collective.documentgenerator demo"
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
+msgstr "collective.documentgenerator tests"
 
 #: ../demo/helper.py:75
 msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:180
+#: ../content/pod_template.py:187
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
@@ -248,4 +276,3 @@ msgstr "Numéro du port Office"
 #: ../browser/controlpanel.py:50
 msgid "uno path"
 msgstr "Python uno"
-

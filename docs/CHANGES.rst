@@ -20,6 +20,8 @@ Changelog
   [gbastien]
 - Call styles update at pod template creation
   [sgeulette]
+- Raise exception when style update fails
+  [sgeulette]
 
 1.0.6 (2017-05-31)
 ------------------

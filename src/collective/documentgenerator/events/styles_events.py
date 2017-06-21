@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from zExceptions import Redirect
 from appy.shared.utils import executeCommand
 
 from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
+from .. import _
 
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+
+from Products.CMFPlone.utils import safe_unicode
 
 import appy.pod
 import logging
@@ -73,7 +77,16 @@ def _update_template_styles(pod_template, style_template_filename):
         port=config.get_oo_port(),
         style_template=style_template_filename
     )
-    executeCommand(cmd.split())
+    (stdout, stderr) = executeCommand(cmd.split())
+    if stderr:
+        request = pod_template.REQUEST
+        api.portal.show_message(message=_(u"Problem during styles update on template '${tmpl}': ${err}",
+                                mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
+                                         'err': safe_unicode(stderr)}),
+                                request=request, type='error')
+        raise Redirect(request.get('ACTUAL_URL'), _(u"Problem during styles update on template '${tmpl}': ${err}",
+                                                    mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
+                                                    'err': safe_unicode(stderr)}))
 
     # read the merged file
     resTempFileName = '.res.'.join(temp_file.name.rsplit('.', 1))
