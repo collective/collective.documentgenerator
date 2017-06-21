@@ -36,7 +36,7 @@ class TestConfig(unittest.TestCase):
     def test_get_uno_path(self):
         from collective.documentgenerator import config
         unopath = config.get_uno_path()
-        self.assertTrue(unopath == '/usr/bin/python')
+        self.assertTrue(unopath == '/usr/bin/python3')
 
     def test_get_uno_path_with_new_value(self):
         from collective.documentgenerator import config

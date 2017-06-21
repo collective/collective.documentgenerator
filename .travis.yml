@@ -22,8 +22,8 @@ install:
   - export TMPDIR=$HOME/tmp
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
-  - python bootstrap.py -c travis.cfg --version=2.5.3
   - virtualenv-2.7 .
+  - ./bin/python bootstrap.py
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -N -c travis.cfg
   - sed -ie "s#'/usr/bin/python3'#'/usr/bin/python'#" bin/test
