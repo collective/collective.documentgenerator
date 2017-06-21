@@ -155,17 +155,17 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         template_uid = pod_template.UID()
         generation_context = api.content.create(
             type='Folder',
-            title='folder',
+            title='Folder title long enough to test filename generation with accent héhé',
             id='test_folder',
             container=self.portal,
         )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
         generation_view(template_uid, 'odt')
+        generated_id = 'general-template-folder-title-long-enough-to-test-filename-generation-with-accent-hehe'
+        msg = "File  {0} should have been created in folder.".format(generated_id)
+        self.assertTrue(generated_id in generation_context.objectIds(), msg)
 
-        msg = "File 'Document A' should have been created in folder."
-        self.assertTrue('general-template-folder' in generation_context.objectIds(), msg)
-
-        persistent_doc = getattr(generation_context, 'general-template-folder')
+        persistent_doc = generation_context.get(generated_id)
         if HAS_PLONE_5:
             generated_doc = persistent_doc.file
             filename = persistent_doc.file.filename
@@ -176,7 +176,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             content_type = generated_doc.getContentType()
         self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
 
-        self.assertEqual(filename, u'general-template-folder.odt')
+        self.assertEqual(
+            filename,
+            u'General template - Folder title long enough to test filename generation with accent hehe.odt')
         self.assertEqual(content_type, 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):

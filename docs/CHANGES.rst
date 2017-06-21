@@ -4,8 +4,11 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Use `plone.i18n.normalizer.interfaces.IFileNameNormalizer` to normalize
+  filename because `Products.CMFPlone.utils.normalizeString` uses
+  `IIDNormalizer` for which max_length is fixed to 50.  Here max_length is fixed
+  to 1023 so we may manage very long element title to generate filename.
+  [gbastien]
 
 2.0.0 (2017-06-21)
 ------------------

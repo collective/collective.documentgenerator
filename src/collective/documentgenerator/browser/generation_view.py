@@ -3,12 +3,14 @@
 from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
 
-from zope.component import getMultiAdapter
 from AccessControl import Unauthorized
+
+from zope.component import getMultiAdapter
+from zope.component import queryAdapter
+from zope.component import queryUtility
 
 from Products.Five import BrowserView
 from Products.CMFPlone.utils import base_hasattr
-from Products.CMFPlone.utils import normalizeString
 from Products.CMFPlone.utils import safe_unicode
 
 from StringIO import StringIO
@@ -21,8 +23,7 @@ from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from plone import api
-
-from zope.component import queryAdapter
+from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 
 import mimetypes
 import os
@@ -89,8 +90,9 @@ class DocumentGenerationView(BrowserView):
         os.remove(document_path)
 
         # to avoid problems with long filename we take 120 first characters
-        first_part = u'{0}-{1}'.format(pod_template.title, safe_unicode(self.context.Title()))
-        filename = '{0}.{1}'.format(normalizeString(first_part), output_format)
+        first_part = u'{0} - {1}'.format(pod_template.title, safe_unicode(self.context.Title()))
+        util = queryUtility(IFileNameNormalizer)
+        filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), output_format)
 
         return rendered, filename, gen_context
 
