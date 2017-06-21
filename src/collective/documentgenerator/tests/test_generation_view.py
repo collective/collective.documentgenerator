@@ -229,7 +229,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
-        self.assertRegexpMatches(gen_context['header'], '^(\/tmp\/).+(\.odt)$')
+        self.assertRegexpMatches(gen_context['header'], '.+(\.odt)$')
 
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case

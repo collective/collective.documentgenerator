@@ -6,7 +6,8 @@ python:
 cache:
   pip: true
   directories:
-    - $HOME/buildout-cache
+    - buildout-cache/downloads
+    - buildout-cache/eggs
 
 env:
   - PLONE_VERSION=4
@@ -16,13 +17,9 @@ env:
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
   - mkdir -p buildout-cache/{eggs,downloads}
-  - mkdir $HOME/.buildout
   - mkdir $HOME/tmp
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
-  - echo "[buildout]" > $HOME/.buildout/default.cfg
-  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
-  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - python bootstrap.py -c travis.cfg --version=2.5.3
