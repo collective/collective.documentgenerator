@@ -88,7 +88,7 @@ def _update_template_styles(pod_template, style_template_filename):
                                 request=request, type='error')
         raise Redirect(request.get('ACTUAL_URL'), _(u"Problem during styles update on template '${tmpl}': ${err}",
                                                     mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
-                                                    'err': safe_unicode(stderr)}))
+                                                             'err': safe_unicode(stderr)}))
 
     # read the merged file
     resTempFileName = '.res.'.join(temp_file.name.rsplit('.', 1))
