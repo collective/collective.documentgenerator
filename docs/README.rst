@@ -71,6 +71,10 @@ A viewlet displays all the available PODTemplate and ConfigurablePODTemplate fol
 
 Clicking the template link will render it and propose to download the generated document.
 
+Plone versions
+==============
+It is working and tested on Plone 4.3, Plone 5.0 and 5.1.
+
 Source code
 ===========
 
