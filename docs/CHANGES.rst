@@ -4,8 +4,9 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Make sure we do not have `-` character in the filename that is cropped because
+  it is handled weridly by `cropName` and cut name if `-` encountered.
+  [gbastien]
 
 2.0.1 (2017-06-21)
 ------------------
