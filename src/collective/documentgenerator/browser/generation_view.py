@@ -94,7 +94,8 @@ class DocumentGenerationView(BrowserView):
         util = queryUtility(IFileNameNormalizer)
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'
-        first_part = first_part.replace('-', ' ')
+        # moreover avoid more than one blank space at a time
+        first_part = u' '.join(util.normalize(first_part).replace(u'-', u' ').split()).strip()
         filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), output_format)
 
         return rendered, filename, gen_context
