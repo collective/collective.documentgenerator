@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.3 (unreleased)
+2.0.3 (2017-06-22)
 ------------------
 
 - When generating filename, remove special characters from unicoded title to
