@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.2 (unreleased)
+2.0.2 (2017-06-22)
 ------------------
 
 - Make sure we do not have `-` character in the filename that is cropped because
