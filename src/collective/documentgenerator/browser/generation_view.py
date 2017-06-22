@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import unicodedata
+
 from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
 
@@ -91,6 +93,8 @@ class DocumentGenerationView(BrowserView):
 
         # we limit filename to 120 characters
         first_part = u'{0} {1}'.format(pod_template.title, safe_unicode(self.context.Title()))
+        # replace unicode special characters with ascii equivalent value
+        first_part = unicodedata.normalize('NFKD', first_part).encode('ascii', 'ignore')
         util = queryUtility(IFileNameNormalizer)
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'

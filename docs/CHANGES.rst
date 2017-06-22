@@ -4,8 +4,10 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- When generating filename, remove special characters from unicoded title to
+  avoid it being turned to ascii numbers (special character `\u2013` is turned
+  to `2013` in the produced filename).
+  [gbastien]
 
 2.0.2 (2017-06-22)
 ------------------

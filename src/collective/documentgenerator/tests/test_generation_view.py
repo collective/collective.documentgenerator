@@ -155,9 +155,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         template_uid = pod_template.UID()
         generation_context = api.content.create(
             type='Folder',
-            title='Folder title > 200m² to test filename generation 1.2.3.4 with accent héhé '
-                  'actually we test with a title that is longer than 120 characters so we may '
-                  'evaluate cropText method that is sensitive to some characters like -',
+            title=u'Folder title > 200m² to test – filename generation 1.2.3.4 with accent héhé '
+                  u'actually we test with a title that is longer than 120 characters so we may '
+                  u'evaluate cropText method that is sensitive to some characters like -',
             id='test_folder',
             container=self.portal,
         )
