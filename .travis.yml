@@ -32,8 +32,6 @@ install:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - sudo soffice --invisible --headless --nofirststartwizard --nologo "--accept=socket,host=localhost,port=2002;urp;" &
-#  - /usr/bin/python -c "import uno;context=uno.getComponentContext();resolver=context.ServiceManager.createInstanceWithContext('com.sun.star.bridge.UnoUrlResolver',context);docContext=resolver.resolve('uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext');print(docContext)"
 
 script:
   - bin/test

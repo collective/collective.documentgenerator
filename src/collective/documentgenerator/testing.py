@@ -18,7 +18,8 @@ from plone.testing import z2
 from collective.documentgenerator.config import HAS_PLONE_5
 
 import collective.documentgenerator
-
+from imio.pyutils.system import runCommand
+import os
 import transaction
 
 import unittest
@@ -33,6 +34,7 @@ class NakedPloneLayer(PloneSandboxLayer):
         # Load ZCML
         self.loadZCML(package=collective.documentgenerator,
                       name='testing.zcml')
+        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh start' % os.getenv('PWD'))
 
     def setUpPloneSite(self, portal):
         """ Setup Plone
@@ -55,6 +57,7 @@ class NakedPloneLayer(PloneSandboxLayer):
     def tearDownZope(self, app):
         """Tear down Zope."""
         z2.uninstallProduct(app, 'collective.documentgenerator')
+        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh stop' % os.getenv('PWD'))
 
 NAKED_PLONE_FIXTURE = NakedPloneLayer(
     name='NAKED_PLONE_FIXTURE'

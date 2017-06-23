@@ -59,6 +59,7 @@ setup(
         'test': [
             'plone.app.robotframework',
             'plone.app.testing',
+            'imio.pyutils'
         ],
     },
     entry_points="""
