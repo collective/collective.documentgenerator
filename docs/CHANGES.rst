@@ -6,6 +6,8 @@ Changelog
 
 - Start and end libreoffice during test.
   [sgeulette]
+- Check if field_name from a behavior is present
+  [sgeulette]
 
 2.0.3 (2017-06-22)
 ------------------

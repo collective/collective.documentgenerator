@@ -24,6 +24,10 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         # reverse fields order so that the content schema have priority on the behaviors fields
         self.fields = dict(reversed(get_ordered_fields(self.fti)))
 
+    def has_field(self, field_name):
+        """ Check if fieldname is a field. Useful when behavior is optional """
+        return field_name in self.fields
+
     def get_field(self, field_name):
         """Get field."""
         return self.fields.get(field_name)
@@ -73,6 +77,8 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         return api.user.has_permission(permission, user=user, obj=self.real_context)
 
     def get_value(self, field_name, default=None, as_utf8=False):
+        if not self.has_field(field_name):
+            return default
         value = getattr(self.real_context, field_name)
         if value is None:
             return default
