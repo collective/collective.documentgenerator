@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.4 (unreleased)
+2.0.4 (2017-07-12)
 ------------------
 
 - Start and end libreoffice during test.
