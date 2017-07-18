@@ -44,9 +44,17 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                     output_format=output_format,
                     gen_view_name=self.get_generation_view_name(template, output_format)
                 )
-                links.append({'link': link,
-                              'title': title,
-                              'description': description,
-                              'output_format': output_format,
-                              'template_uid': uid})
+                infos = {'link': link,
+                         'title': title,
+                         'description': description,
+                         'output_format': output_format,
+                         'template_uid': uid}
+                infos.update(self.add_extra_links_info(template, infos))
+                links.append(infos)
         return links
+
+    def add_extra_links_info(self, template, infos):
+        """This method is made to be overrided and ease adding extra infos
+           to the list of dicts returned by self.get_links_info.
+           It needs to returns a dict that will update data stored in infos."""
+        return {}

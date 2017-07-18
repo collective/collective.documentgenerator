@@ -4,8 +4,9 @@ Changelog
 2.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added easy way to complete infos returned by
+  `DocumentGeneratorLinksViewlet.get_links_info`.
+  [gbastien]
 
 2.0.4 (2017-07-12)
 ------------------
