@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.5 (unreleased)
+2.0.5 (2017-07-19)
 ------------------
 
 - Added easy way to complete infos returned by
