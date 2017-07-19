@@ -42,10 +42,8 @@ class DocumentGenerationView(BrowserView):
         self.request = request
 
     def __call__(self, template_uid='', output_format=''):
-        pod_template, output_format = self._get_base_args(template_uid, output_format)
-        self.pod_template = pod_template
-        self.output_format = output_format
-        return self.generate_and_download_doc(pod_template, output_format)
+        self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
+        return self.generate_and_download_doc(self.pod_template, self.output_format)
 
     def _get_base_args(self, template_uid, output_format):
         template_uid = template_uid or self.get_pod_template_uid()
@@ -300,8 +298,8 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     """
 
     def __call__(self, template_uid='', output_format=''):
-        pod_template, output_format = self._get_base_args(template_uid, output_format)
-        persisted_doc = self.generate_persistent_doc(pod_template, output_format)
+        self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
+        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
 
     def generate_persistent_doc(self, pod_template, output_format):

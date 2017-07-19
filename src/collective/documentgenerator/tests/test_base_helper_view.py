@@ -46,6 +46,7 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
 
         doc = api.content.create(type='Document', id='doc', container=self.portal)
         view = doc.restrictedTraverse('@@document-generation')
+        view(template_uid=pod_template.UID(), output_format='odt')
         document_template = pod_template.get_file()
         helper_view = view.get_generation_context_helper()
 

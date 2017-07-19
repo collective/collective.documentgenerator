@@ -209,6 +209,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test__get_generation_context(self):
         pod_template = self.portal.podtemplates['test_template_bis']
         view = self.portal.podtemplates.restrictedTraverse('@@document-generation')
+        view(template_uid=pod_template.UID(), output_format='odt')
         hpv = view.get_generation_context_helper()
         # Check context variables
         self.assertDictEqual(view._get_generation_context(hpv, pod_template), {'details': '1',
