@@ -78,6 +78,13 @@
             import_steps="plone.app.registry" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeStep
+        title="collective.documentgenerator: upgrade to 5"
+        source="4"
+        destination="5"
+        handler="collective.documentgenerator.migrations.migrate_to_5.migrate"
+        profile="collective.documentgenerator:default" />
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

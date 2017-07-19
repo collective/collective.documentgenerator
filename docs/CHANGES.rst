@@ -11,6 +11,8 @@ Changelog
   `@@generation-view` and on the `@@document_generation_helper_view` via
   `self.pod_template` and `self.output_format`.
   [gbastien]
+- Added migration to change portal types icons
+  [sgeulette]
 
 2.0.4 (2017-07-12)
 ------------------
