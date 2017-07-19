@@ -7,6 +7,10 @@ Changelog
 - Added easy way to complete infos returned by
   `DocumentGeneratorLinksViewlet.get_links_info`.
   [gbastien]
+- Do `pod_template` and `output_format` directly available on the
+  `@@generation-view` and on the `@@document_generation_helper_view` via
+  `self.pod_template` and `self.output_format`.
+  [gbastien]
 
 2.0.4 (2017-07-12)
 ------------------

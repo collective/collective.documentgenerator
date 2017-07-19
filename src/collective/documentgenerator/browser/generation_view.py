@@ -43,6 +43,8 @@ class DocumentGenerationView(BrowserView):
 
     def __call__(self, template_uid='', output_format=''):
         pod_template, output_format = self._get_base_args(template_uid, output_format)
+        self.pod_template = pod_template
+        self.output_format = output_format
         return self.generate_and_download_doc(pod_template, output_format)
 
     def _get_base_args(self, template_uid, output_format):
@@ -245,7 +247,10 @@ class DocumentGenerationView(BrowserView):
         """
         Return the default helper view used for document generation.
         """
-        return getMultiAdapter((self.context, self.request), name='document_generation_helper_view')
+        helper_view = getMultiAdapter((self.context, self.request), name='document_generation_helper_view')
+        helper_view.pod_template = self.pod_template
+        helper_view.output_format = self.output_format
+        return helper_view
 
     def _set_header_response(self, filename):
         """
