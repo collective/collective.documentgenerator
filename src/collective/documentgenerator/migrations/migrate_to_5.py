@@ -17,7 +17,7 @@ class Migrate_To_5(Migrator):
     def run(self):
         logger.info('Migrating to collective.documentgenerator 5 ...')
         self.runProfileSteps('collective.documentgenerator', steps=['typeinfo'], profile='install-base')
-        for brain in self.catalog(portal_types=POD_TEMPLATE_TYPES.values()):
+        for brain in self.catalog(portal_type=POD_TEMPLATE_TYPES.values()):
             brain.getObject().reindexObject(idxs=['getIcon'])
         self.finish()
 
