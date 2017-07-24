@@ -6,6 +6,8 @@ Changelog
 
 - Corrected migration step.
   [sgeulette]
+- Check z3c.form.interfaces.NO_VALUE in get_value
+  [sgeulette]
 
 2.0.5 (2017-07-19)
 ------------------

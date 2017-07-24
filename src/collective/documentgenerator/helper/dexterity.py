@@ -8,6 +8,7 @@ from plone.app.textfield import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider, READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.supermodel.utils import mergedTaggedValueDict
+from z3c.form.interfaces import NO_VALUE
 from zope.component import getMultiAdapter, getUtility
 
 from .base import DisplayProxyObject, DocumentGenerationHelperView
@@ -81,6 +82,8 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             return default
         value = getattr(self.real_context, field_name)
         if value is None:
+            return default
+        if isinstance(value, NO_VALUE.__class__):
             return default
         if isinstance(value, RichTextValue):
             value = value.output
