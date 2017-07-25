@@ -4,8 +4,8 @@ Changelog
 2.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Check field_name existence following parameter: do not by default and fail if not exist
+  [sgeulette]
 
 2.0.6 (2017-07-24)
 ------------------

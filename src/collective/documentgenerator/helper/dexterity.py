@@ -77,8 +77,8 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         user = api.user.get_current()
         return api.user.has_permission(permission, user=user, obj=self.real_context)
 
-    def get_value(self, field_name, default=None, as_utf8=False):
-        if not self.has_field(field_name):
+    def get_value(self, field_name, default=None, as_utf8=False, strict=True):
+        if not strict and not self.has_field(field_name):
             return default
         value = getattr(self.real_context, field_name)
         if value is None:
