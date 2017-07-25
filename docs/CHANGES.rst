@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.7 (unreleased)
+2.0.7 (2017-07-25)
 ------------------
 
 - Check field_name existence following parameter: do not by default and fail if not exist
