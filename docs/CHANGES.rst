@@ -4,8 +4,8 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added locking bahaviors on types.
+  [sgeulette]
 
 2.0.7 (2017-07-25)
 ------------------

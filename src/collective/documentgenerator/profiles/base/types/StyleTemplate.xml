@@ -21,6 +21,7 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
  </property>
  <property name="schema">collective.documentgenerator.content.style_template.IStyleTemplate</property>
  <property name="schema_policy">dexterity</property>
