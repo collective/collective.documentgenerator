@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.8 (unreleased)
+2.0.8 (2017-08-02)
 ------------------
 
 - Add default value for 'pod_template' and 'output_format' attributes of the generation view.
