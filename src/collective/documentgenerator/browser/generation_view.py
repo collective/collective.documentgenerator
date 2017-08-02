@@ -40,6 +40,8 @@ class DocumentGenerationView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        self.pod_template = None
+        self.output_format = None
 
     def __call__(self, template_uid='', output_format=''):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
