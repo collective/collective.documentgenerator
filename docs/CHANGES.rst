@@ -4,7 +4,8 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add default value for 'pod_template' and 'output_format' attributes of the generation view.
+  [sdelcourt]
 
 
 2.0.7 (2017-07-25)
