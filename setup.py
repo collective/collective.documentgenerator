@@ -51,6 +51,7 @@ setup(
         'imio.migrator',
         'plone.api>=1.3.3',
         'plone.app.dexterity',
+        'plone.app.lockingbehavior',
         'setuptools',
         # fix about orderedselect
         'z3c.form>=3.2.4',
