@@ -4,7 +4,9 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
-- Added locking bahaviors on types.
+- Added locking behaviors on types.
+  [sgeulette]
+- Added MailingLoopTemplate type and mailing_loop_template field on ConfigurablePODTemplate.
   [sgeulette]
 
 2.0.7 (2017-07-25)

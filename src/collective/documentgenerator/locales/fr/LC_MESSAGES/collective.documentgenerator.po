@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../utils.py:79
+#: ../utils.py:75
 msgid "${error_message} for key = '${key}'"
 msgstr "${error_message} pour la clé '${key}'"
 
@@ -50,6 +50,10 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
+#: ../content/pod_template.py:254
+msgid "Choose the mailing loop template to apply for this template."
+msgstr "Sélectionnez le modèle de boucle de publipostage."
+
 #: ../content/pod_template.py:224
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
@@ -66,7 +70,7 @@ msgstr "Modèle de document POD"
 msgid "Context variables."
 msgstr "Variables du contexte"
 
-#: ../utils.py:76
+#: ../utils.py:72
 msgid "Dict update collision on key"
 msgstr "Collision dans la mise à jour du dictionnaire"
 
@@ -87,15 +91,15 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:225
+#: ../browser/generation_view.py:235
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:223
+#: ../browser/generation_view.py:233
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:167
+#: ../browser/generation_view.py:177
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
@@ -123,6 +127,14 @@ msgstr "Installs the collective.documentgenerator demo profile."
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
+#: ../content/pod_template.py:253
+msgid "Mailing loop template"
+msgstr "Modèle de boucle de publipostage"
+
+#: ../profiles/base/types/MailingLoopTemplate.xml
+msgid "MailingLoopTemplate"
+msgstr "Modèle de boucle de publipostage"
+
 #: ../setuphandlers.py:122
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
@@ -131,7 +143,7 @@ msgstr "Modèle différents formats"
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
-#: ../content/vocabulary.py:43
+#: ../content/vocabulary.py:47
 msgid "No value"
 msgstr "Aucune valeur"
 
@@ -164,7 +176,7 @@ msgstr "Chemin d'un python avec la librairie uno"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../events/styles_events.py:92
+#: ../events/styles_events.py:100
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
 
@@ -232,11 +244,11 @@ msgstr "Valeur"
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:262
+#: ../content/pod_template.py:270
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:265
+#: ../content/pod_template.py:273
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 

@@ -248,6 +248,13 @@ class IConfigurablePODTemplate(IPODTemplate):
         ),
     )
 
+    mailing_loop_template = schema.Choice(
+        title=_(u'Mailing loop template'),
+        description=_(u'Choose the mailing loop template to apply for this template.'),
+        vocabulary='collective.documentgenerator.EnabledMailingLoopTemplates',
+        required=False,
+    )
+
     @invariant
     def validate_context_variables(data):
         keys = []
@@ -361,9 +368,24 @@ class SubTemplate(PODTemplate):
 
     implements(ISubTemplate)
 
+
+class IMailingLoopTemplate(IPODTemplate):
+    """
+    PODTemplate used only to loop for mailing
+    """
+
+
+class MailingLoopTemplate(PODTemplate):
+    """
+    PODTemplate used only to loop for mailing
+    """
+
+    implements(IMailingLoopTemplate)
+
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,
     ConfigurablePODTemplate.__name__: ConfigurablePODTemplate,
     SubTemplate.__name__: SubTemplate,
+    MailingLoopTemplate.__name__: MailingLoopTemplate,
     StyleTemplate.__name__: StyleTemplate,
 }

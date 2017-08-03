@@ -30,4 +30,29 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- MailingLoop Vocabulary -->
+    <utility
+        factory=".vocabulary.MailingLoopTemplatesEnabledVocabularyFactory"
+        name="collective.documentgenerator.EnabledMailingLoopTemplates"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <utility
+        factory=".vocabulary.MailingLoopTemplatesAllVocabularyFactory"
+        name="collective.documentgenerator.AllMailingLoopTemplates"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- MISSING VOCABULARIES -->
+    <!-- type, layer, view, field, vocabulary, widget -->
+    <adapter
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
+             z3c.form.interfaces.IFormLayer
+             zope.interface.Interface
+             zope.schema.interfaces.IChoice
+             zope.schema.interfaces.IBaseVocabulary
+             z3c.form.interfaces.ISelectWidget"
+        factory=".vocabulary.PTMCTV"
+    />
+
 </configure>
