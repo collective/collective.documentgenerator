@@ -7,6 +7,7 @@ from appy.pod.styles_manager import TableProperties
 
 from AccessControl import Unauthorized
 
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryAdapter
 from zope.component import queryUtility
@@ -25,6 +26,7 @@ from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 
 from plone import api
+from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 
 import mimetypes
@@ -37,6 +39,7 @@ class DocumentGenerationView(BrowserView):
     """
     Document generation view.
     """
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -172,6 +175,7 @@ class DocumentGenerationView(BrowserView):
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
+
         # enrich the generation context with previously generated documents
         utils.update_dict_with_validation(generation_context, sub_documents,
                                           _("Error when merging merge_templates in generation context"))
@@ -233,6 +237,12 @@ class DocumentGenerationView(BrowserView):
                                           _("Error when merging helper_view in generation context"))
         utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
                                           _("Error when merging context_variables in generation context"))
+        # We add mailed_data if we have only one element in mailing list
+        mailing_list = helper_view.mailing_list()
+        if len(mailing_list) == 1:
+            utils.update_dict_with_validation(generation_context, {'mailed_data': mailing_list[0]},
+                                              _("Error when merging mailed_data in generation context"))
+
         return generation_context
 
     def get_base_generation_context(self):
@@ -301,6 +311,93 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
         persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
+
+    def add_mailing_infos(self, doc, gen_context):
+        """ store mailing informations on generated doc """
+        annot = IAnnotations(doc)
+        if 'mailed_data' in gen_context:
+            annot['documentgenerator'] = {'need_mailing': False}
+        else:
+            annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
+                                          'output_format': self.output_format}
+
+    def generate_persistent_doc(self, pod_template, output_format):
+        """
+        Generate a document of format 'output_format' from the template
+        'pod_template' and persist it by creating a File containing the
+        generated document on the current context.
+        """
+
+        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
+
+        splitted_name = doc_name.split('.')
+        title = '.'.join(splitted_name[:-1])
+        extension = splitted_name[-1]
+
+        factory = queryAdapter(self.context, IDocumentFactory)
+
+        #  Bypass any File creation permission of the user. If the user isnt
+        #  supposed to save generated document on the site, then its the permission
+        #  to call the generation view that should be changed.
+        with api.env.adopt_roles(['Manager']):
+            persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
+
+        # store informations on persisted doc
+        self.add_mailing_infos(persisted_doc, gen_context)
+
+        return persisted_doc
+
+    def redirects(self, persisted_doc):
+        """
+        Redirects to the created document.
+        """
+        if config.HAS_PLONE_5:
+            filename = persisted_doc.file.filename
+        else:
+            filename = persisted_doc.getFile().filename
+        self._set_header_response(filename)
+        response = self.request.response
+        return response.redirect(persisted_doc.absolute_url() + '/external_edit')
+
+
+class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationView):
+    """
+        Mailing persistent document generation view.
+        This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
+    """
+
+    def __call__(self, document_uid=''):
+        document_uid = document_uid or self.request.get('document_uid', '')
+        if not document_uid:
+            raise Exception("No 'document_uid' found to generate this document")
+        self.document = uuidToObject(document_uid)
+        if not self.document:
+            raise Exception("Cannot find document with UID '{0}'".format(document_uid))
+        self.pod_template, self.output_format = self._get_base_args('', '')
+        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
+        self.redirects(persisted_doc)
+
+    def _get_base_args(self, template_uid, output_format):
+        annot = IAnnotations(self.document).get('documentgenerator', '')
+        if not annot or 'template_uid' not in annot:
+            raise Exception("Cannot find 'template_uid' on document '{0}'".format(self.document.absolute_url()))
+        pod_template = self.get_pod_template(annot['template_uid'])
+        if not base_hasattr(pod_template, 'mailing_loop_template') or not pod_template.mailing_loop_template:
+            raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(pod_template.absolute_url()))
+        loop_template = self.get_pod_template(pod_template.mailing_loop_template)
+
+        if 'output_format' not in annot:
+            raise Exception("No 'output_format' found to generate this document")
+        return loop_template, annot['output_format']
+
+    def _get_generation_context(self, helper_view, pod_template):
+        """ """
+        gen_context = super(MailingLoopPersistentDocumentGenerationView, self).\
+            _get_generation_context(helper_view, pod_template)
+        # add mailing list in generation context
+        dic = {'mailing_list': helper_view.mailing_list(), 'mailing_doc': self.document}
+        utils.update_dict_with_validation(gen_context, dic,
+                                          _("Error when merging mailing_list in generation context"))
 
     def generate_persistent_doc(self, pod_template, output_format):
         """

@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added MailingLoopTemplate type and mailing_loop_template field on ConfigurablePODTemplate.
   [sgeulette]
+- Added 'mailing-loop-persistent-document-generation' to manage mailing loop generation
+  [sgeulette]
 
 2.0.7 (2017-07-25)
 ------------------

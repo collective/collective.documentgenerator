@@ -134,6 +134,13 @@ class DocumentGenerationHelperView(object):
         else:
             return default
 
+    def mailing_list(self):
+        """
+            Return a mailing list (that will be added to generation context in "loop" view) to loop on.
+            Improvement using from plone.memoize import view ?
+        """
+        return []
+
 
 class DisplayProxyObject(object):
     """
