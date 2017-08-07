@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import datetime
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
@@ -140,6 +141,18 @@ class DocumentGenerationHelperView(object):
             Improvement using from plone.memoize import view ?
         """
         return []
+
+    def mailed_context(self, mailed_data):
+        """ Modify current context to remove mailing_list and add mailed_data """
+        try:
+            new_context = copy.copy(self.appy_renderer.contentParser.env.context)
+            for key in ('mailing_list', 'mailed_doc'):
+                if key in new_context:
+                    del new_context[key]
+        except:
+            return {'mailed_data': mailed_data}
+        new_context['mailed_data'] = mailed_data
+        return new_context
 
 
 class DisplayProxyObject(object):

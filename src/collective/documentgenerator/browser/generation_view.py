@@ -317,7 +317,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     def add_mailing_infos(self, doc, gen_context):
         """ store mailing informations on generated doc """
         annot = IAnnotations(doc)
-        if 'mailed_data' in gen_context:
+        if 'mailed_data' in gen_context or 'mailing_list' in gen_context:
             annot['documentgenerator'] = {'need_mailing': False}
         else:
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
@@ -397,41 +397,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         gen_context = super(MailingLoopPersistentDocumentGenerationView, self).\
             _get_generation_context(helper_view, pod_template)
         # add mailing list in generation context
-        dic = {'mailing_list': helper_view.mailing_list(), 'mailing_doc': self.document}
+        dic = {'mailing_list': helper_view.mailing_list(), 'mailed_doc': self.document}
         utils.update_dict_with_validation(gen_context, dic,
                                           _("Error when merging mailing_list in generation context"))
-
-    def generate_persistent_doc(self, pod_template, output_format):
-        """
-        Generate a document of format 'output_format' from the template
-        'pod_template' and persist it by creating a File containing the
-        generated document on the current context.
-        """
-
-        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
-
-        splitted_name = doc_name.split('.')
-        title = '.'.join(splitted_name[:-1])
-        extension = splitted_name[-1]
-
-        factory = queryAdapter(self.context, IDocumentFactory)
-
-        #  Bypass any File creation permission of the user. If the user isnt
-        #  supposed to save generated document on the site, then its the permission
-        #  to call the generation view that should be changed.
-        with api.env.adopt_roles(['Manager']):
-            persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
-
-        return persisted_doc
-
-    def redirects(self, persisted_doc):
-        """
-        Redirects to the created document.
-        """
-        if config.HAS_PLONE_5:
-            filename = persisted_doc.file.filename
-        else:
-            filename = persisted_doc.getFile().filename
-        self._set_header_response(filename)
-        response = self.request.response
-        return response.redirect(persisted_doc.absolute_url() + '/external_edit')
+        return gen_context
