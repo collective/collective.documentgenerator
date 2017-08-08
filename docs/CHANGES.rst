@@ -12,6 +12,8 @@ Changelog
   [sgeulette]
 - Added helper method to manage context
   [sgeulette]
+- Added helper method to check if mailed data have to be replaced during rendering
+  [sgeulette]
 
 2.0.8 (2017-08-02)
 ------------------

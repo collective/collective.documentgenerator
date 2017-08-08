@@ -154,6 +154,11 @@ class DocumentGenerationHelperView(object):
         new_context['mailed_data'] = mailed_data
         return new_context
 
+    def do_mailing(self):
+        """ Check if mailing data must be replaced in template """
+        ctx = self.appy_renderer.contentParser.env.context
+        return 'mailed_data' in ctx
+
 
 class DisplayProxyObject(object):
     """
