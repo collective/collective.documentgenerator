@@ -7,7 +7,7 @@ from plone import api
 logger = logging.getLogger('collective.documentgenerator')
 
 
-class Migrate_To_6(Migrator):
+class Migrate_To_6(Migrator):  # pragma: no cover
 
     def __init__(self, context):
         Migrator.__init__(self, context)
