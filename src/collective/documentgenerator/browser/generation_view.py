@@ -319,7 +319,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
             annot['documentgenerator'] = {'need_mailing': False}
         else:
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
-                                          'output_format': self.output_format}
+                                          'output_format': self.output_format, 'context_uid': self.context.UID()}
 
     def generate_persistent_doc(self, pod_template, output_format):
         """

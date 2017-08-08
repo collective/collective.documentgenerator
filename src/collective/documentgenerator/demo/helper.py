@@ -9,6 +9,7 @@ from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
+from collective.documentgenerator.utils import safe_encode
 from collective.documentgenerator.utils import translate as _
 
 from plone import api
@@ -92,6 +93,14 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def is_folderish(self):
         raise NotImplementedError
+
+    def mailing_list(self):
+        paths = api.portal.get_registry_record('collective.documentgenerator.mailing_list')
+        ret = []
+        for path in paths:
+            obj = self.portal.unrestrictedTraverse(safe_encode(path))
+            ret.append(obj)
+        return ret
 
 
 class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):

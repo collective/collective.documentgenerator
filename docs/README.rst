@@ -14,6 +14,7 @@ New content types are used to store the different templates:
 
 * **style templates**, that can be common for other templates
 * **sub templates**, that can be used in other templates
+* **mailing loop templates**, that can be used by other templates to do a loop for mailing
 * **basic templates**
 * **advanced templates**, regarding configuration
 
@@ -45,6 +46,7 @@ In your Plone site, you can add two sorts of main templates :
   * tal expression as condition (`behavior <https://github.com/collective/collective.behavior.talcondition>`_).
   * enabling flag
   * context variables list
+  * mailing loop template
 
 If you want, you can organize your templates in one or more folder.
 
@@ -68,8 +70,23 @@ Base helper methods can be used in templates and custom methods can be added.
 -------------------------------
 
 A viewlet displays all the available PODTemplate and ConfigurablePODTemplate following the current context.
+Clicking the template link will call the 'document-generation' view.
 
-Clicking the template link will render it and propose to download the generated document.
+- Calling 'document-generation' view
+
+  * render template and propose to download the generated document
+  * parameters: template uid and document type
+  * this is the default view used in the viewlet
+
+- Calling 'persistent-document-generation' view
+
+  * render template and create a file with the generated document
+  * parameters: template uid and document type
+
+- Calling 'mailing-loop-persistent-document-generation' view
+
+  * loop on persisted rendered document and create a file containing all documents
+  * parameters: document uid
 
 Plone versions
 ==============
