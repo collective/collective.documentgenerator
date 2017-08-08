@@ -76,3 +76,12 @@ def update_dict_with_validation(original_dict, update_dict, error_message=_("Dic
                             mapping={'error_message': error_message, 'key': key}))
 
         original_dict[key] = update_dict[key]
+
+
+def safe_encode(value, encoding='utf-8'):
+    """
+        Converts a value to encoding, only when it is not already encoded.
+    """
+    if isinstance(value, unicode):
+        return value.encode(encoding)
+    return value

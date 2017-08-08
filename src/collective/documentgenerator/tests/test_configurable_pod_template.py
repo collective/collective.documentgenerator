@@ -229,7 +229,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
                      merge_templates=[{'pod_context_name': u'random1', 'value': u'1'}, {'pod_context_name': u'random2', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # duplicate in both lists
-        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'pod_context_name': u'1'}, {'pod_context_name': u'det', 'value': u'1'}],
+        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}],
                      context_variables=[{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # duplicate 1 in each list

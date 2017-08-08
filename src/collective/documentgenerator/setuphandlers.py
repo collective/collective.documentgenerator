@@ -101,6 +101,21 @@ def install_demo(context):
         )
     sub_template = getattr(pod_folder, sub_template_id)
 
+    if not hasattr(pod_folder, 'loop_template'):
+        api.content.create(
+            type='MailingLoopTemplate',
+            id='loop_template',
+            title=_(u'Mailing loop template'),
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/mailing.odt'),
+                contentType='application/vnd.oasis.opendocument.text',
+                filename=u'mailing.odt',
+            ),
+            container=pod_folder,
+            exclude_from_nav=True
+        )
+    loop_template = getattr(pod_folder, 'loop_template')
+
     if not hasattr(pod_folder, 'test_template'):
         api.content.create(
             type='PODTemplate',
@@ -184,6 +199,23 @@ def install_demo(context):
             pod_formats=['ods', 'xls', ],
             pod_portal_types=['Document'],
             style_template=[style_template.UID()],
+        )
+
+    if not hasattr(pod_folder, 'test_template_possibly_mailed'):
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_template_possibly_mailed',
+            title=_(u'Possibly mailed template'),
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/possibly_mailed_model.odt'),
+                contentType='application/vnd.oasis.opendocument.text',
+                filename=u'possibly_mailed_model.odt',
+            ),
+            container=pod_folder,
+            exclude_from_nav=True,
+            pod_formats=['odt'],
+            pod_portal_types=['Folder'],
+            mailing_loop_template=loop_template.UID(),
         )
 
 
