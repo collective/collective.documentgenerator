@@ -79,3 +79,50 @@ class TestVocabularies(unittest.TestCase):
         voc = vocabulary(self.portal)
         for pod_format, label in POD_FORMATS:
             self.assertTrue(pod_format in voc)
+
+    def test_mailing_loop_enabled_vocabulary(self):
+        """
+        Test the EnabledMailingLoopTemplates vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.EnabledMailingLoopTemplates'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        loop_template = self.portal.podtemplates.get('loop_template')
+        self.assertListEqual([loop_template.UID()], [t.value for t in voc])
+        loop_template.enabled = False
+        voc = vocabulary(self.portal)
+        self.assertListEqual([], [t for t in voc])
+
+    def test_mailing_loop_all_vocabulary(self):
+        """
+        Test the AllMailingLoopTemplates vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.AllMailingLoopTemplates'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        loop_template = self.portal.podtemplates.get('loop_template')
+        self.assertListEqual([loop_template.UID()], [t.value for t in voc])
+        loop_template.enabled = False
+        voc = vocabulary(self.portal)
+        self.assertListEqual([loop_template.UID()], [t.value for t in voc])
+
+    def test_PTMCTV(self):
+        pod_template = self.portal.podtemplates.get('test_template_possibly_mailed')
+        view = pod_template.restrictedTraverse('@@view')
+        view.update()
+        # the title from the vocabulary is well rendered
+        self.assertIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
+        # We deactivate the loop template, the missing value is managed
+        loop_template = self.portal.podtemplates.get('loop_template')
+        loop_template_uid = loop_template.UID()
+        loop_template.enabled = False
+        voc_inst = queryUtility(IVocabularyFactory, 'collective.documentgenerator.EnabledMailingLoopTemplates')
+        self.assertListEqual([], [t.value for t in voc_inst(pod_template)])
+        view.updateWidgets()
+        self.assertIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
+        # We remove the loop template, the missing value cannot be managed anymore
+        api.content.delete(obj=loop_template)
+        view.updateWidgets()
+        self.assertNotIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
+        self.assertIn('Valeur manquante', view.widgets['mailing_loop_template'].render())
+        self.assertIn(loop_template_uid, view.widgets['mailing_loop_template'].render())
