@@ -5,7 +5,11 @@ from collective.documentgenerator.config import POD_FORMATS
 from plone import api
 
 from z3c.form.i18n import MessageFactory as _
+from z3c.form.interfaces import IContextAware, IDataManager
+from z3c.form.term import MissingChoiceTermsVocabulary, MissingTermsMixin
 
+from zope.component import getMultiAdapter, getUtility
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -75,3 +79,94 @@ class MergeTemplatesVocabularyFactory(object):
         vocabulary = SimpleVocabulary(voc_terms)
 
         return vocabulary
+
+
+def get_mailing_loop_templates(enabled_only=True):
+    brains = []
+    catalog = api.portal.get_tool('portal_catalog')
+
+    for brain in catalog(portal_type='MailingLoopTemplate'):
+        if enabled_only and not brain.getObject().enabled:
+            continue
+        brains.append(brain)
+    return brains
+
+
+class MailingLoopTemplatesEnabledVocabularyFactory(object):
+    """
+    Vocabulary factory for 'mailing_loop_template' field.
+    """
+
+    def __call__(self, context):
+        voc_terms = []
+
+        for brain in get_mailing_loop_templates(enabled_only=True):
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+        return SimpleVocabulary(voc_terms)
+
+    def _renderTermTitle(self, brain):
+        return brain.Title
+
+
+class MailingLoopTemplatesAllVocabularyFactory(object):
+    """
+    Vocabulary factory with all mailing_loop_template.
+    """
+
+    def __call__(self, context):
+        voc_terms = []
+
+        for brain in get_mailing_loop_templates(enabled_only=False):
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+
+        return SimpleVocabulary(voc_terms)
+
+    def _renderTermTitle(self, brain):
+        return brain.Title
+
+
+#########################
+# vocabularies adapters #
+#########################
+
+
+class MissingTerms(MissingTermsMixin):
+
+    def getTerm(self, value):
+        try:
+            return super(MissingTermsMixin, self).getTerm(value)
+        except LookupError:
+            try:
+                return self.complete_voc().getTerm(value)
+            except LookupError:
+                pass
+        if (IContextAware.providedBy(self.widget) and not self.widget.ignoreContext):
+            curValue = getMultiAdapter((self.widget.context, self.field), IDataManager).query()
+            if curValue == value:
+                return self._makeMissingTerm(value)
+        raise
+
+    def getTermByToken(self, token):
+        try:
+            return super(MissingTermsMixin, self).getTermByToken(token)
+        except LookupError:
+            try:
+                return self.complete_voc().getTermByToken(token)
+            except LookupError:
+                pass
+        if (IContextAware.providedBy(self.widget) and not self.widget.ignoreContext):
+            value = getMultiAdapter((self.widget.context, self.field), IDataManager).query()
+            term = self._makeMissingTerm(value)
+            if term.token == token:
+                return term
+        raise LookupError(token)
+
+
+class PTMCTV(MissingChoiceTermsVocabulary, MissingTerms):
+    """ Managing missing terms for IImioDmsIncomingMail. """
+
+    def complete_voc(self):
+        if self.field.getName() == 'mailing_loop_template':
+            return getUtility(IVocabularyFactory, 'collective.documentgenerator.AllMailingLoopTemplates')(self.context)
+        else:
+            return SimpleVocabulary([])

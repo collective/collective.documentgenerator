@@ -1,0 +1,13 @@
+<registry>
+    <record name="collective.documentgenerator.mailing_list">
+        <field type="plone.registry.field.Tuple">
+            <title>Paths to objects</title>
+            <value_type type="plone.registry.field.TextLine" />
+        </field>
+        <value>
+            <element>podtemplates/test_template</element>
+            <element>podtemplates/test_template_multiple</element>
+            <element>podtemplates/test_template_bis</element>
+        </value>
+    </record>
+</registry>
