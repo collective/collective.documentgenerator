@@ -95,9 +95,13 @@ class DocumentGenerationView(BrowserView):
         rendered = rendered_document.read()
         rendered_document.close()
         os.remove(document_path)
+        filename = self._get_filename()
+        return rendered, filename, gen_context
 
+    def _get_filename(self):
+        """ """
         # we limit filename to 120 characters
-        first_part = u'{0} {1}'.format(pod_template.title, safe_unicode(self.context.Title()))
+        first_part = u'{0} {1}'.format(self.pod_template.title, safe_unicode(self.context.Title()))
         # replace unicode special characters with ascii equivalent value
         first_part = unicodedata.normalize('NFKD', first_part).encode('ascii', 'ignore')
         util = queryUtility(IFileNameNormalizer)
@@ -105,9 +109,8 @@ class DocumentGenerationView(BrowserView):
         # and it behaves weirdly if it encounters '-'
         # moreover avoid more than one blank space at a time
         first_part = u' '.join(util.normalize(first_part).replace(u'-', u' ').split()).strip()
-        filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), output_format)
-
-        return rendered, filename, gen_context
+        filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), self.output_format)
+        return filename
 
     def _recursive_generate_doc(self, pod_template, output_format):
         """
