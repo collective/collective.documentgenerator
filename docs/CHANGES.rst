@@ -15,7 +15,7 @@ Changelog
 - Added helper method to check if mailed data have to be replaced during rendering
   [sgeulette]
 - Moved filename generation to `DocumentGenerationView._get_filename` method so
-  it is easy to overrride and to call for specific usecases.
+  it is easy to override and to call for specific usecases.
   [gbastien]
 
 2.0.8 (2017-08-02)
