@@ -32,11 +32,11 @@ class DocumentGenerationHelperView(object):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
         return proxy_obj
 
-    def get_value(self, field_name, default=None, as_utf8=False):
+    def get_value(self, field_name, default=None, as_utf8=False):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
-    def display(self, field_name, no_value=''):
+    def display(self, field_name, no_value=''):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
@@ -59,7 +59,7 @@ class DocumentGenerationHelperView(object):
 
         return safe_unicode(formatted_date)
 
-    def display_voc(self, field_name, separator=','):
+    def display_voc(self, field_name, separator=','):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
@@ -82,7 +82,7 @@ class DocumentGenerationHelperView(object):
         display = self.appy_renderer.renderXhtml(html_text)
         return display
 
-    def display_widget(self, fieldname, clean=True, soup=False):
+    def display_widget(self, fieldname, clean=True, soup=False):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
@@ -94,7 +94,7 @@ class DocumentGenerationHelperView(object):
     def list(self, field_name):
         return self.get_value(field_name)
 
-    def list_voc(self, field_name, list_keys=False, list_values=True):
+    def list_voc(self, field_name, list_keys=False, list_values=True):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
@@ -135,7 +135,7 @@ class DocumentGenerationHelperView(object):
         else:
             return default
 
-    def mailing_list(self):
+    def mailing_list(self):  # pragma: no cover
         """
             Return a mailing list (that will be added to generation context in "loop" view) to loop on.
             Improvement using from plone.memoize import view ?
