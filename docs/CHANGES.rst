@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.9 (unreleased)
+3.0.1 (unreleased)
 ------------------
 
 - Added locking behaviors on types.
