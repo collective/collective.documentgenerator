@@ -326,6 +326,12 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
                                           'output_format': self.output_format, 'context_uid': self.context.UID()}
 
+    def _get_title(self, doc_name, gen_context):
+        splitted_name = doc_name.split('.')
+        title = '.'.join(splitted_name[:-1])
+        extension = splitted_name[-1]
+        return safe_unicode(title), extension
+
     def generate_persistent_doc(self, pod_template, output_format):
         """
         Generate a document of format 'output_format' from the template
@@ -335,9 +341,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
         doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
 
-        splitted_name = doc_name.split('.')
-        title = '.'.join(splitted_name[:-1])
-        extension = splitted_name[-1]
+        title, extension = self._get_title(doc_name, gen_context)
 
         factory = queryAdapter(self.context, IDocumentFactory)
 

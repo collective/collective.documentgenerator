@@ -17,6 +17,9 @@ Changelog
 - Moved filename generation to `DocumentGenerationView._get_filename` method so
   it is easy to override and to call for specific usecases.
   [gbastien]
+- Moved persistent doc title generation moved to `DocumentGenerationView._get_title` method
+  so it is easy to override and to call for specific usecases.
+  [sgeulette]
 
 2.0.8 (2017-08-02)
 ------------------
