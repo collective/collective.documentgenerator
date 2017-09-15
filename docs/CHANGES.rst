@@ -20,6 +20,8 @@ Changelog
 - Moved persistent doc title generation moved to `DocumentGenerationView._get_title` method
   so it is easy to override and to call for specific usecases.
   [sgeulette]
+- Do not break if temporary file can not be deleted.
+  [gbastien]
 
 2.0.8 (2017-08-02)
 ------------------
