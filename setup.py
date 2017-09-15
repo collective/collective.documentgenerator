@@ -19,7 +19,7 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='2.0.9.dev0',
+    version='3.0.0.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (http://appyframework.org) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -51,6 +51,7 @@ setup(
         'imio.migrator',
         'plone.api>=1.3.3',
         'plone.app.dexterity',
+        'plone.app.lockingbehavior',
         'setuptools',
         # fix about orderedselect
         'z3c.form>=3.2.4',

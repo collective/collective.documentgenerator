@@ -3,9 +3,11 @@
 import os
 from AccessControl import Unauthorized
 
+from appy.shared.zip import unzip
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
 from collective.documentgenerator.content.pod_template import SubTemplate
+from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
@@ -18,6 +20,9 @@ from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
 from plone.namedfile.file import NamedBlobFile
 
+from zope.annotation.interfaces import IAnnotations
+
+import tempfile
 import unittest
 
 
@@ -296,6 +301,89 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertTrue(
             u'Error while evaluating expression "view.unknown_method()".' in
             cm.exception.message)
+
+    def test_mailing_loop_persistent_document_generation(self):
+        pod_template = self.portal.podtemplates.get('test_template_possibly_mailed')
+        template_uid = pod_template.UID()
+        folder = api.content.create(type='Folder', title=u'Folder', id='test_folder', container=self.portal)
+        # Check dexterity values
+        orig_registry = api.portal.get_registry_record('collective.documentgenerator.mailing_list')
+
+        def get_content(blob_file):
+            tmpdir = tempfile.mkdtemp()
+            temp_file = create_temporary_file(blob_file)
+            info = unzip(temp_file.name, tmpdir, odf=True)
+            os.remove(temp_file.name)
+            return info
+
+        # First we generate a persistent document with only one element in mailing list
+        api.portal.set_registry_record('collective.documentgenerator.mailing_list', orig_registry[0:1])
+        generation_view = folder.restrictedTraverse('@@persistent-document-generation')
+        generation_view(template_uid, 'odt')
+        generated_id = 'possibly-mailed-template-folder'
+        msg = "File {0} should have been created in folder.".format(generated_id)
+        self.assertTrue(generated_id in folder.objectIds(), msg)
+        persistent_doc = folder.get(generated_id)
+        annot = IAnnotations(persistent_doc)
+        self.assertIn('documentgenerator', annot)
+        self.assertNotIn('template_uid', annot['documentgenerator'])
+        self.assertEqual(annot['documentgenerator']['need_mailing'], False)
+        if HAS_PLONE_5:
+            generated_doc = persistent_doc.file
+        else:
+            generated_doc = persistent_doc.getFile()
+        info = get_content(generated_doc)
+        self.assertNotIn('mailed_data', info['content.xml'])
+        self.assertIn('General template', info['content.xml'])
+        self.assertIn('test_template', info['content.xml'])
+
+        # Secondly we generate a persistent document with multiple element in mailing list
+        api.portal.set_registry_record('collective.documentgenerator.mailing_list', orig_registry)
+        generation_view = folder.restrictedTraverse('@@persistent-document-generation')
+        generation_view(template_uid, 'odt')
+        generated_id = 'possibly-mailed-template-folder-1'
+        msg = "File {0} should have been created in folder.".format(generated_id)
+        self.assertTrue(generated_id in folder.objectIds(), msg)
+        persistent_doc = folder.get(generated_id)
+        annot = IAnnotations(persistent_doc)
+        self.assertIn('documentgenerator', annot)
+        self.assertIn('template_uid', annot['documentgenerator'])
+        self.assertIn('context_uid', annot['documentgenerator'])
+        self.assertEqual(annot['documentgenerator']['need_mailing'], True)
+        if HAS_PLONE_5:
+            generated_doc = persistent_doc.file
+        else:
+            generated_doc = persistent_doc.getFile()
+        info = get_content(generated_doc)
+        self.assertNotIn('General template', info['content.xml'])
+        self.assertNotIn('test_template', info['content.xml'])
+        self.assertIn('mailed_data.title', info['content.xml'])
+        self.assertIn('mailed_data.id', info['content.xml'])
+
+        # the mailing loop view is called on the folder context !
+        generation_view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
+        generation_view(document_uid=persistent_doc.UID())
+        generated_id = 'mailing-loop-template-folder'
+        msg = "File {0} should have been created in folder.".format(generated_id)
+        self.assertTrue(generated_id in folder.objectIds(), msg)
+        persistent_doc = folder.get(generated_id)
+        annot = IAnnotations(persistent_doc)
+        self.assertIn('documentgenerator', annot)
+        self.assertNotIn('template_uid', annot['documentgenerator'])
+        self.assertEqual(annot['documentgenerator']['need_mailing'], False)
+        if HAS_PLONE_5:
+            generated_doc = persistent_doc.file
+        else:
+            generated_doc = persistent_doc.getFile()
+        info = get_content(generated_doc)
+        self.assertNotIn('mailed_data', info['content.xml'])
+        self.assertIn('General template', info['content.xml'])
+        self.assertIn('test_template', info['content.xml'])
+        self.assertIn('Multiple format template', info['content.xml'])
+        self.assertIn('test_template_multiple', info['content.xml'])
+        self.assertIn('Collection template', info['content.xml'])
+        self.assertIn('test_template_bis', info['content.xml'])
+        # Mailing has been done ;-)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):

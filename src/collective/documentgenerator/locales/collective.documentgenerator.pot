@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-06-21 08:02+0000\n"
+"POT-Creation-Date: 2017-07-31 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../utils.py:79
+#: ../utils.py:75
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
@@ -54,6 +54,10 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
+#: ../content/pod_template.py:254
+msgid "Choose the mailing loop template to apply for this template."
+msgstr ""
+
 #: ../content/pod_template.py:224
 msgid "Choose the style template to apply for this template."
 msgstr ""
@@ -70,7 +74,7 @@ msgstr ""
 msgid "Context variables."
 msgstr ""
 
-#: ../utils.py:76
+#: ../utils.py:72
 msgid "Dict update collision on key"
 msgstr ""
 
@@ -91,15 +95,15 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:225
+#: ../browser/generation_view.py:235
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:223
+#: ../browser/generation_view.py:233
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:167
+#: ../browser/generation_view.py:177
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
@@ -127,6 +131,14 @@ msgstr ""
 msgid "Invalid Python path"
 msgstr ""
 
+#: ../content/pod_template.py:253
+msgid "Mailing loop template"
+msgstr ""
+
+#: ../profiles/base/types/MailingLoopTemplate.xml
+msgid "MailingLoopTemplate"
+msgstr ""
+
 #: ../setuphandlers.py:122
 msgid "Multiple format template"
 msgstr ""
@@ -135,7 +147,7 @@ msgstr ""
 msgid "No format selected"
 msgstr ""
 
-#: ../content/vocabulary.py:43
+#: ../content/vocabulary.py:47
 msgid "No value"
 msgstr ""
 
@@ -168,7 +180,7 @@ msgstr ""
 msgid "Port Number of OO."
 msgstr ""
 
-#: ../events/styles_events.py:92
+#: ../events/styles_events.py:100
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr ""
 
@@ -236,11 +248,11 @@ msgstr ""
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:262
+#: ../content/pod_template.py:270
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:265
+#: ../content/pod_template.py:273
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 

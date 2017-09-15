@@ -85,6 +85,13 @@
         handler="collective.documentgenerator.migrations.migrate_to_5.migrate"
         profile="collective.documentgenerator:default" />
 
+    <genericsetup:upgradeStep
+        title="collective.documentgenerator: upgrade to 6"
+        source="5"
+        destination="6"
+        handler="collective.documentgenerator.migrations.migrate_to_6.migrate"
+        profile="collective.documentgenerator:default" />
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

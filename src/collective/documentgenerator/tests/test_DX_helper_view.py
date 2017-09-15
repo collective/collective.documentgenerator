@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFPlone.utils import safe_unicode
+
 from collective.documentgenerator.testing import DexterityIntegrationTests
 
 from plone import api
 from plone.app.testing import login
+from plone.app.textfield.value import RichTextValue
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 
+from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
 
 import datetime
@@ -260,3 +264,26 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
             READ_PERMISSIONS_KEY, {'description': 'cmf.ManagePortal'})
 
         self.assertFalse(self.view.check_permission('description'))
+
+    def test_get_value(self):
+        self.view.real_context = self.content
+        # test unknown field name (a behavior field by example, that can be activated or not)
+        self.assertEqual(self.view.get_value('unknown', strict=False), None)
+        self.assertEqual(self.view.get_value('unknown', default='aa', strict=False), 'aa')
+        self.assertRaises(AttributeError, self.view.get_value, 'unknown')
+        # test None value
+        self.assertIsNone(self.content.amount)
+        self.assertEqual(self.view.get_value('amount'), None)
+        self.assertEqual(self.view.get_value('amount', default='aa'), 'aa')
+        # check NO_VALUE
+        self.content.subscription = NO_VALUE
+        self.assertEqual(self.content.subscription, NO_VALUE)
+        self.assertEqual(self.view.get_value('subscription', default='aa'), 'aa')
+        # check RichText
+        self.content.biography = RichTextValue(raw=safe_unicode('<h1>Hello</h1>'), mimeType='text/html',
+                                               outputMimeType='text/html', encoding='utf-8')
+        self.assertEqual(self.view.get_value('biography'), '<h1>Hello</h1>')
+        # check utf8
+        self.content.title = u'héhé'
+        self.assertEqual(self.view.get_value('title'), u'héhé')
+        self.assertEqual(self.view.get_value('title', as_utf8=True), 'héhé')

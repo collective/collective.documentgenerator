@@ -1,18 +1,31 @@
 Changelog
 =========
 
-2.0.9 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added locking behaviors on types.
+  [sgeulette]
+- Added MailingLoopTemplate type and mailing_loop_template field on ConfigurablePODTemplate.
+  [sgeulette]
+- Added 'mailing-loop-persistent-document-generation' view to manage mailing loop generation
+  [sgeulette]
+- Added helper method to manage context
+  [sgeulette]
+- Added helper method to check if mailed data have to be replaced during rendering
+  [sgeulette]
+- Moved filename generation to `DocumentGenerationView._get_filename` method so
+  it is easy to override and to call for specific usecases.
+  [gbastien]
+- Moved persistent doc title generation moved to `DocumentGenerationView._get_title` method
+  so it is easy to override and to call for specific usecases.
+  [sgeulette]
 
 2.0.8 (2017-08-02)
 ------------------
 
 - Add default value for 'pod_template' and 'output_format' attributes of the generation view.
   [sdelcourt]
-
 
 2.0.7 (2017-07-25)
 ------------------
