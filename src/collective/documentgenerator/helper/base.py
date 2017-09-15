@@ -29,6 +29,7 @@ class DocumentGenerationHelperView(object):
 
     def _get_proxy_object(self):
         proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
+        proxy_obj.helper_view = self
         return proxy_obj
 
     def get_value(self, field_name, default=None, as_utf8=False):
@@ -145,6 +146,7 @@ class DisplayProxyObject(object):
     def __init__(self, context, display_method):
         self.context = context
         self.display = display_method
+        self.helper_view = None
 
     def __getattr__(self, attr_name):
         """
