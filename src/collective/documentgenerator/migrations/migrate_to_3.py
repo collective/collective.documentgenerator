@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import logging
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from imio.migrator.migrator import Migrator
 from plone import api
+
+import logging
 
 logger = logging.getLogger('collective.documentgenerator')
 
@@ -15,7 +17,7 @@ class Migrate_To_3(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info('Migrating to collective.documentgenerator 3 ...')
-        for brain in self.catalog(portal_type='ConfigurablePODTemplate'):
+        for brain in self.catalog(object_provides=IConfigurablePODTemplate.__identifier__):
             obj = brain.getObject()
             if obj.merge_templates:
                 newvalue = []
