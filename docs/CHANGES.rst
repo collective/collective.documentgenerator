@@ -4,7 +4,8 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use pod template title as default title for persisted documents.
+  [sdelcourt]
 
 
 3.0.0 (2017-09-20)

@@ -333,7 +333,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
     def _get_title(self, doc_name, gen_context):
         splitted_name = doc_name.split('.')
-        title = '.'.join(splitted_name[:-1])
+        title = self.pod_template.title
         extension = splitted_name[-1]
         return safe_unicode(title), extension
 
