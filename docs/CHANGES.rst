@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2017-09-20)
 ------------------
 
 - Use pod template title as default title for persisted documents.
