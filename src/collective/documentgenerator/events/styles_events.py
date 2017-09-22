@@ -103,6 +103,11 @@ def _update_template_styles(pod_template, style_template_filename):
                                     request=request, type='error')
         except:
             pass
+        from imio.helpers.testing import testing_logger
+        tlogger = testing_logger('collective.documentgenerator')
+        tlogger.info(cmd)
+        tlogger.info(stderr)
+        tlogger.info(pod_template.absolute_url_path())
         raise Redirect(request.get('ACTUAL_URL'), _(u"Problem during styles update on template '${tmpl}': ${err}",
                                                     mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
                                                              'err': safe_unicode(stderr)}))
