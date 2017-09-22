@@ -36,7 +36,9 @@ case "$1" in
             COUNTER=$((COUNTER + 1))
             PID=$(get_pid)
         done
+        echo $PID
         echo $PID> $PIDFILE
+        echo `cat $PIDFILE`
     ;;
     stop)
         if [ -f $PIDFILE ]; then

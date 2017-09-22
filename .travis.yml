@@ -33,10 +33,7 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - bin/soffice.sh start
-  - echo `ps ax|grep 'soffice.bin'`
-  - echo `ps ax|grep 'soffice.bin'|grep 'port=2002'`
-  - echo `ps ax|grep 'soffice.bin'|grep 'port=2002'|xargs`
-  - echo `ps ax|grep 'soffice.bin'|grep 'port=2002'|xargs|cut -d\  -f1`
+  - bin/soffice.sh stop
 
 script:
   - bin/test
