@@ -18,7 +18,7 @@ PIDFILE=$ScriptLocation/soffice-server.pid
 
 function get_pid()
 {
-    echo `ps ax|grep 'soffice.bin'|grep 'port=2002'|cut -d\  -f1`
+    echo `ps ax|grep 'soffice.bin'|grep 'port=2002'|xargs|cut -d\  -f1`
 }
 
 case "$1" in

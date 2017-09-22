@@ -4,8 +4,8 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Corrected soffice script for ubuntu 16.04.
+  [sgeulette]
 
 3.0.1 (2017-09-20)
 ------------------
