@@ -60,6 +60,7 @@ setup(
         'test': [
             'plone.app.robotframework',
             'plone.app.testing',
+            'imio.helpers',
             'imio.pyutils'
         ],
     },

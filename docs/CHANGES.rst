@@ -6,6 +6,9 @@ Changelog
 
 - Corrected soffice script for ubuntu 16.04.
   [sgeulette]
+- Tests now rely on imio.helpers to import testing_logger when necessary to
+  have logging on Travis CI for example.
+  [gbastien]
 
 3.0.1 (2017-09-20)
 ------------------
