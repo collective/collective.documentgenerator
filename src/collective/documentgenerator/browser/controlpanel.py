@@ -50,7 +50,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u'uno path'),
         description=_(u'Path of python with uno.'),
         required=False,
-        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python3')),
+        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python')),
         constraint=check_for_uno
     )
 
