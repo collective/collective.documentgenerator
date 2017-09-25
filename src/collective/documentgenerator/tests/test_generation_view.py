@@ -168,8 +168,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         )
         generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
         generation_view(template_uid, 'odt')
-        generated_id = 'general-template-folder-title-200m2-to-test-filename-' \
-            'generation-1-2-3-4-with-accent-hehe-actually-we-test-with-a-title-t'
+        generated_id = 'general-template'
         msg = "File {0} should have been created in folder.".format(generated_id)
         self.assertTrue(generated_id in generation_context.objectIds(), msg)
 
@@ -186,8 +185,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         self.assertEqual(
             filename,
-            u'General template Folder title 200m2 to test filename generation '
-            u'1.2.3.4 with accent hehe actually we test with a title t.odt')
+            u'General template.odt')
         self.assertEqual(content_type, 'application/vnd.oasis.opendocument.text')
 
     def test_persistent_document_generation_on_non_folderish_context(self):
@@ -320,7 +318,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         api.portal.set_registry_record('collective.documentgenerator.mailing_list', orig_registry[0:1])
         generation_view = folder.restrictedTraverse('@@persistent-document-generation')
         generation_view(template_uid, 'odt')
-        generated_id = 'possibly-mailed-template-folder'
+        generated_id = 'possibly-mailed-template'
         msg = "File {0} should have been created in folder.".format(generated_id)
         self.assertTrue(generated_id in folder.objectIds(), msg)
         persistent_doc = folder.get(generated_id)
@@ -341,7 +339,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         api.portal.set_registry_record('collective.documentgenerator.mailing_list', orig_registry)
         generation_view = folder.restrictedTraverse('@@persistent-document-generation')
         generation_view(template_uid, 'odt')
-        generated_id = 'possibly-mailed-template-folder-1'
+        generated_id = 'possibly-mailed-template-1'
         msg = "File {0} should have been created in folder.".format(generated_id)
         self.assertTrue(generated_id in folder.objectIds(), msg)
         persistent_doc = folder.get(generated_id)
@@ -363,7 +361,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # the mailing loop view is called on the folder context !
         generation_view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
         generation_view(document_uid=persistent_doc.UID())
-        generated_id = 'mailing-loop-template-folder'
+        generated_id = 'mailing-loop-template'
         msg = "File {0} should have been created in folder.".format(generated_id)
         self.assertTrue(generated_id in folder.objectIds(), msg)
         persistent_doc = folder.get(generated_id)

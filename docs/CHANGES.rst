@@ -9,13 +9,14 @@ Changelog
 - Tests now rely on imio.helpers to import testing_logger when necessary to
   have logging on Travis CI for example.
   [gbastien]
+- Corrected tests following changes in 3.0.1
+  [sgeulette]
 
 3.0.1 (2017-09-20)
 ------------------
 
 - Use pod template title as default title for persisted documents.
   [sdelcourt]
-
 
 3.0.0 (2017-09-20)
 ------------------
