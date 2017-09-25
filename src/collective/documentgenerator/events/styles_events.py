@@ -107,6 +107,7 @@ def _update_template_styles(pod_template, style_template_filename):
         tlogger = testing_logger('collective.documentgenerator')
         tlogger.info('reg:%s' % api.portal.get_registry_record('collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path'))
         tlogger.info('env:%s' % os.getenv('PYTHON_UNO', 'Not found'))
+        tlogger.info('environ:%s' % os.environ)
         tlogger.info(cmd)
         tlogger.info(stderr)
         raise Redirect(request.get('ACTUAL_URL'), _(u"Problem during styles update on template '${tmpl}': ${err}",
