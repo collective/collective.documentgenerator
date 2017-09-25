@@ -28,6 +28,7 @@ install:
   - bin/buildout -N -c travis.cfg
   - sed -ie "s#'/usr/bin/python3'#'/usr/bin/python'#" bin/test
   - bin/translation-manage -c
+  - export PYTHON_UNO=/usr/bin/python3
 
 before_script:
   - export DISPLAY=:99.0
