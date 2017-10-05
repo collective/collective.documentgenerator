@@ -1,3 +1,10 @@
 msgid ""
 msgstr ""
 
+#: ../helper/base.py:79
+msgid "Bad phone number: '${nb}'"
+msgstr ""
+
+#: ../helper/base.py:83
+msgid "Invalid phone number: '${nb}'"
+msgstr ""

@@ -63,3 +63,38 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
         renderer = appy.pod.renderer.Renderer(StringIO(document_template.data), generation_context, 'dummy.odt')
         helper_view._set_appy_renderer(renderer)
         self.assertEqual(helper_view.context_var('dexter', 'undefined'), u'1')
+
+    def test_display_phone(self):
+        # belgian phone numbers
+        self.assertEqual(self.view.display_phone(phone=u'081000000'), u'081 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'+3281000000'), u'081 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'081000000', country='BE'), u'081 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'081000000', format='nat'), u'081 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'081000000', format='int'), u'+32 81 00 00 00')
+        # bad phone numbers
+        self.assertEqual(self.view.display_phone(phone=u'abcdefgh'), u"Bad phone number: 'abcdefgh'")
+        self.assertEqual(self.view.display_phone(phone='0810000000'), u"Invalid phone number: '0810000000'")
+        self.assertEqual(self.view.display_phone(phone='081000000', country='FR'),
+                         u"Invalid phone number: '081000000'")
+        # international phone numbers
+        self.assertEqual(self.view.display_phone(phone=u'0033100000000'), u'+33 1 00 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'+33100000000'), u'+33 1 00 00 00 00')
+        self.assertEqual(self.view.display_phone(phone=u'+33100000000', country='FR'), u'01 00 00 00 00')
+        # formating phone numbers
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern='/.'), u'081/00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern='/.,'), u'081/00.00,00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern='/ '), u'081/00 00 00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern='.'), u'081.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern='.|'), u'081.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=''), u'081 00 00 00')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern='|-.'), u'+32-81.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern='.|-.'), u'+32-81.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['/', '.']]), u'081/00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['/', ' ']]), u'081/00 00 00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['.']]), u'081.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['.'], ['']]), u'081.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['']]), u'081000000')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern=[[], ['-', '.']]),
+                         u'+32-81.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern=[['.'], ['-', '.']]),
+                         u'+32-81.00.00.00')

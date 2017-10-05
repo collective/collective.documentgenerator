@@ -34,6 +34,10 @@ msgstr "Types de contenu autorisés"
 msgid "Available formats"
 msgstr "Formats disponibles"
 
+#: ../helper/base.py:79
+msgid "Bad phone number: '${nb}'"
+msgstr "Numéro de téléphone non reconnu: '${nb}'"
+
 #: ../interfaces.py:149
 msgid "Can't create a persistent document on a non folderish context."
 msgstr "Impossible de créer un document persistant si le contexte n'est pas un conteneur."
@@ -50,7 +54,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:254
+#: ../content/pod_template.py:253
 msgid "Choose the mailing loop template to apply for this template."
 msgstr "Sélectionnez le modèle de boucle de publipostage."
 
@@ -58,7 +62,7 @@ msgstr "Sélectionnez le modèle de boucle de publipostage."
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:146
+#: ../setuphandlers.py:161
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -91,19 +95,27 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:235
+#: ../browser/generation_view.py:249
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:233
+#: ../browser/generation_view.py:247
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:177
+#: ../browser/generation_view.py:254
+msgid "Error when merging mailed_data in generation context"
+msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
+
+#: ../browser/generation_view.py:414
+msgid "Error when merging mailing_list in generation context"
+msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
+
+#: ../browser/generation_view.py:191
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
-#: ../setuphandlers.py:108
+#: ../setuphandlers.py:123
 msgid "General template"
 msgstr "Modèle général"
 
@@ -127,7 +139,12 @@ msgstr "Installs the collective.documentgenerator demo profile."
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
-#: ../content/pod_template.py:253
+#: ../helper/base.py:83
+msgid "Invalid phone number: '${nb}'"
+msgstr "Numéro de téléphone non valide: '${nb}'"
+
+#: ../content/pod_template.py:252
+#: ../setuphandlers.py:108
 msgid "Mailing loop template"
 msgstr "Modèle de boucle de publipostage"
 
@@ -135,7 +152,7 @@ msgstr "Modèle de boucle de publipostage"
 msgid "MailingLoopTemplate"
 msgstr "Modèle de boucle de publipostage"
 
-#: ../setuphandlers.py:122
+#: ../setuphandlers.py:137
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
@@ -176,6 +193,10 @@ msgstr "Chemin d'un python avec la librairie uno"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
+#: ../setuphandlers.py:208
+msgid "Possibly mailed template"
+msgstr "Modèle qui peut être publiposté"
+
 #: ../events/styles_events.py:100
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
@@ -196,7 +217,7 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:176
+#: ../setuphandlers.py:191
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -244,11 +265,11 @@ msgstr "Valeur"
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:270
+#: ../content/pod_template.py:269
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:273
+#: ../content/pod_template.py:272
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
@@ -264,7 +285,7 @@ msgstr "collective.documentgenerator demo"
 msgid "collective.documentgenerator tests"
 msgstr "collective.documentgenerator tests"
 
-#: ../demo/helper.py:75
+#: ../demo/helper.py:76
 msgid "comment"
 msgstr "Commentaire"
 
@@ -273,11 +294,11 @@ msgstr "Commentaire"
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
-#: ../demo/helper.py:73
+#: ../demo/helper.py:74
 msgid "input_field"
 msgstr "Champs de saisie"
 
-#: ../demo/helper.py:83
+#: ../demo/helper.py:84
 msgid "last_change"
 msgstr "Dernière modification"
 

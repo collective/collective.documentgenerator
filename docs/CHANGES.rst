@@ -11,6 +11,8 @@ Changelog
   [gbastien]
 - Corrected tests following changes in 3.0.1
   [sgeulette]
+- Added display_phone method
+  [sgeulette]
 
 3.0.1 (2017-09-20)
 ------------------

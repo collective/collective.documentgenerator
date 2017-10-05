@@ -49,6 +49,7 @@ setup(
         'collective.excelexport',
         'collective.z3cform.datagridfield',
         'imio.migrator',
+        'phonenumbers',
         'plone.api>=1.3.3',
         'plone.app.dexterity',
         'plone.app.lockingbehavior',

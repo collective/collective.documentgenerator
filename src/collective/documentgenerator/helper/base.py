@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import copy
 import datetime
+import phonenumbers
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from plone import api
@@ -59,6 +60,54 @@ class DocumentGenerationHelperView(object):
             formatted_date = date.strftime(custom_format).decode('utf8')
 
         return safe_unicode(formatted_date)
+
+    @mutually_exclusive_parameters('field_name', 'phone')
+    def display_phone(self, field_name=None, phone=None, country='BE', check=True, format='', pattern=''):
+        """
+            Return a formatted localized phone number.
+            country = 2 letters country code
+            check = check the validity of the given phone
+            format = 'nat' or 'int'
+            pattern = space replacing separators in rtl order
+                      * list of 2 lists for nat and int formats => [['/', '.'], ['-', '.']]
+                      * string or 2 strings (pipe separator) for nat and int formats '/.|-.'
+        """
+        if field_name:
+            phone = self.get_value(field_name)
+        if phone is None:
+            return u''
+        try:
+            number = phonenumbers.parse(phone, country)
+        except phonenumbers.NumberParseException:
+            return translate(u"Bad phone number: '${nb}'", domain='collective.documentgenerator',
+                             mapping={'nb': phone}, context=self.request)
+            return safe_unicode(phone)
+        if check and not phonenumbers.is_valid_number(number):
+            return translate(u"Invalid phone number: '${nb}'", domain='collective.documentgenerator',
+                             mapping={'nb': phone}, context=self.request)
+
+        def format_with_pattern(nb):
+            if not pattern:
+                return nb
+            index = 0
+            if nb.startswith('+'):
+                index = 1
+            if isinstance(pattern, list):
+                pat = pattern[index]
+            else:
+                pat = pattern.split('|')[index]
+            nbl = []
+            for i, part in enumerate(nb.split()):
+                nbl.append(part)
+                nbl.append((pat[i:i+1]+pat[-1:])[0])
+            return ''.join(nbl[:-1])
+        if format:
+            ret = format_with_pattern(phonenumbers.format_number(number, format == 'int' and 1 or 2))
+        elif country in phonenumbers.data._COUNTRY_CODE_TO_REGION_CODE.get(number.country_code, []):
+            ret = format_with_pattern(phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.NATIONAL))
+        else:
+            ret = format_with_pattern(phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.INTERNATIONAL))
+        return ret
 
     def display_voc(self, field_name, separator=','):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
