@@ -74,7 +74,7 @@ class DocumentGenerationHelperView(object):
         """
         if field_name:
             phone = self.get_value(field_name)
-        if phone is None:
+        if not phone:
             return u''
         try:
             number = phonenumbers.parse(phone, country)
@@ -93,9 +93,12 @@ class DocumentGenerationHelperView(object):
             if nb.startswith('+'):
                 index = 1
             if isinstance(pattern, list):
-                pat = pattern[index]
+                pat = len(pattern) > index and pattern[index] or ''
             else:
-                pat = pattern.split('|')[index]
+                lst = pattern.split('|')
+                pat = len(lst) > index and lst[index] or ''
+            if not pat:
+                return nb
             nbl = []
             for i, part in enumerate(nb.split()):
                 nbl.append(part)

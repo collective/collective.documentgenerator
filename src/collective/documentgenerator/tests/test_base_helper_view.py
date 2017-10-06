@@ -89,6 +89,7 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(self.view.display_phone(phone='081000000', pattern=''), u'081 00 00 00')
         self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern='|-.'), u'+32-81.00.00.00')
         self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern='.|-.'), u'+32-81.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern='.'), u'+32 81 00 00 00')
         self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['/', '.']]), u'081/00.00.00')
         self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['/', ' ']]), u'081/00 00 00')
         self.assertEqual(self.view.display_phone(phone='081000000', pattern=[['.']]), u'081.00.00.00')
@@ -98,3 +99,5 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
                          u'+32-81.00.00.00')
         self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern=[['.'], ['-', '.']]),
                          u'+32-81.00.00.00')
+        self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern=[['.']]),
+                         u'+32 81 00 00 00')
