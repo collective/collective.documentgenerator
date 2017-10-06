@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.2 (unreleased)
+3.0.2 (2017-10-06)
 ------------------
 
 - Corrected soffice script for ubuntu 16.04.
