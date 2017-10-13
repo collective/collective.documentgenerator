@@ -49,7 +49,7 @@
         for="collective.documentgenerator.content.pod_template.IPODTemplate"
         name="dg-reset-md5"
         class=".views.ResetMd5"
-        permission="zope2.View"
+        permission="cmf.ModifyPortalContent"
         />
 
 </configure>
