@@ -45,4 +45,11 @@
         layer="..interfaces.ICollectiveDocumentGeneratorLayer"
         />
 
+    <browser:page
+        for="collective.documentgenerator.content.pod_template.IPODTemplate"
+        name="dg-reset-md5"
+        class=".views.ResetMd5"
+        permission="zope2.View"
+        />
+
 </configure>

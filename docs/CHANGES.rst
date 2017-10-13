@@ -4,8 +4,8 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added view to reset style_modification_md5 (so template is considered as not modified).
+  [sgeulette]
 
 3.0.2 (2017-10-06)
 ------------------
