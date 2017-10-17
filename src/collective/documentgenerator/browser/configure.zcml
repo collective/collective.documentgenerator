@@ -16,6 +16,7 @@
         layer="..interfaces.ICollectiveDocumentGeneratorLayer"
         />
 
+    <!-- views -->
     <browser:page
         for="*"
         name="document-generation"
@@ -50,6 +51,42 @@
         name="dg-reset-md5"
         class=".views.ResetMd5"
         permission="cmf.ModifyPortalContent"
+        />
+
+    <browser:page
+        for="*"
+        name="dg-templates-listing"
+        class=".views.TemplatesListing"
+        template="templates_listing.pt"
+        permission="zope2.View"
+        />
+
+    <!-- z3c.table -->
+    <adapter
+        name="TitleColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.TitleColumn"
+        />
+
+    <adapter
+        name="PathColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.PathColumn"
+        />
+
+    <adapter
+        name="ReviewStateColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.ReviewStateColumn"
         />
 
 </configure>

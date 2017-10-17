@@ -185,6 +185,10 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
+#: ../browser/table.py:68
+msgid "Path"
+msgstr "Chemin relatif"
+
 #: ../browser/controlpanel.py:51
 msgid "Path of python with uno."
 msgstr "Chemin d'un python avec la librairie uno"
