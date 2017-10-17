@@ -54,6 +54,7 @@ setup(
         'plone.app.dexterity',
         'plone.app.lockingbehavior',
         'setuptools',
+        'z3c.table',
         # fix about orderedselect
         'z3c.form>=3.2.4',
     ],

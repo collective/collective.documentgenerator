@@ -69,7 +69,7 @@ class PathColumn(Column):
     weight = 20
 
     def renderCell(self, value):
-        path = value.absolute_url_path()[self.table.context_path_len:-(len(value.id))-1]
+        path = value.absolute_url_path()[self.table.context_path_len:-(len(value.id)) - 1]
         if path not in self.table.paths:
             parent_path = '/'.join(path.split('/')[:-1])
             if parent_path:

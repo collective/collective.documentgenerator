@@ -102,7 +102,7 @@ class DocumentGenerationHelperView(object):
             nbl = []
             for i, part in enumerate(nb.split()):
                 nbl.append(part)
-                nbl.append((pat[i:i+1]+pat[-1:])[0])
+                nbl.append((pat[i:i + 1] + pat[-1:])[0])
             return ''.join(nbl[:-1])
         if format:
             ret = format_with_pattern(phonenumbers.format_number(number, format == 'int' and 1 or 2))
