@@ -2,7 +2,7 @@
 """Define tables and columns."""
 
 from Products.CMFPlone import PloneMessageFactory as PMF
-from Products.CMFPlone.utils import safe_unicode, normalizeString
+from Products.CMFPlone.utils import safe_unicode, normalizeString, base_hasattr
 from collective.documentgenerator import _
 from plone import api
 from z3c.table.column import Column, LinkColumn
@@ -52,6 +52,7 @@ class TitleColumn(LinkColumn):
 
     header = PMF("Title")
     weight = 10
+    cssClasses = {'td': 'title-column'}
 
     def getLinkCSS(self, item):
         return ' class="state-%s icons-on contenttype-%s"' % (api.content.get_state(obj=item),
@@ -67,6 +68,7 @@ class PathColumn(Column):
 
     header = _("Path")
     weight = 20
+    cssClasses = {'td': 'path-column'}
 
     def renderCell(self, value):
         path = value.absolute_url_path()[self.table.context_path_len:-(len(value.id)) - 1]
@@ -77,6 +79,48 @@ class PathColumn(Column):
             else:
                 self.table.paths[path] = value.__parent__.title
         return self.table.paths[path]
+
+
+class EnabledColumn(Column):
+
+    """Column that displays enabled status."""
+
+    header = _("Enabled")
+    weight = 30
+    cssClasses = {'td': 'enabled-column'}
+
+    def renderCell(self, value):
+        if not base_hasattr(value, 'enabled'):
+            return u'-'
+        if value.enabled:
+            icon = ('++resource++collective.documentgenerator/ok.png',
+                    self.table.translation_service.translate('Enabled'))
+        else:
+            icon = ('++resource++collective.documentgenerator/nok.png',
+                    self.table.translation_service.translate('Disabled'))
+        return u"<img title='{0}' src='{1}' />".format(
+            safe_unicode(icon[1]).replace("'", "&#39;"),
+            u"{0}/{1}".format(self.table.portal_url, icon[0]))
+
+
+class OriginalColumn(Column):
+
+    """Column that displays original status."""
+
+    header = _("Original")
+    weight = 40
+    cssClasses = {'td': 'original-column'}
+
+    def renderCell(self, value):
+        if value.has_been_modified():
+            icon = ('++resource++collective.documentgenerator/nok.png',
+                    self.table.translation_service.translate('Modified'))
+        else:
+            icon = ('++resource++collective.documentgenerator/ok.png',
+                    self.table.translation_service.translate('Original'))
+        return u"<img title='{0}' src='{1}' />".format(
+            safe_unicode(icon[1]).replace("'", "&#39;"),
+            u"{0}/{1}".format(self.table.portal_url, icon[0]))
 
 
 class ReviewStateColumn(Column):

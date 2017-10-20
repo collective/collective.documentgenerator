@@ -81,6 +81,24 @@
         />
 
     <adapter
+        name="EnabledColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.EnabledColumn"
+        />
+
+    <adapter
+        name="OriginalColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.OriginalColumn"
+        />
+
+    <adapter
         name="ReviewStateColumn"
         for="zope.interface.Interface
              zope.interface.Interface

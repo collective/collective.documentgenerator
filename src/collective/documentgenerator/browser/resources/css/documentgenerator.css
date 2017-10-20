@@ -11,6 +11,15 @@ div#doc-generation-view {
     padding-right: 1em;
 }
 
+/* table */
+
+.templates-listing .enabled-column,
+.templates-listing .original-column {
+    text-align: center;
+}
+
+/* icons */
+
 span.icon-controlpanel-collective_documentgenerator_settings::before {
     content: "\e80e";
 }
