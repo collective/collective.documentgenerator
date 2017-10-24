@@ -65,22 +65,27 @@ class TitleColumn(LinkColumn):
         return safe_unicode(item.title)
 
 
-class PathColumn(Column):
+class PathColumn(LinkColumn):
 
     """Column that displays path."""
 
     header = _("Path")
     weight = 20
     cssClasses = {'td': 'path-column'}
+    linkTarget = '_blank'
 
-    def renderCell(self, value):
-        path = value.absolute_url_path()[self.table.context_path_len:-(len(value.id)) - 1]
+    def getLinkURL(self, item):
+        """Setup link url."""
+        return item.__parent__.absolute_url()
+
+    def getLinkContent(self, item):
+        path = item.absolute_url_path()[self.table.context_path_len:-(len(item.id)) - 1]
         if path not in self.table.paths:
             parent_path = '/'.join(path.split('/')[:-1])
             if parent_path:
-                self.table.paths[path] = '%s / %s' % (self.table.paths[parent_path], value.__parent__.title)
+                self.table.paths[path] = '%s / %s' % (self.table.paths[parent_path], item.__parent__.title)
             else:
-                self.table.paths[path] = value.__parent__.title
+                self.table.paths[path] = item.__parent__.title
         return self.table.paths[path]
 
 
@@ -92,10 +97,10 @@ class EnabledColumn(Column):
     weight = 30
     cssClasses = {'td': 'enabled-column'}
 
-    def renderCell(self, value):
-        if not base_hasattr(value, 'enabled'):
+    def renderCell(self, item):
+        if not base_hasattr(item, 'enabled'):
             return u'-'
-        if value.enabled:
+        if item.enabled:
             icon = ('++resource++collective.documentgenerator/ok.png',
                     self.table.translation_service.translate('Enabled'))
         else:
@@ -114,8 +119,8 @@ class OriginalColumn(Column):
     weight = 40
     cssClasses = {'td': 'original-column'}
 
-    def renderCell(self, value):
-        if value.has_been_modified():
+    def renderCell(self, item):
+        if item.has_been_modified():
             icon = ('++resource++collective.documentgenerator/nok.png',
                     self.table.translation_service.translate('Modified'))
         else:
@@ -133,10 +138,10 @@ class ReviewStateColumn(Column):
     header = PMF("Review state")
     weight = 50
 
-    def renderCell(self, value):
-        state = api.content.get_state(value)
+    def renderCell(self, item):
+        state = api.content.get_state(item)
         if state:
-            state_title = self.table.wtool.getTitleForStateOnType(state, value.portal_type)
+            state_title = self.table.wtool.getTitleForStateOnType(state, item.portal_type)
             return translate(PMF(state_title), context=self.request)
         return ''
 
