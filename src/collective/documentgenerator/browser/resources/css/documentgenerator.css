@@ -53,6 +53,14 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
 .icons-on .contenttype-dashboardpodtemplate
 {
     display: inline;
-    line-height: 1.1em;
+    line-height: 2em;
     padding-left: 20px !important;
 }
+
+.template-folder_contents.icons-on #listing-table td > img[src*="++resource++collective.documentgenerator"],
+.template-folder_listing.icons-on #content-core dt span.summary > img[src*="++resource++collective.documentgenerator"],
+.template-folder_tabular_view.icons-on table.listing td > img[src*="++resource++collective.documentgenerator"]
+{
+    display: none
+}
+
