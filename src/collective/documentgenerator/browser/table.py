@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Define tables and columns."""
 
+import os
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode, normalizeString, base_hasattr
 from collective.documentgenerator import _
@@ -26,7 +27,9 @@ class TemplatesTable(Table):
 
     def __init__(self, context, request):
         super(TemplatesTable, self).__init__(context, request)
-        self.context_path_len = len(self.context.absolute_url_path())
+        self.portal = api.portal.getSite()
+        self.context_path = self.context.absolute_url_path()
+        self.context_path_len = len(self.context_path)
         self.paths = {'': '-'}
 
     @CachedProperty
@@ -128,7 +131,7 @@ class ReviewStateColumn(Column):
     """Column that displays review state."""
 
     header = PMF("Review state")
-    weight = 60
+    weight = 50
 
     def renderCell(self, value):
         state = api.content.get_state(value)
@@ -136,3 +139,20 @@ class ReviewStateColumn(Column):
             state_title = self.table.wtool.getTitleForStateOnType(state, value.portal_type)
             return translate(PMF(state_title), context=self.request)
         return ''
+
+
+class ActionsColumn(Column):
+    """
+    A column displaying available actions of the listed item.
+    Need imio.actionspanel to be used !
+    """
+
+    header = _("Actions")
+    weight = 60
+    params = {'useIcons': True, 'showHistory': False, 'showActions': True, 'showOwnDelete': False,
+              'showArrows': True, 'showTransitions': False}
+
+    def renderCell(self, item):
+        # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
+        path = os.path.join(item.absolute_url_path(), 'actions_panel').encode('utf-8')
+        return self.table.portal.unrestrictedTraverse(path)(**self.params)

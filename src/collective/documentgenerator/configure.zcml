@@ -13,6 +13,7 @@
     <include package="collective.behavior.talcondition" />
     <include package="collective.excelexport" />
     <include package="collective.z3cform.datagridfield"/>
+    <include zcml:condition="installed imio.actionspanel" package="imio.actionspanel" />
     <include package="plone.api" />
     <include package="plone.app.dexterity" />
     <include package="plone.app.lockingbehavior"/>

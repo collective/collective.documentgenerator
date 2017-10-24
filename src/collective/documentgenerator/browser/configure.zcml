@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="collective.documentgenerator">
@@ -107,4 +108,13 @@
         factory=".table.ReviewStateColumn"
         />
 
+    <adapter
+        zcml:condition="installed imio.actionspanel"
+        name="ActionsColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.ActionsColumn"
+        />
 </configure>
