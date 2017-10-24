@@ -18,6 +18,10 @@ div#doc-generation-view {
     text-align: center;
 }
 
+.templates-listing td > a{
+    line-height: 1.1em !important;
+}
+
 /* icons */
 
 span.icon-controlpanel-collective_documentgenerator_settings::before {
