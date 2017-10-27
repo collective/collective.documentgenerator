@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-10-17 15:41+0000\n"
+"POT-Creation-Date: 2017-10-27 06:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,10 @@ msgstr ""
 
 #: ../profiles/base/types/ConfigurablePODTemplate.xml
 msgid "A document to generate on a content."
+msgstr ""
+
+#: ../browser/table.py:174
+msgid "Actions"
 msgstr ""
 
 #: ../content/pod_template.py:215
@@ -95,6 +99,7 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
+#: ../browser/table.py:96
 #: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr ""
@@ -177,6 +182,10 @@ msgstr ""
 msgid "Optimize tables"
 msgstr ""
 
+#: ../browser/table.py:118
+msgid "Original"
+msgstr ""
+
 #: ../setuphandlers.py:42
 msgid "POD Templates"
 msgstr ""
@@ -189,12 +198,16 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/table.py:68
+#: ../browser/table.py:72
 msgid "Path"
 msgstr ""
 
 #: ../browser/controlpanel.py:51
 msgid "Path of python with uno."
+msgstr ""
+
+#: ../browser/table.py:138
+msgid "Pod formats"
 msgstr ""
 
 #: ../browser/controlpanel.py:44

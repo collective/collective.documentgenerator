@@ -131,12 +131,31 @@ class OriginalColumn(Column):
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
 
 
+class FormatsColumn(Column):
+
+    """Column that displays pod formats."""
+
+    header = _("Pod formats")
+    weight = 50
+    cssClasses = {'td': 'formats-column'}
+
+    def renderCell(self, item):
+        if not base_hasattr(item, 'pod_formats'):
+            return ''
+        ret = []
+        for fmt in item.pod_formats or []:
+            ret.append(u"<img title='{0}' src='{1}' />".format(
+                fmt, '%s/++resource++collective.documentgenerator/%s.png' % (self.table.portal_url, fmt)))
+        return '\n'.join(ret)
+
+
 class ReviewStateColumn(Column):
 
     """Column that displays review state."""
 
     header = PMF("Review state")
-    weight = 50
+    weight = 60
+    cssClasses = {'td': 'state-column'}
 
     def renderCell(self, item):
         state = api.content.get_state(item)
@@ -153,9 +172,10 @@ class ActionsColumn(Column):
     """
 
     header = _("Actions")
-    weight = 60
+    weight = 70
     params = {'useIcons': True, 'showHistory': False, 'showActions': True, 'showOwnDelete': False,
               'showArrows': True, 'showTransitions': False}
+    cssClasses = {'td': 'actions-column'}
 
     def renderCell(self, item):
         # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode

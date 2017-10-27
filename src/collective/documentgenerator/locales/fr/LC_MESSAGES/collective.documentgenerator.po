@@ -26,6 +26,10 @@ msgstr "Un document qui contient les styles à incorporer dans un modèle de doc
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
+#: ../browser/table.py:174
+msgid "Actions"
+msgstr "Actions"
+
 #: ../content/pod_template.py:215
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
@@ -91,6 +95,7 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
+#: ../browser/table.py:96
 #: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr "Activé"
@@ -173,6 +178,10 @@ msgstr "Canevas"
 msgid "Optimize tables"
 msgstr "Optimiser les tables"
 
+#: ../browser/table.py:118
+msgid "Original"
+msgstr "Original"
+
 #: ../setuphandlers.py:42
 msgid "POD Templates"
 msgstr "Modèles POD"
@@ -185,13 +194,17 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
-#: ../browser/table.py:68
+#: ../browser/table.py:72
 msgid "Path"
 msgstr "Chemin relatif"
 
 #: ../browser/controlpanel.py:51
 msgid "Path of python with uno."
 msgstr "Chemin d'un python avec la librairie uno"
+
+#: ../browser/table.py:138
+msgid "Pod formats"
+msgstr "Formats"
 
 #: ../browser/controlpanel.py:44
 msgid "Port Number of OO."
