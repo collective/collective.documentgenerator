@@ -62,3 +62,16 @@ def set_uno_path():
     if python_uno:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.uno_path', safe_unicode(python_uno))
+
+
+def set_optimize_tables(value):
+    api.portal.set_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables',
+        value)
+
+
+def set_raiseOnError_for_non_managers(value):
+    api.portal.set_registry_record(
+        'collective.documentgenerator.browser.controlpanel.'
+        'IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers',
+        value)

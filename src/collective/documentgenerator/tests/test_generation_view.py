@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import os
+import tempfile
+
 from AccessControl import Unauthorized
 
 from appy.shared.zip import unzip
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
+from collective.documentgenerator.config import get_optimize_tables
+from collective.documentgenerator.config import set_optimize_tables
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
@@ -18,11 +22,11 @@ from collective.documentgenerator.utils import translate as _
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
+from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobFile
 
 from zope.annotation.interfaces import IAnnotations
 
-import tempfile
 import unittest
 
 
@@ -385,7 +389,41 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
     def test_optimize_tables(self):
         """ """
-        pass
+        pod_template = self.portal.podtemplates.get('test_template_multiple')
+        # do not limit portal_type the POD template is generatable on
+        pod_template.pod_portal_types = []
+        template_uid = pod_template.UID()
+        doc = self.portal.get('front-page')
+        # add a table to check if it is optimized or not
+        text = u'<table><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
+        doc.text = RichTextValue(text)
+        generation_view = doc.restrictedTraverse('@@document-generation')
+
+        # optimize_tables disabled globally and pod_template using global parameter
+        self.assertFalse(get_optimize_tables())
+        self.assertEqual(pod_template.get_optimize_tables(), -1)
+        generated_doc = generation_view(template_uid, 'odt')
+        content_xml = self.get_odt_content_xml(generated_doc)
+        self.assertFalse('OCW' in content_xml)
+
+        # enable locally, still disabled globally
+        pod_template.optimize_tables = 1
+        generated_doc = generation_view(template_uid, 'odt')
+        content_xml = self.get_odt_content_xml(generated_doc)
+        self.assertTrue('OCW' in content_xml)
+
+        # optimize_tables enabled globally and pod_template using global parameter
+        set_optimize_tables(True)
+        pod_template.optimize_tables = -1
+        generated_doc = generation_view(template_uid, 'odt')
+        content_xml = self.get_odt_content_xml(generated_doc)
+        self.assertTrue('OCW' in content_xml)
+
+        # disable locally, still enabled globally
+        pod_template.optimize_tables = 0
+        generated_doc = generation_view(template_uid, 'odt')
+        content_xml = self.get_odt_content_xml(generated_doc)
+        self.assertFalse('OCW' in content_xml)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):

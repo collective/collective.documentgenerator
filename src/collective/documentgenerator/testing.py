@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
+import os
+import tempfile
+import transaction
+import unittest
+import zipfile
+
 from plone import api
 
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -19,10 +25,6 @@ from collective.documentgenerator.config import HAS_PLONE_5
 
 import collective.documentgenerator
 from imio.pyutils.system import runCommand
-import os
-import transaction
-
-import unittest
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -151,6 +153,18 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+
+    def get_odt_content_xml(self, generated_doc):
+        """Return content.xml from a generated doc binary."""
+        tmp_dir = tempfile.gettempdir()
+        tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+        tmp_file.write(generated_doc)
+        tmp_file.close()
+        zfile = zipfile.ZipFile(tmp_file.name, 'r')
+        content_xml = zfile.read('content.xml')
+        zfile.close()
+        os.remove(tmp_file.name)
+        return content_xml
 
 
 class BrowserTest(BaseTest):
