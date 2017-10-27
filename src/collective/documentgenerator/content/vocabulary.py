@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator import _
 from collective.documentgenerator.config import POD_FORMATS
+from collective.documentgenerator.config import get_optimize_tables
 
 from plone import api
 
-from z3c.form.i18n import MessageFactory as _
+from z3c.form.i18n import MessageFactory as _z3c_form
 from z3c.form.interfaces import IContextAware, IDataManager
 from z3c.form.term import MissingChoiceTermsVocabulary, MissingTermsMixin
 
@@ -44,7 +46,7 @@ class StyleTemplatesVocabularyFactory(object):
     def __call__(self, context):
         catalog = api.portal.get_tool('portal_catalog')
         style_template_brains = catalog(portal_type='StyleTemplate')
-        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
+        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _z3c_form('No value'))]
 
         for brain in style_template_brains:
             voc_terms.append(SimpleTerm(brain.UID,
@@ -71,7 +73,7 @@ class MergeTemplatesVocabularyFactory(object):
             sort_on='sortable_title',
             sort_order='ascending',
         )
-        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _('No value'))]
+        voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _z3c_form('No value'))]
 
         for brain in pod_templates:
             voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
@@ -79,6 +81,25 @@ class MergeTemplatesVocabularyFactory(object):
         vocabulary = SimpleVocabulary(voc_terms)
 
         return vocabulary
+
+
+class OptimizeTablesVocabularyFactory(object):
+    """
+    Vocabulary factory for 'optimize_tables' field.
+    """
+
+    def __call__(self, context):
+        # adapt first term value depending on global configuration value
+        global_value = _('Global value (disabled)')
+        if get_optimize_tables():
+            global_value = _('Global value (enabled)')
+
+        voc_terms = [
+            SimpleTerm(-1, -1, global_value),
+            SimpleTerm(0, 0, _('Force disable')),
+            SimpleTerm(1, 1, _('Force enable'))]
+
+        return SimpleVocabulary(voc_terms)
 
 
 def get_mailing_loop_templates(enabled_only=True):

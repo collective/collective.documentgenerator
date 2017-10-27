@@ -383,6 +383,10 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('test_template_bis', info['content.xml'])
         # Mailing has been done ;-)
 
+    def test_optimize_tables(self):
+        """ """
+        pass
+
 
 class TestCyclicMergesDetection(unittest.TestCase):
     """

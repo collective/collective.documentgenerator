@@ -190,10 +190,12 @@ class DocumentGenerationView(BrowserView):
         utils.update_dict_with_validation(generation_context, sub_documents,
                                           _("Error when merging merge_templates in generation context"))
 
-        # enable optimalColumnWidths if enabled in the config
+        # enable optimalColumnWidths if enabled in the config and/or on ConfigurablePodTemplate
         stylesMapping = {}
         optimalColumnWidths = False
-        if config.get_optimize_tables():
+        template_optimize_tables = pod_template.get_optimize_tables()
+        if (template_optimize_tables == -1 and config.get_optimize_tables()) or \
+           template_optimize_tables == 1:
             stylesMapping = {'table': TableProperties(optimalColumnWidths=True)}
             optimalColumnWidths = "OCW_.*"
 

@@ -37,6 +37,13 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- optimize_tables Vocabulary -->
+    <utility
+        factory=".vocabulary.OptimizeTablesVocabularyFactory"
+        name="collective.documentgenerator.OptimizeTables"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
     <utility
         factory=".vocabulary.MailingLoopTemplatesAllVocabularyFactory"
         name="collective.documentgenerator.AllMailingLoopTemplates"

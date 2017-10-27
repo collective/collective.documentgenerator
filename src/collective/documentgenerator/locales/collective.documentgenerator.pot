@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-10-27 06:33+0000\n"
+"POT-Creation-Date: 2017-10-27 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,19 +104,19 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:249
+#: ../browser/generation_view.py:250
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:247
+#: ../browser/generation_view.py:248
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:254
+#: ../browser/generation_view.py:255
 msgid "Error when merging mailed_data in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:414
+#: ../browser/generation_view.py:415
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
@@ -124,8 +124,24 @@ msgstr ""
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
+#: ../content/vocabulary.py:98
+msgid "Force disable"
+msgstr ""
+
+#: ../content/vocabulary.py:99
+msgid "Force enable"
+msgstr ""
+
 #: ../setuphandlers.py:123
 msgid "General template"
+msgstr ""
+
+#: ../content/vocabulary.py:92
+msgid "Global value (disabled)"
+msgstr ""
+
+#: ../content/vocabulary.py:94
+msgid "Global value (enabled)"
 msgstr ""
 
 #: ../setuphandlers.py:93
@@ -169,7 +185,7 @@ msgstr ""
 msgid "No format selected"
 msgstr ""
 
-#: ../content/vocabulary.py:47
+#: ../content/vocabulary.py:48
 msgid "No value"
 msgstr ""
 
@@ -179,6 +195,7 @@ msgid "ODT File"
 msgstr ""
 
 #: ../browser/controlpanel.py:58
+#: ../content/pod_template.py:259
 msgid "Optimize tables"
 msgstr ""
 
@@ -278,6 +295,10 @@ msgstr ""
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr ""
 
+#: ../content/pod_template.py:260
+msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
+msgstr ""
+
 #: ../content/pod_template.py:161
 msgid "Value"
 msgstr ""
@@ -286,11 +307,11 @@ msgstr ""
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:269
+#: ../content/pod_template.py:280
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:283
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 

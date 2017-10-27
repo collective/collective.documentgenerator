@@ -126,6 +126,10 @@ class PODTemplate(Item):
         """
         return self.current_md5 != self.style_modification_md5
 
+    def get_optimize_tables(self):
+        """By default, return -1 meaning use global config value."""
+        return -1
+
 
 class IMergeTemplatesRowSchema(Interface):
     """
@@ -255,6 +259,17 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=False,
     )
 
+    optimize_tables = schema.Choice(
+        title=_(u'Optimize tables'),
+        description=_(u'This will apply the "Optimize table columns width" of '
+                      u'LibreOffice to tables that do not use the '
+                      u'"table-layout: fixed" CSS style.  If you do not select '
+                      u'a value, the value from the global configuration will be used.'),
+        vocabulary='collective.documentgenerator.OptimizeTables',
+        required=True,
+        default=-1
+    )
+
     @invariant
     def validate_context_variables(data):
         keys = []
@@ -353,6 +368,9 @@ class ConfigurablePODTemplate(PODTemplate):
                 val = False
             ret[line['name']] = val
         return ret
+
+    def get_optimize_tables(self):
+        return self.optimize_tables
 
 
 class ISubTemplate(IPODTemplate):

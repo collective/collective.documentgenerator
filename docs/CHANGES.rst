@@ -8,6 +8,10 @@ Changelog
   [sgeulette]
 - Added view to list all templates
   [sgeulette]
+- Added field `pod_template.optimize_tables` that makes it possible to
+  `use global value/force enable/force disable` table optimization for a single
+  POD template
+  [gbastien]
 
 3.0.2 (2017-10-06)
 ------------------

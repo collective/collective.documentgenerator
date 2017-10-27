@@ -100,19 +100,19 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:249
+#: ../browser/generation_view.py:250
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:247
+#: ../browser/generation_view.py:248
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:254
+#: ../browser/generation_view.py:255
 msgid "Error when merging mailed_data in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
 
-#: ../browser/generation_view.py:414
+#: ../browser/generation_view.py:415
 msgid "Error when merging mailing_list in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
 
@@ -120,9 +120,25 @@ msgstr "Erreur lors de la mise à jour du contexte de génération avec les donn
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
+#: ../content/vocabulary.py:98
+msgid "Force disable"
+msgstr "Désactiver (ignorer la valeur globale)"
+
+#: ../content/vocabulary.py:99
+msgid "Force enable"
+msgstr "Activer (ignorer la valeur globale)"
+
 #: ../setuphandlers.py:123
 msgid "General template"
 msgstr "Modèle général"
+
+#: ../content/vocabulary.py:92
+msgid "Global value (disabled)"
+msgstr "Utiliser la valeur globale (désactivé)"
+
+#: ../content/vocabulary.py:94
+msgid "Global value (enabled)"
+msgstr "Utiliser la valeur globale (activé)"
 
 #: ../setuphandlers.py:93
 msgid "Header"
@@ -165,7 +181,7 @@ msgstr "Modèle différents formats"
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
-#: ../content/vocabulary.py:47
+#: ../content/vocabulary.py:48
 msgid "No value"
 msgstr "Aucune valeur"
 
@@ -175,6 +191,7 @@ msgid "ODT File"
 msgstr "Canevas"
 
 #: ../browser/controlpanel.py:58
+#: ../content/pod_template.py:259
 msgid "Optimize tables"
 msgstr "Optimiser les tables"
 
@@ -274,6 +291,10 @@ msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\"."
 
+#: ../content/pod_template.py:260
+msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
+msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\".  Utilisez soit la valeur globale, ou ignorez là en fixant une valeur (activé/désactivé) pour ce seul modèle de document POD."
+
 #: ../content/pod_template.py:161
 msgid "Value"
 msgstr "Valeur"
@@ -282,11 +303,11 @@ msgstr "Valeur"
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:269
+#: ../content/pod_template.py:280
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:283
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
