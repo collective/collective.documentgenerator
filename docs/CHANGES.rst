@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.3 (unreleased)
+3.0.3 (2017-10-30)
 ------------------
 
 - Added view to reset style_modification_md5 (so template is considered as not modified).
