@@ -174,7 +174,7 @@ class ActionsColumn(Column):
     header = _("Actions")
     weight = 70
     params = {'useIcons': True, 'showHistory': False, 'showActions': True, 'showOwnDelete': False,
-              'showArrows': True, 'showTransitions': False}
+              'showArrows': True, 'showTransitions': False, 'showExtEdit': True}
     cssClasses = {'td': 'actions-column'}
 
     def renderCell(self, item):
