@@ -4,8 +4,8 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Manage translation of week and month in date display
+  [sgeulette]
 
 3.0.3 (2017-10-30)
 ------------------

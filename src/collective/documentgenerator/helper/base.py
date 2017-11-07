@@ -2,6 +2,7 @@
 import copy
 import datetime
 import phonenumbers
+import re
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from plone import api
@@ -43,7 +44,8 @@ class DocumentGenerationHelperView(object):
         raise NotImplementedError()
 
     @mutually_exclusive_parameters('field_name', 'date')
-    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None):
+    def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None,
+                     domain='plonelocales', target_language=None):
         if field_name:
             date = self.get_value(field_name)
 
@@ -57,6 +59,27 @@ class DocumentGenerationHelperView(object):
             # use toLocalizedTime
             formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
         else:
+            from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr, weekdayname_msgid
+            from Products.CMFPlone.i18nl10n import monthname_msgid_abbr, monthname_msgid
+
+            # first replace parts to translate
+            custom_format = custom_format.replace('%%', '_p_c_')
+
+            matches = re.findall(r'%([aAbB])', custom_format)
+            for match in sorted(set(matches)):
+                if match == 'a':
+                    msgid = weekdayname_msgid_abbr(int(date.strftime('%w')))
+                elif match == 'A':
+                    msgid = weekdayname_msgid(int(date.strftime('%w')))
+                elif match == 'b':
+                    msgid = monthname_msgid_abbr(int(date.strftime('%m')))
+                elif match == 'B':
+                    msgid = monthname_msgid(int(date.strftime('%m')))
+                repl = translate(msgid, domain, context=self.request, target_language=target_language)
+                custom_format = re.sub('%{}'.format(match), repl, custom_format)
+
+            # then format date
+            custom_format = custom_format.replace('_p_c_', '%%')
             formatted_date = date.strftime(custom_format).decode('utf8')
 
         return safe_unicode(formatted_date)

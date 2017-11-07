@@ -78,6 +78,9 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         return api.user.has_permission(permission, user=user, obj=self.real_context)
 
     def get_value(self, field_name, default=None, as_utf8=False, strict=True):
+        """
+            strict: if False and field doesn't exist, be cool and return default value
+        """
         if not strict and not self.has_field(field_name):
             return default
         value = getattr(self.real_context, field_name)
