@@ -2,9 +2,9 @@
 import copy
 import datetime
 import phonenumbers
-import re
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
+from collective.documentgenerator.utils import ulocalized_time
 from plone import api
 from plone.api.validation import mutually_exclusive_parameters
 from zope.component import getMultiAdapter
@@ -55,34 +55,9 @@ class DocumentGenerationHelperView(object):
         if type(date) == datetime.date:
             date = datetime.datetime(date.year, date.month, date.day)
 
-        if not custom_format:
-            # use toLocalizedTime
-            formatted_date = self.plone.toLocalizedTime(date, long_format, time_only)
-        else:
-            from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr, weekdayname_msgid
-            from Products.CMFPlone.i18nl10n import monthname_msgid_abbr, monthname_msgid
-
-            # first replace parts to translate
-            custom_format = custom_format.replace('%%', '_p_c_')
-
-            matches = re.findall(r'%([aAbB])', custom_format)
-            for match in sorted(set(matches)):
-                if match == 'a':
-                    msgid = weekdayname_msgid_abbr(int(date.strftime('%w')))
-                elif match == 'A':
-                    msgid = weekdayname_msgid(int(date.strftime('%w')))
-                elif match == 'b':
-                    msgid = monthname_msgid_abbr(int(date.strftime('%m')))
-                elif match == 'B':
-                    msgid = monthname_msgid(int(date.strftime('%m')))
-                repl = translate(msgid, domain, context=self.request, target_language=target_language)
-                custom_format = re.sub('%{}'.format(match), repl, custom_format)
-
-            # then format date
-            custom_format = custom_format.replace('_p_c_', '%%')
-            formatted_date = date.strftime(custom_format).decode('utf8')
-
-        return safe_unicode(formatted_date)
+        return ulocalized_time(date, long_format=long_format, time_only=time_only, custom_format=custom_format,
+                               domain=domain, target_language=target_language, context=self.context,
+                               request=self.request)
 
     @mutually_exclusive_parameters('field_name', 'phone')
     def display_phone(self, field_name=None, phone=None, country='BE', check=True, format='', pattern=''):

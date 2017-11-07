@@ -3,14 +3,18 @@
 import hashlib
 import logging
 import os
+import re
 
 from zope import i18n
+from zope.component import getMultiAdapter
 from zope.lifecycleevent import modified
 from plone import api
 
 from zope.interface import Invalid
 
-from . import _
+from Products.CMFPlone.utils import safe_unicode
+
+from collective.documentgenerator import _
 
 logger = logging.getLogger('collective.documentgenerator')
 
@@ -85,3 +89,42 @@ def safe_encode(value, encoding='utf-8'):
     if isinstance(value, unicode):
         return value.encode(encoding)
     return value
+
+
+def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
+                    domain='plonelocales', target_language=None, context=None,
+                    request=None):
+    """
+        Return for a datetime the string value with week and mont translated.
+        Take into account %a, %A, %b, %B
+    """
+    if not custom_format:
+        # use toLocalizedTime
+        plone = getMultiAdapter((context, request), name=u'plone')
+        formatted_date = plone.toLocalizedTime(date, long_format, time_only)
+    else:
+        from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr, weekdayname_msgid
+        from Products.CMFPlone.i18nl10n import monthname_msgid_abbr, monthname_msgid
+        if request is None:
+            portal = api.portal.get()
+            request = portal.REQUEST
+        # first replace parts to translate
+        custom_format = custom_format.replace('%%', '_p_c_')
+
+        matches = re.findall(r'%([aAbB])', custom_format)
+        for match in sorted(set(matches)):
+            if match == 'a':
+                msgid = weekdayname_msgid_abbr(int(date.strftime('%w')))
+            elif match == 'A':
+                msgid = weekdayname_msgid(int(date.strftime('%w')))
+            elif match == 'b':
+                msgid = monthname_msgid_abbr(int(date.strftime('%m')))
+            elif match == 'B':
+                msgid = monthname_msgid(int(date.strftime('%m')))
+            repl = i18n.translate(msgid, domain, context=request, target_language=target_language)
+            custom_format = re.sub('%{}'.format(match), repl, custom_format)
+
+        # then format date
+        custom_format = custom_format.replace('_p_c_', '%%')
+        formatted_date = date.strftime(custom_format)
+    return safe_unicode(formatted_date)
