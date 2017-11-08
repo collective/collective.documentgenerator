@@ -93,7 +93,7 @@ def safe_encode(value, encoding='utf-8'):
 
 def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
                     domain='plonelocales', target_language=None, context=None,
-                    request=None):
+                    request=None, month_lc=True, day_lc=True):
     """
         Return for a datetime the string value with week and mont translated.
         Take into account %a, %A, %b, %B
@@ -111,17 +111,19 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
         # first replace parts to translate
         custom_format = custom_format.replace('%%', '_p_c_')
 
+        conf = {
+            'a': {'fct': weekdayname_msgid_abbr, 'fmt': '%w', 'low': day_lc},
+            'A': {'fct': weekdayname_msgid, 'fmt': '%w', 'low': day_lc},
+            'b': {'fct': monthname_msgid_abbr, 'fmt': '%m', 'low': month_lc},
+            'B': {'fct': monthname_msgid, 'fmt': '%m', 'low': month_lc},
+        }
         matches = re.findall(r'%([aAbB])', custom_format)
         for match in sorted(set(matches)):
-            if match == 'a':
-                msgid = weekdayname_msgid_abbr(int(date.strftime('%w')))
-            elif match == 'A':
-                msgid = weekdayname_msgid(int(date.strftime('%w')))
-            elif match == 'b':
-                msgid = monthname_msgid_abbr(int(date.strftime('%m')))
-            elif match == 'B':
-                msgid = monthname_msgid(int(date.strftime('%m')))
+            # function( int(date.strftime(format) )
+            msgid = conf[match]['fct'](int(date.strftime(conf[match]['fmt'])))
             repl = i18n.translate(msgid, domain, context=request, target_language=target_language)
+            if conf[match]['low']:
+                repl = repl.lower()
             custom_format = re.sub('%{}'.format(match), repl, custom_format)
 
         # then format date

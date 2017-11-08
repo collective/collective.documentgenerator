@@ -45,7 +45,7 @@ class DocumentGenerationHelperView(object):
 
     @mutually_exclusive_parameters('field_name', 'date')
     def display_date(self, field_name=None, date=None, long_format=None, time_only=None, custom_format=None,
-                     domain='plonelocales', target_language=None):
+                     domain='plonelocales', target_language=None, month_lc=True, day_lc=True):
         if field_name:
             date = self.get_value(field_name)
 
@@ -57,7 +57,7 @@ class DocumentGenerationHelperView(object):
 
         return ulocalized_time(date, long_format=long_format, time_only=time_only, custom_format=custom_format,
                                domain=domain, target_language=target_language, context=self.context,
-                               request=self.request)
+                               request=self.request, month_lc=month_lc, day_lc=day_lc)
 
     @mutually_exclusive_parameters('field_name', 'phone')
     def display_phone(self, field_name=None, phone=None, country='BE', check=True, format='', pattern=''):
