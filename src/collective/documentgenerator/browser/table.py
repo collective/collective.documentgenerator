@@ -18,7 +18,7 @@ class TemplatesTable(Table):
 
     cssClassEven = u'even'
     cssClassOdd = u'odd'
-    cssClasses = {'table': 'listing templates-listing icons-on'}
+    cssClasses = {'table': 'listing nosort templates-listing icons-on'}
 
     batchSize = 30
     startBatchingAt = 35
