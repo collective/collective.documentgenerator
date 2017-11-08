@@ -138,9 +138,9 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         result = self.view.display_date(date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
 
-        expected_date = u'Jeu 18 sep 1986'
+        expected_date = u'jeu 18 sep 1986'
         result = self.view.display_date(field_name=effective_field_name, custom_format='%a %d %b %Y',
-                                        target_language='fr', day_lc=False)
+                                        target_language='fr')
         self.assertEqual(expected_date, result)
 
         expected_date = u'jeudi 18 Septembre 1986'
@@ -150,7 +150,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         expected_date = u'%Jeudi 18 %B 1986'
         result = self.view.display_date(field_name=effective_field_name, custom_format='%%%A %d %%B %Y',
-                                        target_language='fr')
+                                        target_language='fr', day_lc=False)
         self.assertEqual(expected_date, result)
 
         # date
