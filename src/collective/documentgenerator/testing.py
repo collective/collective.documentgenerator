@@ -36,7 +36,7 @@ class NakedPloneLayer(PloneSandboxLayer):
         # Load ZCML
         self.loadZCML(package=collective.documentgenerator,
                       name='testing.zcml')
-        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh start' % os.getenv('PWD'))
+        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh restart' % os.getenv('PWD'))
 
     def setUpPloneSite(self, portal):
         """ Setup Plone
