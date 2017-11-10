@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Define tables and columns."""
 
+import html
 import os
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode, normalizeString, base_hasattr
@@ -102,10 +103,10 @@ class EnabledColumn(Column):
             return u'-'
         if item.enabled:
             icon = ('++resource++collective.documentgenerator/ok.png',
-                    self.table.translation_service.translate('Enabled'))
+                    translate(_('Enabled'), context=self.request))
         else:
             icon = ('++resource++collective.documentgenerator/nok.png',
-                    self.table.translation_service.translate('Disabled'))
+                    translate(_('Disabled'), context=self.request))
         return u"<img title='{0}' src='{1}' />".format(
             safe_unicode(icon[1]).replace("'", "&#39;"),
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
@@ -122,10 +123,10 @@ class OriginalColumn(Column):
     def renderCell(self, item):
         if item.has_been_modified():
             icon = ('++resource++collective.documentgenerator/nok.png',
-                    self.table.translation_service.translate('Modified'))
+                    translate(_('Modified'), context=self.request))
         else:
             icon = ('++resource++collective.documentgenerator/ok.png',
-                    self.table.translation_service.translate('Original'))
+                    translate(_('Original'), context=self.request))
         return u"<img title='{0}' src='{1}' />".format(
             safe_unicode(icon[1]).replace("'", "&#39;"),
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
@@ -181,3 +182,34 @@ class ActionsColumn(Column):
         # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
         path = os.path.join(item.absolute_url_path(), 'actions_panel').encode('utf-8')
         return self.table.portal.unrestrictedTraverse(path)(**self.params)
+
+
+class DownloadColumn(LinkColumn):
+
+    """Column that displays download action."""
+
+    header = u''
+    weight = 80
+    cssClasses = {'td': 'download-column'}
+
+    # def renderHeadCell(self):
+    #     return u"<img title='{0}' src='{1}' />".format(
+    #         translate('Download', domain='plone', context=self.request),
+    #         u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+
+    def getLinkURL(self, item):
+        """Setup link url."""
+        return '%s/@@download' % item.absolute_url()
+
+    def getLinkTitle(self, item):
+        """Setup link title."""
+        return ' title="%s"' % html.escape(safe_unicode(translate(PMF('Download'), context=self.request)),
+                                           quote=True)
+
+    def getLinkContent(self, item):
+        down_img = u"<img title='{0}' src='{1}' />".format(
+            safe_unicode(translate(PMF('Download'), context=self.request)),
+            u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+        down_img = u"<img src='{0}' />".format(
+            u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+        return down_img

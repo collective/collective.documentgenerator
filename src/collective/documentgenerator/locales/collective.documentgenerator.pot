@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-10-27 09:59+0000\n"
+"POT-Creation-Date: 2017-11-10 12:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid ""
 msgstr ""
 
-#: ../utils.py:75
+#: ../utils.py:79
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
@@ -30,15 +30,15 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../browser/table.py:174
+#: ../browser/table.py:175
 msgid "Actions"
 msgstr ""
 
-#: ../content/pod_template.py:215
+#: ../content/pod_template.py:219
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:206
+#: ../content/pod_template.py:210
 msgid "Available formats"
 msgstr ""
 
@@ -62,11 +62,11 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:253
+#: ../content/pod_template.py:257
 msgid "Choose the mailing loop template to apply for this template."
 msgstr ""
 
-#: ../content/pod_template.py:224
+#: ../content/pod_template.py:228
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
@@ -78,15 +78,19 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:242
+#: ../content/pod_template.py:246
 msgid "Context variables."
 msgstr ""
 
-#: ../utils.py:72
+#: ../utils.py:76
 msgid "Dict update collision on key"
 msgstr ""
 
-#: ../content/pod_template.py:147
+#: ../browser/table.py:109
+msgid "Disabled"
+msgstr ""
+
+#: ../content/pod_template.py:151
 msgid "Do rendering"
 msgstr ""
 
@@ -99,24 +103,24 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../browser/table.py:96
+#: ../browser/table.py:97
 #: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:250
+#: ../browser/generation_view.py:251
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:248
+#: ../browser/generation_view.py:249
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:255
+#: ../browser/generation_view.py:256
 msgid "Error when merging mailed_data in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:415
+#: ../browser/generation_view.py:416
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
@@ -124,11 +128,11 @@ msgstr ""
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../content/vocabulary.py:98
+#: ../content/vocabulary.py:99
 msgid "Force disable"
 msgstr ""
 
-#: ../content/vocabulary.py:99
+#: ../content/vocabulary.py:100
 msgid "Force enable"
 msgstr ""
 
@@ -136,11 +140,11 @@ msgstr ""
 msgid "General template"
 msgstr ""
 
-#: ../content/vocabulary.py:92
+#: ../content/vocabulary.py:93
 msgid "Global value (disabled)"
 msgstr ""
 
-#: ../content/vocabulary.py:94
+#: ../content/vocabulary.py:95
 msgid "Global value (enabled)"
 msgstr ""
 
@@ -168,7 +172,7 @@ msgstr ""
 msgid "Invalid phone number: '${nb}'"
 msgstr ""
 
-#: ../content/pod_template.py:252
+#: ../content/pod_template.py:256
 #: ../setuphandlers.py:108
 msgid "Mailing loop template"
 msgstr ""
@@ -177,16 +181,16 @@ msgstr ""
 msgid "MailingLoopTemplate"
 msgstr ""
 
+#: ../browser/table.py:126
+msgid "Modified"
+msgstr ""
+
 #: ../setuphandlers.py:137
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:183
+#: ../content/pod_template.py:187
 msgid "No format selected"
-msgstr ""
-
-#: ../content/vocabulary.py:48
-msgid "No value"
 msgstr ""
 
 #: ../content/pod_template.py:55
@@ -195,11 +199,11 @@ msgid "ODT File"
 msgstr ""
 
 #: ../browser/controlpanel.py:58
-#: ../content/pod_template.py:259
+#: ../content/pod_template.py:263
 msgid "Optimize tables"
 msgstr ""
 
-#: ../browser/table.py:118
+#: ../browser/table.py:119
 msgid "Original"
 msgstr ""
 
@@ -207,7 +211,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:141
+#: ../content/pod_template.py:145
 msgid "POD context name"
 msgstr ""
 
@@ -215,7 +219,7 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/table.py:72
+#: ../browser/table.py:73
 msgid "Path"
 msgstr ""
 
@@ -223,7 +227,7 @@ msgstr ""
 msgid "Path of python with uno."
 msgstr ""
 
-#: ../browser/table.py:138
+#: ../browser/table.py:139
 msgid "Pod formats"
 msgstr ""
 
@@ -247,11 +251,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:216
+#: ../content/pod_template.py:220
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:207
+#: ../content/pod_template.py:211
 msgid "Select format in which the template will be generable."
 msgstr ""
 
@@ -263,7 +267,7 @@ msgstr ""
 msgid "Steps to ease tests of collective.documentgenerator"
 msgstr ""
 
-#: ../content/pod_template.py:223
+#: ../content/pod_template.py:227
 msgid "Style template"
 msgstr ""
 
@@ -279,15 +283,15 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:135
+#: ../content/pod_template.py:139
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:231
+#: ../content/pod_template.py:235
 msgid "Templates to merge."
 msgstr ""
 
-#: ../content/pod_template.py:243
+#: ../content/pod_template.py:247
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
@@ -295,23 +299,23 @@ msgstr ""
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr ""
 
-#: ../content/pod_template.py:260
+#: ../content/pod_template.py:264
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
 msgstr ""
 
-#: ../content/pod_template.py:161
+#: ../content/pod_template.py:165
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:156
+#: ../content/pod_template.py:160
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:280
+#: ../content/pod_template.py:284
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:283
+#: ../content/pod_template.py:287
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
@@ -332,7 +336,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:187
+#: ../content/pod_template.py:191
 msgid "element_not_valid"
 msgstr ""
 

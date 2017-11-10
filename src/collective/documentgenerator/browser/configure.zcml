@@ -126,4 +126,13 @@
         provides="z3c.table.interfaces.IColumn"
         factory=".table.ActionsColumn"
         />
+
+    <adapter
+        name="DownloadColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.DownloadColumn"
+        />
 </configure>
