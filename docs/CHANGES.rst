@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.4 (unreleased)
+3.0.4 (2017-11-10)
 ------------------
 
 - Manage translation of week and month in date display
