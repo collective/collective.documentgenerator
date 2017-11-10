@@ -6,6 +6,8 @@ Changelog
 
 - Manage translation of week and month in date display
   [sgeulette]
+- Add download column in list template
+  [sgeulette]
 
 3.0.3 (2017-10-30)
 ------------------
