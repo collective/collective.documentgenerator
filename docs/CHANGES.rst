@@ -4,8 +4,8 @@ Changelog
 3.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Corrected actions_panel call.
+  [sgeulette]
 
 3.0.4 (2017-11-10)
 ------------------

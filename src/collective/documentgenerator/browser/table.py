@@ -10,6 +10,7 @@ from plone import api
 from z3c.table.column import Column, LinkColumn
 from z3c.table.table import Table
 from zope.cachedescriptors.property import CachedProperty
+from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 
@@ -179,9 +180,8 @@ class ActionsColumn(Column):
     cssClasses = {'td': 'actions-column'}
 
     def renderCell(self, item):
-        # avoid double '//' that breaks (un)restrictedTraverse, moreover path can not be unicode
-        path = os.path.join(item.absolute_url_path(), 'actions_panel').encode('utf-8')
-        return self.table.portal.unrestrictedTraverse(path)(**self.params)
+        view = getMultiAdapter((item, self.request), name='actions_panel')
+        return view(**self.params)
 
 
 class DownloadColumn(LinkColumn):
