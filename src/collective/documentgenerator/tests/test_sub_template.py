@@ -2,7 +2,7 @@
 
 from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.interfaces import IPODTemplateCondition
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 
 from plone import api
@@ -30,7 +30,7 @@ class TestSubTemplateIntegration(unittest.TestCase):
     Test PODTemplate methods.
     """
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(TestSubTemplateIntegration, self).setUp()

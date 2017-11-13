@@ -14,7 +14,7 @@ from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.utils import translate as _
@@ -24,6 +24,7 @@ from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobFile
+from Products.CMFPlone.utils import base_hasattr
 
 from zope.annotation.interfaces import IAnnotations
 
@@ -396,7 +397,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         doc = self.portal.get('front-page')
         # add a table to check if it is optimized or not
         text = u'<table><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
-        doc.text = RichTextValue(text)
+        if base_hasattr(doc, 'setText'):
+            # Archetypes
+            doc.setText(text)
+        else:
+            # Dexterity
+            doc.text = RichTextValue(text)
         generation_view = doc.restrictedTraverse('@@document-generation')
 
         # optimize_tables disabled globally and pod_template using global parameter
@@ -430,7 +436,7 @@ class TestCyclicMergesDetection(unittest.TestCase):
     """
     """
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(TestCyclicMergesDetection, self).setUp()

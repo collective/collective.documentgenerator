@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
 
 from plone import api
@@ -34,7 +34,7 @@ class TestInstallDependencies(unittest.TestCase):
 
 class TestSetup(unittest.TestCase):
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def test_pod_templates_folder_allowed_types(self):
 

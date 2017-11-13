@@ -48,6 +48,7 @@ setup(
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',
+        'future>=0.14.0',
         'imio.migrator',
         'phonenumbers',
         'plone.api>=1.3.3',

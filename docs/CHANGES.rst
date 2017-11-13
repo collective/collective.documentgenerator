@@ -6,6 +6,14 @@ Changelog
 
 - Corrected actions_panel call.
   [sgeulette]
+- Added method `get_file_binary` to helper view, it returns the binary data of
+  a file object, managing fact that object is a Dexterity or Archetypes file.
+  [gbastien]
+- Require `future>=0.14.0` to be able to use the `html` package.
+  [gbastien]
+- Fixed tests to work in french (this validates translations, especially of
+  date methods).  Fixed tests to work in both Plone 4.3.x and Plone 5.x
+  [gbastien]
 
 3.0.4 (2017-11-10)
 ------------------

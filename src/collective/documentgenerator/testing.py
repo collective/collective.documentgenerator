@@ -83,7 +83,11 @@ class DocumentgeneratorLayer(NakedPloneLayer):
             api.portal.set_registry_record('plone.default_language', 'fr')
 
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'collective.documentgenerator:default')
+        applyProfile(portal, 'collective.documentgenerator:testing')
+
+        # Install plone-content for Plone 4 so front-page is available
+        if not HAS_PLONE_5:
+            applyProfile(portal, 'Products.CMFPlone:plone-content')
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -121,24 +125,24 @@ class ExamplePODTemplateLayer(DocumentgeneratorLayer):
         transaction.commit()
 
 
-EXAMPLE_POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(
-    name='EXAMPLE_POD_TEMPLATE_FIXTURE'
+POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(
+    name='POD_TEMPLATE_FIXTURE'
 )
 
-EXAMPLE_POD_TEMPLATE_INTEGRATION = IntegrationTesting(
-    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name='EXAMPLE_POD_TEMPLATE_INTEGRATION'
+POD_TEMPLATE_INTEGRATION = IntegrationTesting(
+    bases=(POD_TEMPLATE_FIXTURE,),
+    name='POD_TEMPLATE_INTEGRATION'
 )
 
-EXAMPLE_POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
-    bases=(EXAMPLE_POD_TEMPLATE_FIXTURE,),
-    name='EXAMPLE_POD_TEMPLATE_FUNCTIONAL'
+POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
+    bases=(POD_TEMPLATE_FIXTURE,),
+    name='POD_TEMPLATE_FUNCTIONAL'
 )
 
 
 ACCEPTANCE = FunctionalTesting(
     bases=(
-        EXAMPLE_POD_TEMPLATE_FIXTURE,
+        POD_TEMPLATE_FIXTURE,
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         z2.ZSERVER_FIXTURE
     ),
@@ -153,6 +157,13 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        if not HAS_PLONE_5:
+            ltool = self.portal.portal_languages
+            defaultLanguage = 'fr'
+            supportedLanguages = ['en', 'fr']
+            ltool.manage_setLanguageSettings(defaultLanguage, supportedLanguages,
+                                             setUseCombinedLanguageCodes=False)
+            self.portal.portal_languages.setLanguageBindings()
 
     def get_odt_content_xml(self, generated_doc):
         """Return content.xml from a generated doc binary."""
@@ -189,7 +200,7 @@ class BrowserTest(BaseTest):
 class PODTemplateIntegrationTest(BrowserTest):
     """Base class for integration browser tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(PODTemplateIntegrationTest, self).setUp()
@@ -200,7 +211,7 @@ class PODTemplateIntegrationTest(BrowserTest):
 class PODTemplateFunctionalTest(BrowserTest):
     """Base class for functional browser tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
+    layer = POD_TEMPLATE_FUNCTIONAL
 
     def setUp(self):
         super(PODTemplateFunctionalTest, self).setUp()
@@ -211,7 +222,7 @@ class PODTemplateFunctionalTest(BrowserTest):
 class ConfigurablePODTemplateIntegrationTest(BrowserTest):
     """Base class for integration tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(ConfigurablePODTemplateIntegrationTest, self).setUp()
@@ -222,7 +233,7 @@ class ConfigurablePODTemplateIntegrationTest(BrowserTest):
 class ArchetypesIntegrationTests(BaseTest):
     """Base class for Archetypes implementation tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(ArchetypesIntegrationTests, self).setUp()
@@ -243,14 +254,14 @@ class ArchetypesIntegrationTests(BaseTest):
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
     """Base class for Archetypes functional tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
+    layer = POD_TEMPLATE_FUNCTIONAL
 
 
 class DexterityIntegrationTests(BaseTest):
 
     """Base class for Dexterity implementation tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
+    layer = POD_TEMPLATE_INTEGRATION
 
     def setUp(self):
         super(DexterityIntegrationTests, self).setUp()
@@ -263,4 +274,4 @@ class DexterityIntegrationTests(BaseTest):
 class DexterityFunctionnalTests(DexterityIntegrationTests):
     """Base class for Dexterity functional tests."""
 
-    layer = EXAMPLE_POD_TEMPLATE_FUNCTIONAL
+    layer = POD_TEMPLATE_FUNCTIONAL

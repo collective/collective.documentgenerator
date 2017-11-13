@@ -100,7 +100,7 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
         self.request.response.redirect(
             '{context_url}/{view}'.format(
                 context_url=self.context.absolute_url(),
-                view=self.control_panel_view
+                view="@@overview-controlpanel"
             )
         )
 

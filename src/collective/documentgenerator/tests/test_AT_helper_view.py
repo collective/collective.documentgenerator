@@ -108,7 +108,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def test_display_method_on_multiselect_field(self):
         field_name = 'customViewFields'
         to_set = ['Title', 'Description', 'EffectiveDate']
-        expected_text = 'Title, Description, Effective Date'
+        expected_text = 'Titre, Description, Date de publication'
         self._test_display_method(field_name, expected_text, to_set)
 
     def test_display_method_on_datefield(self):
@@ -130,19 +130,19 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         field.set(self.AT_topic, date_to_set)
 
         # toLocalizedTime
-        expected_date = u'Sep 18, 1986'
+        expected_date = u'18/09/1986'
         result = self.view.display_date(field_name=effective_field_name)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=date_to_set)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'Sep 18, 1986 12:00 AM'
+        expected_date = u'18/09/1986 00:00'
         result = self.view.display_date(field_name=effective_field_name, long_format=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=date_to_set, long_format=True)
         self.assertEqual(expected_date, result)
 
-        expected_date = u'12:00 AM'
+        expected_date = u'00:00'
         result = self.view.display_date(field_name=effective_field_name, time_only=True)
         self.assertEqual(expected_date, result)
         result = self.view.display_date(date=date_to_set, time_only=True)
@@ -158,7 +158,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def test_display_voc_method(self):
         field_name = 'customViewFields'
         to_set = ['Title', 'Description', 'EffectiveDate']
-        expected_text = 'Title swag Description swag Effective Date'
+        expected_text = 'Titre swag Description swag Date de publication'
 
         field = self.AT_topic.getField(field_name)
         field.set(self.AT_topic, to_set)

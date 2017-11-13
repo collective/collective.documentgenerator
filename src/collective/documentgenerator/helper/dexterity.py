@@ -7,6 +7,7 @@ from plone import api
 from plone.app.textfield import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider, READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.supermodel.utils import mergedTaggedValueDict
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getMultiAdapter, getUtility
@@ -121,6 +122,11 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
                 return str(souped)  # is utf8
         else:
             return rendered.encode('utf8')
+
+    def get_file_binary(self, file_obj):
+        """ """
+        primary_field_infos = IPrimaryFieldInfo(file_obj)
+        return primary_field_infos.value.data
 
 
 class DXDisplayProxyObject(DisplayProxyObject):

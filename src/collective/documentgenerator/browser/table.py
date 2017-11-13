@@ -2,7 +2,6 @@
 """Define tables and columns."""
 
 import html
-import os
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode, normalizeString, base_hasattr
 from collective.documentgenerator import _

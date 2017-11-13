@@ -50,6 +50,11 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
         return display
 
+    def get_file_binary(self, file_obj):
+        """ """
+        data = file_obj.getPrimaryField().get(file_obj).data
+        return data
+
 
 class ATDisplayProxyObject(DisplayProxyObject):
     """

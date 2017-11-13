@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.config import POD_FORMATS
-from collective.documentgenerator.testing import EXAMPLE_POD_TEMPLATE_INTEGRATION
+from collective.documentgenerator.testing import BaseTest
+from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 
 from plone import api
 
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
-import unittest
 
+class TestVocabularies(BaseTest):
 
-class TestVocabularies(unittest.TestCase):
-
-    layer = EXAMPLE_POD_TEMPLATE_INTEGRATION
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-        self.registry = api.portal.get_tool('portal_registry')
+    layer = POD_TEMPLATE_INTEGRATION
 
     def test_portal_type_vocabulary_factory_registration(self):
         """
