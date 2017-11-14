@@ -16,6 +16,11 @@ env:
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
 
+before_install:
+  - python --version
+  - pip install --upgrade pip
+  - pip --version
+
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
   - mkdir -p buildout-cache/{eggs,downloads}
@@ -39,7 +44,6 @@ script:
 
 after_success:
   - bin/createcoverage
-  - pip install --upgrade pip
   - pip install -q coveralls==0.5
   - coveralls
 
