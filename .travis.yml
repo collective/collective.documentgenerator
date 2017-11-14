@@ -16,11 +16,6 @@ env:
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
 
-before_install:
-  - python --version
-  - pip install --upgrade pip
-  - pip --version
-
 install:
   - sudo apt-get -qq install libfreetype6-dev liblcms1-dev libreoffice
   - mkdir -p buildout-cache/{eggs,downloads}
@@ -30,7 +25,9 @@ install:
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - virtualenv .
-  - ./bin/python bootstrap.py
+  - bin/pip install --upgrade pip
+  - bin/pip install setuptools==36.7.2
+  - bin/pip install zc.buildout==2.9.5
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -N -c travis.cfg
   - bin/translation-manage -c
@@ -44,8 +41,8 @@ script:
 
 after_success:
   - bin/createcoverage
-  - pip install -q coveralls==0.5
-  - coveralls
+  - bin/pip install -q coveralls==0.5
+  - bin/coveralls
 
 notifications:
   email:

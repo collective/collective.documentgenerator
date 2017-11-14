@@ -14,7 +14,7 @@ Changelog
 - Fixed tests to work in french (this validates translations, especially of
   date methods).  Fixed tests to work in both Plone 4.3.x and Plone 5.x
   [gbastien]
-- Upgraded pip on travis
+- Upgraded pip on travis. Don't use bootstrap. Upgrade setuptools.
   [sgeulette]
 
 3.0.4 (2017-11-10)
