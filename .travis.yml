@@ -2,7 +2,7 @@ language: python
 
 python:
 python:
-  - 2.7
+  - 2.7.14
 
 cache:
   pip: true
