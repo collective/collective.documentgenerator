@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.5 (unreleased)
+3.0.5 (2017-11-16)
 ------------------
 
 - Corrected actions_panel call.
