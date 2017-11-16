@@ -24,7 +24,7 @@ install:
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - virtualenv .
-  - ./bin/python bootstrap.py --version=2.5.3
+  - ./bin/python bootstrap.py --version=2.9.5
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -N -c travis.cfg
   - bin/translation-manage -c
