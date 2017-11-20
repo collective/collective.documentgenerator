@@ -54,6 +54,7 @@ class IPODTemplate(model.Schema):
     form.widget('odt_file', NamedFileWidget)
     odt_file = NamedBlobFile(
         title=_(u'ODT File'),
+        required=False,
     )
 
     form.omitted('initial_md5')
@@ -214,8 +215,8 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=False,
     )
 
-    form.order_before(pod_link_pod_template='enabled')
-    pod_link_pod_template = schema.Choice(
+    form.order_before(pod_link_template='enabled')
+    pod_link_template = schema.Choice(
         title=_(u'Select Existing POD Template'),
         description=_(u'Choose an existing PDO template to use for this template.'),
         vocabulary='collective.documentgenerator.ExistingPODTemplate',
@@ -304,6 +305,17 @@ class IConfigurablePODTemplate(IPODTemplate):
                 raise Invalid(_("You have twice used the same name '${name}'", mapping={'name': value}))
             else:
                 keys.append(value)
+
+    @invariant
+    def validate_pod_file(data):
+        if not (data.odt_file or data.pod_link_template):
+            raise Invalid(_("You must select an odt file or an existing pod template"), schema)
+
+    @invariant
+    def validate_pod_link_template(data):
+        if data.pod_link_template and (data.reusability or data.odt_file):
+            raise Invalid(_("You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."), schema)
+
 
 # Set conditions for which fields the validator class applies
 validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate['pod_formats'])
