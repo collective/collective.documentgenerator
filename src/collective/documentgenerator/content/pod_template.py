@@ -344,6 +344,13 @@ class ConfigurablePODTemplate(PODTemplate):
 
     implements(IConfigurablePODTemplate)
 
+    def get_file(self):
+        if self.odt_file:
+            return self.odt_file
+
+        elif self.pod_link_template:
+            return api.content.get(UID=self.pod_link_template).get_file()
+
     def set_merge_templates(self, pod_template, pod_context_name, do_rendering=True, position=-1):
         old_value = list(self.merge_templates)
         newline = {'template': pod_template.UID(), 'pod_context_name': pod_context_name, 'do_rendering': do_rendering}
