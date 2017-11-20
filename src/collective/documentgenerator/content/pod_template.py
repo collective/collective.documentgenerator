@@ -218,7 +218,7 @@ class IConfigurablePODTemplate(IPODTemplate):
     pod_link_pod_template = schema.Choice(
         title=_(u'Select Existing POD Template'),
         description=_(u'Choose an existing PDO template to use for this template.'),
-        vocabulary='collective.documentgenerator.EnabledMailingLoopTemplates',
+        vocabulary='collective.documentgenerator.ExistingPODTemplate',
         required=False,
     )
 

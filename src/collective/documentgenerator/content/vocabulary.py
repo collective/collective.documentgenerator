@@ -146,6 +146,38 @@ class MailingLoopTemplatesAllVocabularyFactory(object):
         return brain.Title
 
 
+def get_existing_pod_templates(enabled_only=False):
+    brains = []
+    catalog = api.portal.get_tool('portal_catalog')
+
+    for brain in catalog(portal_type='ConfigurablePODTemplate'):
+        template = brain.getObject()
+        if enabled_only and not template.enabled:
+            continue
+
+        if template.reusability:
+            brains.append(brain)
+
+    return brains
+
+
+class ExistingPODTemplateFactory(object):
+    """
+    Vocabulary factory with all existing_pod_templates.
+    """
+
+    def __call__(self, context):
+        voc_terms = []
+
+        for brain in get_existing_pod_templates(enabled_only=False):
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+
+        return SimpleVocabulary(voc_terms)
+
+    def _renderTermTitle(self, brain):
+        return brain.Title
+
+
 #########################
 # vocabularies adapters #
 #########################
