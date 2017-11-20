@@ -23,6 +23,7 @@ from plone.supermodel import model
 
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
@@ -225,6 +226,22 @@ class IConfigurablePODTemplate(IPODTemplate):
     """
     ConfigurablePODTemplate dexterity schema.
     """
+
+    form.order_before(reusability='enabled')
+    form.widget('reusability', SingleCheckBoxFieldWidget)
+    reusability = schema.List(
+        title=_(u'Reusability'),
+        description=_(u'Check if this POD Template can be reused by other POD Template'),
+        required=False,
+    )
+
+    form.order_before(pod_link_pod_template='enabled')
+    pod_link_pod_template = schema.Choice(
+        title=_(u'Select Existing POD Template'),
+        description=_(u'Choose an existing PDO template to use for this template.'),
+        vocabulary='collective.documentgenerator.EnabledMailingLoopTemplates',
+        required=False,
+    )
 
     form.widget('pod_formats', OrderedSelectFieldWidget, multiple='multiple', size=5)
     pod_formats = schema.List(
