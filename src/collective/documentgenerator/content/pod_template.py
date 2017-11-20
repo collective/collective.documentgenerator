@@ -331,6 +331,13 @@ class ConfigurablePODTemplate(PODTemplate):
 
     implements(IConfigurablePODTemplate)
 
+    def get_file(self):
+        if self.odt_file:
+            return self.odt_file
+
+        elif self.pod_link_template:
+            return api.content.get(UID=self.pod_link_template).get_file()
+
     def get_style_template(self):
         """
         Return associated StylesTemplate from which styles will be imported
