@@ -15,6 +15,8 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+from Products.CMFPlone.utils import safe_unicode
+
 
 class FormatsVocabularyFactory(object):
     """
@@ -146,7 +148,7 @@ class MailingLoopTemplatesAllVocabularyFactory(object):
         return brain.Title
 
 
-def get_existing_pod_templates(enabled_only=False):
+def get_existing_pod_templates(context, enabled_only=False):
     brains = []
     catalog = api.portal.get_tool('portal_catalog')
 
@@ -155,7 +157,7 @@ def get_existing_pod_templates(enabled_only=False):
         if enabled_only and not template.enabled:
             continue
 
-        if template.reusability:
+        if template.reusability and template != context:
             brains.append(brain)
 
     return brains
@@ -169,13 +171,13 @@ class ExistingPODTemplateFactory(object):
     def __call__(self, context):
         voc_terms = []
 
-        for brain in get_existing_pod_templates(enabled_only=False):
+        for brain in get_existing_pod_templates(context, enabled_only=False):
             voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
 
         return SimpleVocabulary(voc_terms)
 
     def _renderTermTitle(self, brain):
-        return brain.Title
+        return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
 
 
 #########################
