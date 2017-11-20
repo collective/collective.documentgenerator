@@ -37,6 +37,13 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- Existing POD Template Vocabulary -->
+    <utility
+        factory=".vocabulary.ExistingPODTemplateFactory"
+        name="collective.documentgenerator.ExistingPODTemplate"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
     <!-- optimize_tables Vocabulary -->
     <utility
         factory=".vocabulary.OptimizeTablesVocabularyFactory"
