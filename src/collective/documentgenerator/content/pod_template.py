@@ -347,7 +347,6 @@ class ConfigurablePODTemplate(PODTemplate):
     def get_file(self):
         if self.odt_file:
             return self.odt_file
-
         elif self.pod_link_template:
             return api.content.get(UID=self.pod_link_template).get_file()
 
