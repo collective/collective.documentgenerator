@@ -1,6 +1,19 @@
 # -*- coding: utf-8 -*-
-
 from styles_events import update_PODtemplate_styles
+
+
+def podtemplate_created(pod_template, event):
+    set_initial_md5(pod_template, event)
+    pod_template.add_parent_pod_annotation()
+
+
+def podtemplate_modified(pod_template, event):
+    # add or remove annotation from pod template is managed in the setter
+    update_PODtemplate_styles(pod_template, event)
+
+
+def podtemplate_will_be_removed(pod_template, event):
+    pod_template.del_parent_pod_annotation()
 
 
 def set_initial_md5(pod_template, event):

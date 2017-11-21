@@ -5,7 +5,11 @@
 
   <subscriber for="..content.pod_template.IPODTemplate
                    zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-              handler=".pod_templates_events.set_initial_md5" />
+              handler=".pod_templates_events.podtemplate_created" />
+
+  <subscriber for="..content.pod_template.IPODTemplate
+                   OFS.interfaces.IObjectWillBeRemovedEvent"
+              handler=".pod_templates_events.podtemplate_will_be_removed" />
 
   <subscriber for="..content.style_template.IStyleTemplate
                    zope.lifecycleevent.interfaces.IObjectCreatedEvent"
@@ -17,9 +21,6 @@
 
   <subscriber for="..content.pod_template.IPODTemplate
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-              handler=".styles_events.podtemplate_modified" />
+              handler=".pod_templates_events.podtemplate_modified" />
 
-  <subscriber for="..content.pod_template.IPODTemplate
-                   zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-              handler=".styles_events.update_PODtemplate_styles" />
 </configure>
