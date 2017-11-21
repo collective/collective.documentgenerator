@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from zExceptions import Redirect
-from appy.shared.utils import executeCommand
-
-from collective.documentgenerator import config
-from collective.documentgenerator.content.pod_template import IPODTemplate
-from .. import _
-
-from plone import api
-from plone.namedfile.file import NamedBlobFile
-
-from Products.CMFPlone.utils import safe_unicode
-
-import appy.pod
 import logging
 import os
 import tempfile
+
+import appy.pod
+from Products.CMFPlone.utils import safe_unicode
+from appy.shared.utils import executeCommand
+from collective.documentgenerator import config
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from plone import api
+from plone.namedfile.file import NamedBlobFile
+from zExceptions import Redirect
+from .. import _
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
@@ -44,10 +41,6 @@ def update_styles_of_all_PODtemplate(style_template, event):
     os.remove(style_template_file.name)
 
 
-def podtemplate_modified(pod_template, event):
-    update_PODtemplate_styles(pod_template, event)
-
-
 def styletemplate_created(style_template, event):
     """
     Set the md5 of the initial style template in 'initial_md5' field.
@@ -58,14 +51,15 @@ def styletemplate_created(style_template, event):
 
 def update_PODtemplate_styles(pod_template, event):
     """
-    Update styles on a pod_template using external styles.
+    Update styles on a pod_template using external styles only if not reusing an other template file.
     """
-    style_template = pod_template.get_style_template()
-    if not style_template or pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
-        return
-    style_odt = style_template.odt_file
-    style_template_file = create_temporary_file(style_odt, 'style_template.odt')
-    _update_template_styles(pod_template, style_template_file.name)
+    if not pod_template.has_linked_template():
+        style_template = pod_template.get_style_template()
+        if not style_template or pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
+            return
+        style_odt = style_template.odt_file
+        style_template_file = create_temporary_file(style_odt, 'style_template.odt')
+        _update_template_styles(pod_template, style_template_file.name)
 
 
 def _update_template_styles(pod_template, style_template_filename):

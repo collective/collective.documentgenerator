@@ -1,46 +1,42 @@
 # -*- coding: utf-8 -*-
 import copy
+import logging
 
+from Products.CMFCore.interfaces import IDublinCore
+from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
-from collective.documentgenerator.interfaces import IPODTemplateCondition
-from collective.documentgenerator.interfaces import ITemplatesToMerge
-from collective.documentgenerator.utils import compute_md5
-
-from collective.z3cform.datagridfield import DataGridFieldFactory
-from collective.z3cform.datagridfield import DictRow
 from collective.documentgenerator.config import NEUTRAL_FORMATS
 from collective.documentgenerator.config import ODS_FORMATS
 from collective.documentgenerator.config import ODT_FORMATS
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.content.style_template import StyleTemplate
-
+from collective.documentgenerator.interfaces import IPODTemplateCondition
+from collective.documentgenerator.interfaces import ITemplatesToMerge
+from collective.documentgenerator.utils import compute_md5
+from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield import DictRow
+from imio.helpers.content import add_to_annotation, del_from_annotation
 from plone import api
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
-
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
-
 from zope import schema
-from zope.component import provideAdapter
+from zope.component import provideAdapter, adapter
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
-from zope.interface import implements
-from zope.interface import Interface
+from zope.interface import Interface, provider, implementer
 from zope.interface import Invalid
+from zope.interface import implements
 from zope.interface import invariant
-
-import logging
-
-from Products.CMFPlone.utils import safe_unicode
-
 
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
@@ -77,9 +73,6 @@ class PODTemplate(Item):
     """
 
     implements(IPODTemplate)
-
-    def get_file(self):
-        return self.odt_file
 
     def can_be_generated(self, context):
         """
@@ -132,6 +125,15 @@ class PODTemplate(Item):
         """By default, return -1 meaning use global config value."""
         return -1
 
+    def add_parent_pod_annotation(self):
+        return None
+
+    def del_parent_pod_annotation(self):
+        return None
+
+    def has_linked_template(self):
+        return False
+
 
 class IMergeTemplatesRowSchema(Interface):
     """
@@ -172,7 +174,7 @@ class IContextVariablesRowSchema(Interface):
 class PodFormatsValidator(validator.SimpleFieldValidator):
     """ z3c.form validator class for Pod formats """
 
-    def validate(self, selected_formats):
+    def validate(self, value, force=False):
         # thanks to widget, we get just-loaded file.filename.
         widgets = self.view.widgets
         current_filename = u""
@@ -185,9 +187,9 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             extension = current_filename.split('.')[-1]
             authorise_element_list = FORMATS_DICT[extension]
             authorise_extension_list = [elem[0] for elem in authorise_element_list]
-            if not selected_formats:
+            if not value:
                 raise Invalid(_(u"No format selected"))
-            for element in selected_formats:
+            for element in value:
                 if element not in authorise_extension_list:
                     elem = self.get_invalid_error(element)
                     error_message = _(
@@ -202,6 +204,7 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                 return element[1]
 
 
+@provider(IFormFieldProvider)
 class IConfigurablePODTemplate(IPODTemplate):
     """
     ConfigurablePODTemplate dexterity schema.
@@ -314,7 +317,9 @@ class IConfigurablePODTemplate(IPODTemplate):
     @invariant
     def validate_pod_link_template(data):
         if data.pod_link_template and (data.reusability or data.odt_file):
-            raise Invalid(_("You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."), schema)
+            raise Invalid(_(
+                "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."),
+                schema)
 
 
 # Set conditions for which fields the validator class applies
@@ -324,6 +329,8 @@ validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurable
 provideAdapter(PodFormatsValidator)
 
 
+@implementer(IConfigurablePODTemplate)
+@adapter(IDublinCore)
 class ConfigurablePODTemplate(PODTemplate):
     """
     ConfigurablePODTemplate dexterity class.
@@ -331,11 +338,28 @@ class ConfigurablePODTemplate(PODTemplate):
 
     implements(IConfigurablePODTemplate)
 
-    def get_file(self):
-        if self.odt_file:
-            return self.odt_file
-        elif self.pod_link_template:
-            return api.content.get(UID=self.pod_link_template).get_file()
+    parent_pod_annotation_key = 'linked_child_templates'
+
+    def __setattr__(self, key, value):
+        if key == 'pod_link_template':
+            if self.pod_link_template != value:
+                if self.pod_link_template:
+                    self.del_parent_pod_annotation()
+                super(ConfigurablePODTemplate, self).__setattr__(key, value)
+                self.add_parent_pod_annotation()
+        else:
+            super(ConfigurablePODTemplate, self).__setattr__(key, value)
+
+    def __getattr__(self, key):
+        value = super(ConfigurablePODTemplate, self).__getattr__(key)
+
+        if key == 'odt_file' and not value and self.pod_link_template:
+            value = api.content.get(UID=self.pod_link_template).odt_file
+
+        return value
+
+    def has_linked_template(self):
+        return self.pod_link_template is not None
 
     def get_style_template(self):
         """
@@ -407,6 +431,13 @@ class ConfigurablePODTemplate(PODTemplate):
     def get_optimize_tables(self):
         return self.optimize_tables
 
+    def add_parent_pod_annotation(self):
+        if self.pod_link_template:
+            add_to_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_link_template)
+
+    def del_parent_pod_annotation(self):
+        del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_link_template)
+
 
 class ISubTemplate(IPODTemplate):
     """
@@ -434,6 +465,7 @@ class MailingLoopTemplate(PODTemplate):
     """
 
     implements(IMailingLoopTemplate)
+
 
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,
