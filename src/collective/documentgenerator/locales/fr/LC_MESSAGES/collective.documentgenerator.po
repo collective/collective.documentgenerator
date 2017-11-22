@@ -124,6 +124,10 @@ msgstr "Erreur lors de la mise à jour du contexte de génération avec les donn
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
+#: ../browser/generation_view.py:191
+msgid "Linked POD Template using this one"
+msgstr "Modèle de document POD liés utilisant celui-ci"
+
 #: ../content/vocabulary.py:99
 msgid "Force disable"
 msgstr "Désactiver (ignorer la valeur globale)"
