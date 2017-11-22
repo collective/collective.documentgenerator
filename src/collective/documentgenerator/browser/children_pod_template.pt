@@ -1,0 +1,9 @@
+<tal:comment replace="nothing">Display meeting assembly real value</tal:comment>
+<fieldset>
+    <legend i18n:translate="Linked POD Template using this one" i18n:domain="PloneMeeting">Children POD Template linked
+        to this POD Template
+    </legend>
+    <tal:block repeat="child view/get_children">
+        dd
+    </tal:block>
+</fieldset>

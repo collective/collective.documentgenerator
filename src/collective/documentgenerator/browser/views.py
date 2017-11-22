@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.interfaces import IOrderedContainer
@@ -8,16 +7,21 @@ from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from plone import api
+from plone.dexterity.browser.view import DefaultView
+from z3c.form.contentprovider import ContentProviders
+from z3c.form.i18n import MessageFactory as _
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope.browserpage import ViewPageTemplateFile
+from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implements
 
 
 class ResetMd5(BrowserView):
-
     def __call__(self):
         self.context.style_modification_md5 = self.context.current_md5
 
 
 class TemplatesListing(BrowserView):
-
     __table__ = TemplatesTable
     provides = [IPODTemplate.__identifier__, IStyleTemplate.__identifier__]
     depth = None
@@ -75,3 +79,32 @@ class TemplatesListing(BrowserView):
             self.local_search = 'local_search' in self.request or self.local_search
         self.update()
         return self.index()
+
+
+class DisplayChildrenPodTemplateProvider(ContentProviderBase):
+    template = ViewPageTemplateFile('children_pod_template.pt')
+
+    # def __init__(self, context, request, view):
+    #     super(DisplayChildrenPodTemplateProvider, self).__init__(context, request, view)
+    #     self.__parent__ = view
+
+    def get_children(self):
+        return []
+
+    def render(self):
+        return self.template()
+
+
+class ViewConfigurablePodTemplate(DefaultView):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 2
+
+    label = _(u"Manage item assembly")
+
+    def __init__(self, context, request):
+        super(ViewConfigurablePodTemplate, self).__init__(context, request)
+        self.context = context
+        self.request = request
