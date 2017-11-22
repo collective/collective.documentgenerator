@@ -103,8 +103,3 @@ class ViewConfigurablePodTemplate(DefaultView):
     contentProviders['children_pod_template'].position = 2
 
     label = _(u"Manage item assembly")
-
-    def __init__(self, context, request):
-        super(ViewConfigurablePodTemplate, self).__init__(context, request)
-        self.context = context
-        self.request = request

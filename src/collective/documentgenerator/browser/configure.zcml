@@ -60,7 +60,7 @@
             name="view"
             class="collective.documentgenerator.browser.views.ViewConfigurablePodTemplate"
             permission="zope2.View"
-            template="item.pt"
+
             />
     </configure>
 
