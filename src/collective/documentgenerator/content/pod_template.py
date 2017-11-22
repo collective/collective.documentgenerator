@@ -15,7 +15,7 @@ from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.utils import compute_md5
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
-from imio.helpers.content import add_to_annotation, del_from_annotation
+from imio.helpers.content import add_to_annotation, del_from_annotation, get_from_annotation
 from plone import api
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -437,6 +437,19 @@ class ConfigurablePODTemplate(PODTemplate):
 
     def del_parent_pod_annotation(self):
         del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_link_template)
+
+    def get_children_pod_template(self):
+        # returns a list countaining the children templates
+        res = []
+        annotated = get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self)
+        if annotated:
+            for uid in get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self):
+                try:
+                    res.append(api.content.get(UID=uid))
+                except ValueError:
+                    del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)
+
+        return res
 
 
 class ISubTemplate(IPODTemplate):

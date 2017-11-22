@@ -9,10 +9,10 @@ from collective.documentgenerator.content.style_template import IStyleTemplate
 from plone import api
 from plone.dexterity.browser.view import DefaultView
 from z3c.form.contentprovider import ContentProviders
-from z3c.form.i18n import MessageFactory as _
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
+from zope.i18n import translate
 from zope.interface import implements
 
 
@@ -84,12 +84,12 @@ class TemplatesListing(BrowserView):
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):
     template = ViewPageTemplateFile('children_pod_template.pt')
 
-    # def __init__(self, context, request, view):
-    #     super(DisplayChildrenPodTemplateProvider, self).__init__(context, request, view)
-    #     self.__parent__ = view
+    def label(self):
+        return translate('Linked POD Template using this one', domain='collective.documentgenerator',
+                         context=self.request)
 
     def get_children(self):
-        return []
+        return self.context.get_children_pod_template()
 
     def render(self):
         return self.template()
@@ -101,5 +101,3 @@ class ViewConfigurablePodTemplate(DefaultView):
 
     contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
     contentProviders['children_pod_template'].position = 2
-
-    label = _(u"Manage item assembly")
