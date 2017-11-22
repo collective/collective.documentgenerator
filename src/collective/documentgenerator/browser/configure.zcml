@@ -65,6 +65,13 @@
     </configure>
 
     <browser:page
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+        name="edit"
+        class=".views.EditConfigurablePodTemplate"
+        permission="cmf.ModifyPortalContent"
+        />
+
+    <browser:page
         for="*"
         name="dg-templates-listing"
         class=".views.TemplatesListing"

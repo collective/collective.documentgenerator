@@ -7,6 +7,7 @@ from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from plone import api
+from plone.dexterity.browser.edit import DefaultEditForm
 from plone.dexterity.browser.view import DefaultView
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
@@ -82,7 +83,7 @@ class TemplatesListing(BrowserView):
 
 
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):
-    template = ViewPageTemplateFile('children_pod_template.pt')
+    template = ViewPageTemplateFile('view_children_pod_template.pt')
 
     def label(self):
         return translate('Linked POD Template using this one', domain='collective.documentgenerator',
@@ -95,9 +96,21 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
         return self.template()
 
 
+class DisplayEditChildrenPodTemplateProvider(DisplayChildrenPodTemplateProvider):
+    template = ViewPageTemplateFile('edit_children_pod_template.pt')
+
+
 class ViewConfigurablePodTemplate(DefaultView):
     implements(IFieldsAndContentProvidersForm)
     contentProviders = ContentProviders()
 
     contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 2
+
+
+class EditConfigurablePodTemplate(DefaultEditForm):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayEditChildrenPodTemplateProvider
     contentProviders['children_pod_template'].position = 2
