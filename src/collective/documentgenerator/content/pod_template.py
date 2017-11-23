@@ -210,16 +210,16 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
-    form.order_before(reusability='enabled')
-    form.widget('reusability', SingleCheckBoxFieldWidget)
-    reusability = schema.List(
-        title=_(u'Reusability'),
+    form.order_before(reusable='enabled')
+    form.widget('reusable', SingleCheckBoxFieldWidget)
+    reusable = schema.List(
+        title=_(u'Reusable'),
         description=_(u'Check if this POD Template can be reused by other POD Template'),
         required=False,
     )
 
-    form.order_before(pod_link_template='enabled')
-    pod_link_template = schema.Choice(
+    form.order_before(pod_template_to_use='enabled')
+    pod_template_to_use = schema.Choice(
         title=_(u'Select Existing POD Template'),
         description=_(u'Choose an existing PDO template to use for this template.'),
         vocabulary='collective.documentgenerator.ExistingPODTemplate',
@@ -311,12 +311,12 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     @invariant
     def validate_pod_file(data):
-        if not (data.odt_file or data.pod_link_template):
+        if not (data.odt_file or data.pod_template_to_use):
             raise Invalid(_("You must select an odt file or an existing pod template"), schema)
 
     @invariant
-    def validate_pod_link_template(data):
-        if data.pod_link_template and (data.reusability or data.odt_file):
+    def validate_pod_template_to_use(data):
+        if data.pod_template_to_use and (data.reusable or data.odt_file):
             raise Invalid(_(
                 "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."),
                 schema)
@@ -341,9 +341,11 @@ class ConfigurablePODTemplate(PODTemplate):
     parent_pod_annotation_key = 'linked_child_templates'
 
     def __setattr__(self, key, value):
-        if key == 'pod_link_template':
-            if self.pod_link_template != value:
-                if self.pod_link_template:
+        # do not attempt to register annotation if object not created yet.
+        # object has no id until fully created
+        if self.id and key == 'pod_template_to_use':
+            if self.pod_template_to_use != value:
+                if self.pod_template_to_use:
                     self.del_parent_pod_annotation()
                 super(ConfigurablePODTemplate, self).__setattr__(key, value)
                 self.add_parent_pod_annotation()
@@ -353,13 +355,13 @@ class ConfigurablePODTemplate(PODTemplate):
     def __getattr__(self, key):
         value = super(ConfigurablePODTemplate, self).__getattr__(key)
 
-        if key == 'odt_file' and not value and self.pod_link_template:
-            value = api.content.get(UID=self.pod_link_template).odt_file
+        if key == 'odt_file' and not value and self.pod_template_to_use:
+            value = api.content.get(UID=self.pod_template_to_use).odt_file
 
         return value
 
     def has_linked_template(self):
-        return self.pod_link_template is not None
+        return self.pod_template_to_use is not None
 
     def get_style_template(self):
         """
@@ -432,23 +434,34 @@ class ConfigurablePODTemplate(PODTemplate):
         return self.optimize_tables
 
     def add_parent_pod_annotation(self):
-        if self.pod_link_template:
-            add_to_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_link_template)
+        if self.pod_template_to_use:
+            add_to_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(),
+                              uid=self.pod_template_to_use)
 
     def del_parent_pod_annotation(self):
-        del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_link_template)
+        if hasattr(self, 'pod_template_to_use') and self.pod_template_to_use:
+            del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(),
+                                uid=self.pod_template_to_use)
 
     def get_children_pod_template(self):
-        # returns a list countaining the children templates
+        """
+        @see plone.api.content.get
+        @see imio.helpers.content.get_from_annotation
+        @see imio.helpers.content.del_from_annotation
+        :return: a list containing the children templates.
+
+        Handles the case when the uid doesn't match any object by deleting the uid from anotation.
+        """
         res = []
         annotated = get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self)
         if annotated:
-            for uid in get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self):
-                try:
-                    res.append(api.content.get(UID=uid))
-                except ValueError:
+            for uid in annotated:
+                child = api.content.get(UID=uid)
+                if child:
+                    res.append(child)
+                else:
+                    # child doesn't exist anymore. api.content.get returned None
                     del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)
-
         return res
 
 
