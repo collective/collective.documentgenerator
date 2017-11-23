@@ -3,7 +3,6 @@ from styles_events import update_PODtemplate_styles
 
 
 def podtemplate_created(pod_template, event):
-    set_initial_md5(pod_template, event)
     pod_template.add_parent_pod_annotation()
 
 

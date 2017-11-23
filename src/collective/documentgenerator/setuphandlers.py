@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
-from collective.documentgenerator.utils import translate as _
-
 from Products.CMFPlone import interfaces as Plone
 from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
-from zope.interface import implementer
-
+from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
+from collective.documentgenerator.utils import translate as _
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+from zope.interface import implementer
+
 try:
     from Products.CMFPlone.interfaces.constrains import IConstrainTypes
 except ImportError:
@@ -220,10 +219,42 @@ def install_demo(context):
             mailing_loop_template=loop_template.UID(),
         )
 
+    if not hasattr(pod_folder, 'test_template_reusable'):
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_template_reusable',
+            title=_(u'Reusable template'),
+            odt_file=NamedBlobFile(
+                data=context.readDataFile('templates/modele_general.odt'),
+                contentType='application/vnd.oasis.opendocument.text',
+                filename=u'modele_general.odt',
+            ),
+            reusable=True,
+            container=pod_folder,
+            pod_formats=['odt'],
+            pod_portal_types=['Folder'],
+            exclude_from_nav=True
+        )
+
+    reusable_template = getattr(pod_folder, 'test_template_reusable')
+
+    if not hasattr(pod_folder, 'test_template_reuse'):
+        api.content.create(
+            type='ConfigurablePODTemplate',
+            id='test_template_reuse',
+            title=_(u'Reuse Test Template'),
+            container=pod_folder,
+            exclude_from_nav=True,
+            pod_formats=['odt', 'pdf', 'doc', 'docx'],
+            pod_portal_types=['Document'],
+        )
+        test_template_reuse = getattr(pod_folder, 'test_template_reuse')
+
+        test_template_reuse.pod_template_to_use = reusable_template.UID()
+
 
 @implementer(Plone.INonInstallable)
 class HiddenProfiles(object):
-
     def getNonInstallableProfiles(self):
         """Do not show on Plone's list of installable profiles."""
         return [
@@ -233,7 +264,6 @@ class HiddenProfiles(object):
 
 @implementer(QuickInstaller.INonInstallable)
 class HiddenProducts(object):
-
     def getNonInstallableProducts(self):
         """Do not show on QuickInstaller's list of installable products."""
         return [

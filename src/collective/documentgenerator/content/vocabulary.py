@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.config import get_optimize_tables
-
 from plone import api
-
 from z3c.form.i18n import MessageFactory as _z3c_form
 from z3c.form.interfaces import IContextAware, IDataManager
 from z3c.form.term import MissingChoiceTermsVocabulary, MissingTermsMixin
-
 from zope.component import getMultiAdapter, getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-
-from Products.CMFPlone.utils import safe_unicode
 
 
 class FormatsVocabularyFactory(object):
@@ -157,7 +153,7 @@ def get_existing_pod_templates(context, enabled_only=False):
         if enabled_only and not template.enabled:
             continue
 
-        if template.reusability and template != context:
+        if template.reusable and template != context:
             brains.append(brain)
 
     return brains
