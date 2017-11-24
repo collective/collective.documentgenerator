@@ -227,7 +227,7 @@ def install_demo(context):
                 contentType='application/vnd.oasis.opendocument.text',
                 filename=u'modele_general.odt',
             ),
-            reusable=True,
+            is_reusable=True,
             container=pod_folder,
             pod_formats=['odt'],
             pod_portal_types=['Folder'],
@@ -245,10 +245,8 @@ def install_demo(context):
             exclude_from_nav=True,
             pod_formats=['odt', 'pdf', 'doc', 'docx'],
             pod_portal_types=['Document'],
+            pod_template_to_use=reusable_template.UID()
         )
-        test_template_reuse = getattr(pod_folder, 'test_template_reuse')
-
-        test_template_reuse.pod_template_to_use = reusable_template.UID()
 
 
 @implementer(Plone.INonInstallable)

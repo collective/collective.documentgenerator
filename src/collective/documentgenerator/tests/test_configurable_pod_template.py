@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
+import unittest
 
 from Acquisition import aq_base
-
-from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate, PodFormatsValidator
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-
 from plone import api
-
 from zope.component import queryMultiAdapter
+from zope.i18n import translate
 from zope.interface import Invalid
-
-import unittest
 
 
 class TestConfigurablePODTemplate(unittest.TestCase):
@@ -86,7 +83,7 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         self.browser.open(self.test_podtemplate.absolute_url())
         contents = self.browser.contents
         msg = "field 'merge_templates' is not displayed"
-        self.assertTrue('for="form-widgets-merge_templates"' in contents, msg)
+        self.assertTrue('id="form-widgets-merge_templates"' in contents, msg)
         msg = "field 'merge_templates' is not translated"
         self.assertTrue('Modèles à fusionner' in contents, msg)
 
@@ -205,7 +202,8 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         data = Dummy(merge_templates=[{'pod_context_name': u'uids', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # check duplicated name
-        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}])
+        data = Dummy(
+            merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # no exception
         data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}])
@@ -221,22 +219,90 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
                      context_variables=[{'name': u'self', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # check duplicated name
-        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'}, {'pod_context_name': u'same', 'value': u'1'}],
+        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'},
+                                      {'pod_context_name': u'same', 'value': u'1'}],
                      context_variables=[{'name': u'random1', 'value': u'1'}, {'name': u'random2', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # revert
         data = Dummy(context_variables=[{'name': u'same', 'value': u'1'}, {'name': u'same', 'value': u'1'}],
-                     merge_templates=[{'pod_context_name': u'random1', 'value': u'1'}, {'pod_context_name': u'random2', 'value': u'1'}])
+                     merge_templates=[{'pod_context_name': u'random1', 'value': u'1'},
+                                      {'pod_context_name': u'random2', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # duplicate in both lists
-        data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}],
-                     context_variables=[{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
+        data = Dummy(
+            merge_templates=[{'pod_context_name': u'det', 'value': u'1'}, {'pod_context_name': u'det', 'value': u'1'}],
+            context_variables=[{'name': u'det', 'value': u'1'}, {'name': u'det', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # duplicate 1 in each list
-        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'}, {'pod_context_name': u'random1', 'value': u'1'}],
+        data = Dummy(merge_templates=[{'pod_context_name': u'same', 'value': u'1'},
+                                      {'pod_context_name': u'random1', 'value': u'1'}],
                      context_variables=[{'name': u'same', 'value': u'1'}, {'name': u'random2', 'value': u'1'}])
         self.assertRaises(Invalid, fct, data)
         # no exception
         data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}],
                      context_variables=[{'name': u'something else', 'value': u'1'}])
         self.assertIsNone(fct(data))
+
+    def test_validate_pod_file(self):
+        class Dummy(object):
+            def __init__(self, odt_file=None, pod_template_to_use=None):
+                self.odt_file = odt_file
+                self.pod_template_to_use = pod_template_to_use
+
+        fct = IConfigurablePODTemplate.getTaggedValue('invariants')[1]
+
+        # check no odt_file and no pod_template_to_use
+        self.assertRaises(Invalid, fct, Dummy())
+        Dummy(odt_file=self.test_podtemplate.odt_file)
+        Dummy(pod_template_to_use=self.test_podtemplate.pod_template_to_use)
+        Dummy(odt_file=self.test_podtemplate.odt_file, pod_template_to_use=self.test_podtemplate.pod_template_to_use)
+
+    def test_validate_pod_template_to_use(self):
+        class Dummy(object):
+            def __init__(self, odt_file=None, pod_template_to_use=None, is_reusable=None):
+                self.odt_file = odt_file
+                self.pod_template_to_use = pod_template_to_use
+                self.is_reusable = is_reusable
+
+        fct = IConfigurablePODTemplate.getTaggedValue('invariants')[2]
+
+        Dummy(odt_file=self.test_podtemplate.odt_file)
+        Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=True)
+        Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=False)
+        Dummy(is_reusable=True)
+        Dummy(is_reusable=False)
+
+        data = Dummy(odt_file=self.test_podtemplate.odt_file, pod_template_to_use="test")
+        self.assertRaises(Invalid, fct, data)
+
+        data = Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=True, pod_template_to_use="test")
+        self.assertRaises(Invalid, fct, data)
+
+        data = Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=False, pod_template_to_use="test")
+        self.assertRaises(Invalid, fct, data)
+
+        data = Dummy(is_reusable=True, pod_template_to_use="test")
+        self.assertRaises(Invalid, fct, data)
+
+        Dummy(pod_template_to_use="test", is_reusable=False)
+
+
+class TestConfigurablePODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
+    def test_add_bad_formats_and_get_errormessage(self):
+        pod_template = self.test_podtemplate
+        pod_template.pod_formats.append('xls')
+        view = pod_template.restrictedTraverse('edit')
+        view.update()
+        validator = PodFormatsValidator(pod_template,
+                                        pod_template.REQUEST,
+                                        view,
+                                        IConfigurablePODTemplate['pod_formats'],
+                                        view.widgets['pod_formats'])
+        msg = translate(u"element_not_valid",
+                        default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
+                        mapping={u"elem": "Microsoft Excel (.xls)",
+                                 u"extension": "odt",
+                                 u"template": pod_template.odt_file.filename})
+        with self.assertRaises(Invalid) as cm:
+            validator.validate(pod_template.pod_formats)
+        self.assertEqual(msg, translate(cm.exception.message))
