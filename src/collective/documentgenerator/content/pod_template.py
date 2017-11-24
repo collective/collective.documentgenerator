@@ -225,8 +225,7 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     form.order_before(pod_template_to_use='enabled')
     pod_template_to_use = schema.Choice(
-        title=_(u'Select Existing POD Template'),
-        description=_(u'Choose an existing PDO template to use for this template.'),
+        title=_(u'Select Existing POD Template to reuse'),
         vocabulary='collective.documentgenerator.ExistingPODTemplate',
         required=False,
         default=None

@@ -99,6 +99,22 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
     Test ConfigurablePODTemplate methods.
     """
 
+    def test_get_file(self):
+        msg = "Accessor 'get_file' does not return odt_file field value."
+
+        reusable_template = self.portal.podtemplates.get('test_template_reusable')
+        self.test_podtemplate.pod_template_to_use = reusable_template.UID()
+
+        # template uses odt file from another
+        self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file, msg)
+        # template uses odt file from another
+        self.test_podtemplate.odt_file = None
+        self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file, msg)
+        self.assertEqual(reusable_template.get_file(), reusable_template.odt_file, msg)
+        # basic case without reuse
+        self.test_podtemplate.pod_template_to_use = None
+        self.assertEqual(self.test_podtemplate.get_file(), self.test_podtemplate.odt_file, msg)
+
     def test_generation_condition_registration(self):
         from collective.documentgenerator.content.condition import ConfigurablePODTemplateCondition
 
