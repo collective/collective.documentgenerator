@@ -131,7 +131,7 @@ class TestVocabularies(BaseTest):
         self.assertListEqual([test_podtemplate.UID()], [t.value for t in voc])
 
         reusable_template_2 = self.portal.podtemplates.get('test_template_possibly_mailed')
-        reusable_template_2.reusable = True
+        reusable_template_2.is_reusable = True
 
         voc = vocabulary(self.portal)
         self.assertListEqual([reusable_template_2.UID(), test_podtemplate.UID()], [t.value for t in voc])

@@ -2,7 +2,6 @@
 import copy
 import logging
 
-from Products.CMFCore.interfaces import IDublinCore
 from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
 from collective.documentgenerator.config import NEUTRAL_FORMATS
@@ -18,7 +17,6 @@ from collective.z3cform.datagridfield import DictRow
 from imio.helpers.content import add_to_annotation, del_from_annotation, get_from_annotation
 from plone import api
 from plone.autoform import directives as form
-from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
@@ -30,10 +28,10 @@ from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
 from zope import schema
-from zope.component import provideAdapter, adapter
+from zope.component import provideAdapter
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
-from zope.interface import Interface, provider, implementer
+from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import implements
 from zope.interface import invariant
@@ -81,6 +79,13 @@ class PODTemplate(Item):
     """
 
     implements(IPODTemplate)
+
+    def get_file(self):
+        """
+        Method used in renderer in order to retrieve the odt_file to be used.
+        :return: an odt_file field.
+        """
+        return self.odt_file
 
     def can_be_generated(self, context):
         """
@@ -231,12 +236,13 @@ class IConfigurablePODTemplate(IPODTemplate):
     ConfigurablePODTemplate dexterity schema.
     """
 
-    form.order_before(reusable='enabled')
-    form.widget('reusable', SingleCheckBoxFieldWidget)
-    reusable = schema.List(
+    form.order_before(is_reusable='enabled')
+    form.widget('is_reusable', SingleCheckBoxFieldWidget)
+    is_reusable = schema.Bool(
         title=_(u'Reusable'),
         description=_(u'Check if this POD Template can be reused by other POD Template'),
         required=False,
+        default=False
     )
 
     form.order_before(pod_template_to_use='enabled')
@@ -245,6 +251,7 @@ class IConfigurablePODTemplate(IPODTemplate):
         description=_(u'Choose an existing PDO template to use for this template.'),
         vocabulary='collective.documentgenerator.ExistingPODTemplate',
         required=False,
+        default=None
     )
 
     form.widget('pod_formats', OrderedSelectFieldWidget, multiple='multiple', size=5)
@@ -329,7 +336,7 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     @invariant
     def validate_pod_template_to_use(data):
-        if data.pod_template_to_use and (data.reusable or data.odt_file):
+        if data.pod_template_to_use and (data.is_reusable or data.odt_file):
             raise Invalid(_(
                 "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."),
                 schema)
@@ -342,8 +349,6 @@ validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurable
 provideAdapter(PodFormatsValidator)
 
 
-@implementer(IConfigurablePODTemplate)
-@adapter(IDublinCore)
 class ConfigurablePODTemplate(PODTemplate):
     """
     ConfigurablePODTemplate dexterity class.
@@ -353,25 +358,24 @@ class ConfigurablePODTemplate(PODTemplate):
 
     parent_pod_annotation_key = 'linked_child_templates'
 
+    def get_file(self):
+        """
+        Method used in renderer in order to retrieve the odt_file to be used.
+        :return: an odt_file field.
+        """
+        if self.pod_template_to_use:
+            return api.content.get(UID=self.pod_template_to_use).odt_file
+        return self.odt_file
+
     def __setattr__(self, key, value):
-        # do not attempt to register annotation if object not created yet.
-        # object has no id until fully created
-        if self.id and key == 'pod_template_to_use':
-            if self.pod_template_to_use != value:
+        if key == 'pod_template_to_use':
+            if hasattr(self, 'pod_template_to_use') and self.pod_template_to_use != value:
                 if self.pod_template_to_use:
                     self.del_parent_pod_annotation()
-                super(ConfigurablePODTemplate, self).__setattr__(key, value)
-                self.add_parent_pod_annotation()
+            super(ConfigurablePODTemplate, self).__setattr__(key, value)
+            self.add_parent_pod_annotation()
         else:
             super(ConfigurablePODTemplate, self).__setattr__(key, value)
-
-    def __getattr__(self, key):
-        value = super(ConfigurablePODTemplate, self).__getattr__(key)
-
-        if key == 'odt_file' and not value and self.pod_template_to_use:
-            value = api.content.get(UID=self.pod_template_to_use).odt_file
-
-        return value
 
     def has_linked_template(self):
         return self.pod_template_to_use is not None
@@ -428,8 +432,13 @@ class ConfigurablePODTemplate(PODTemplate):
 
     def add_parent_pod_annotation(self):
         if self.pod_template_to_use:
-            add_to_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(),
-                              uid=self.pod_template_to_use)
+            try:
+                add_to_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(),
+                                  uid=self.pod_template_to_use)
+            except TypeError:
+                pass
+                # object has no UID yet. It will be retried when IObjectCreatedEvent will be triggered
+                # for some reasons, isinstance(self, IUUID) always returns False
 
     def del_parent_pod_annotation(self):
         if hasattr(self, 'pod_template_to_use') and self.pod_template_to_use:
@@ -445,13 +454,13 @@ class ConfigurablePODTemplate(PODTemplate):
 
         Handles the case when the uid doesn't match any object by deleting the uid from anotation.
         """
-        res = []
+        res = set()
         annotated = get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self)
         if annotated:
             for uid in annotated:
                 child = api.content.get(UID=uid)
                 if child:
-                    res.append(child)
+                    res.add(child)
                 else:
                     # child doesn't exist anymore. api.content.get returned None
                     del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)

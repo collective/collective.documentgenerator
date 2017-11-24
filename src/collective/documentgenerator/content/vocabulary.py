@@ -153,7 +153,7 @@ def get_existing_pod_templates(context, enabled_only=False):
         if enabled_only and not template.enabled:
             continue
 
-        if template.reusable and template != context:
+        if template.is_reusable and template != context:
             brains.append(brain)
 
     return brains
