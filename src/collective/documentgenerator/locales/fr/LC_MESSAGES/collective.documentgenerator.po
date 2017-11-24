@@ -34,7 +34,23 @@ msgstr "Actions"
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:231
+#: ../content/pod_template.py:220
+msgid "Reusable"
+msgstr "Réutilisable"
+
+#: ../content/pod_template.py:220
+msgid "Check if this POD Template can be reused by other POD Template"
+msgstr "Cocher si ce modèle canvas odt peut-être réutilisé dans d'autres modèles de documents POD"
+
+#: ../content/pod_template.py:228
+msgid "Select Existing POD Template to reuse"
+msgstr "Choisir un modèle de document POD existant à réutiliser"
+
+#: ../content/pod_template.py:228
+msgid "Check if this POD Template can be reused by other POD Template"
+msgstr "Cocher si ce modèle canvas odt peut-être réutilisé dans d'autres modèles de documents POD"
+
+#: ../content/pod_template.py:210
 msgid "Available formats"
 msgstr "Formats disponibles"
 

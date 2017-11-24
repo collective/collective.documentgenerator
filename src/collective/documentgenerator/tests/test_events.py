@@ -45,7 +45,7 @@ class TestEvents(PODTemplateIntegrationTest):
     def test_crud_configurable_template_reusing_another(self):
         reusable_template = self.portal.podtemplates.get('test_template_reusable')
         template_reuse = self.portal.podtemplates.get('test_template_reuse')
-        self.assertEqual(reusable_template.get_children_pod_template(), {template_reuse})
+        self.assertSetEqual(reusable_template.get_children_pod_template(), {template_reuse})
 
         temp_template = self._get_new_template_reusing_another()
         self.assertSetEqual(reusable_template.get_children_pod_template(), {temp_template, template_reuse})
