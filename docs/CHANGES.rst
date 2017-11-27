@@ -4,8 +4,8 @@ Changelog
 3.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Corrected collection template
+  [sgeulette]
 
 3.0.5 (2017-11-16)
 ------------------
