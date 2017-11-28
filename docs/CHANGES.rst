@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.6 (unreleased)
+3.0.6 (2017-11-28)
 ------------------
 
 - Corrected collection template
