@@ -6,6 +6,8 @@ Changelog
 
 - Corrected collection template
   [sgeulette]
+- Fix bug in styles update
+  [sgeulette]
 
 3.0.5 (2017-11-16)
 ------------------

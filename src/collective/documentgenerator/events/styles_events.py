@@ -35,7 +35,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
         for brain in pod_templates:
             pod_template = brain.getObject()
             if pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
-                return
+                continue
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
                 logger.info(' {} => updated'.format(pod_template.Title()))
