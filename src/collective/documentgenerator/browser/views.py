@@ -41,6 +41,7 @@ class TemplatesListing(BrowserView):
 
     def update(self):
         self.table = self.__table__(self.context, self.request)
+        self.table.__name__ = u'dg-templates-listing'
         catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.searchResults(**self.query_dict())
         # sort by parent path and by position

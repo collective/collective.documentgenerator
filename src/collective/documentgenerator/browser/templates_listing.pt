@@ -11,7 +11,9 @@
   <metal:content-core define-macro="content-core">
 
     <tal:block define="results view/table/values;" tal:condition="results">
+      <div id="dg-batch"><tal:batch replace="structure view/table/renderBatch" /></div>
       <tal:listing replace="structure view/table/render" />
+      <div id="dg-batch"><tal:batch replace="structure view/table/renderBatch" /></div>
     </tal:block>
 
   </metal:content-core>

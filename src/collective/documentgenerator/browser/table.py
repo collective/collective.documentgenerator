@@ -21,8 +21,9 @@ class TemplatesTable(Table):
     cssClassOdd = u'odd'
     cssClasses = {'table': 'listing nosort templates-listing icons-on'}
 
-    batchSize = 30
-    startBatchingAt = 35
+    # ?table-batchSize=10&table-batchStart=30
+    batchSize = 200
+    startBatchingAt = 200
     sortOn = None
     results = []
 

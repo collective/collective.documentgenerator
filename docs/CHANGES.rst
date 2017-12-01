@@ -4,8 +4,8 @@ Changelog
 3.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Include batch in templates listing.
+  [sgeulette]
 
 3.0.6 (2017-11-28)
 ------------------

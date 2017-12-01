@@ -22,6 +22,19 @@ div#doc-generation-view {
     line-height: 1.1em !important;
 }
 
+.template-dg-templates-listing #dg-batch {
+    padding-bottom: 0.15em;
+}
+
+.template-dg-templates-listing #dg-batch a {
+    border: 1px solid #CCCCCC !important;
+    padding: 0.15em;
+}
+
+.template-dg-templates-listing #dg-batch a.current{
+    border: 0px !important;
+}
+
 /* icons */
 
 span.icon-controlpanel-collective_documentgenerator_settings::before {
@@ -67,4 +80,3 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
 {
     display: none
 }
-
