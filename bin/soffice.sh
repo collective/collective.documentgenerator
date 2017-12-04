@@ -28,6 +28,10 @@ function do_start()
         echo "LibreOffice headless server has already started."
         exit
     fi
+    if lsof -i tcp:2002 >/dev/null; then
+        echo "A process is already using the 2002 port."
+        exit
+    fi
     echo "Starting LibreOffice headless server..."
     $SOFFICE_PATH --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
     PID=$(get_pid)
