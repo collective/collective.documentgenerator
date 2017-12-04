@@ -128,5 +128,5 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
 
         # then format date
         custom_format = custom_format.replace('_p_c_', '%%')
-        formatted_date = date.strftime(custom_format)
+        formatted_date = date.strftime(custom_format.encode('utf8'))
     return safe_unicode(formatted_date)

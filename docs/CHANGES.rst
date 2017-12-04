@@ -6,6 +6,8 @@ Changelog
 
 - Include batch in templates listing.
   [sgeulette]
+- Corrected encoding error in date display
+  [sgeulette]
 
 3.0.6 (2017-11-28)
 ------------------
