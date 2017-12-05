@@ -112,7 +112,8 @@ def install_demo(context):
                 filename=u'mailing.odt',
             ),
             container=pod_folder,
-            exclude_from_nav=True
+            exclude_from_nav=True,
+            style_template=[style_template.UID()],
         )
     loop_template = getattr(pod_folder, 'loop_template')
 

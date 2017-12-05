@@ -10,4 +10,5 @@ omit =
     src/collective/documentgenerator/demo/*
     src/collective/documentgenerator/events/__init__.py
     src/collective/documentgenerator/helper/__init__.py
+    src/collective/documentgenerator/migrations/*
     src/collective/documentgenerator/viewlets/__init__.py
