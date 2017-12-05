@@ -4,8 +4,8 @@ Changelog
 3.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added style template on MailingLoopTemplate type.
+  [sgeulette]
 
 3.0.7 (2017-12-04)
 ------------------

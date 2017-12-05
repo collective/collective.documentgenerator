@@ -392,6 +392,14 @@ class IMailingLoopTemplate(IPODTemplate):
     PODTemplate used only to loop for mailing
     """
 
+    form.widget('style_template', SelectWidget)
+    style_template = schema.List(
+        title=_(u'Style template'),
+        description=_(u'Choose the style template to apply for this template.'),
+        value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
+        required=True,
+    )
+
 
 class MailingLoopTemplate(PODTemplate):
     """
@@ -399,6 +407,27 @@ class MailingLoopTemplate(PODTemplate):
     """
 
     implements(IMailingLoopTemplate)
+
+    def get_style_template(self):
+        """
+        Return associated StylesTemplate from which styles will be imported
+        to the current PODTemplate.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        style_template_UID = self.style_template
+        if not style_template_UID:
+            # do not query catalog if no style_template
+            return
+
+        style_template_brain = catalog(UID=style_template_UID)
+
+        if style_template_brain:
+            style_template = style_template_brain[0].getObject()
+        else:
+            style_template = None
+
+        return style_template
+
 
 POD_TEMPLATE_TYPES = {
     PODTemplate.__name__: PODTemplate,
