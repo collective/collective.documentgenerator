@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.8 (unreleased)
+3.0.8 (2017-12-11)
 ------------------
 
 - Added style template on basic Template type.
