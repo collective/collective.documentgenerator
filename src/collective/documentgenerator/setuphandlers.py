@@ -97,7 +97,8 @@ def install_demo(context):
                 filename=u'sub_template.odt',
             ),
             container=pod_folder,
-            exclude_from_nav=True
+            exclude_from_nav=True,
+            style_template=[style_template.UID()],
         )
     sub_template = getattr(pod_folder, sub_template_id)
 
