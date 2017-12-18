@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-12-14 14:42+0000\n"
+"POT-Creation-Date: 2017-12-18 12:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,11 +34,11 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: ../content/pod_template.py:236
+#: ../content/pod_template.py:252
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:227
+#: ../content/pod_template.py:243
 msgid "Available formats"
 msgstr ""
 
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:266
+#: ../content/pod_template.py:282
 msgid "Choose the mailing loop template to apply for this template."
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:163
+#: ../setuphandlers.py:165
 msgid "Collection template"
 msgstr ""
 
@@ -78,7 +78,7 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:255
+#: ../content/pod_template.py:271
 msgid "Context variables."
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: ../content/pod_template.py:168
+#: ../content/pod_template.py:172
 msgid "Do rendering"
 msgstr ""
 
@@ -108,19 +108,19 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:251
+#: ../browser/generation_view.py:252
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:249
+#: ../browser/generation_view.py:250
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:256
+#: ../browser/generation_view.py:257
 msgid "Error when merging mailed_data in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:416
+#: ../browser/generation_view.py:417
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
@@ -136,7 +136,7 @@ msgstr ""
 msgid "Force enable"
 msgstr ""
 
-#: ../setuphandlers.py:125
+#: ../setuphandlers.py:126
 msgid "General template"
 msgstr ""
 
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Invalid phone number: '${nb}'"
 msgstr ""
 
-#: ../content/pod_template.py:265
+#: ../content/pod_template.py:281
 #: ../setuphandlers.py:109
 msgid "Mailing loop template"
 msgstr ""
@@ -185,11 +185,11 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: ../setuphandlers.py:139
+#: ../setuphandlers.py:140
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:204
+#: ../content/pod_template.py:208
 msgid "No format selected"
 msgstr ""
 
@@ -199,7 +199,7 @@ msgid "ODT File"
 msgstr ""
 
 #: ../browser/controlpanel.py:58
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:288
 msgid "Optimize tables"
 msgstr ""
 
@@ -211,7 +211,7 @@ msgstr ""
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:162
+#: ../content/pod_template.py:166
 msgid "POD context name"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 msgid "Port Number of OO."
 msgstr ""
 
-#: ../setuphandlers.py:210
+#: ../setuphandlers.py:214
 msgid "Possibly mailed template"
 msgstr ""
 
@@ -247,19 +247,23 @@ msgstr ""
 msgid "Raise an error instead generating the document"
 msgstr ""
 
+#: ../content/pod_template.py:228
+msgid "Rename page styles"
+msgstr ""
+
 #: ../browser/controlpanel.py:86
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:237
+#: ../content/pod_template.py:253
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:228
+#: ../content/pod_template.py:244
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:193
+#: ../setuphandlers.py:196
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -283,39 +287,43 @@ msgstr ""
 msgid "SubTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:156
+#: ../content/pod_template.py:160
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:244
+#: ../content/pod_template.py:260
 msgid "Templates to merge."
 msgstr ""
 
-#: ../content/pod_template.py:256
+#: ../content/pod_template.py:272
 msgid "These context variables are added to the odt_file context."
+msgstr ""
+
+#: ../content/pod_template.py:229
+msgid "This activates renamePageStyles parameter on appy renderer, useful when merging documents with different headers or footers."
 msgstr ""
 
 #: ../browser/controlpanel.py:59
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr ""
 
-#: ../content/pod_template.py:273
+#: ../content/pod_template.py:289
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
 msgstr ""
 
-#: ../content/pod_template.py:182
+#: ../content/pod_template.py:186
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:177
+#: ../content/pod_template.py:181
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:293
+#: ../content/pod_template.py:309
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:296
+#: ../content/pod_template.py:312
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
@@ -336,7 +344,7 @@ msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:212
 msgid "element_not_valid"
 msgstr ""
 

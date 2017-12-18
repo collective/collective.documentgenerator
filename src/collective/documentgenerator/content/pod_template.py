@@ -147,6 +147,10 @@ class PODTemplate(Item):
         """By default, return -1 meaning use global config value."""
         return -1
 
+    def get_rename_page_styles(self):
+        """ rename_page_styles is only available on ConfigurablePODTemplate """
+        return False
+
 
 class IMergeTemplatesRowSchema(Interface):
     """
@@ -217,7 +221,19 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                 return element[1]
 
 
-class IConfigurablePODTemplate(IPODTemplate):
+class IRenamePageStylesSchema(model.Schema):
+
+    form.widget('rename_page_styles', RadioFieldWidget)
+    rename_page_styles = schema.Bool(
+        title=_(u'Rename page styles'),
+        description=_(u'This activates renamePageStyles parameter on appy renderer, useful when merging documents '
+                      u'with different headers or footers.'),
+        default=False,
+        required=False,
+    )
+
+
+class IConfigurablePODTemplate(IPODTemplate, IRenamePageStylesSchema):
     """
     ConfigurablePODTemplate dexterity schema.
     """
@@ -361,6 +377,9 @@ class ConfigurablePODTemplate(PODTemplate):
     def get_optimize_tables(self):
         return self.optimize_tables
 
+    def get_rename_page_styles(self):
+        return self.rename_page_styles
+
 
 class ISubTemplate(IPODTemplate):
     """
@@ -376,7 +395,7 @@ class SubTemplate(PODTemplate):
     implements(ISubTemplate)
 
 
-class IMailingLoopTemplate(IPODTemplate):
+class IMailingLoopTemplate(IPODTemplate, IRenamePageStylesSchema):
     """
     PODTemplate used only to loop for mailing
     """
@@ -388,6 +407,9 @@ class MailingLoopTemplate(PODTemplate):
     """
 
     implements(IMailingLoopTemplate)
+
+    def get_rename_page_styles(self):
+        return self.rename_page_styles
 
 
 POD_TEMPLATE_TYPES = {

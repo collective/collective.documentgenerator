@@ -4,6 +4,8 @@ Changelog
 3.0.9 (unreleased)
 ------------------
 
+- Added rename_page_styles field and used it as renderer parameter.
+  [sgeulette]
 - Added plone translations.
   [sgeulette]
 

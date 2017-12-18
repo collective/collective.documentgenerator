@@ -218,7 +218,7 @@ class DocumentGenerationView(BrowserView):
             forceOoCall=True,
             optimalColumnWidths=optimalColumnWidths,
             stylesMapping=stylesMapping,
-            renamePageStyles=True,
+            renamePageStyles=pod_template.get_rename_page_styles(),
             **kwargs
         )
 

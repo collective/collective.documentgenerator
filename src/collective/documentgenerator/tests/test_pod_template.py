@@ -183,6 +183,10 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     def test_get_available_formats(self):
         self.assertEqual(self.test_podtemplate.get_available_formats(), ['odt', ])
 
+    def test_get_rename_page_styles(self):
+        pod_template = self.test_podtemplate
+        self.assertFalse(pod_template.get_rename_page_styles())
+
 
 class TestPODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
 

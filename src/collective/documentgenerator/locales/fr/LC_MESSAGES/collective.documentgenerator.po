@@ -30,11 +30,11 @@ msgstr "Un document à générer depuis un type de contenu."
 msgid "Actions"
 msgstr "Actions"
 
-#: ../content/pod_template.py:236
+#: ../content/pod_template.py:252
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:227
+#: ../content/pod_template.py:243
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -58,7 +58,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:266
+#: ../content/pod_template.py:282
 msgid "Choose the mailing loop template to apply for this template."
 msgstr "Sélectionnez le modèle de boucle de publipostage."
 
@@ -66,7 +66,7 @@ msgstr "Sélectionnez le modèle de boucle de publipostage."
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:163
+#: ../setuphandlers.py:165
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -74,7 +74,7 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../content/pod_template.py:255
+#: ../content/pod_template.py:271
 msgid "Context variables."
 msgstr "Variables du contexte"
 
@@ -86,7 +86,7 @@ msgstr "Collision dans la mise à jour du dictionnaire"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: ../content/pod_template.py:168
+#: ../content/pod_template.py:172
 msgid "Do rendering"
 msgstr "Pré-rendu"
 
@@ -104,19 +104,19 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:251
+#: ../browser/generation_view.py:252
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:249
+#: ../browser/generation_view.py:250
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:256
+#: ../browser/generation_view.py:257
 msgid "Error when merging mailed_data in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
 
-#: ../browser/generation_view.py:416
+#: ../browser/generation_view.py:417
 msgid "Error when merging mailing_list in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
 
@@ -132,7 +132,7 @@ msgstr "Désactiver (ignorer la valeur globale)"
 msgid "Force enable"
 msgstr "Activer (ignorer la valeur globale)"
 
-#: ../setuphandlers.py:125
+#: ../setuphandlers.py:126
 msgid "General template"
 msgstr "Modèle général"
 
@@ -168,7 +168,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Invalid phone number: '${nb}'"
 msgstr "Numéro de téléphone non valide: '${nb}'"
 
-#: ../content/pod_template.py:265
+#: ../content/pod_template.py:281
 #: ../setuphandlers.py:109
 msgid "Mailing loop template"
 msgstr "Modèle de boucle de publipostage"
@@ -181,11 +181,11 @@ msgstr "Modèle de boucle de publipostage"
 msgid "Modified"
 msgstr "Modifié"
 
-#: ../setuphandlers.py:139
+#: ../setuphandlers.py:140
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:204
+#: ../content/pod_template.py:208
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -195,7 +195,7 @@ msgid "ODT File"
 msgstr "Canevas"
 
 #: ../browser/controlpanel.py:58
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:288
 msgid "Optimize tables"
 msgstr "Optimiser les tables"
 
@@ -207,7 +207,7 @@ msgstr "Original"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:162
+#: ../content/pod_template.py:166
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -231,7 +231,7 @@ msgstr "Formats"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../setuphandlers.py:210
+#: ../setuphandlers.py:214
 msgid "Possibly mailed template"
 msgstr "Modèle qui peut être publiposté"
 
@@ -243,19 +243,23 @@ msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${er
 msgid "Raise an error instead generating the document"
 msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
 
+#: ../content/pod_template.py:228
+msgid "Rename page styles"
+msgstr "Renommer les styles de page"
+
 #: ../browser/controlpanel.py:86
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:237
+#: ../content/pod_template.py:253
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:228
+#: ../content/pod_template.py:244
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:193
+#: ../setuphandlers.py:196
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -279,39 +283,43 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:156
+#: ../content/pod_template.py:160
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:244
+#: ../content/pod_template.py:260
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../content/pod_template.py:256
+#: ../content/pod_template.py:272
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
+
+#: ../content/pod_template.py:229
+msgid "This activates renamePageStyles parameter on appy renderer, useful when merging documents with different headers or footers."
+msgstr "Ceci active le paramètre renamePageStyles du moteur de rendu, nécessaire quand on associe plusieurs documents avec des entêtes ou pieds de page différents."
 
 #: ../browser/controlpanel.py:59
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\"."
 
-#: ../content/pod_template.py:273
+#: ../content/pod_template.py:289
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\".  Utilisez soit la valeur globale, ou ignorez là en fixant une valeur (activé/désactivé) pour ce seul modèle de document POD."
 
-#: ../content/pod_template.py:182
+#: ../content/pod_template.py:186
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:177
+#: ../content/pod_template.py:181
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:293
+#: ../content/pod_template.py:309
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:296
+#: ../content/pod_template.py:312
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
@@ -332,7 +340,7 @@ msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:212
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
