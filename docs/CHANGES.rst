@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.9 (unreleased)
+3.0.9 (2017-12-18)
 ------------------
 
 - Added rename_page_styles field and used it as renderer parameter.
