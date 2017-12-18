@@ -218,6 +218,7 @@ class DocumentGenerationView(BrowserView):
             forceOoCall=True,
             optimalColumnWidths=optimalColumnWidths,
             stylesMapping=stylesMapping,
+            renamePageStyles=True,
             **kwargs
         )
 

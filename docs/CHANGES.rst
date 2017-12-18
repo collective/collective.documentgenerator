@@ -4,8 +4,8 @@ Changelog
 3.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added plone translations.
+  [sgeulette]
 
 3.0.8 (2017-12-11)
 ------------------
