@@ -15,6 +15,12 @@
     />
 
     <adapter
+      for="collective.documentgenerator.content.pod_template.IMailingLoopTemplate
+           zope.interface.Interface"
+      factory=".condition.PODTemplateCondition"
+    />
+
+    <adapter
       for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
            zope.interface.Interface"
       factory=".condition.ConfigurablePODTemplateCondition"
