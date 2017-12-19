@@ -4,8 +4,8 @@ Changelog
 3.0.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Use `edit_action_target` in view action column.
+  [sgeulette]
 
 3.0.9 (2017-12-18)
 ------------------
