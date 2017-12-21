@@ -6,6 +6,9 @@ Changelog
 
 - Use `edit_action_target` in view action column.
   [sgeulette]
+- Do not use CSS to manage contenttype icon,
+  we have an icon_epxr on the portal_types.
+  [gbastien]
 
 3.0.9 (2017-12-18)
 ------------------
