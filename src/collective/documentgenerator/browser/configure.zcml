@@ -64,6 +64,16 @@
 
     <!-- z3c.table -->
     <adapter
+        zcml:condition="installed collective.eeafaceted.batchactions"
+        name="select_row"
+        for="zope.interface.Interface
+             zope.publisher.interfaces.browser.IBrowserRequest
+             .table.TemplatesTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.CheckBoxColumn"
+        />
+
+    <adapter
         name="TitleColumn"
         for="zope.interface.Interface
              zope.interface.Interface
@@ -135,4 +145,14 @@
         provides="z3c.table.interfaces.IColumn"
         factory=".table.DownloadColumn"
         />
+
+    <!-- batchactions -->
+    <browser:viewlet
+        zcml:condition="installed collective.eeafaceted.batchactions"
+        name="collective.eeafaceted.batchactions"
+        for="collective.eeafaceted.batchactions.interfaces.IBatchActionsMarker"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class="collective.eeafaceted.batchactions.browser.viewlets.BatchActionsViewlet"
+        permission="zope2.View" />
+
 </configure>

@@ -9,6 +9,9 @@ Changelog
 - Do not use CSS to manage contenttype icon,
   we have an icon_epxr on the portal_types.
   [gbastien]
+- Use collective.eeafaceted.batchactions, if present.
+  Add a selection column and a batch transition button
+  [sgeulette]
 
 3.0.9 (2017-12-18)
 ------------------

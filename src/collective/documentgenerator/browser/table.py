@@ -51,6 +51,22 @@ class TemplatesTable(Table):
         return self.results
 
 
+try:
+    from collective.eeafaceted.z3ctable.columns import CheckBoxColumn as cbc
+    cbc_base = cbc
+except ImportError:
+    cbc_base = Column
+
+
+class CheckBoxColumn(cbc_base):
+    """ checkbox column used for batch actions """
+
+    weight = 5
+
+    def getValue(self, item):
+        return item.UID()
+
+
 class TitleColumn(LinkColumn):
 
     """Column that displays title."""
