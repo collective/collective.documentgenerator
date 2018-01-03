@@ -3,7 +3,7 @@
 
 import html
 from Products.CMFPlone import PloneMessageFactory as PMF
-from Products.CMFPlone.utils import safe_unicode, normalizeString, base_hasattr
+from Products.CMFPlone.utils import safe_unicode, base_hasattr
 from collective.documentgenerator import _
 from plone import api
 from z3c.table.column import Column, LinkColumn
@@ -74,13 +74,29 @@ class TitleColumn(LinkColumn):
     header = PMF("Title")
     weight = 10
     cssClasses = {'td': 'title-column'}
+    i_cache = {}
+
+    def _icons(self, item):
+        """See docstring in interfaces.py."""
+        if item.portal_type not in self.i_cache:
+            icon_link = ''
+            purl = api.portal.get_tool('portal_url')()
+            typeInfo = api.portal.get_tool('portal_types')[item.portal_type]
+            if typeInfo.icon_expr:
+                # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.png
+                # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.png
+                contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
+                title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
+                icon_link = u"<img title='%s' src='%s/%s' />" % (safe_unicode(title), purl, contentIcon)
+            self.i_cache[item.portal_type] = icon_link
+        return self.i_cache[item.portal_type]
 
     def getLinkCSS(self, item):
-        return ' class="state-%s contenttype-%s"' % (api.content.get_state(obj=item),
-                                                     normalizeString(item.portal_type))
+        return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))
 
     def getLinkContent(self, item):
-        return safe_unicode(item.title)
+        return u"<span class='pretty_link_icons'>%s</span>" \
+            u"<span class='pretty_link_content'>%s</span>" % (self._icons(item), safe_unicode(item.title))
 
 
 class PathColumn(LinkColumn):

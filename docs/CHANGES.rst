@@ -12,6 +12,8 @@ Changelog
 - Use collective.eeafaceted.batchactions, if present.
   Add a selection column and a batch transition button
   [sgeulette]
+- Use portal type icon to display in table view.
+  [sgeulette]
 
 3.0.9 (2017-12-18)
 ------------------
