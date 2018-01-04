@@ -35,10 +35,6 @@ class TemplatesTable(Table):
         self.paths = {'': '-'}
 
     @CachedProperty
-    def translation_service(self):
-        return api.portal.get_tool('translation_service')
-
-    @CachedProperty
     def wtool(self):
         return api.portal.get_tool('portal_workflow')
 

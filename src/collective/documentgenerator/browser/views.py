@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from OFS.interfaces import IOrderedContainer
@@ -25,7 +26,6 @@ class TemplatesListing(BrowserView):
 
     def __init__(self, context, request):
         super(TemplatesListing, self).__init__(context, request)
-        self.context_path_len = len(self.context.absolute_url_path().split('/'))
 
     def query_dict(self):
         crit = {'object_provides': self.provides}
@@ -44,22 +44,23 @@ class TemplatesListing(BrowserView):
         self.table.__name__ = u'dg-templates-listing'
         catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.searchResults(**self.query_dict())
-        # sort by parent path and by position
-        res = [(brain.getObject(),
-                '/'.join(brain.getPath().split('/')[self.context_path_len:-1])) for brain in brains]
+        res = [(brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains]
 
         def keys(param):
+            """ Goal: order by level of folder, parent folder, position in folder,"""
             (obj, path) = param
+            level = len(path.split('/'))
             parent = aq_parent(aq_inner(obj))
             ordered = IOrderedContainer(parent, None)
             if ordered is not None:
-                return (path, ordered.getObjectPosition(obj.getId()))
-            return (path, 0)
+                return (level, path, ordered.getObjectPosition(obj.getId()))
+            return (level, path, 0)
 
+        # sort by parent path and by position
         self.table.results = [tup[0] for tup in sorted(res, key=keys)]
         self.table.update()
 
-    def __call__(self, search_depth=None, local_search=None):
+    def __call__(self, local_search=None, search_depth=None):
         """
             search_depth = int value (0)
             local_search = bool value
