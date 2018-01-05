@@ -2,6 +2,7 @@
 """Define tables and columns."""
 
 import html
+import os
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode, base_hasattr
 from collective.documentgenerator import _
@@ -31,8 +32,8 @@ class TemplatesTable(Table):
         super(TemplatesTable, self).__init__(context, request)
         self.portal = api.portal.getSite()
         self.context_path = self.context.absolute_url_path()
-        self.context_path_len = len(self.context_path)
-        self.paths = {'': '-'}
+        self.context_path_level = len(self.context_path.split('/'))
+        self.paths = {'.': '-'}
 
     @CachedProperty
     def wtool(self):
@@ -57,6 +58,7 @@ except ImportError:
 class CheckBoxColumn(cbc_base):
     """ checkbox column used for batch actions """
 
+    cssClasses = {'td': 'select-column'}
     weight = 5
 
     def getValue(self, item):
@@ -83,7 +85,7 @@ class TitleColumn(LinkColumn):
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.png
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
                 title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
-                icon_link = u"<img title='%s' src='%s/%s' />" % (safe_unicode(title), purl, contentIcon)
+                icon_link = u'<img title="%s" src="%s/%s" />' % (safe_unicode(title), purl, contentIcon)
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 
@@ -91,8 +93,8 @@ class TitleColumn(LinkColumn):
         return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))
 
     def getLinkContent(self, item):
-        return u"<span class='pretty_link_icons'>%s</span>" \
-            u"<span class='pretty_link_content'>%s</span>" % (self._icons(item), safe_unicode(item.title))
+        return u'<span class="pretty_link_icons">%s</span>' \
+            u'<span class="pretty_link_content">%s</span>' % (self._icons(item), safe_unicode(item.title))
 
 
 class PathColumn(LinkColumn):
@@ -108,15 +110,27 @@ class PathColumn(LinkColumn):
         """Setup link url."""
         return item.__parent__.absolute_url()
 
-    def getLinkContent(self, item):
-        path = item.absolute_url_path()[self.table.context_path_len:-(len(item.id)) - 1]
-        if path not in self.table.paths:
-            parent_path = '/'.join(path.split('/')[:-1])
-            if parent_path:
-                self.table.paths[path] = '%s / %s' % (self.table.paths[parent_path], item.__parent__.title)
+    def rel_path_title(self, rel_path):
+        parts = rel_path.split('/')
+        context = self.table.context
+        for i, part in enumerate(parts):
+            current_path = '/'.join(parts[:i + 1])
+            parent_path = '/'.join(parts[:i])
+            if part == '..':
+                current_title = u'..'
+                context = context.__parent__
             else:
-                self.table.paths[path] = item.__parent__.title
-        return self.table.paths[path]
+                context = context[part]
+                current_title = context.title
+            self.table.paths[current_path] = (parent_path and u'%s/%s' % (self.table.paths[parent_path],
+                                              current_title) or current_title)
+
+    def getLinkContent(self, item):
+        path = os.path.dirname(item.absolute_url_path())
+        rel_path = os.path.relpath(path, self.table.context_path)
+        if rel_path not in self.table.paths:
+            self.rel_path_title(rel_path)
+        return self.table.paths[rel_path]
 
 
 class EnabledColumn(Column):
