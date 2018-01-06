@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.10 (unreleased)
+3.0.10 (2018-01-06)
 -------------------
 
 - Use `edit_action_target` in view action column.
