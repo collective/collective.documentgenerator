@@ -223,11 +223,9 @@ class DocumentGenerationView(BrowserView):
         )
 
         # it is only now that we can initialize helper view's appy pod renderer
-        if 'view' in generation_context:
-            # helper_view has maybe changed in generation context getter
-            generation_context['view']._set_appy_renderer(renderer)
-        else:
-            helper_view._set_appy_renderer(renderer)
+        all_helper_views = self.get_views_for_appy_renderer(generation_context, helper_view)
+        for view in all_helper_views:
+            view._set_appy_renderer(renderer)
 
         renderer.run()
 
@@ -272,6 +270,16 @@ class DocumentGenerationView(BrowserView):
         helper_view.pod_template = self.pod_template
         helper_view.output_format = self.output_format
         return helper_view
+
+    def get_views_for_appy_renderer(self, generation_context, helper_view):
+        views = []
+        if 'view' in generation_context:
+            # helper_view has maybe changed in generation context getter
+            views.append(generation_context['view'])
+        else:
+            views.append(helper_view)
+
+        return views
 
     def _set_header_response(self, filename):
         """
