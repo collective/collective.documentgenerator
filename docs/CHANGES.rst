@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.11 (unreleased)
+3.0.11 (2018-01-17)
 -------------------
 
 - Add hook to provides all helper view to be updated with
