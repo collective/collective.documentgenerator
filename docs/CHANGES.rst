@@ -4,7 +4,9 @@ Changelog
 3.0.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add hook to provides all helper view to be updated with
+  appy renderer
+  [sdelcourt]
 
 
 3.0.10 (2018-01-06)
@@ -20,9 +22,6 @@ Changelog
   [sgeulette]
 - Use portal type icon to display in table view.
   [sgeulette]
-- Add hook to provides all helper view to be updated with
-  appy renderer
-  [sdelcourt]
 
 3.0.9 (2017-12-18)
 ------------------
