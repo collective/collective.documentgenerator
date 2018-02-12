@@ -4,8 +4,8 @@ Changelog
 3.0.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Update renderer parameters: managePageStyles and resolveFields.
+  [sgeulette]
 
 3.0.11 (2018-01-17)
 -------------------

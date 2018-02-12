@@ -38,7 +38,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
                 continue
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
-                logger.info(' {} => updated'.format(pod_template.Title()))
+                logger.info('"{}" => updated'.format(pod_template.Title()))
 
     # delete temporary styles files
     os.remove(style_template_file.name)
@@ -66,6 +66,7 @@ def update_PODtemplate_styles(pod_template, event):
     style_odt = style_template.odt_file
     style_template_file = create_temporary_file(style_odt, 'style_template.odt')
     _update_template_styles(pod_template, style_template_file.name)
+    logger.info('"{}" => updated'.format(pod_template.Title()))
 
 
 def _update_template_styles(pod_template, style_template_filename):
