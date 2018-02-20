@@ -6,6 +6,8 @@ Changelog
 
 - Update renderer parameters: managePageStyles and resolveFields.
   [sgeulette]
+- Removed rename_page_styles field from pod template schema.
+  [sgeulette]
 
 3.0.11 (2018-01-17)
 -------------------

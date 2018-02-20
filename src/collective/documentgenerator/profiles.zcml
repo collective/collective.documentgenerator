@@ -99,6 +99,13 @@
         handler="collective.documentgenerator.migrations.migrate_to_7.migrate"
         profile="collective.documentgenerator:default" />
 
+    <genericsetup:upgradeStep
+        title="collective.documentgenerator: upgrade to 8"
+        source="7"
+        destination="8"
+        handler="collective.documentgenerator.migrations.migrate_to_8.migrate"
+        profile="collective.documentgenerator:default" />
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

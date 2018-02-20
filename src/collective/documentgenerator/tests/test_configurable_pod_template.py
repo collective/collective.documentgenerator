@@ -240,7 +240,3 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         data = Dummy(merge_templates=[{'pod_context_name': u'det', 'value': u'1'}],
                      context_variables=[{'name': u'something else', 'value': u'1'}])
         self.assertIsNone(fct(data))
-
-    def test_get_rename_page_styles(self):
-        pod_template = self.test_podtemplate
-        self.assertFalse(pod_template.get_rename_page_styles())

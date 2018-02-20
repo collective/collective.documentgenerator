@@ -48,6 +48,3 @@ class TestMailingLoopTemplateIntegration(unittest.TestCase):
 
     def test_default_generation_condition_is_False(self):
         self.assertTrue(self.test_template.can_be_generated(self.portal))
-
-    def test_get_rename_page_styles(self):
-        self.assertTrue(self.test_template.get_rename_page_styles())

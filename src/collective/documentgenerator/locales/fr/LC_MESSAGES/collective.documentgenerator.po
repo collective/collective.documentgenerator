@@ -26,15 +26,15 @@ msgstr "Un document qui contient les styles à incorporer dans un modèle de doc
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../browser/table.py:176
+#: ../browser/table.py:218
 msgid "Actions"
 msgstr "Actions"
 
-#: ../content/pod_template.py:252
+#: ../content/pod_template.py:240
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:243
+#: ../content/pod_template.py:231
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -58,7 +58,7 @@ msgstr "Annuler"
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:282
+#: ../content/pod_template.py:270
 msgid "Choose the mailing loop template to apply for this template."
 msgstr "Sélectionnez le modèle de boucle de publipostage."
 
@@ -66,7 +66,7 @@ msgstr "Sélectionnez le modèle de boucle de publipostage."
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:165
+#: ../setuphandlers.py:163
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -74,7 +74,7 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../content/pod_template.py:271
+#: ../content/pod_template.py:259
 msgid "Context variables."
 msgstr "Variables du contexte"
 
@@ -82,11 +82,11 @@ msgstr "Variables du contexte"
 msgid "Dict update collision on key"
 msgstr "Collision dans la mise à jour du dictionnaire"
 
-#: ../browser/table.py:110
+#: ../browser/table.py:152
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: ../content/pod_template.py:172
+#: ../content/pod_template.py:168
 msgid "Do rendering"
 msgstr "Pré-rendu"
 
@@ -99,24 +99,24 @@ msgstr "Configuration du générateur de document"
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../browser/table.py:98
+#: ../browser/table.py:140
 #: ../content/pod_template.py:66
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:252
+#: ../browser/generation_view.py:249
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:250
+#: ../browser/generation_view.py:247
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:257
+#: ../browser/generation_view.py:254
 msgid "Error when merging mailed_data in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
 
-#: ../browser/generation_view.py:417
+#: ../browser/generation_view.py:424
 msgid "Error when merging mailing_list in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
 
@@ -132,7 +132,7 @@ msgstr "Désactiver (ignorer la valeur globale)"
 msgid "Force enable"
 msgstr "Activer (ignorer la valeur globale)"
 
-#: ../setuphandlers.py:126
+#: ../setuphandlers.py:125
 msgid "General template"
 msgstr "Modèle général"
 
@@ -168,7 +168,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Invalid phone number: '${nb}'"
 msgstr "Numéro de téléphone non valide: '${nb}'"
 
-#: ../content/pod_template.py:281
+#: ../content/pod_template.py:269
 #: ../setuphandlers.py:109
 msgid "Mailing loop template"
 msgstr "Modèle de boucle de publipostage"
@@ -177,15 +177,15 @@ msgstr "Modèle de boucle de publipostage"
 msgid "MailingLoopTemplate"
 msgstr "Modèle de boucle de publipostage"
 
-#: ../browser/table.py:127
+#: ../browser/table.py:169
 msgid "Modified"
 msgstr "Modifié"
 
-#: ../setuphandlers.py:140
+#: ../setuphandlers.py:139
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:208
+#: ../content/pod_template.py:204
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -195,11 +195,11 @@ msgid "ODT File"
 msgstr "Canevas"
 
 #: ../browser/controlpanel.py:58
-#: ../content/pod_template.py:288
+#: ../content/pod_template.py:276
 msgid "Optimize tables"
 msgstr "Optimiser les tables"
 
-#: ../browser/table.py:120
+#: ../browser/table.py:162
 msgid "Original"
 msgstr "Original"
 
@@ -207,7 +207,7 @@ msgstr "Original"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:166
+#: ../content/pod_template.py:162
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -215,7 +215,7 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
-#: ../browser/table.py:74
+#: ../browser/table.py:104
 msgid "Path"
 msgstr "Chemin relatif"
 
@@ -223,7 +223,7 @@ msgstr "Chemin relatif"
 msgid "Path of python with uno."
 msgstr "Chemin d'un python avec la librairie uno"
 
-#: ../browser/table.py:140
+#: ../browser/table.py:182
 msgid "Pod formats"
 msgstr "Formats"
 
@@ -231,11 +231,11 @@ msgstr "Formats"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../setuphandlers.py:214
+#: ../setuphandlers.py:210
 msgid "Possibly mailed template"
 msgstr "Modèle qui peut être publiposté"
 
-#: ../events/styles_events.py:100
+#: ../events/styles_events.py:101
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
 
@@ -243,23 +243,19 @@ msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${er
 msgid "Raise an error instead generating the document"
 msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
 
-#: ../content/pod_template.py:228
-msgid "Rename page styles"
-msgstr "Renommer les styles de page"
-
 #: ../browser/controlpanel.py:86
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:253
+#: ../content/pod_template.py:241
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:244
+#: ../content/pod_template.py:232
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:196
+#: ../setuphandlers.py:193
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -283,43 +279,39 @@ msgstr "Styles n°2"
 msgid "SubTemplate"
 msgstr "Sous modèle"
 
-#: ../content/pod_template.py:160
+#: ../content/pod_template.py:156
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:260
+#: ../content/pod_template.py:248
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:260
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
-
-#: ../content/pod_template.py:229
-msgid "This activates renamePageStyles parameter on appy renderer, useful when merging documents with different headers or footers."
-msgstr "Ceci active le paramètre renamePageStyles du moteur de rendu, nécessaire quand on associe plusieurs documents avec des entêtes ou pieds de page différents."
 
 #: ../browser/controlpanel.py:59
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\"."
 
-#: ../content/pod_template.py:289
+#: ../content/pod_template.py:277
 msgid "This will apply the \"Optimize table columns width\" of LibreOffice to tables that do not use the \"table-layout: fixed\" CSS style.  If you do not select a value, the value from the global configuration will be used."
 msgstr "Ceci appliquera la fonctionnalité \"Largeur optimale\" de LibreOffice sur les colonnes des tables qui n'utilisent pas le style CSS \"table-layout: fixed\".  Utilisez soit la valeur globale, ou ignorez là en fixant une valeur (activé/désactivé) pour ce seul modèle de document POD."
 
-#: ../content/pod_template.py:186
+#: ../content/pod_template.py:182
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:181
+#: ../content/pod_template.py:177
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:309
+#: ../content/pod_template.py:297
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:312
+#: ../content/pod_template.py:300
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
@@ -340,7 +332,7 @@ msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:212
+#: ../content/pod_template.py:208
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 

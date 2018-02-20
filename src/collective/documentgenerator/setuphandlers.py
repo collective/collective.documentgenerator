@@ -115,7 +115,6 @@ def install_demo(context):
             container=pod_folder,
             exclude_from_nav=True,
             style_template=[style_template.UID()],
-            rename_page_styles=True,
         )
     loop_template = getattr(pod_folder, 'loop_template')
 
@@ -155,7 +154,6 @@ def install_demo(context):
                     'do_rendering': True,
                 }
             ],
-            rename_page_styles=False,
         )
 
     if not hasattr(pod_folder, 'test_template_bis'):
@@ -186,7 +184,6 @@ def install_demo(context):
                     'value': '1',
                 }
             ],
-            rename_page_styles=False,
         )
 
     if not hasattr(pod_folder, 'test_ods_template'):
@@ -204,7 +201,6 @@ def install_demo(context):
             pod_formats=['ods', 'xls', ],
             pod_portal_types=['Document'],
             style_template=[style_template.UID()],
-            rename_page_styles=False,
         )
 
     if not hasattr(pod_folder, 'test_template_possibly_mailed'):
@@ -222,7 +218,6 @@ def install_demo(context):
             pod_formats=['odt'],
             pod_portal_types=['Folder'],
             mailing_loop_template=loop_template.UID(),
-            rename_page_styles=False,
         )
 
 
