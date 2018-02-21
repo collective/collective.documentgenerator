@@ -1,0 +1,16 @@
+<tal:defines define="children view/get_children">
+    <label class="horizontal" i18n:domain="collective.documentgenerator"
+           i18n:translate="Linked POD Template using this one"/>
+    <ul tal:condition="children">
+        <li tal:repeat="child children">
+            <a href="#"
+                  tal:attributes="href child/absolute_url"
+                  tal:content="child/Title">
+                child title
+            </a>
+        </li>
+    </ul>
+
+    <p class="discreet" tal:condition="not:children" i18n:translate="">None</p>
+
+</tal:defines>

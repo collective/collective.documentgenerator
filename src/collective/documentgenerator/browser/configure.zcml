@@ -54,7 +54,7 @@
         permission="cmf.ModifyPortalContent"
         />
 
-    <configure package="plone.dexterity.browser">
+    <configure package="plone.app.dexterity.browser">
         <browser:page
             for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
             name="view"

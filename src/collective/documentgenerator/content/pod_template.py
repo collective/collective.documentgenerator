@@ -17,13 +17,13 @@ from collective.z3cform.datagridfield import DictRow
 from imio.helpers.content import add_to_annotation, del_from_annotation, get_from_annotation
 from plone import api
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
-from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from z3c.form.browser.radio import RadioFieldWidget
 from z3c.form.browser.select import SelectWidget
@@ -35,6 +35,7 @@ from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import implements
 from zope.interface import invariant
+from zope.interface import provider
 
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 
@@ -237,7 +238,7 @@ class IConfigurablePODTemplate(IPODTemplate):
     """
 
     form.order_before(is_reusable='enabled')
-    form.widget('is_reusable', SingleCheckBoxFieldWidget)
+    form.widget('is_reusable', RadioFieldWidget)
     is_reusable = schema.Bool(
         title=_(u'Reusable'),
         description=_(u'Check if this POD Template can be reused by other POD Template'),
@@ -337,7 +338,8 @@ class IConfigurablePODTemplate(IPODTemplate):
     def validate_pod_template_to_use(data):
         if data.pod_template_to_use and (data.is_reusable or data.odt_file):
             raise Invalid(_(
-                "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."),
+                "You can't select a POD Template or set this template reusable "
+                "if you have chosen an existing POD Template."),
                 schema)
 
 
