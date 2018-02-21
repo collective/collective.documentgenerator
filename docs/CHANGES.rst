@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.12 (unreleased)
+3.0.12 (2018-02-21)
 -------------------
 
 - Update renderer parameters: managePageStyles and resolveFields.
