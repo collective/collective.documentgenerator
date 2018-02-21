@@ -54,6 +54,23 @@
         permission="cmf.ModifyPortalContent"
         />
 
+    <configure package="plone.app.dexterity.browser">
+        <browser:page
+            for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+            name="view"
+            class="collective.documentgenerator.browser.views.ViewConfigurablePodTemplate"
+            permission="zope2.View"
+            template="item.pt"
+            />
+    </configure>
+
+    <browser:page
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+        name="edit"
+        class=".views.EditConfigurablePodTemplate"
+        permission="cmf.ModifyPortalContent"
+        />
+
     <browser:page
         for="*"
         name="dg-templates-listing"

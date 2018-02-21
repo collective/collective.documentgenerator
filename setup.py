@@ -58,12 +58,12 @@ setup(
         'z3c.table',
         # fix about orderedselect
         'z3c.form>=3.2.4',
+        'imio.helpers',
     ],
     extras_require={
         'test': [
             'plone.app.robotframework',
             'plone.app.testing',
-            'imio.helpers',
             'imio.pyutils'
         ],
     },
