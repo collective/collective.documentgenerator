@@ -1,31 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_base
+import unittest
 
+from Acquisition import aq_base
 from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.content.merge_templates import TemplatesToMergeForPODTemplate
-from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-
 from plone import api
 from plone.namedfile.file import NamedBlobFile
-
 from zope.component import getGlobalSiteManager
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
-from zope.i18n import translate
 from zope.interface import Interface
-from zope.interface import Invalid
-
-
-import unittest
-
-from collective.documentgenerator.content.pod_template import PodFormatsValidator
 
 
 class TestPODTemplate(unittest.TestCase):
@@ -184,28 +174,8 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         self.assertEqual(self.test_podtemplate.get_available_formats(), ['odt', ])
 
 
-class TestPODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
-
+class TestPODTemplateValidator(PODTemplateIntegrationTest):
     def test_file_extension_is_odt(self):
         pod_template = self.test_podtemplate
         extension = pod_template.odt_file.filename.split('.')[-1]
         self.assertEqual(extension, 'odt')
-
-    def test_add_bad_formats_and_get_errormessage(self):
-        pod_template = self.test_podtemplate
-        pod_template.pod_formats.append('xls')
-        view = pod_template.restrictedTraverse('edit')
-        view.form_instance.update()
-        validator = PodFormatsValidator(pod_template,
-                                        pod_template.REQUEST,
-                                        view.form_instance,
-                                        IConfigurablePODTemplate['pod_formats'],
-                                        view.form_instance.widgets['pod_formats'])
-        msg = translate(u"element_not_valid",
-                        default=u"Element ${elem} is not valid for .${extension} template : \"${template}\"",
-                        mapping={u"elem": "Microsoft Excel (.xls)",
-                                 u"extension": "odt",
-                                 u"template": pod_template.odt_file.filename})
-        with self.assertRaises(Invalid) as cm:
-            validator.validate(pod_template.pod_formats)
-        self.assertEqual(msg, translate(cm.exception.message))

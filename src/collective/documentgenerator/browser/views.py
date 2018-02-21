@@ -9,16 +9,22 @@ from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from plone import api
+from plone.dexterity.browser.edit import DefaultEditForm
+from plone.dexterity.browser.view import DefaultView
+from z3c.form.contentprovider import ContentProviders
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope.browserpage import ViewPageTemplateFile
+from zope.contentprovider.provider import ContentProviderBase
+from zope.i18n import translate
+from zope.interface import implements
 
 
 class ResetMd5(BrowserView):
-
     def __call__(self):
         self.context.style_modification_md5 = self.context.current_md5
 
 
 class TemplatesListing(BrowserView):
-
     __table__ = TemplatesTable
     provides = [IPODTemplate.__identifier__, IStyleTemplate.__identifier__]
     depth = None
@@ -57,7 +63,6 @@ class TemplatesListing(BrowserView):
             return (level, path, 0)
 
         # sort by parent path and by position
-        self.table.results = [tup[0] for tup in sorted(res, key=keys)]
         self.table.update()
 
     def __call__(self, local_search=None, search_depth=None):
@@ -77,3 +82,37 @@ class TemplatesListing(BrowserView):
             self.local_search = 'local_search' in self.request or self.local_search
         self.update()
         return self.index()
+
+
+class DisplayChildrenPodTemplateProvider(ContentProviderBase):
+    template = ViewPageTemplateFile('view_children_pod_template.pt')
+
+    def label(self):
+        return translate('Linked POD Template using this one', domain='collective.documentgenerator',
+                         context=self.request)
+
+    def get_children(self):
+        return self.context.get_children_pod_template()
+
+    def render(self):
+        return self.template()
+
+
+class DisplayEditChildrenPodTemplateProvider(DisplayChildrenPodTemplateProvider):
+    template = ViewPageTemplateFile('edit_children_pod_template.pt')
+
+
+class ViewConfigurablePodTemplate(DefaultView):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 2
+
+
+class EditConfigurablePodTemplate(DefaultEditForm):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayEditChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 2

@@ -1,0 +1,10 @@
+<tal:comment replace="nothing">Display meeting assembly real value</tal:comment>
+<fieldset>
+    <tal:block repeat="child view/get_children">
+        <p><a href="http://www.mssharepointconference.com"
+              tal:define="a_fine_url string:http://www.ploneconf.org"
+              tal:attributes="href child/absolute_url"
+              tal:content="child/Title">
+            child title</a></p>
+    </tal:block>
+</fieldset>
