@@ -31,7 +31,8 @@ def update_styles_of_all_PODtemplate(style_template, event):
         pod_templates = catalog(object_provides=IPODTemplate.__identifier__)
         for brain in pod_templates:
             pod_template = brain.getObject()
-            if pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
+            if pod_template.has_linked_template() or \
+               pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
                 continue
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
