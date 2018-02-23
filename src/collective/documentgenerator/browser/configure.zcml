@@ -1,8 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.documentgenerator">
 
     <!-- Publish static files -->
@@ -171,5 +171,17 @@
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
         class="collective.eeafaceted.batchactions.browser.viewlets.BatchActionsViewlet"
         permission="zope2.View" />
+
+    <!-- Override the documentviewer for IConfigurablePODTemplate so it uses ViewConfigurablePodTemplate too -->
+    <configure package="collective.documentviewer" zcml:condition="installed collective.documentviewer">
+        <browser:page
+          name="documentviewer"
+          for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+          class="collective.documentgenerator.browser.overrides.DGDXDocumentViewerView"
+          template="templates/documentviewerdx.pt"
+          permission="zope2.View"
+          layer=".interfaces.ILayer" />
+    </configure>
+
 
 </configure>
