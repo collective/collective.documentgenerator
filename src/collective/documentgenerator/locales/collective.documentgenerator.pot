@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-02-21 15:27+0000\n"
+"POT-Creation-Date: 2018-02-26 09:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,8 +176,7 @@ msgstr ""
 msgid "Invalid phone number: '${nb}'"
 msgstr ""
 
-#: ../browser/children_pod_template_edit.pt:2
-#: ../browser/children_pod_template_view.pt:2
+#: ../browser/children_pod_template.pt:2
 msgid "Linked POD Template using this one"
 msgstr ""
 
@@ -202,7 +201,7 @@ msgstr ""
 msgid "No format selected"
 msgstr ""
 
-#: ../browser/children_pod_template_view.pt:14
+#: ../browser/children_pod_template.pt:14
 msgid "None"
 msgstr ""
 
@@ -252,7 +251,7 @@ msgstr ""
 msgid "Possibly mailed template"
 msgstr ""
 
-#: ../events/styles_events.py:95
+#: ../events/styles_events.py:96
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr ""
 

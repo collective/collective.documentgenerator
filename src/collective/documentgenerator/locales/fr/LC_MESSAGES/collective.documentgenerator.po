@@ -172,8 +172,7 @@ msgstr "Le chemin python spécifié semble erroné"
 msgid "Invalid phone number: '${nb}'"
 msgstr "Numéro de téléphone non valide: '${nb}'"
 
-#: ../browser/children_pod_template_edit.pt:2
-#: ../browser/children_pod_template_view.pt:2
+#: ../browser/children_pod_template.pt:2
 msgid "Linked POD Template using this one"
 msgstr "Modèle de document POD liés utilisant celui-ci"
 
@@ -198,7 +197,7 @@ msgstr "Modèle différents formats"
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
-#: ../browser/children_pod_template_view.pt:14
+#: ../browser/children_pod_template.pt:14
 msgid "None"
 msgstr "Aucun"
 
@@ -248,7 +247,7 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Possibly mailed template"
 msgstr "Modèle qui peut être publiposté"
 
-#: ../events/styles_events.py:95
+#: ../events/styles_events.py:96
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
 
