@@ -98,6 +98,7 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
         """ """
         return self.render()
 
+    @property
     def label(self):
         return ''
 

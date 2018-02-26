@@ -302,6 +302,41 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
         Dummy(pod_template_to_use="test", is_reusable=False)
 
+    def test_children_pod_template_content_provider(self):
+        """Test how children_pod_template ContentProvider is rendered."""
+        mother_template = self.portal.podtemplates.test_template_reusable
+        child_template = self.portal.podtemplates.test_template_reuse
+        self.assertTrue(child_template in mother_template.get_children_pod_template())
+        # link to child is displayed in the mother view by the content provider
+        self.assertTrue(child_template.absolute_url() in mother_template())
+
+        # content provider is displayed in the view as well as in the edit form
+        # view
+        view_form = mother_template.restrictedTraverse('view')
+        view_form.update()
+        view_content_provider_widget = view_form.widgets['children_pod_template']
+        rendered_view_form = view_form()
+        rendered_view_widget = view_content_provider_widget.render()
+        self.assertTrue(child_template.absolute_url() in view_form())
+        self.assertTrue(rendered_view_widget in rendered_view_form)
+        # edit
+        edit_form = mother_template.restrictedTraverse('edit')
+        edit_form.update()
+        edit_content_provider_widget = edit_form.widgets['children_pod_template']
+        rendered_edit_form = edit_form()
+        rendered_edit_widget = view_content_provider_widget.render()
+        self.assertTrue(child_template.absolute_url() in edit_form())
+        self.assertTrue(rendered_edit_widget in rendered_edit_form)
+
+        # we added convenient methods on the provider so it is displayed correctly
+        # on forms calling widget.name, widget.value
+        self.assertEqual(view_content_provider_widget.label, '')
+        self.assertEqual(edit_content_provider_widget.label, '')
+        self.assertEqual(view_content_provider_widget.name, 'children_pod_template')
+        self.assertEqual(edit_content_provider_widget.name, 'children_pod_template')
+        self.assertEqual(view_content_provider_widget.value, rendered_view_widget)
+        self.assertEqual(edit_content_provider_widget.value, rendered_edit_widget)
+
 
 class TestConfigurablePODTemplateValidator(ConfigurablePODTemplateIntegrationTest):
     def test_add_bad_formats_and_get_errormessage(self):
