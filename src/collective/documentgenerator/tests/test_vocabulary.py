@@ -3,7 +3,6 @@
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.testing import BaseTest
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
-
 from plone import api
 
 from zope.component import queryUtility
@@ -11,7 +10,6 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 class TestVocabularies(BaseTest):
-
     layer = POD_TEMPLATE_INTEGRATION
 
     def test_portal_type_vocabulary_factory_registration(self):
@@ -94,7 +92,7 @@ class TestVocabularies(BaseTest):
         """
         voc_name = 'collective.documentgenerator.AllMailingLoopTemplates'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
-        voc = vocabulary(self.portal)
+        voc = vocabulary(self.portal.podtemplates)
         loop_template = self.portal.podtemplates.get('loop_template')
         self.assertListEqual([loop_template.UID()], [t.value for t in voc])
         loop_template.enabled = False
@@ -121,3 +119,19 @@ class TestVocabularies(BaseTest):
         self.assertNotIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
         self.assertIn('Valeur manquante', view.widgets['mailing_loop_template'].render())
         self.assertIn(loop_template_uid, view.widgets['mailing_loop_template'].render())
+
+    def test_existing_pod_template_vocabulary(self):
+        """
+        Test the ExistingPODTemplate vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.ExistingPODTemplate'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        test_podtemplate = self.portal.podtemplates.get('test_template_reusable')
+        self.assertListEqual([test_podtemplate.UID()], [t.value for t in voc])
+
+        reusable_template_2 = self.portal.podtemplates.get('test_template_possibly_mailed')
+        reusable_template_2.is_reusable = True
+
+        voc = vocabulary(self.portal)
+        self.assertListEqual([reusable_template_2.UID(), test_podtemplate.UID()], [t.value for t in voc])

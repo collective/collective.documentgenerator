@@ -25,30 +25,41 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         self.assertIsNone(self.view.depth)
         self.assertTrue(self.view.local_search)
         self.view()
-        # we found 9 example templates + 1 sub_template
-        self.assertEqual(len(self.view.table.results), 10)
+        # we found 11 example templates + 1 sub_template
+        self.assertEqual(len(self.view.table.results), 12)
 
         self.view(local_search=True, search_depth=1)
-        # we found 9 example templates
-        self.assertEqual(len(self.view.table.results), 9)
+        # we found 11 example templates
+        self.assertEqual(len(self.view.table.results), 11)
 
         self.view(local_search=False, search_depth=1)
         # we found all existing templates
-        self.assertEqual(len(self.view.table.results), 11)
+        self.assertEqual(len(self.view.table.results), 13)
 
         self.view.request.set('local_search', '1')
         self.view.request.set('search_depth', '1')
         self.view()
-        # we found 9 example templates
-        self.assertEqual(len(self.view.table.results), 9)
+        # we found 11 example templates
+        self.assertEqual(len(self.view.table.results), 11)
 
         # check order
         self.view(local_search=False)
         # we found all existing templates
-        self.assertListEqual([o.id for o in self.view.table.results],
-                             ['other_template', 'test_style_template', 'test_style_template_2', 'sub_template',
-                              'loop_template', 'test_template', 'test_template_multiple', 'test_template_bis',
-                              'test_ods_template', 'test_template_possibly_mailed', 'sub_folder_template'])
+        self.assertListEqual(
+            [o.id for o in self.view.table.results],
+            ['other_template',
+             'test_style_template',
+             'test_style_template_2',
+             'sub_template',
+             'loop_template',
+             'test_template',
+             'test_template_multiple',
+             'test_template_bis',
+             'test_ods_template',
+             'test_template_possibly_mailed',
+             'test_template_reusable',
+             'test_template_reuse',
+             'sub_folder_template'])
 
     def test_TitleColumn(self):
         column = TitleColumn(self.view.context, self.view.request, self.view.table)

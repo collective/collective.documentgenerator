@@ -9,10 +9,16 @@ from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from plone import api
+from plone.dexterity.browser.edit import DefaultEditForm
+from plone.dexterity.browser.view import DefaultView
+from z3c.form.contentprovider import ContentProviders
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope.browserpage import ViewPageTemplateFile
+from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implements
 
 
 class ResetMd5(BrowserView):
-
     def __call__(self):
         self.context.style_modification_md5 = self.context.current_md5
 
@@ -77,3 +83,43 @@ class TemplatesListing(BrowserView):
             self.local_search = 'local_search' in self.request or self.local_search
         self.update()
         return self.index()
+
+
+class DisplayChildrenPodTemplateProvider(ContentProviderBase):
+    template = ViewPageTemplateFile('children_pod_template.pt')
+
+    @property
+    def name(self):
+        """ """
+        return self.__name__
+
+    @property
+    def value(self):
+        """ """
+        return self.render()
+
+    @property
+    def label(self):
+        return ''
+
+    def get_children(self):
+        return self.context.get_children_pod_template()
+
+    def render(self):
+        return self.template()
+
+
+class ViewConfigurablePodTemplate(DefaultView):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 4
+
+
+class EditConfigurablePodTemplate(DefaultEditForm):
+    implements(IFieldsAndContentProvidersForm)
+    contentProviders = ContentProviders()
+
+    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
+    contentProviders['children_pod_template'].position = 4
