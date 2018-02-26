@@ -167,7 +167,7 @@
     <browser:viewlet
         zcml:condition="installed collective.eeafaceted.batchactions"
         name="collective.eeafaceted.batchactions"
-        for="collective.eeafaceted.batchactions.interfaces.IBatchActionsMarker"
+        for="collective.documentgenerator.interfaces.IBelowContentBodyBatchActionsMarker"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
         class="collective.eeafaceted.batchactions.browser.viewlets.BatchActionsViewlet"
         permission="zope2.View" />

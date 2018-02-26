@@ -4,8 +4,13 @@ Changelog
 3.0.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- On a POD template, added possibility to reuse the `odt_file` of another
+  POD template.
+  [anuyens, odelaeren, gbastien]
+- Do not register the `batchactions` viewlet displayed in the
+  `IBelowContentBody` viewlet using the `IBatchActionsMarker` but register it
+  for a more specific interface `IBelowContentBodyBatchActionsMarker`.
+  [gbastien]
 
 3.0.12 (2018-02-21)
 -------------------

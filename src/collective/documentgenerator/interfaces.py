@@ -2,6 +2,7 @@
 """Module where all interfaces, events and exceptions live."""
 
 from collective.documentgenerator import _
+from collective.eeafaceted.batchactions.interfaces import IBatchActionsMarker
 
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -97,6 +98,10 @@ class IDisplayProxyObject(Interface):
 
 class IFieldRendererForDocument(Interface):
     """"""
+
+
+class IBelowContentBodyBatchActionsMarker(IBatchActionsMarker):
+    """Interface to display batch actions in the BelowContentBody viewlet."""
 
 
 class PODTemplateNotFoundError(Exception):
