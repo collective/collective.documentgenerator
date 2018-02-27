@@ -144,21 +144,6 @@ class MailingLoopTemplatesAllVocabularyFactory(object):
         return brain.Title
 
 
-def get_existing_pod_templates(context, enabled_only=False):
-    brains = []
-    catalog = api.portal.get_tool('portal_catalog')
-
-    for brain in catalog(portal_type='ConfigurablePODTemplate'):
-        template = brain.getObject()
-        if enabled_only and not template.enabled:
-            continue
-
-        if template.is_reusable and template != context:
-            brains.append(brain)
-
-    return brains
-
-
 class ExistingPODTemplateFactory(object):
     """
     Vocabulary factory with all existing_pod_templates.
@@ -167,10 +152,21 @@ class ExistingPODTemplateFactory(object):
     def __call__(self, context):
         voc_terms = []
 
-        for brain in get_existing_pod_templates(context, enabled_only=False):
+        for brain in self._get_existing_pod_templates(context, enabled_only=False):
             voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
 
         return SimpleVocabulary(voc_terms)
+
+    def _get_existing_pod_templates(self, context, enabled_only=False):
+        brains = []
+        catalog = api.portal.get_tool('portal_catalog')
+        for brain in catalog(portal_type='ConfigurablePODTemplate'):
+            template = brain.getObject()
+            if enabled_only and not template.enabled:
+                continue
+            if template.is_reusable and template != context:
+                brains.append(brain)
+        return brains
 
     def _renderTermTitle(self, brain):
         return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
