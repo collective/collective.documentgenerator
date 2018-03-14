@@ -169,7 +169,7 @@
         name="collective.eeafaceted.batchactions"
         for="collective.documentgenerator.interfaces.IBelowContentBodyBatchActionsMarker"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-        class="collective.eeafaceted.batchactions.browser.viewlets.BatchActionsViewlet"
+        class="collective.documentgenerator.viewlets.batchactions.DGBatchActionsViewlet"
         permission="zope2.View" />
 
     <!-- Override the documentviewer for IConfigurablePODTemplate so it uses ViewConfigurablePodTemplate too -->

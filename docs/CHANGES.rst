@@ -11,6 +11,8 @@ Changelog
   `IBelowContentBody` viewlet using the `IBatchActionsMarker` but register it
   for a more specific interface `IBelowContentBodyBatchActionsMarker`.
   [gbastien]
+- Override batch actions viewlet available method
+  [sgeulette]
 
 3.0.12 (2018-02-21)
 -------------------
