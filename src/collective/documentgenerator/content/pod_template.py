@@ -144,7 +144,7 @@ class PODTemplate(Item):
         """
         return self.current_md5 != self.style_modification_md5
 
-    def get_optimize_tables(self):
+    def get_column_modifier(self):
         """By default, return -1 meaning use global config value."""
         return -1
 
@@ -300,13 +300,11 @@ class IConfigurablePODTemplate(IPODTemplate):
         required=False,
     )
 
-    optimize_tables = schema.Choice(
-        title=_(u'Optimize tables'),
-        description=_(u'This will apply the "Optimize table columns width" of '
-                      u'LibreOffice to tables that do not use the '
-                      u'"table-layout: fixed" CSS style.  If you do not select '
-                      u'a value, the value from the global configuration will be used.'),
-        vocabulary='collective.documentgenerator.OptimizeTables',
+    column_modifier = schema.Choice(
+        title=_(u'Table column modifier'),
+        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" CSS style handling while generating document. '
+                      u'If no such style is define on the table, the chosen column modifier of LibreOffice will be applied.'),
+        vocabulary='collective.documentgenerator.PodOptimizeTables',
         required=True,
         default=-1
     )
@@ -428,8 +426,8 @@ class ConfigurablePODTemplate(PODTemplate):
             ret[line['name']] = val
         return ret
 
-    def get_optimize_tables(self):
-        return self.optimize_tables
+    def get_column_modifier(self):
+        return self.column_modifier
 
     def add_parent_pod_annotation(self):
         if self.pod_template_to_use:

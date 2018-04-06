@@ -132,24 +132,56 @@ msgstr ""
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../content/vocabulary.py:97
-msgid "Force disable"
+#: ../content/vocabulary.py:91
+msgid "Disabled"
 msgstr ""
 
-#: ../content/vocabulary.py:98
-msgid "Force enable"
+#: ../content/vocabulary.py:92
+msgid "Nothing"
+msgstr ""
+
+#: ../content/vocabulary.py:93
+msgid "Optimize"
+msgstr ""
+
+#: ../content/vocabulary.py:94
+msgid "Distribute"
+msgstr ""
+
+#: ../content/vocabulary.py:109
+msgid "Global value (nothing)"
+msgstr ""
+
+#: ../content/vocabulary.py:109
+msgid "Global value (disabled)"
+msgstr ""
+
+#: ../content/vocabulary.py:109
+msgid "Global value (optimize)"
+msgstr ""
+
+#: ../content/vocabulary.py:109
+msgid "Global value (distribute)"
+msgstr ""
+
+#: ../content/vocabulary.py:113
+msgid "Force disabled"
+msgstr ""
+
+#: ../content/vocabulary.py:114
+msgid "Force nothing"
+msgstr ""
+
+#: ../content/vocabulary.py:115
+msgid "Force optimize"
+msgstr ""
+
+#: ../content/vocabulary.py:116
+msgid "Force distribute"
 msgstr ""
 
 #: ../setuphandlers.py:124
 msgid "General template"
-msgstr ""
-
-#: ../content/vocabulary.py:91
-msgid "Global value (disabled)"
-msgstr ""
-
-#: ../content/vocabulary.py:93
-msgid "Global value (enabled)"
 msgstr ""
 
 #: ../setuphandlers.py:92
@@ -210,9 +242,9 @@ msgstr ""
 msgid "ODT File"
 msgstr ""
 
-#: ../browser/controlpanel.py:58
+#: ../browser/controlpanel.py:54
 #: ../content/pod_template.py:304
-msgid "Optimize tables"
+msgid "Table column modifier"
 msgstr ""
 
 #: ../browser/table.py:162
@@ -390,4 +422,9 @@ msgstr ""
 
 #: ../browser/controlpanel.py:50
 msgid "uno path"
+msgstr ""
+
+#: ../browser/controlpanel.py:53
+#: ../browser/pod_template.py:305
+msgid "If enabled: this will allow the \"table-layout: fixed|auto|none\" CSS style handling while generating document. If no such style is define on the table, the chosen column modifier of LibreOffice will be applied."
 msgstr ""

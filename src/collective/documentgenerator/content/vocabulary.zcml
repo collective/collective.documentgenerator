@@ -46,8 +46,13 @@
 
     <!-- optimize_tables Vocabulary -->
     <utility
-        factory=".vocabulary.OptimizeTablesVocabularyFactory"
-        name="collective.documentgenerator.OptimizeTables"
+        factory=".vocabulary.PodOptimizeTablesVocabularyFactory"
+        name="collective.documentgenerator.PodOptimizeTables"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+    <utility
+        factory=".vocabulary.ConfigOptimizeTablesVocabularyFactory"
+        name="collective.documentgenerator.ConfigOptimizeTables"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 

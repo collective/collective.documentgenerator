@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import inspect
+import os
+
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
-
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
-
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
-
 from z3c.form import button
-
 from zope import schema
 from zope.interface import Interface
 from zope.interface import implements
-
-import inspect
-import os
 
 
 def check_for_uno(value):
@@ -54,13 +50,13 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         constraint=check_for_uno
     )
 
-    optimize_tables = schema.Bool(
-        title=_(u'Optimize tables'),
-        description=_(u'This will apply the "Optimize table columns width" of '
-                      u'LibreOffice to tables that do not use the '
-                      u'"table-layout: fixed" CSS style.'),
+    column_modifier = schema.Choice(
+        title=_(u'Table column modifier'),
+        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" CSS style handling while generating document. '
+                      u'If no such style is define on the table, the chosen column modifier of LibreOffice will be applied.'),
+        vocabulary='collective.documentgenerator.ConfigOptimizeTables',
         required=False,
-        default=False
+        default='nothing'
     )
 
     raiseOnError_for_non_managers = schema.Bool(
@@ -70,13 +66,12 @@ class IDocumentGeneratorControlPanelSchema(Interface):
                       u'be raised.  Nevertheless to ease debugging, Managers '
                       u'will continue to get errors in the generated document '
                       u'if it uses .odt format.'),
-        required=False,
-        default=False
+        required=True,
+        default=None
     )
 
 
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
-
     implements(IDocumentGeneratorSettings)
 
     schema = IDocumentGeneratorControlPanelSchema
