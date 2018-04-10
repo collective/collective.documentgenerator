@@ -103,10 +103,7 @@ class PodOptimizeTablesVocabularyFactory(object):
 
     def __call__(self, context):
         # adapt first term value depending on global configuration value
-        global_value = _('Global value (nothing)')
-        config_value = get_column_modifier()
-        if config_value:
-            global_value = _('Global value (%s)' % config_value)
+        global_value = _('Global value (%s)' % get_column_modifier())
 
         voc_terms = [
             SimpleTerm(-1, -1, global_value),

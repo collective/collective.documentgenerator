@@ -55,7 +55,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" CSS style handling while generating document. '
                       u'If no such style is define on the table, the chosen column modifier of LibreOffice will be applied.'),
         vocabulary='collective.documentgenerator.ConfigOptimizeTables',
-        required=False,
+        required=True,
         default='nothing'
     )
 
@@ -66,8 +66,8 @@ class IDocumentGeneratorControlPanelSchema(Interface):
                       u'be raised.  Nevertheless to ease debugging, Managers '
                       u'will continue to get errors in the generated document '
                       u'if it uses .odt format.'),
-        required=True,
-        default=None
+        required=False,
+        default=False
     )
 
 
