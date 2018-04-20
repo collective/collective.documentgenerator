@@ -116,7 +116,7 @@
             import_steps="plone.app.registry" />
         <genericsetup:upgradeStep
             title="collective.documentgenerator: upgrade to 9"
-            description="This will add new parameter 'column_modifier'"
+            description="This will migrate old parameter 'optimize_tables' to new parameter 'column_modifier'"
             handler="collective.documentgenerator.migrations.migrate_to_9.migrate" />
     </genericsetup:upgradeSteps>
 

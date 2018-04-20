@@ -52,8 +52,9 @@ class IDocumentGeneratorControlPanelSchema(Interface):
 
     column_modifier = schema.Choice(
         title=_(u'Table column modifier'),
-        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" CSS style handling while generating document. '
-                      u'If no such style is define on the table, the chosen column modifier of LibreOffice will be applied.'),
+        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" '
+                      u'CSS style handling while generating document. If no such style is '
+                      u'defined on the table, the chosen column modifier of LibreOffice will be applied.'),
         vocabulary='collective.documentgenerator.ConfigOptimizeTables',
         required=True,
         default='nothing'

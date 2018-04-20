@@ -13,7 +13,7 @@ Changelog
   [gbastien]
 - Override batch actions viewlet available method
   [sgeulette]
-- Added Column modifier management (new in appy 0.9.11)
+- Added Column modifier management (new in appy > 0.9.11)
   [odelaere]
 
 3.0.12 (2018-02-21)
