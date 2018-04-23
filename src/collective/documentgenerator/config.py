@@ -35,9 +35,9 @@ def get_oo_port():
     )
 
 
-def get_optimize_tables():
+def get_column_modifier():
     return api.portal.get_registry_record(
-        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables'
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier'
     )
 
 
@@ -64,10 +64,11 @@ def set_uno_path():
                                        'IDocumentGeneratorControlPanelSchema.uno_path', safe_unicode(python_uno))
 
 
-def set_optimize_tables(value):
+def set_column_modifier(value):
     api.portal.set_registry_record(
-        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables',
-        value)
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier',
+        value
+    )
 
 
 def set_raiseOnError_for_non_managers(value):

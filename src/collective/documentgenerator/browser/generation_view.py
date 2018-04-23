@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 
+import mimetypes
+import os
+import tempfile
 import unicodedata
-
-from appy.pod.renderer import Renderer
-from appy.pod.styles_manager import TableProperties
-
-from AccessControl import Unauthorized
-
-from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter
-from zope.component import queryAdapter
-from zope.component import queryUtility
-
-from Products.Five import BrowserView
-from Products.CMFPlone.utils import base_hasattr
-from Products.CMFPlone.utils import safe_unicode
-
 from StringIO import StringIO
 
+from AccessControl import Unauthorized
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from appy.pod.renderer import Renderer
+from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
 from collective.documentgenerator.content.pod_template import IPODTemplate
@@ -25,14 +19,13 @@ from collective.documentgenerator.interfaces import CyclicMergeTemplatesExceptio
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.utils import logger
-
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
-
-import mimetypes
-import os
-import tempfile
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getMultiAdapter
+from zope.component import queryAdapter
+from zope.component import queryUtility
 from .. import _
 
 
@@ -192,12 +185,19 @@ class DocumentGenerationView(BrowserView):
 
         # enable optimalColumnWidths if enabled in the config and/or on ConfigurablePodTemplate
         stylesMapping = {}
-        optimalColumnWidths = False
-        template_optimize_tables = pod_template.get_optimize_tables()
-        if (template_optimize_tables == -1 and config.get_optimize_tables()) or \
-           template_optimize_tables == 1:
-            stylesMapping = {'table': TableProperties(optimalColumnWidths=True)}
-            optimalColumnWidths = "OCW_.*"
+        optimalColumnWidths = "OCW_.*"
+        distributeColumns = "DC_.*"
+
+        column_modifier = pod_template.get_column_modifier()
+        if column_modifier == -1:
+            column_modifier = config.get_column_modifier()
+
+        if column_modifier == 'disabled':
+            optimalColumnWidths = False
+            distributeColumns = False
+        else:
+            stylesMapping = {
+                'table': TableProperties(columnModifier=column_modifier != 'nothing' and column_modifier or None)}
 
         # if raiseOnError is not enabled, enabled it in the config excepted if user is a Manager
         # and currently generated document use odt format
@@ -217,6 +217,7 @@ class DocumentGenerationView(BrowserView):
             imageResolver=api.portal.get(),
             forceOoCall=True,
             optimalColumnWidths=optimalColumnWidths,
+            distributeColumns=distributeColumns,
             stylesMapping=stylesMapping,
             **kwargs
         )
@@ -297,6 +298,7 @@ class DocumentGenerationView(BrowserView):
         Check if the template 'pod_template' has subtemplates referring to each
         other in a cyclic way.
         """
+
         def traverse_check(pod_template, path):
 
             if pod_template in path:
@@ -416,7 +418,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
 
     def _get_generation_context(self, helper_view, pod_template):
         """ """
-        gen_context = super(MailingLoopPersistentDocumentGenerationView, self).\
+        gen_context = super(MailingLoopPersistentDocumentGenerationView, self). \
             _get_generation_context(helper_view, pod_template)
         # add mailing list in generation context
         dic = {'mailing_list': helper_view.mailing_list(), 'mailed_doc': self.document}

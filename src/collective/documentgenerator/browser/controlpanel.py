@@ -1,23 +1,24 @@
 # -*- coding: utf-8 -*-
 
+import inspect
+import os
+
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
-
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
-
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
-
 from z3c.form import button
-
 from zope import schema
 from zope.interface import Interface
 from zope.interface import implements
 
-import inspect
-import os
+COLUMN_MODIFIER_DESCR = _(
+    u'If enabled, this will allow the "table-layout: fixed|auto|none" '
+    u'CSS style handling while generating document. If no such style is defined on the table, '
+    u'the chosen column modifier of LibreOffice will be applied.')
 
 
 def check_for_uno(value):
@@ -54,13 +55,12 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         constraint=check_for_uno
     )
 
-    optimize_tables = schema.Bool(
-        title=_(u'Optimize tables'),
-        description=_(u'This will apply the "Optimize table columns width" of '
-                      u'LibreOffice to tables that do not use the '
-                      u'"table-layout: fixed" CSS style.'),
-        required=False,
-        default=False
+    column_modifier = schema.Choice(
+        title=_(u'Table column modifier'),
+        description=_(COLUMN_MODIFIER_DESCR),
+        vocabulary='collective.documentgenerator.ConfigColumnModifier',
+        required=True,
+        default='nothing'
     )
 
     raiseOnError_for_non_managers = schema.Bool(
@@ -76,7 +76,6 @@ class IDocumentGeneratorControlPanelSchema(Interface):
 
 
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
-
     implements(IDocumentGeneratorSettings)
 
     schema = IDocumentGeneratorControlPanelSchema

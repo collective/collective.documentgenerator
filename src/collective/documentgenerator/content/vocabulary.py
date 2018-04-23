@@ -3,12 +3,14 @@
 from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
 from collective.documentgenerator.config import POD_FORMATS
-from collective.documentgenerator.config import get_optimize_tables
+from collective.documentgenerator.config import get_column_modifier
 from plone import api
 from z3c.form.i18n import MessageFactory as _z3c_form
 from z3c.form.interfaces import IContextAware, IDataManager
 from z3c.form.term import MissingChoiceTermsVocabulary, MissingTermsMixin
-from zope.component import getMultiAdapter, getUtility
+from zope.component import getUtility
+from zope.component import getMultiAdapter
+from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -81,21 +83,42 @@ class MergeTemplatesVocabularyFactory(object):
         return vocabulary
 
 
-class OptimizeTablesVocabularyFactory(object):
+class ConfigColumnModifierVocabularyFactory(object):
+    """
+    Vocabulary factory for 'optimize_tables' field.
+    """
+
+    def __call__(self, context):
+        voc_terms = [
+            SimpleTerm('disabled', 0, _('Disabled')),
+            SimpleTerm('nothing', 1, _('Nothing')),
+            SimpleTerm('optimize', 2, _('Optimize')),
+            SimpleTerm('distribute', 3, _('Distribute'))]
+
+        return SimpleVocabulary(voc_terms)
+
+
+class PodColumnModifierVocabularyFactory(object):
     """
     Vocabulary factory for 'optimize_tables' field.
     """
 
     def __call__(self, context):
         # adapt first term value depending on global configuration value
-        global_value = _('Global value (disabled)')
-        if get_optimize_tables():
-            global_value = _('Global value (enabled)')
+        # get term from global value vocabulary
+        vocabulary = queryUtility(
+            IVocabularyFactory, 'collective.documentgenerator.ConfigColumnModifier')
+        voc = vocabulary(context)
+        global_value = _(voc.getTerm(get_column_modifier()).title)
+        global_value_term = _('Global value (${global_value})',
+                              mapping={'global_value': global_value})
 
         voc_terms = [
-            SimpleTerm(-1, -1, global_value),
-            SimpleTerm(0, 0, _('Force disable')),
-            SimpleTerm(1, 1, _('Force enable'))]
+            SimpleTerm(-1, -1, global_value_term),
+            SimpleTerm('disabled', 0, _('Force disabled')),
+            SimpleTerm('nothing', 1, _('Force nothing')),
+            SimpleTerm('optimize', 2, _('Force optimize')),
+            SimpleTerm('distribute', 3, _('Force distribute'))]
 
         return SimpleVocabulary(voc_terms)
 

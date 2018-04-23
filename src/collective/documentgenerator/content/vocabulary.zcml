@@ -44,10 +44,15 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
-    <!-- optimize_tables Vocabulary -->
+    <!-- columnModifier Vocabulary -->
     <utility
-        factory=".vocabulary.OptimizeTablesVocabularyFactory"
-        name="collective.documentgenerator.OptimizeTables"
+        factory=".vocabulary.PodColumnModifierVocabularyFactory"
+        name="collective.documentgenerator.PodColumnModifier"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+    <utility
+        factory=".vocabulary.ConfigColumnModifierVocabularyFactory"
+        name="collective.documentgenerator.ConfigColumnModifier"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
