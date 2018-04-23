@@ -3,5 +3,5 @@
    <dependencies>
     <dependency>profile-collective.documentgenerator:install-base</dependency>
    </dependencies>
-  <version>8</version>
+  <version>9</version>
 </metadata>
