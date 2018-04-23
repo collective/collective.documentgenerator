@@ -25,7 +25,7 @@ install:
   - export TMPDIR=$HOME/tmp
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
-  - pip install lxml --no-use-wheel
+  - pip install lxml --no-binary :all:
   - python --version
   - python bootstrap.py --version=2.10.0
   - bin/buildout -N -c travis.cfg annotate
