@@ -8,8 +8,8 @@ from AccessControl import Unauthorized
 from appy.shared.zip import unzip
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
-from collective.documentgenerator.config import get_optimize_tables
-from collective.documentgenerator.config import set_optimize_tables
+from collective.documentgenerator.config import get_column_modifier
+from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
@@ -388,7 +388,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('test_template_bis', info['content.xml'])
         # Mailing has been done ;-)
 
-    def test_optimize_tables(self):
+    def test_table_column_modifier(self):
         """ """
         pod_template = self.portal.podtemplates.get('test_template_multiple')
         # do not limit portal_type the POD template is generatable on
@@ -397,39 +397,118 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         doc = self.portal.get('front-page')
         # add a table to check if it is optimized or not
         text = u'<table><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
-        if base_hasattr(doc, 'setText'):
-            # Archetypes
-            doc.setText(text)
-        else:
-            # Dexterity
-            doc.text = RichTextValue(text)
+        textNone = u'<table style="table-layout:none"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
+        textAuto = u'<table style="table-layout:auto"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
+        textFixed = u'<table style="table-layout:fixed"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
+
         generation_view = doc.restrictedTraverse('@@document-generation')
 
-        # optimize_tables disabled globally and pod_template using global parameter
-        self.assertFalse(get_optimize_tables())
-        self.assertEqual(pod_template.get_optimize_tables(), -1)
-        generated_doc = generation_view(template_uid, 'odt')
-        content_xml = self.get_odt_content_xml(generated_doc)
-        self.assertFalse('OCW' in content_xml)
+        def set_text(text):
+            if base_hasattr(doc, 'setText'):
+                # Archetypes
+                doc.setText(text)
+            else:
+                # Dexterity
+                doc.text = RichTextValue(text)
 
-        # enable locally, still disabled globally
-        pod_template.optimize_tables = 1
-        generated_doc = generation_view(template_uid, 'odt')
-        content_xml = self.get_odt_content_xml(generated_doc)
-        self.assertTrue('OCW' in content_xml)
+        def assert_result(ocw_in_xml, dc_in_xml):
+            generated_doc = generation_view(template_uid, 'odt')
+            content_xml = self.get_odt_content_xml(generated_doc)
+            self.assertEquals(ocw_in_xml, 'OCW' in content_xml)
+            self.assertEquals(dc_in_xml, 'DC' in content_xml)
 
-        # optimize_tables enabled globally and pod_template using global parameter
-        set_optimize_tables(True)
-        pod_template.optimize_tables = -1
-        generated_doc = generation_view(template_uid, 'odt')
-        content_xml = self.get_odt_content_xml(generated_doc)
-        self.assertTrue('OCW' in content_xml)
+        # By default : column_modifier disabled globally, CSS override enabled globally and pod_template using global parameter
+        self.assertEquals(get_column_modifier(), 'nothing')
+        self.assertEquals(pod_template.get_column_modifier(), -1)
 
-        # disable locally, still enabled globally
-        pod_template.optimize_tables = 0
-        generated_doc = generation_view(template_uid, 'odt')
-        content_xml = self.get_odt_content_xml(generated_doc)
-        self.assertFalse('OCW' in content_xml)
+        set_text(text)
+        assert_result(False, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
+
+        # disable optimize locally, still disabled globally
+        pod_template.column_modifier = 'disabled'
+        set_text(text)
+        assert_result(False, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(False, False)
+        set_text(textFixed)
+        assert_result(False, False)
+
+        # enable optimize locally, still disabled globally
+        pod_template.column_modifier = 'optimize'
+        set_text(text)
+        assert_result(True, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
+
+        # enable distribute locally, still disabled globally
+        pod_template.column_modifier = 'distribute'
+        set_text(text)
+        assert_result(False, True)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
+
+        # reset local parameter
+        pod_template.column_modifier = -1
+
+        # CSS override enabled
+        set_column_modifier('nothing')
+        set_text(text)
+        assert_result(False, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
+
+        # disable all column modifier globally
+        set_column_modifier('disabled')
+        set_text(text)
+        assert_result(False, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(False, False)
+        set_text(textFixed)
+        assert_result(False, False)
+
+        # optimize column_modifier enabled globally and pod_template using global parameter
+        set_column_modifier('optimize')
+        set_text(text)
+        assert_result(True, False)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
+
+        # distribute column_modifier enabled globally and pod_template using global parameter
+        set_column_modifier('distribute')
+        set_text(text)
+        assert_result(False, True)
+        set_text(textNone)
+        assert_result(False, False)
+        set_text(textAuto)
+        assert_result(True, False)
+        set_text(textFixed)
+        assert_result(False, True)
 
 
 class TestCyclicMergesDetection(unittest.TestCase):
