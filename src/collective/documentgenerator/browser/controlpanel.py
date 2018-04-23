@@ -15,6 +15,11 @@ from zope import schema
 from zope.interface import Interface
 from zope.interface import implements
 
+COLUMN_MODIFIER_DESCR = _(
+    u'If enabled, this will allow the "table-layout: fixed|auto|none" '
+    u'CSS style handling while generating document. If no such style is defined on the table, '
+    u'the chosen column modifier of LibreOffice will be applied.')
+
 
 def check_for_uno(value):
     """
@@ -52,10 +57,8 @@ class IDocumentGeneratorControlPanelSchema(Interface):
 
     column_modifier = schema.Choice(
         title=_(u'Table column modifier'),
-        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" '
-                      u'CSS style handling while generating document. If no such style is '
-                      u'defined on the table, the chosen column modifier of LibreOffice will be applied.'),
-        vocabulary='collective.documentgenerator.ConfigOptimizeTables',
+        description=_(COLUMN_MODIFIER_DESCR),
+        vocabulary='collective.documentgenerator.ConfigColumnModifier',
         required=True,
         default='nothing'
     )

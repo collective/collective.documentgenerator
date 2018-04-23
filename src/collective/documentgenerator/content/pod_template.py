@@ -4,6 +4,7 @@ import logging
 
 from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
+from collective.documentgenerator.browser.controlpanel import COLUMN_MODIFIER_DESCR
 from collective.documentgenerator.config import NEUTRAL_FORMATS
 from collective.documentgenerator.config import ODS_FORMATS
 from collective.documentgenerator.config import ODT_FORMATS
@@ -302,9 +303,8 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     column_modifier = schema.Choice(
         title=_(u'Table column modifier'),
-        description=_(u'If enabled: this will allow the "table-layout: fixed|auto|none" CSS style handling while generating document. '
-                      u'If no such style is define on the table, the chosen column modifier of LibreOffice will be applied.'),
-        vocabulary='collective.documentgenerator.PodOptimizeTables',
+        description=_(COLUMN_MODIFIER_DESCR),
+        vocabulary='collective.documentgenerator.PodColumnModifier',
         required=True,
         default=-1
     )
