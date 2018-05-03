@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1 (unreleased)
+3.1 (2018-05-03)
 ----------------
 
 - On a POD template, added possibility to reuse the `odt_file` of another
