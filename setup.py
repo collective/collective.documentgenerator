@@ -43,7 +43,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'appy',
+        'appy>=0.9.12',
         'beautifulsoup4',
         'collective.behavior.talcondition',
         'collective.excelexport',
