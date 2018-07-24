@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-import copy
-import datetime
-import phonenumbers
 from collective.documentgenerator.interfaces import IDisplayProxyObject
 from collective.documentgenerator.interfaces import IDocumentGenerationHelper
 from collective.documentgenerator.utils import ulocalized_time
 from plone import api
 from plone.api.validation import mutually_exclusive_parameters
+from Products.CMFPlone.utils import safe_unicode
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
-from Products.CMFPlone.utils import safe_unicode
+
+import copy
+import datetime
+import phonenumbers
 
 
 class DocumentGenerationHelperView(object):

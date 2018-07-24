@@ -2,7 +2,6 @@
 
 from collective.documentgenerator.testing import PODTemplateFunctionalTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-
 from plone import api
 
 import os

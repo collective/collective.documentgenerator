@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.behavior.talcondition.behavior import ITALCondition
-
 from collective.documentgenerator.interfaces import IPODTemplateCondition
-
 from zope.interface import implements
 
 

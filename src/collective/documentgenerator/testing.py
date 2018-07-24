@@ -1,30 +1,28 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
+from collective.documentgenerator.config import HAS_PLONE_5
+from imio.pyutils.system import runCommand
+from plone import api
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
+from plone.app.testing import applyProfile
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import login
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
+from plone.testing import z2
+
+import collective.documentgenerator
 import os
 import tempfile
 import transaction
 import unittest
 import zipfile
-
-from plone import api
-
-from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import IntegrationTesting
-from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import applyProfile
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.testing import z2
-from collective.documentgenerator.config import HAS_PLONE_5
-
-import collective.documentgenerator
-from imio.pyutils.system import runCommand
 
 
 class NakedPloneLayer(PloneSandboxLayer):

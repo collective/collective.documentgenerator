@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """Adapters for dexterity fields rendering."""
 
-import datetime
-
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
-
 from collective.excelexport.interfaces import IExportable
-
 from zope.component import getMultiAdapter
 from zope.interface import implements
+
+import datetime
 
 
 class DexterityExportableAdapter(object):

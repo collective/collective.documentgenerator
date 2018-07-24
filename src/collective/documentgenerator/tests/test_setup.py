@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
-from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
-
+from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from plone import api
 
 import unittest

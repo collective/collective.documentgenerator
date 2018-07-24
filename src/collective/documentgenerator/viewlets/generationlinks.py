@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from ..config import VIEWLET_TYPES
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.view import memoize
-
-from ..config import VIEWLET_TYPES
 
 
 class DocumentGeneratorLinksViewlet(ViewletBase):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
-
 from zope.interface import implements
 
 

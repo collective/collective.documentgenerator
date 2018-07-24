@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import copy
-import logging
-
-from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
 from collective.documentgenerator.browser.controlpanel import COLUMN_MODIFIER_DESCR
 from collective.documentgenerator.config import NEUTRAL_FORMATS
@@ -15,7 +11,9 @@ from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.utils import compute_md5
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
-from imio.helpers.content import add_to_annotation, del_from_annotation, get_from_annotation
+from imio.helpers.content import add_to_annotation
+from imio.helpers.content import del_from_annotation
+from imio.helpers.content import get_from_annotation
 from plone import api
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -23,6 +21,7 @@ from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
+from Products.CMFPlone.utils import safe_unicode
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
@@ -32,11 +31,15 @@ from zope import schema
 from zope.component import provideAdapter
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
+from zope.interface import implements
 from zope.interface import Interface
 from zope.interface import Invalid
-from zope.interface import implements
 from zope.interface import invariant
 from zope.interface import provider
+
+import copy
+import logging
+
 
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 

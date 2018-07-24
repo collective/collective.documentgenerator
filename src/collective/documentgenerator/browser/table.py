@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 """Define tables and columns."""
 
-import html
-import os
-from Products.CMFPlone import PloneMessageFactory as PMF
-from Products.CMFPlone.utils import safe_unicode, base_hasattr
 from collective.documentgenerator import _
 from plone import api
-from z3c.table.column import Column, LinkColumn
+from Products.CMFPlone import PloneMessageFactory as PMF
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
+from z3c.table.column import Column
+from z3c.table.column import LinkColumn
 from z3c.table.table import Table
 from zope.cachedescriptors.property import CachedProperty
 from zope.component import getMultiAdapter
 from zope.i18n import translate
+
+import html
+import os
 
 
 class TemplatesTable(Table):

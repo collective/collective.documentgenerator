@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
 from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from imio.migrator.migrator import Migrator
 from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+
+import logging
+
 
 logger = logging.getLogger('collective.documentgenerator')
 

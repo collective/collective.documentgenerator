@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 from Acquisition import aq_base
-from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate, PodFormatsValidator
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
+from collective.documentgenerator.content.pod_template import PodFormatsValidator
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
@@ -10,6 +9,8 @@ from plone import api
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import Invalid
+
+import unittest
 
 
 class TestConfigurablePODTemplate(unittest.TestCase):

@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from zope import schema
-from zope.interface import implements
-
+from collective.documentgenerator import _
+from collective.documentgenerator.utils import compute_md5
 from plone.autoform import directives as form
 from plone.dexterity.content import Item
 from plone.formwidget.namedfile import NamedFileWidget
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
-
 from Products.CMFPlone.utils import safe_unicode
-
-from collective.documentgenerator import _
-from collective.documentgenerator.utils import compute_md5
+from zope import schema
+from zope.interface import implements
 
 import logging
+
+
 logger = logging.getLogger('collective.documentgenerator: StyleTemplate')
 
 

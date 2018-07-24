@@ -4,7 +4,6 @@ from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.testing import BaseTest
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from plone import api
-
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 

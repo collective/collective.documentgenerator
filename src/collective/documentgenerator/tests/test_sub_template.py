@@ -4,9 +4,7 @@ from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-
 from plone import api
-
 from zope.component import queryMultiAdapter
 
 import unittest

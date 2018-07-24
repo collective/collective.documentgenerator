@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFCore.interfaces import IFolderish
-
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import isNotFolderishError
-
 from plone import api
 from plone.namedfile.file import NamedBlobFile
-
+from Products.CMFCore.interfaces import IFolderish
 from zope.interface import implements
 
 import mimetypes

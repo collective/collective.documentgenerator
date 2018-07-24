@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 
-import os
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from OFS.interfaces import IOrderedContainer
-from Products.Five import BrowserView
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
+from OFS.interfaces import IOrderedContainer
 from plone import api
 from plone.dexterity.browser.edit import DefaultEditForm
 from plone.dexterity.browser.view import DefaultView
+from Products.Five import BrowserView
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implements
+
+import os
 
 
 class ResetMd5(BrowserView):

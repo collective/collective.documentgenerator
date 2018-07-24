@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFPlone.utils import safe_unicode
-
 from collective.documentgenerator.testing import DexterityIntegrationTests
-
 from plone import api
 from plone.app.testing import login
 from plone.app.textfield.value import RichTextValue
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
-
+from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
 

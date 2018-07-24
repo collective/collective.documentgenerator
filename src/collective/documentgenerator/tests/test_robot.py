@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import ACCEPTANCE
-
 from plone.testing import layered
 
 import os

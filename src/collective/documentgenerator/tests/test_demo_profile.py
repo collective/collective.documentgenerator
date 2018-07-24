@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
-
 from plone import api
 from plone.app.testing import applyProfile
 

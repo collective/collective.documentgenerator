@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator import _
+from plone import api
+from Products.CMFPlone.utils import safe_unicode
+from zope import i18n
+from zope.component import getMultiAdapter
+from zope.interface import Invalid
+from zope.lifecycleevent import modified
+
 import hashlib
 import logging
 import os
 import re
 
-from zope import i18n
-from zope.component import getMultiAdapter
-from zope.lifecycleevent import modified
-from plone import api
-
-from zope.interface import Invalid
-
-from Products.CMFPlone.utils import safe_unicode
-
-from collective.documentgenerator import _
 
 logger = logging.getLogger('collective.documentgenerator')
 

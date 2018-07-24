@@ -5,7 +5,6 @@ from plone.dexterity.filerepresentation import ReadFileBase
 from plone.dexterity.utils import iterSchemata
 from plone.memoize.instance import memoize
 from plone.rfc822.interfaces import IPrimaryField
-
 from zope.filerepresentation.interfaces import IRawWriteFile
 from zope.interface import implements
 from zope.schema import getFieldsInOrder

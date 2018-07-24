@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import logging
+from collective.documentgenerator.content.pod_template import IRenamePageStylesSchema
 from imio.migrator.migrator import Migrator
 from plone import api
-from collective.documentgenerator.content.pod_template import IRenamePageStylesSchema
+
+import logging
+
 
 logger = logging.getLogger('collective.documentgenerator')
 

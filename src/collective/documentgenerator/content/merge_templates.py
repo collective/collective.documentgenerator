@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.interfaces import ITemplatesToMerge
-
 from zope.interface import implements
 
 

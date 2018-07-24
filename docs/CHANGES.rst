@@ -6,6 +6,8 @@ Changelog
 
 - Mailing: include context variables from original template in mailing generation context.
   [sgeulette]
+- pep8: sort import
+  [sgeulette]
 
 3.1 (2018-05-03)
 ----------------

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import appy
-from StringIO import StringIO
-from plone import api
 from collective.documentgenerator.config import HAS_PLONE_5
-from collective.documentgenerator.demo.helper import BaseDemoHelperView
 from collective.documentgenerator.demo.helper import ATDemoHelperView
+from collective.documentgenerator.demo.helper import BaseDemoHelperView
 from collective.documentgenerator.demo.helper import DXDemoHelperView
 from collective.documentgenerator.testing import DexterityIntegrationTests
+from plone import api
+from StringIO import StringIO
+
+import appy
 
 
 class TestBaseHelperViewMethods(DexterityIntegrationTests):

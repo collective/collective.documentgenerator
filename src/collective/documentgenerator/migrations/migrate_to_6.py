@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import logging
 from imio.migrator.migrator import Migrator
 from plone import api
+
+import logging
+
 
 logger = logging.getLogger('collective.documentgenerator')
 

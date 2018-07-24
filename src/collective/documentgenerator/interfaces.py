@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
+from collective.documentgenerator import _
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.schema import ValidationError
+
 import pkg_resources
+
 
 try:
     pkg_resources.get_distribution('collective.eeafaceted.batchactions')
@@ -10,12 +16,6 @@ try:
         """Interface to display batch actions in the BelowContentBody viewlet."""
 except pkg_resources.DistributionNotFound:
     pass
-
-from collective.documentgenerator import _
-
-from zope.interface import Interface
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-from zope.schema import ValidationError
 
 
 class ICollectiveDocumentGeneratorLayer(IDefaultBrowserLayer):

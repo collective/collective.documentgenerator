@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFPlone.utils import _createObjectByType
-from collective.documentgenerator.browser.table import TitleColumn, PathColumn
+from collective.documentgenerator.browser.table import PathColumn
+from collective.documentgenerator.browser.table import TitleColumn
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from plone import api
+from Products.CMFPlone.utils import _createObjectByType
 
 
 class TestTemplatesListingView(PODTemplateIntegrationTest):

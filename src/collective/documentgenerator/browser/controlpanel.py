@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import inspect
-import os
-
-from Products.CMFPlone.utils import safe_unicode
-from Products.statusmessages.interfaces import IStatusMessage
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
+from Products.CMFPlone.utils import safe_unicode
+from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from zope import schema
-from zope.interface import Interface
 from zope.interface import implements
+from zope.interface import Interface
+
+import inspect
+import os
+
 
 COLUMN_MODIFIER_DESCR = _(
     u'If enabled, this will allow the "table-layout: fixed|auto|none" '

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFPlone import interfaces as Plone
-from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+from Products.CMFPlone import interfaces as Plone
+from Products.CMFPlone.utils import safe_unicode
+from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
 from zope.interface import implementer
+
+import logging
+
 
 try:
     from Products.CMFPlone.interfaces.constrains import IConstrainTypes
 except ImportError:
     # BBB Plone 4
     from Products.CMFPlone.interfaces import IConstrainTypes
-
-import logging
-
-from Products.CMFPlone.utils import safe_unicode
 
 logger = logging.getLogger('collective.documentgenerator')
 

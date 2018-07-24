@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os
-import tempfile
-
 from AccessControl import Unauthorized
-
 from appy.shared.zip import unzip
-from collective.documentgenerator.config import HAS_PLONE_5
-from collective.documentgenerator.config import get_raiseOnError_for_non_managers
 from collective.documentgenerator.config import get_column_modifier
+from collective.documentgenerator.config import get_raiseOnError_for_non_managers
+from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
@@ -19,16 +15,16 @@ from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.utils import translate as _
-
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone.utils import base_hasattr
-
 from zope.annotation.interfaces import IAnnotations
 
+import os
+import tempfile
 import unittest
 
 

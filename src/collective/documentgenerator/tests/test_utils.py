@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-import copy
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.utils import update_templates, compute_md5, update_dict_with_validation
-import collective.documentgenerator as cdg
+from collective.documentgenerator.utils import compute_md5
+from collective.documentgenerator.utils import update_dict_with_validation
+from collective.documentgenerator.utils import update_templates
 from zope.interface import Invalid
 from zope.lifecycleevent import modified
+
+import collective.documentgenerator as cdg
+import copy
 
 
 class TestUtils(PODTemplateIntegrationTest):

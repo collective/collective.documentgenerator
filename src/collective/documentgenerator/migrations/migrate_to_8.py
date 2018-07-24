@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from Products.CMFPlone.utils import base_hasattr
+from collective.documentgenerator.content.pod_template import IRenamePageStylesSchema
 from imio.migrator.migrator import Migrator
 from plone import api
-from collective.documentgenerator.content.pod_template import IRenamePageStylesSchema
+from Products.CMFPlone.utils import base_hasattr
+
+import logging
+
 
 logger = logging.getLogger('collective.documentgenerator')
 

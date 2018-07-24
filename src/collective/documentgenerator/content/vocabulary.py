@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFPlone.utils import safe_unicode
 from collective.documentgenerator import _
-from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.config import get_column_modifier
+from collective.documentgenerator.config import POD_FORMATS
 from plone import api
+from Products.CMFPlone.utils import safe_unicode
 from z3c.form.i18n import MessageFactory as _z3c_form
-from z3c.form.interfaces import IContextAware, IDataManager
-from z3c.form.term import MissingChoiceTermsVocabulary, MissingTermsMixin
-from zope.component import getUtility
+from z3c.form.interfaces import IContextAware
+from z3c.form.interfaces import IDataManager
+from z3c.form.term import MissingChoiceTermsVocabulary
+from z3c.form.term import MissingTermsMixin
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm

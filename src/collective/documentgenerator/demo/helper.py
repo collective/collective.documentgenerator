@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from DateTime import DateTime
-from zope.event import notify
-
-from Products.Archetypes.interfaces.base import IBaseFolder
-
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import safe_encode
 from collective.documentgenerator.utils import translate as _
-
+from DateTime import DateTime
 from plone import api
-from plone.dexterity.events import EditCancelledEvent
 from plone.app.textfield import RichText
+from plone.dexterity.events import EditCancelledEvent
 from plone.dexterity.interfaces import IDexterityContainer
-
+from Products.Archetypes.interfaces.base import IBaseFolder
 from zope.component import getUtility
-from zope.schema import List
+from zope.event import notify
 from zope.i18n.interfaces import ITranslationDomain
+from zope.schema import List
 
 
 class BaseDemoHelperView(DocumentGenerationHelperView):

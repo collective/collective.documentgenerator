@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
 from Acquisition import aq_base
 from collective.documentgenerator.content.condition import PODTemplateCondition
 from collective.documentgenerator.content.merge_templates import TemplatesToMergeForPODTemplate
@@ -16,6 +14,8 @@ from zope.component import getGlobalSiteManager
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import Interface
+
+import unittest
 
 
 class TestPODTemplate(unittest.TestCase):
