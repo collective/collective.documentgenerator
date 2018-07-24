@@ -407,10 +407,12 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         annot = IAnnotations(self.document).get('documentgenerator', '')
         if not annot or 'template_uid' not in annot:
             raise Exception("Cannot find 'template_uid' on document '{0}'".format(self.document.absolute_url()))
-        pod_template = self.get_pod_template(annot['template_uid'])
-        if not base_hasattr(pod_template, 'mailing_loop_template') or not pod_template.mailing_loop_template:
-            raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(pod_template.absolute_url()))
-        loop_template = self.get_pod_template(pod_template.mailing_loop_template)
+        self.orig_template = self.get_pod_template(annot['template_uid'])
+        if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
+                not self.orig_template.mailing_loop_template):
+            raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
+                            self.orig_template.absolute_url()))
+        loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)
 
         if 'output_format' not in annot:
             raise Exception("No 'output_format' found to generate this document")
@@ -424,4 +426,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         dic = {'mailing_list': helper_view.mailing_list(), 'mailed_doc': self.document}
         utils.update_dict_with_validation(gen_context, dic,
                                           _("Error when merging mailing_list in generation context"))
+        # add variable context from original template
+        utils.update_dict_with_validation(gen_context, self._get_context_variables(self.orig_template),
+                                          _("Error when merging context_variables in generation context"))
         return gen_context

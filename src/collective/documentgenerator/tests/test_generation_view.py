@@ -10,6 +10,7 @@ from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import set_column_modifier
+from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
@@ -362,6 +363,11 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertNotIn('test_template', info['content.xml'])
         self.assertIn('mailed_data.title', info['content.xml'])
         self.assertIn('mailed_data.id', info['content.xml'])
+        # check context variables
+        gen_context = generation_view._get_generation_context(generation_view.get_generation_context_helper(),
+                                                              pod_template)
+        self.assertIn('details', gen_context)
+        self.assertEqual(gen_context['details'], '1')
 
         # the mailing loop view is called on the folder context !
         generation_view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
@@ -386,7 +392,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('test_template_multiple', info['content.xml'])
         self.assertIn('Collection template', info['content.xml'])
         self.assertIn('test_template_bis', info['content.xml'])
-        # Mailing has been done ;-)
+        # check that context variables from original template are also in mailing generation context
+        self.assertTrue(isinstance(generation_view.pod_template, MailingLoopTemplate))
+        gen_context = generation_view._get_generation_context(generation_view.get_generation_context_helper(),
+                                                              generation_view.pod_template)
+        self.assertIn('details', gen_context)
+        self.assertEqual(gen_context['details'], '1')
 
     def test_table_column_modifier(self):
         """ """

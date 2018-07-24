@@ -4,8 +4,8 @@ Changelog
 3.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Mailing: include context variables from original template in mailing generation context.
+  [sgeulette]
 
 3.1 (2018-05-03)
 ----------------

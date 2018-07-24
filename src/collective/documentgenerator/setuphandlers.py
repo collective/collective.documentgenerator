@@ -217,6 +217,12 @@ def install_demo(context):
             pod_formats=['odt'],
             pod_portal_types=['Folder'],
             mailing_loop_template=loop_template.UID(),
+            context_variables=[
+                {
+                    'name': 'details',
+                    'value': '1',
+                }
+            ],
         )
 
     if not hasattr(pod_folder, 'test_template_reusable'):
