@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.2 (unreleased)
+3.2 (2018-07-24)
 ----------------
 
 - Mailing: include context variables from original template in mailing generation context.
