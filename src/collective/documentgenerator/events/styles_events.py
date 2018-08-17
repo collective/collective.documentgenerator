@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from .. import _
 from appy.shared.utils import executeCommand
+from collective.documentgenerator import _
 from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone.utils import safe_unicode
@@ -40,7 +41,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
                 logger.info('"{}" => updated'.format(pod_template.Title()))
 
     # delete temporary styles files
-    os.remove(style_template_file.name)
+    remove_tmp_file(style_template_file.name)
 
 
 def styletemplate_created(style_template, event):
@@ -113,12 +114,12 @@ def _update_template_styles(pod_template, style_template_filename):
                                contentType='application/vnd.oasis.opendocument.text',
                                filename=pod_template.odt_file.filename)
         pod_template.odt_file = result
-        os.remove(resTempFileName)
+        remove_tmp_file(resTempFileName)
         # if only styles were modified: update the style_modification_md5 attribute
         if style_changes_only:
             pod_template.style_modification_md5 = pod_template.current_md5
 
-    os.remove(temp_file.name)
+    remove_tmp_file(temp_file.name)
 
 
 def create_temporary_file(initial_file=None, base_name=''):

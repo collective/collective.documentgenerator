@@ -10,7 +10,7 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
-from collective.documentgenerator.utils import logger
+from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
@@ -24,7 +24,6 @@ from zope.component import queryAdapter
 from zope.component import queryUtility
 
 import mimetypes
-import os
 import tempfile
 import unicodedata
 
@@ -88,11 +87,7 @@ class DocumentGenerationView(BrowserView):
         rendered_document = open(document_path, 'rb')
         rendered = rendered_document.read()
         rendered_document.close()
-        try:
-            os.remove(document_path)
-        except OSError:
-            # do not break if unable to remove temporary file
-            logger.warn("Could not remove temporary file at {0}".format(document_path))
+        remove_tmp_file(document_path)
         filename = self._get_filename()
         return rendered, filename, gen_context
 

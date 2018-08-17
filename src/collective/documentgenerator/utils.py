@@ -128,3 +128,11 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
         custom_format = custom_format.replace('_p_c_', '%%')
         formatted_date = date.strftime(custom_format.encode('utf8'))
     return safe_unicode(formatted_date)
+
+
+def remove_tmp_file(filename):
+    """Do not break if unable to remove temporary file, but log error if any."""
+    try:
+        os.remove(filename)
+    except OSError:
+        logger.warn("Could not remove temporary file at {0}".format(filename))

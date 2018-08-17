@@ -4,8 +4,9 @@ Changelog
 3.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Do not break if not allowed to remove tmp file, this is the case for example
+  when LibreOffice user is not same as Zope instance user.
+  [gbastien]
 
 3.2 (2018-07-24)
 ----------------
