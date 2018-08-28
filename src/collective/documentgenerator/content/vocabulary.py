@@ -84,7 +84,7 @@ class MergeTemplatesVocabularyFactory(object):
         voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _z3c_form('No value'))]
 
         for brain in pod_templates:
-            voc_terms.append(SimpleTerm( brain.UID, brain.UID, self._render_term_title(brain)))
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._render_term_title(brain)))
 
         vocabulary = SimpleVocabulary(voc_terms)
 
