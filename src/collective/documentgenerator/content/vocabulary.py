@@ -68,17 +68,23 @@ class MergeTemplatesVocabularyFactory(object):
     Vocabulary factory for 'merge_templates' field.
     """
 
+    def _portal_types(self):
+        return ['PODTemplate', 'SubTemplate']
+
+    def _render_term_title(self, brain):
+        return brain.Title
+
     def __call__(self, context):
         catalog = api.portal.get_tool('portal_catalog')
         pod_templates = catalog(
-            portal_type=['PODTemplate', 'SubTemplate'],
+            portal_type=self._portal_types(),
             sort_on='sortable_title',
             sort_order='ascending',
         )
         voc_terms = [SimpleTerm('--NOVALUE--', '--NOVALUE--', _z3c_form('No value'))]
 
         for brain in pod_templates:
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, brain.Title))
+            voc_terms.append(SimpleTerm( brain.UID, brain.UID, self._render_term_title(brain)))
 
         vocabulary = SimpleVocabulary(voc_terms)
 

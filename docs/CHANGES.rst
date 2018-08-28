@@ -7,6 +7,8 @@ Changelog
 - Do not break if not allowed to remove tmp file, this is the case for example
   when LibreOffice user is not same as Zope instance user.
   [gbastien]
+- Allow to override portal_types and display title the list of templates to merge
+  [odelaere]
 
 3.2 (2018-07-24)
 ----------------
