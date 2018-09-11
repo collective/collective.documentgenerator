@@ -244,11 +244,13 @@ class DocumentGenerationView(BrowserView):
         utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
                                           _("Error when merging context_variables in generation context"))
         # We add mailed_data if we have only one element in mailing list
-        mailing_list = helper_view.mailing_list()
-        if len(mailing_list) == 1:
+        mailing_list = helper_view.mailing_list(generation_context)
+        if len(mailing_list) == 0:
+            utils.update_dict_with_validation(generation_context, {'mailed_data': None},
+                                              _("Error when merging mailed_data in generation context"))
+        elif len(mailing_list) == 1:
             utils.update_dict_with_validation(generation_context, {'mailed_data': mailing_list[0]},
                                               _("Error when merging mailed_data in generation context"))
-
         return generation_context
 
     def get_base_generation_context(self):
@@ -417,11 +419,11 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         """ """
         gen_context = super(MailingLoopPersistentDocumentGenerationView, self). \
             _get_generation_context(helper_view, pod_template)
-        # add mailing list in generation context
-        dic = {'mailing_list': helper_view.mailing_list(), 'mailed_doc': self.document}
-        utils.update_dict_with_validation(gen_context, dic,
-                                          _("Error when merging mailing_list in generation context"))
         # add variable context from original template
         utils.update_dict_with_validation(gen_context, self._get_context_variables(self.orig_template),
                                           _("Error when merging context_variables in generation context"))
+        # add mailing list in generation context
+        dic = {'mailing_list': helper_view.mailing_list(gen_context), 'mailed_doc': self.document}
+        utils.update_dict_with_validation(gen_context, dic,
+                                          _("Error when merging mailing_list in generation context"))
         return gen_context

@@ -187,7 +187,7 @@ class DocumentGenerationHelperView(object):
         else:
             return default
 
-    def mailing_list(self):  # pragma: no cover
+    def mailing_list(self, gen_context=None):  # pragma: no cover
         """
             Return a mailing list (that will be added to generation context in "loop" view) to loop on.
             Improvement using from plone.memoize import view ?

@@ -9,6 +9,8 @@ Changelog
   [gbastien]
 - Allow to override portal types and the displayed title in the list of templates to merge.
   [odelaere]
+- Added generation context as parameter to mailing_list
+  [sgeulette]
 
 3.2 (2018-07-24)
 ----------------

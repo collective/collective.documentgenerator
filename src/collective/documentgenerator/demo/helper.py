@@ -90,7 +90,7 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
     def is_folderish(self):
         raise NotImplementedError
 
-    def mailing_list(self):
+    def mailing_list(self, gen_context=None):
         paths = api.portal.get_registry_record('collective.documentgenerator.mailing_list')
         ret = []
         for path in paths:
