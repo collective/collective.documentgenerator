@@ -11,6 +11,8 @@ Changelog
   [odelaere]
 - Added generation context as parameter to mailing_list
   [sgeulette]
+- Avoid calling mailing_list 2 times in MailingLoopPersistentDocumentGenerationView
+  [sgeulette]
 
 3.2 (2018-07-24)
 ----------------

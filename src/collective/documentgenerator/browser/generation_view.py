@@ -243,14 +243,6 @@ class DocumentGenerationView(BrowserView):
                                           _("Error when merging helper_view in generation context"))
         utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
                                           _("Error when merging context_variables in generation context"))
-        # We add mailed_data if we have only one element in mailing list
-        mailing_list = helper_view.mailing_list(generation_context)
-        if len(mailing_list) == 0:
-            utils.update_dict_with_validation(generation_context, {'mailed_data': None},
-                                              _("Error when merging mailed_data in generation context"))
-        elif len(mailing_list) == 1:
-            utils.update_dict_with_validation(generation_context, {'mailed_data': mailing_list[0]},
-                                              _("Error when merging mailed_data in generation context"))
         return generation_context
 
     def get_base_generation_context(self):
@@ -382,6 +374,25 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         response = self.request.response
         return response.redirect(persisted_doc.absolute_url() + '/external_edit')
 
+    def mailing_related_generation_context(self, helper_view, gen_context):
+        """
+            Add mailing related information in generation context
+        """
+        # We add mailed_data if we have only one element in mailing list
+        mailing_list = helper_view.mailing_list(gen_context)
+        if len(mailing_list) == 0:
+            utils.update_dict_with_validation(gen_context, {'mailed_data': None},
+                                              _("Error when merging mailed_data in generation context"))
+        elif len(mailing_list) == 1:
+            utils.update_dict_with_validation(gen_context, {'mailed_data': mailing_list[0]},
+                                              _("Error when merging mailed_data in generation context"))
+
+    def _get_generation_context(self, helper_view, pod_template):
+        """ """
+        gen_context = super(PersistentDocumentGenerationView, self)._get_generation_context(helper_view, pod_template)
+        self.mailing_related_generation_context(helper_view, gen_context)
+        return gen_context
+
 
 class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationView):
     """
@@ -414,6 +425,12 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if 'output_format' not in annot:
             raise Exception("No 'output_format' found to generate this document")
         return loop_template, annot['output_format']
+
+    def mailing_related_generation_context(self, helper_view, gen_context):
+        """
+            Add mailing related information in generation context
+        """
+        # We do nothing here because we have to call mailing_list after original template context variable inclusion
 
     def _get_generation_context(self, helper_view, pod_template):
         """ """
