@@ -13,6 +13,8 @@ Changelog
   [sgeulette]
 - Avoid calling mailing_list 2 times in MailingLoopPersistentDocumentGenerationView
   [sgeulette]
+- Added update_oo_config function to update oo option following environment variable
+  [sgeulette]
 
 3.2 (2018-07-24)
 ----------------
