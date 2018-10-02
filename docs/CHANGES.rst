@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.3 (unreleased)
+3.3 (2018-10-02)
 ----------------
 
 - Do not break if not allowed to remove tmp file, this is the case for example
