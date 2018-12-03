@@ -5,7 +5,7 @@
         <li tal:repeat="child children">
             <a href="#"
                   tal:attributes="href child/absolute_url"
-                  tal:content="child/Title">
+                  tal:content="python: view.render_child(child)">
                 child title
             </a>
         </li>

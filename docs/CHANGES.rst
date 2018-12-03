@@ -4,8 +4,9 @@ Changelog
 3.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- On a Pod template, when displaying Pod templates that are using my odt_file,
+  display the absolute_url next to the title.
+  [gbastien]
 
 3.3 (2018-10-02)
 ----------------

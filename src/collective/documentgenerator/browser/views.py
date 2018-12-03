@@ -106,6 +106,9 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
     def get_children(self):
         return self.context.get_children_pod_template()
 
+    def render_child(self, child):
+        return '{0} ({1})'.format(child.Title(), child.absolute_url())
+
     def render(self):
         return self.template()
 
