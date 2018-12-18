@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.4 (unreleased)
+3.4 (2018-12-18)
 ----------------
 
 - On a Pod template, when displaying Pod templates that are using my odt_file,
