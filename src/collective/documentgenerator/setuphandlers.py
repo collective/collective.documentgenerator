@@ -33,6 +33,9 @@ def post_install(context):
 
 def install_demo(context):
     """ """
+    if context.readDataFile('collectivedocumentgenerator_demo_marker.txt') is None:
+        return
+
     portal = api.portal.get()
 
     if not hasattr(portal, 'podtemplates'):
