@@ -400,11 +400,16 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
     """
 
-    def __call__(self, document_uid=''):
+    def __call__(self, document_uid='', document_url_path=''):
         document_uid = document_uid or self.request.get('document_uid', '')
-        if not document_uid:
-            raise Exception("No 'document_uid' found to generate this document")
-        self.document = uuidToObject(document_uid)
+        document_url_path = document_url_path or self.request.get('document_url_path', '')
+        if not document_uid and not document_url_path:
+            raise Exception("No 'document_uid' or 'url_path' found to generate this document")
+        elif document_url_path:
+            site = api.portal.get()
+            self.document = site.restrictedTraverse(document_url_path)
+        else:
+            self.document = uuidToObject(document_uid)
         if not self.document:
             raise Exception("Cannot find document with UID '{0}'".format(document_uid))
         self.pod_template, self.output_format = self._get_base_args('', '')
