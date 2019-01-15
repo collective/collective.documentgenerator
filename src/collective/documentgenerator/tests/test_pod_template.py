@@ -58,8 +58,7 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         self.assertTrue('Canevas' in contents, msg)
 
     def test_odt_file_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'odt_file' is not editable"
         self.assertTrue('Canevas' in contents, msg)
 
@@ -74,8 +73,7 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         self.assertTrue('id="form-widgets-initial_md5"' not in contents, msg)
 
     def test_initial_md5_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'initial_md5' is editable"
         self.assertTrue('md5' not in contents, msg)
 
@@ -92,8 +90,7 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         self.assertTrue('Activé' in contents, msg)
 
     def test_enabled_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'enabled' is not editable"
         self.assertTrue('Activé' in contents, msg)
 

@@ -53,8 +53,7 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         self.assertTrue('Types de contenu autorisés' in contents, msg)
 
     def test_pod_portal_types_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'pod_portal_types' is not editable"
         self.assertTrue('Types de contenu autorisés' in contents, msg)
 
@@ -71,8 +70,7 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         self.assertTrue('Modèle de style' in contents, msg)
 
     def test_style_template_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'style_template' is not editable"
         self.assertTrue('Modèle de style' in contents, msg)
 
@@ -89,8 +87,7 @@ class TestConfigurablePODTemplateFields(ConfigurablePODTemplateIntegrationTest):
         self.assertTrue('Modèles à fusionner' in contents, msg)
 
     def test_merge_templates_field_edit(self):
-        self.browser.open(self.test_podtemplate.absolute_url() + '/edit')
-        contents = self.browser.contents
+        contents = self._edit_object(self.test_podtemplate)
         msg = "field 'merge_templates' is not editable"
         self.assertTrue('Modèles à fusionner' in contents, msg)
 

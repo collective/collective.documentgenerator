@@ -15,6 +15,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.protect.authenticator import createToken
 from plone.testing import z2
 
 import collective.documentgenerator
@@ -58,6 +59,7 @@ class NakedPloneLayer(PloneSandboxLayer):
         """Tear down Zope."""
         z2.uninstallProduct(app, 'collective.documentgenerator')
         (stdout, stderr, st) = runCommand('%s/bin/soffice.sh stop' % os.getenv('PWD'))
+
 
 NAKED_PLONE_FIXTURE = NakedPloneLayer(
     name='NAKED_PLONE_FIXTURE'
@@ -193,6 +195,12 @@ class BrowserTest(BaseTest):
         self.browser.getControl(name='__ac_name').value = user
         self.browser.getControl(name='__ac_password').value = password
         self.browser.getControl(name='submit').click()
+
+    def _edit_object(self, obj):
+        token = createToken()
+        self.browser.open('{}/?_authenticator={}'.format(obj.absolute_url(), token))
+        contents = self.browser.contents
+        return contents
 
 
 class PODTemplateIntegrationTest(BrowserTest):
