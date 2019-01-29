@@ -13,6 +13,7 @@ class DefaultATFieldRenderer(object):
         self.field = field
         self.widget = widget
         self.context = context
+        self.helper_view = None
 
     def render(self, no_value=''):
         if self.has_no_value():
@@ -66,12 +67,16 @@ class RichTextATFieldRenderer(DefaultATFieldRenderer):
     """
     """
 
+    def render(self, no_value='<p></p>'):
+        if self.has_no_value():
+            display_value = self.helper_view.appy_renderer.renderXhtml(no_value)
+        else:
+            display_value = self.render_value()
+        return display_value
+
     def render_value(self):
-        msg = "!!! the field '{field_name}' is a html richtext , use \
-              'do text from view.render_xhtml('{field_name}')' in a commentary instead !!!'".format(
-            field_name=self.field.getName()
-        )
-        return msg
+        display = self.helper_view.render_xhtml(self.field.getName())
+        return display
 
 
 class LinesATFieldRenderer(DefaultATFieldRenderer):

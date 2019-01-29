@@ -27,6 +27,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         field = self.real_context.getField(field_name)
         widget = field.widget
         renderer = getMultiAdapter((field, widget, self.real_context), IFieldRendererForDocument)
+        renderer.helper_view = self
 
         return renderer
 
