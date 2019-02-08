@@ -74,7 +74,7 @@ class IPODTemplate(model.Schema):
         title=_(u'Style template'),
         description=_(u'Choose the style template to apply for this template.'),
         value_type=schema.Choice(source='collective.documentgenerator.StyleTemplates'),
-        required=True,
+        required=False,
     )
 
 

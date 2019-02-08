@@ -4,8 +4,8 @@ Changelog
 3.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Made style not mandatory.
+  [sgeulette]
 
 3.4 (2018-12-18)
 ----------------
