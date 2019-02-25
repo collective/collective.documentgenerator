@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from .. import _
+import mimetypes
+import tempfile
+import unicodedata
+from StringIO import StringIO
+
+import pkg_resources
 from AccessControl import Unauthorized
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
 from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
@@ -14,19 +22,20 @@ from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
-from Products.CMFPlone.utils import base_hasattr
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
-from StringIO import StringIO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryAdapter
 from zope.component import queryUtility
+from .. import _
 
-import mimetypes
-import tempfile
-import unicodedata
+HAS_FINGERPOINTING = None
 
+try:
+    pkg_resources.get_distribution('collective.fingerpointing')
+except pkg_resources.DistributionNotFound:
+    HAS_FINGERPOINTING = False
+else:
+    HAS_FINGERPOINTING = True
 
 class DocumentGenerationView(BrowserView):
     """
@@ -57,6 +66,19 @@ class DocumentGenerationView(BrowserView):
         Generate a document of format 'output_format' from the template
         'pod_template' and return it as a downloadable file.
         """
+        if HAS_FINGERPOINTING:
+            from collective.fingerpointing.config import AUDIT_MESSAGE
+            from collective.fingerpointing.logger import log_info
+            from collective.fingerpointing.utils import get_request_information
+            # add logging message to fingerpointing log
+            user, ip = get_request_information()
+            action = 'generate_document'
+            extras = 'context={0} pod_template={1} output_format={2}'.format(
+                '/'.join(self.context.getPhysicalPath()),
+                '/'.join(pod_template.getPhysicalPath()),
+                output_format)
+            log_info(AUDIT_MESSAGE.format(user, ip, action, extras))
+
         doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
         self._set_header_response(doc_name)
         return doc
