@@ -5,6 +5,7 @@ all: run
 .PHONY: bootstrap buildout run test cleanall
 bootstrap:
 	virtualenv-2.7 .
+	pip install -r requirements.txt
 	./bin/python bootstrap.py --version=2.10.0
 
 buildout:
