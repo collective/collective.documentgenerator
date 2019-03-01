@@ -6,6 +6,8 @@ Changelog
 
 - Made style not mandatory.
   [sgeulette]
+- Added collective.fingerpointing support to know who generated which document in which format
+  [odelaere]
 
 3.4 (2018-12-18)
 ----------------
