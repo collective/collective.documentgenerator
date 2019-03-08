@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.5 (unreleased)
+3.5 (2019-03-08)
 ----------------
 
 - Made style not mandatory.
