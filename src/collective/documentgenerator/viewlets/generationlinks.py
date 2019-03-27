@@ -14,7 +14,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     def get_all_pod_templates(self):
         catalog = api.portal.get_tool(name='portal_catalog')
-        brains = catalog.unrestrictedSearchResults(portal_type=VIEWLET_TYPES)
+        brains = catalog.unrestrictedSearchResults(portal_type=VIEWLET_TYPES, sort_on='getObjPositionInParent')
         pod_templates = [self.context.unrestrictedTraverse(brain.getPath()) for brain in brains]
 
         return pod_templates

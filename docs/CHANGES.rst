@@ -4,8 +4,8 @@ Changelog
 3.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Ordered generation links by position in parent.
+  [sgeulette]
 
 3.5 (2019-03-08)
 ----------------
