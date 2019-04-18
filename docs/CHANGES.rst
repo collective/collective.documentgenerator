@@ -5,7 +5,7 @@ Changelog
 ----------------
 
 - Pass parameters `helper_view` and `pod_template` to
- `DocumentGenerationView.get_base_generation_context` so it is available
+  `DocumentGenerationView.get_base_generation_context` so it is available
   if necessary.
   [gbastien]
 
