@@ -258,7 +258,7 @@ class DocumentGenerationView(BrowserView):
         """
         Return the generation context for the current document.
         """
-        generation_context = self.get_base_generation_context()
+        generation_context = self.get_base_generation_context(helper_view, pod_template)
         utils.update_dict_with_validation(generation_context,
                                           {'context': getattr(helper_view, 'context', None),
                                            'view': helper_view},
@@ -267,7 +267,7 @@ class DocumentGenerationView(BrowserView):
                                           _("Error when merging context_variables in generation context"))
         return generation_context
 
-    def get_base_generation_context(self):
+    def get_base_generation_context(self, helper_view, pod_template):
         """
         Override this method to provide your own generation context.
         """

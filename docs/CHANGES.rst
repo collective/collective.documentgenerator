@@ -4,8 +4,10 @@ Changelog
 3.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Pass parameters `helper_view` and `pod_template` to
+ `DocumentGenerationView.get_base_generation_context` so it is available
+  if necessary.
+  [gbastien]
 
 3.6 (2019-03-27)
 ----------------
