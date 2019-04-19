@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator import _
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import POD_FORMATS
 from plone import api
@@ -191,7 +192,7 @@ class ExistingPODTemplateFactory(object):
     def _get_existing_pod_templates(self, context, enabled_only=False):
         brains = []
         catalog = api.portal.get_tool('portal_catalog')
-        for brain in catalog(portal_type='ConfigurablePODTemplate'):
+        for brain in catalog(object_provides=IConfigurablePODTemplate.__identifier__):
             template = brain.getObject()
             if enabled_only and not template.enabled:
                 continue

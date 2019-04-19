@@ -8,6 +8,9 @@ Changelog
   `DocumentGenerationView.get_base_generation_context` so it is available
   if necessary.
   [gbastien]
+- Display every POD templates that implement IConfigurablePODTemplate in the
+  `collective.documentgenerator.ExistingPODTemplate` vocabulary.
+  [gbastien]
 
 3.6 (2019-03-27)
 ----------------
