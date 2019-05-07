@@ -58,7 +58,8 @@ setup(
         'z3c.table',
         # fix about orderedselect
         'z3c.form>=3.2.4',
-        'imio.helpers>=0.13',
+        'imio.helpers>=0.18',
+        'imio.migrator>=1.11'
     ],
     extras_require={
         'test': [
