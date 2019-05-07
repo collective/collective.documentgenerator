@@ -2,7 +2,7 @@
 #
 all: run
 
-.PHONY: bootstrap buildout run test cleanall
+.PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
 bootstrap:
 	virtualenv-2.7 .
 	pip install -r requirements.txt
@@ -18,9 +18,18 @@ run:
 
 test:
 	if ! test -f bin/test;then make buildout;fi
+	make startlibreoffice
 	rm -fr htmlcov
 	bin/translation-manage -c
 	bin/test
+	make stoplibreoffice
 
 cleanall:
-	rm -fr develop-eggs htmlcov include .installed.cfg lib .mr.developer.cfg parts downloads eggs
+	rm -fr bin develop-eggs htmlcov include .installed.cfg lib .mr.developer.cfg parts downloads eggs
+
+startlibreoffice:
+	make stoplibreoffice
+	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice
+
+stoplibreoffice:
+	if docker ps | grep oo_server;then docker stop oo_server;fi
