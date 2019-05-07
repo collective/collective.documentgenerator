@@ -41,6 +41,13 @@ class IDocumentGeneratorControlPanelSchema(Interface):
     """
     """
 
+    oo_server = schema.TextLine(
+        title=_(u'oo_server'),
+        description=_(u'IP address or hostname of OO.'),
+        required=False,
+        default=safe_unicode(os.getenv('OO_SERVER', u'localhost')),
+    )
+
     oo_port = schema.Int(
         title=_(u'oo_port'),
         description=_(u'Port Number of OO.'),
@@ -52,7 +59,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u'uno path'),
         description=_(u'Path of python with uno.'),
         required=False,
-        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python')),
+        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python3')),
         constraint=check_for_uno
     )
 
@@ -73,6 +80,14 @@ class IDocumentGeneratorControlPanelSchema(Interface):
                       u'if it uses .odt format.'),
         required=False,
         default=False
+    )
+
+    use_stream = schema.Bool(
+        title=_(u'Force communication via in/out stream with LibreOffice.'),
+        description=_(u'If enabled, this will force using stream to communicate witth LibreOffice server. '
+                      u'This must be true if the LO server is not on localhost or is in a docker container.'),
+        required=True,
+        default=True
     )
 
 
