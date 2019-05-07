@@ -224,11 +224,39 @@ class DocumentGenerationView(BrowserView):
                 if 'Manager' in api.user.get_roles() and output_format == 'odt':
                     raiseOnError = False
 
+        # stylesMapping.update({'para[class=None, parent != cell]': 'texte_delibe',
+        #                       'para[class=xSmallText, parent != cell]': 'bodyXSmall',
+        #                       'para[class=smallText, parent != cell]': 'bodySmall',
+        #                       'para[class=largeText, parent != cell]': 'bodyLarge',
+        #                       'para[class=xLargeText, parent != cell]': 'bodyXLarge',
+        #                       'para[class=indentation, parent != cell]': 'bodyIndentation',
+        #                       'para[class=None, parent = cell]': 'cell_delibe',
+        #                       'table': TableProperties(cellContentStyle='cell_delibe'),
+        #                       'para[class=xSmallText, parent = cell]': 'cellXSmall',
+        #                       'para[class=smallText, parent = cell]': 'cellSmall',
+        #                       'para[class=largeText, parent = cell]': 'cellLarge',
+        #                       'para[class=xLargeText, parent = cell]': 'cellXLarge',
+        #                       'para[class=indentation, parent = cell]': 'cellIndentation',
+        #                       })
+        # stylesMapping.update({'para[class=None,parent!=cell]': 'texte_delibe',
+        #                       'para[class=xSmallText,parent!=cell]': 'bodyXSmall',
+        #                       'para[class=smallText,parent!=cell]': 'bodySmall',
+        #                       'para[class=largeText,parent!=cell]': 'bodyLarge',
+        #                       'para[class=xLargeText,parent!=cell]': 'bodyXLarge',
+        #                       'para[class=indentation,parent!=cell]': 'bodyIndentation',
+        #                       'para[class=xSmallText,parent=cell]': 'cellXSmall',
+        #                       'para[class=smallText,parent=cell]': 'cellSmall',
+        #                       'para[class=largeText,parent=cell]': 'cellLarge',
+        #                       'para[class=xLargeText,parent=cell]': 'cellXLarge',
+        #                       'para[class=indentation,parent=cell]': 'cellIndentation',
+        #                       })
+
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
+            ooServer=config.get_oo_server(),
             ooPort=config.get_oo_port(),
             raiseOnError=raiseOnError,
             imageResolver=api.portal.get(),
@@ -236,6 +264,7 @@ class DocumentGenerationView(BrowserView):
             optimalColumnWidths=optimalColumnWidths,
             distributeColumns=distributeColumns,
             stylesMapping=stylesMapping,
+            stream=config.get_use_stream(),
             **kwargs
         )
 
