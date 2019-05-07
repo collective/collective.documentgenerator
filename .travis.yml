@@ -1,10 +1,9 @@
+dist: xenial
+
 language: python
 
 python:
   - 2.7
-
-services:
-  - docker
 
 cache:
   pip: true
@@ -17,41 +16,46 @@ env:
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
 
+services:
+  - docker
+
 before_install:
   - pip install --upgrade pip
+  - docker pull xcgd/libreoffice
 
 install:
-  - sudo apt-get -qq install libfreetype6-dev liblcms1-dev
+  - sudo apt update -qq -y
+  - sudo apt install -qq -y libfreetype6-dev liblcms2-dev make libreoffice-script-provider-python
+  - sudo apt autoremove -qq -y
+  - sudo apt autoclean -qq -y
   - mkdir -p buildout-cache/{eggs,downloads}
   - mkdir $HOME/tmp
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
-  - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - pip install lxml --no-binary lxml
-  - python --version
-  - python bootstrap.py --version=2.10.0
+  - python -V
+  - pip install -r requirements.txt
+  - python bootstrap.py --version=2.11.4
   - bin/buildout -N -c travis.cfg annotate
-  - bin/buildout -N -c travis.cfg
-  - bin/translation-manage -c
-  - docker pull xcgd/libreoffice
+  - bin/buildout -Nt 5 -c travis.cfg
 
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice
+  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice
+  - bin/translation-manage -c
 
 script:
+  - docker ps
   - bin/test
 
-after_script:
-  docker stop oo_server
-
 after_success:
-  - bin/createcoverage
+  - bin/createcoverage -d htmlcov
   - pip install --upgrade pip
   - pip install -q coveralls==0.5
   - coveralls
+
+after_script:
+  - docker stop oo_server
 
 notifications:
   email:

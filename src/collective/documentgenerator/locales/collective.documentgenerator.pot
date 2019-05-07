@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-04-23 07:59+0000\n"
+"POT-Creation-Date: 2019-05-08 15:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../browser/controlpanel.py:83
+#: ../browser/controlpanel.py:99
 msgid ""
 msgstr ""
 
-#: ../utils.py:79
+#: ../utils.py:77
 msgid "${error_message} for key = '${key}'"
 msgstr ""
 
@@ -30,15 +30,15 @@ msgstr ""
 msgid "A document to generate on a content."
 msgstr ""
 
-#: ../browser/table.py:218
+#: ../browser/table.py:221
 msgid "Actions"
 msgstr ""
 
-#: ../content/pod_template.py:269
+#: ../content/pod_template.py:272
 msgid "Allowed portal types"
 msgstr ""
 
-#: ../content/pod_template.py:260
+#: ../content/pod_template.py:263
 msgid "Available formats"
 msgstr ""
 
@@ -54,27 +54,27 @@ msgstr ""
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:96
+#: ../browser/controlpanel.py:112
 msgid "Cancel"
 msgstr ""
 
-#: ../browser/controlpanel.py:93
+#: ../browser/controlpanel.py:109
 msgid "Changes saved"
 msgstr ""
 
-#: ../content/pod_template.py:245
+#: ../content/pod_template.py:248
 msgid "Check if this POD Template can be reused by other POD Template"
 msgstr ""
 
-#: ../content/pod_template.py:299
+#: ../content/pod_template.py:302
 msgid "Choose the mailing loop template to apply for this template."
 msgstr ""
 
-#: ../content/pod_template.py:72
+#: ../content/pod_template.py:75
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:162
+#: ../setuphandlers.py:165
 msgid "Collection template"
 msgstr ""
 
@@ -82,99 +82,107 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:288
+#: ../content/pod_template.py:291
 msgid "Context variables."
 msgstr ""
 
-#: ../utils.py:76
+#: ../utils.py:74
 msgid "Dict update collision on key"
 msgstr ""
 
-#: ../browser/table.py:152
-#: ../content/vocabulary.py:93
+#: ../browser/table.py:155
+#: ../content/vocabulary.py:102
 msgid "Disabled"
 msgstr ""
 
-#: ../content/vocabulary.py:96
+#: ../content/vocabulary.py:105
 msgid "Distribute"
 msgstr ""
 
-#: ../content/pod_template.py:179
+#: ../content/pod_template.py:182
 msgid "Do rendering"
 msgstr ""
 
-#: ../browser/controlpanel.py:82
+#: ../browser/controlpanel.py:98
 #: ../profiles/base/controlpanel.xml
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../browser/controlpanel.py:98
+#: ../browser/controlpanel.py:114
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../browser/table.py:140
-#: ../content/pod_template.py:64
+#: ../browser/table.py:143
+#: ../content/pod_template.py:67
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/generation_view.py:250
+#: ../browser/generation_view.py:297
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:248
+#: ../browser/generation_view.py:295
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:255
+#: ../browser/generation_view.py:437
 msgid "Error when merging mailed_data in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:426
+#: ../browser/generation_view.py:502
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:184
+#: ../browser/generation_view.py:202
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../tests/test_generation_view.py:256
-msgid "Failing template"
+#: ../browser/controlpanel.py:86
+msgid "Force communication via in/out stream with LibreOffice."
 msgstr ""
 
-#: ../content/vocabulary.py:118
+#: ../content/vocabulary.py:127
 msgid "Force disabled"
 msgstr ""
 
-#: ../content/vocabulary.py:121
+#: ../content/vocabulary.py:130
 msgid "Force distribute"
 msgstr ""
 
-#: ../content/vocabulary.py:119
+#: ../content/vocabulary.py:128
 msgid "Force nothing"
 msgstr ""
 
-#: ../content/vocabulary.py:120
+#: ../content/vocabulary.py:129
 msgid "Force optimize"
 msgstr ""
 
-#: ../setuphandlers.py:124
+#: ../setuphandlers.py:127
 msgid "General template"
 msgstr ""
 
-#: ../content/vocabulary.py:113
+#: ../content/vocabulary.py:122
 msgid "Global value (${global_value})"
 msgstr ""
 
-#: ../setuphandlers.py:92
+#: ../setuphandlers.py:95
 msgid "Header"
 msgstr ""
 
-#: ../browser/controlpanel.py:18
+#: ../browser/controlpanel.py:46
+msgid "IP address or hostname of OO."
+msgstr ""
+
+#: ../browser/controlpanel.py:19
 msgid "If enabled, this will allow the \"table-layout: fixed|auto|none\" CSS style handling while generating document. If no such style is defined on the table, the chosen column modifier of LibreOffice will be applied."
 msgstr ""
 
-#: ../browser/controlpanel.py:68
+#: ../browser/controlpanel.py:76
 msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
+msgstr ""
+
+#: ../browser/controlpanel.py:87
+msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
 msgstr ""
 
 #: ../profiles.zcml:15
@@ -197,8 +205,8 @@ msgstr ""
 msgid "Linked POD Template using this one"
 msgstr ""
 
-#: ../content/pod_template.py:298
-#: ../setuphandlers.py:108
+#: ../content/pod_template.py:301
+#: ../setuphandlers.py:111
 msgid "Mailing loop template"
 msgstr ""
 
@@ -206,15 +214,15 @@ msgstr ""
 msgid "MailingLoopTemplate"
 msgstr ""
 
-#: ../browser/table.py:169
+#: ../browser/table.py:172
 msgid "Modified"
 msgstr ""
 
-#: ../setuphandlers.py:138
+#: ../setuphandlers.py:141
 msgid "Multiple format template"
 msgstr ""
 
-#: ../content/pod_template.py:215
+#: ../content/pod_template.py:218
 msgid "No format selected"
 msgstr ""
 
@@ -222,28 +230,28 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../content/vocabulary.py:94
+#: ../content/vocabulary.py:103
 msgid "Nothing"
 msgstr ""
 
-#: ../content/pod_template.py:52
-#: ../content/style_template.py:29
+#: ../content/pod_template.py:55
+#: ../content/style_template.py:28
 msgid "ODT File"
 msgstr ""
 
-#: ../content/vocabulary.py:95
+#: ../content/vocabulary.py:104
 msgid "Optimize"
 msgstr ""
 
-#: ../browser/table.py:162
+#: ../browser/table.py:165
 msgid "Original"
 msgstr ""
 
-#: ../setuphandlers.py:41
+#: ../setuphandlers.py:44
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:173
+#: ../content/pod_template.py:176
 msgid "POD context name"
 msgstr ""
 
@@ -251,63 +259,63 @@ msgstr ""
 msgid "PODTemplate"
 msgstr ""
 
-#: ../browser/table.py:104
+#: ../browser/table.py:107
 msgid "Path"
 msgstr ""
 
-#: ../browser/controlpanel.py:52
+#: ../browser/controlpanel.py:60
 msgid "Path of python with uno."
 msgstr ""
 
-#: ../browser/table.py:182
+#: ../browser/table.py:185
 msgid "Pod formats"
 msgstr ""
 
-#: ../browser/controlpanel.py:45
+#: ../browser/controlpanel.py:53
 msgid "Port Number of OO."
 msgstr ""
 
-#: ../setuphandlers.py:209
+#: ../setuphandlers.py:212
 msgid "Possibly mailed template"
 msgstr ""
 
-#: ../events/styles_events.py:96
+#: ../events/styles_events.py:98
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr ""
 
-#: ../browser/controlpanel.py:67
+#: ../browser/controlpanel.py:75
 msgid "Raise an error instead generating the document"
 msgstr ""
 
-#: ../content/pod_template.py:244
+#: ../content/pod_template.py:247
 msgid "Reusable"
 msgstr ""
 
-#: ../setuphandlers.py:226
+#: ../setuphandlers.py:235
 msgid "Reusable template"
 msgstr ""
 
-#: ../setuphandlers.py:245
+#: ../setuphandlers.py:254
 msgid "Reuse Test Template"
 msgstr ""
 
-#: ../browser/controlpanel.py:85
+#: ../browser/controlpanel.py:101
 msgid "Save"
 msgstr ""
 
-#: ../content/pod_template.py:252
+#: ../content/pod_template.py:255
 msgid "Select Existing POD Template to reuse"
 msgstr ""
 
-#: ../content/pod_template.py:270
+#: ../content/pod_template.py:273
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:261
+#: ../content/pod_template.py:264
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:192
+#: ../setuphandlers.py:195
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -315,7 +323,7 @@ msgstr ""
 msgid "Steps to ease tests of collective.documentgenerator"
 msgstr ""
 
-#: ../content/pod_template.py:71
+#: ../content/pod_template.py:74
 msgid "Style template"
 msgstr ""
 
@@ -323,52 +331,52 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:77
-msgid "Styles nÂ°2"
+#: ../setuphandlers.py:80
+msgid "Styles n°2"
 msgstr ""
 
 #: ../profiles/base/types/SubTemplate.xml
 msgid "SubTemplate"
 msgstr ""
 
-#: ../browser/controlpanel.py:59
-#: ../content/pod_template.py:305
+#: ../browser/controlpanel.py:67
+#: ../content/pod_template.py:308
 msgid "Table column modifier"
 msgstr ""
 
-#: ../content/pod_template.py:167
+#: ../content/pod_template.py:170
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:277
+#: ../content/pod_template.py:280
 msgid "Templates to merge."
 msgstr ""
 
-#: ../content/pod_template.py:289
+#: ../content/pod_template.py:292
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
-#: ../content/pod_template.py:193
+#: ../content/pod_template.py:196
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:188
+#: ../content/pod_template.py:191
 msgid "Variable name"
 msgstr ""
 
-#: ../content/pod_template.py:338
+#: ../content/pod_template.py:341
 msgid "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."
 msgstr ""
 
-#: ../content/pod_template.py:323
+#: ../content/pod_template.py:326
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:326
+#: ../content/pod_template.py:329
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
-#: ../content/pod_template.py:333
+#: ../content/pod_template.py:336
 msgid "You must select an odt file or an existing pod template"
 msgstr ""
 
@@ -384,27 +392,31 @@ msgstr ""
 msgid "collective.documentgenerator tests"
 msgstr ""
 
-#: ../demo/helper.py:76
+#: ../demo/helper.py:72
 msgid "comment"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:219
+#: ../content/pod_template.py:222
 msgid "element_not_valid"
 msgstr ""
 
-#: ../demo/helper.py:74
+#: ../demo/helper.py:70
 msgid "input_field"
 msgstr ""
 
-#: ../demo/helper.py:84
+#: ../demo/helper.py:80
 msgid "last_change"
 msgstr ""
 
-#: ../browser/controlpanel.py:44
+#: ../browser/controlpanel.py:52
 msgid "oo_port"
 msgstr ""
 
-#: ../browser/controlpanel.py:51
+#: ../browser/controlpanel.py:45
+msgid "oo_server"
+msgstr ""
+
+#: ../browser/controlpanel.py:59
 msgid "uno path"
 msgstr ""

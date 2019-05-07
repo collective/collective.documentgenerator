@@ -37,6 +37,7 @@ except pkg_resources.DistributionNotFound:
 else:
     HAS_FINGERPOINTING = True
 
+
 class DocumentGenerationView(BrowserView):
     """
     Document generation view.
@@ -475,7 +476,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
                 not self.orig_template.mailing_loop_template):
             raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
-                            self.orig_template.absolute_url()))
+                self.orig_template.absolute_url()))
         loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)
 
         if 'output_format' not in annot:

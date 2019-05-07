@@ -15,7 +15,6 @@ import logging
 import os
 import tempfile
 
-
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
 CONVSCRIPT = '{}/converter.py'.format(os.path.dirname(appy.pod.__file__))
@@ -34,7 +33,7 @@ def update_styles_of_all_PODtemplate(style_template, event):
         for brain in pod_templates:
             pod_template = brain.getObject()
             if pod_template.has_linked_template() or \
-               pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
+                    pod_template.odt_file.contentType != 'application/vnd.oasis.opendocument.text':
                 continue
             if pod_template.get_style_template() == style_template:
                 _update_template_styles(pod_template, style_template_file.name)
@@ -71,8 +70,7 @@ def _update_template_styles(pod_template, style_template_filename):
     Update template pod_template by templateStyle.
     """
     # we check if the pod_template has been modified except by style only
-    style_changes_only = pod_template.style_modification_md5 and \
-        pod_template.current_md5 == pod_template.style_modification_md5
+    style_changes_only = pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
     new_template = open(temp_file.name, 'w')
@@ -85,7 +83,7 @@ def _update_template_styles(pod_template, style_template_filename):
         script=CONVSCRIPT,
         tmp_file=temp_file.name,
         extension='odt',
-        libreoffice_host = config.get_oo_server(),
+        libreoffice_host=config.get_oo_server(),
         port=config.get_oo_port(),
         style_template=style_template_filename,
         stream=config.get_use_stream(),
@@ -98,14 +96,16 @@ def _update_template_styles(pod_template, style_template_filename):
         request = portal.REQUEST
         try:
             api.portal.show_message(message=_(u"Problem during styles update on template '${tmpl}': ${err}",
-                                    mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
-                                             'err': safe_unicode(stderr)}),
+                                              mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
+                                                       'err': safe_unicode(stderr)}),
                                     request=request, type='error')
         except:
             pass
-        raise Redirect(request.get('ACTUAL_URL'), _(u"Problem during styles update on template '${tmpl}': ${err}",
-                                                    mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
-                                                             'err': safe_unicode(stderr)}))
+        from zope.i18n import translate
+        raise Redirect(request.get('ACTUAL_URL'),
+                       translate(_(u"Problem during styles update on template '${tmpl}': ${err}",
+                                   mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
+                                            'err': safe_unicode(stderr)})))
 
     # read the merged file
     resTempFileName = '.res.'.join(temp_file.name.rsplit('.', 1))
