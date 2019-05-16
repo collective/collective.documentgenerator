@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.7 (unreleased)
+3.7 (2019-05-16)
 ----------------
 
 - Pass parameters `helper_view` and `pod_template` to
