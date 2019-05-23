@@ -68,7 +68,7 @@ def set_oo_server():
     oo_server = os.getenv('OO_SERVER', None)
     if oo_server:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                       'IDocumentGeneratorControlPanelSchema.oo_server', int(oo_server))
+                                       'IDocumentGeneratorControlPanelSchema.oo_server', oo_server)
 
 
 def set_oo_port():
