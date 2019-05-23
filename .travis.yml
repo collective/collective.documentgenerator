@@ -25,7 +25,7 @@ before_install:
 
 install:
   - sudo apt update -qq -y
-  - sudo apt install -qq -y libfreetype6-dev liblcms2-dev make libreoffice-script-provider-python
+  - sudo apt install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
   - sudo apt autoremove -qq -y
   - sudo apt autoclean -qq -y
   - mkdir -p buildout-cache/{eggs,downloads}
@@ -47,15 +47,16 @@ before_script:
 script:
   - docker ps
   - bin/test
+  - docker stop oo_server
+  - echo "Test with local libreoffice"
+  - /usr/bin/soffice --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
+  - bin/test
 
 after_success:
   - bin/createcoverage -d htmlcov
   - pip install --upgrade pip
   - pip install -q coveralls==0.5
   - coveralls
-
-after_script:
-  - docker stop oo_server
 
 notifications:
   email:
