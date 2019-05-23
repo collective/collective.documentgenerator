@@ -21,7 +21,8 @@ services:
 
 before_install:
   - pip install --upgrade pip
-  - docker pull xcgd/libreoffice
+  - docker pull xcgd/libreoffice:5.1
+  - docker pull xcgd/libreoffice:latest
 
 install:
   - sudo apt update -qq -y
@@ -41,14 +42,17 @@ install:
   - bin/buildout -Nt 5 -c travis.cfg
 
 before_script:
-  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice
+  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:5.1
   - bin/translation-manage -c
 
 script:
   - docker ps
   - bin/test
   - docker stop oo_server
-  - echo "Test with local libreoffice"
+  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:latest
+  - docker ps
+  - bin/test
+  - docker stop oo_server
   - /usr/bin/soffice --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
   - bin/test
 
