@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import logging
+import os
+import tempfile
+
+import appy.pod
+from Products.CMFPlone.utils import safe_unicode
 from appy.shared.utils import executeCommand
 from collective.documentgenerator import _
 from collective.documentgenerator import config
@@ -7,13 +13,8 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.namedfile.file import NamedBlobFile
-from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
-
-import appy.pod
-import logging
-import os
-import tempfile
+from zope.i18n import translate
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
@@ -70,7 +71,8 @@ def _update_template_styles(pod_template, style_template_filename):
     Update template pod_template by templateStyle.
     """
     # we check if the pod_template has been modified except by style only
-    style_changes_only = pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
+    style_changes_only = pod_template.style_modification_md5 and\
+                         pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
     new_template = open(temp_file.name, 'w')
@@ -78,7 +80,8 @@ def _update_template_styles(pod_template, style_template_filename):
     new_template.close()
 
     # merge style from templateStyle in template
-    cmd = '{path} {script} {tmp_file} {extension} -e {libreoffice_host} -p {port} -t {style_template} -v -a {stream}'.format(
+    cmd = '{path} {script} {tmp_file} {extension} -e ' \
+          '{libreoffice_host} -p {port} -t {style_template} -v -a {stream}'.format(
         path=config.get_uno_path(),
         script=CONVSCRIPT,
         tmp_file=temp_file.name,
@@ -101,7 +104,6 @@ def _update_template_styles(pod_template, style_template_filename):
                                     request=request, type='error')
         except:
             pass
-        from zope.i18n import translate
         raise Redirect(request.get('ACTUAL_URL'),
                        translate(_(u"Problem during styles update on template '${tmpl}': ${err}",
                                    mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),

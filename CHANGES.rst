@@ -19,7 +19,8 @@ Changelog
   [gbastien]
 - Moved files CHANGES.rst, README.rst and CONTRIBUTORS.rst from docs/ to root.
   [gbastien]
-- Added ability to use an external server process for LibreOffice [odelaere]
+- Added ability to use an external server process for LibreOffice.
+  [odelaere]
 
 3.6 (2019-03-27)
 ----------------
