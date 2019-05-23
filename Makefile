@@ -1,5 +1,7 @@
 #!/usr/bin/make
 #
+lo_version=latest
+
 all: run
 
 .PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
@@ -29,7 +31,7 @@ cleanall:
 
 startlibreoffice:
 	make stoplibreoffice
-	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice
+	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:$(lo_version)
 
 stoplibreoffice:
 	if docker ps | grep oo_server;then docker stop oo_server;fi
