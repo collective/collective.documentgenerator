@@ -6,7 +6,7 @@ all: run
 bootstrap:
 	virtualenv-2.7 .
 	pip install -r requirements.txt
-	./bin/python bootstrap.py --version=2.10.0
+	./bin/python bootstrap.py --version=2.11.4
 
 buildout:
 	if ! test -f bin/buildout;then make bootstrap;fi
@@ -15,6 +15,7 @@ buildout:
 run:
 	if ! test -f bin/instance;then make buildout;fi
 	bin/instance fg
+	mkdir -p var/tmp
 
 test:
 	if ! test -f bin/test;then make buildout;fi

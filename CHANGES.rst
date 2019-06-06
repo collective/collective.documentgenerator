@@ -4,7 +4,8 @@ Changelog
 3.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added custom temporary directory 'CUSTOM_TMP' environment variable for appy's workspace
+  [odelaere]
 
 
 3.7 (2019-05-16)

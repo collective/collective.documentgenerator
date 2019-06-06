@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import mimetypes
+import os
 import tempfile
 import unicodedata
 from StringIO import StringIO
@@ -36,6 +37,7 @@ except pkg_resources.DistributionNotFound:
     HAS_FINGERPOINTING = False
 else:
     HAS_FINGERPOINTING = True
+
 
 class DocumentGenerationView(BrowserView):
     """
@@ -190,7 +192,8 @@ class DocumentGenerationView(BrowserView):
         that will be merged into the current generated document.
         """
         document_template = pod_template.get_file()
-        temp_filename = tempfile.mktemp('.{extension}'.format(extension=output_format))
+        tmp_dir = os.getenv('CUSTOM_TMP', None)
+        temp_filename = tempfile.mktemp(suffix='.{extension}'.format(extension=output_format), dir=tmp_dir)
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
