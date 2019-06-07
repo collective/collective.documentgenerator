@@ -227,11 +227,39 @@ class DocumentGenerationView(BrowserView):
                 if 'Manager' in api.user.get_roles() and output_format == 'odt':
                     raiseOnError = False
 
+        # stylesMapping.update({'para[class=None, parent != cell]': 'texte_delibe',
+        #                       'para[class=xSmallText, parent != cell]': 'bodyXSmall',
+        #                       'para[class=smallText, parent != cell]': 'bodySmall',
+        #                       'para[class=largeText, parent != cell]': 'bodyLarge',
+        #                       'para[class=xLargeText, parent != cell]': 'bodyXLarge',
+        #                       'para[class=indentation, parent != cell]': 'bodyIndentation',
+        #                       'para[class=None, parent = cell]': 'cell_delibe',
+        #                       'table': TableProperties(cellContentStyle='cell_delibe'),
+        #                       'para[class=xSmallText, parent = cell]': 'cellXSmall',
+        #                       'para[class=smallText, parent = cell]': 'cellSmall',
+        #                       'para[class=largeText, parent = cell]': 'cellLarge',
+        #                       'para[class=xLargeText, parent = cell]': 'cellXLarge',
+        #                       'para[class=indentation, parent = cell]': 'cellIndentation',
+        #                       })
+        # stylesMapping.update({'para[class=None,parent!=cell]': 'texte_delibe',
+        #                       'para[class=xSmallText,parent!=cell]': 'bodyXSmall',
+        #                       'para[class=smallText,parent!=cell]': 'bodySmall',
+        #                       'para[class=largeText,parent!=cell]': 'bodyLarge',
+        #                       'para[class=xLargeText,parent!=cell]': 'bodyXLarge',
+        #                       'para[class=indentation,parent!=cell]': 'bodyIndentation',
+        #                       'para[class=xSmallText,parent=cell]': 'cellXSmall',
+        #                       'para[class=smallText,parent=cell]': 'cellSmall',
+        #                       'para[class=largeText,parent=cell]': 'cellLarge',
+        #                       'para[class=xLargeText,parent=cell]': 'cellXLarge',
+        #                       'para[class=indentation,parent=cell]': 'cellIndentation',
+        #                       })
+
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
+            ooServer=config.get_oo_server(),
             ooPort=config.get_oo_port(),
             raiseOnError=raiseOnError,
             imageResolver=api.portal.get(),
@@ -239,6 +267,7 @@ class DocumentGenerationView(BrowserView):
             optimalColumnWidths=optimalColumnWidths,
             distributeColumns=distributeColumns,
             stylesMapping=stylesMapping,
+            stream=config.get_use_stream(),
             **kwargs
         )
 
@@ -449,7 +478,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
                 not self.orig_template.mailing_loop_template):
             raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
-                            self.orig_template.absolute_url()))
+                self.orig_template.absolute_url()))
         loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)
 
         if 'output_format' not in annot:

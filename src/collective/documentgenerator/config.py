@@ -5,7 +5,6 @@ from Products.CMFPlone.utils import safe_unicode
 
 import os
 
-
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
                ('xls', 'Microsoft Excel (.xls)'),)
 
@@ -31,6 +30,12 @@ def get_uno_path():
     )
 
 
+def get_oo_server():
+    return api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_server'
+    )
+
+
 def get_oo_port():
     return api.portal.get_registry_record(
         'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port'
@@ -48,6 +53,22 @@ def get_raiseOnError_for_non_managers():
         'collective.documentgenerator.browser.controlpanel.'
         'IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers'
     )
+
+
+def get_use_stream():
+    use_stream = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream'
+    )
+    # backward compat. Default value is auto
+    return use_stream or 'auto'
+
+
+def set_oo_server():
+    """ Get environment value in buildout to define port """
+    oo_server = os.getenv('OO_SERVER', None)
+    if oo_server:
+        api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                       'IDocumentGeneratorControlPanelSchema.oo_server', oo_server)
 
 
 def set_oo_port():
@@ -78,3 +99,10 @@ def set_raiseOnError_for_non_managers(value):
         'collective.documentgenerator.browser.controlpanel.'
         'IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers',
         value)
+
+
+def set_use_stream(value):
+    api.portal.set_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream',
+        value
+    )
