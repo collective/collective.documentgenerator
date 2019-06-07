@@ -4,9 +4,11 @@ Changelog
 3.8 (unreleased)
 ----------------
 
-- Added custom temporary directory 'CUSTOM_TMP' environment variable for appy's workspace
+- Added custom temporary directory 'CUSTOM_TMP' environment variable
+  for appy's workspace.
   [odelaere]
-
+- Added ability to use an external server process for LibreOffice.
+  [odelaere]
 
 3.7 (2019-05-16)
 ----------------
@@ -20,8 +22,6 @@ Changelog
   [gbastien]
 - Moved files CHANGES.rst, README.rst and CONTRIBUTORS.rst from docs/ to root.
   [gbastien]
-- Added ability to use an external server process for LibreOffice.
-  [odelaere]
 
 3.6 (2019-03-27)
 ----------------
