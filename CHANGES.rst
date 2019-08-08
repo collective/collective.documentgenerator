@@ -9,6 +9,9 @@ Changelog
   [odelaere]
 - Added ability to use an external server process for LibreOffice.
   [odelaere]
+- Make `DocumentGeneratorLinksViewlet.get_links_info` return also the
+  `pod_template object` in addition to `pod_template UID`.
+  [gbastien]
 
 3.7 (2019-05-16)
 ----------------

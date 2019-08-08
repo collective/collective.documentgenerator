@@ -47,7 +47,8 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                          'title': title,
                          'description': description,
                          'output_format': output_format,
-                         'template_uid': uid}
+                         'template_uid': uid,
+                         'template': template}
                 infos.update(self.add_extra_links_info(template, infos))
                 links.append(infos)
         return links
