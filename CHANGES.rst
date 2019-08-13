@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.8 (unreleased)
+3.8 (2019-08-13)
 ----------------
 
 - Added custom temporary directory 'CUSTOM_TMP' environment variable
