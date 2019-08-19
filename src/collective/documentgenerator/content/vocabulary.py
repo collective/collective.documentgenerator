@@ -94,7 +94,7 @@ class MergeTemplatesVocabularyFactory(object):
 
 class ConfigColumnModifierVocabularyFactory(object):
     """
-    Vocabulary factory for 'optimize_tables' field.
+    Vocabulary factory for control panel 'column_modifier' field.
     """
 
     def __call__(self, context):
@@ -109,7 +109,7 @@ class ConfigColumnModifierVocabularyFactory(object):
 
 class PodColumnModifierVocabularyFactory(object):
     """
-    Vocabulary factory for 'optimize_tables' field.
+    Vocabulary factory for pod template 'column_modifier' field.
     """
 
     def __call__(self, context):
