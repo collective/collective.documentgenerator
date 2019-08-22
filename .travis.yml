@@ -38,29 +38,29 @@ install:
   - python -V
   - pip install -r requirements.txt
   - python bootstrap.py --version=2.11.4
+  - mkdir -p parts/omelette/appy
+  - wget http://cacerts.digicert.com/TERENASSLCA3.crt
+  - sudo mkdir -p /usr/share/ca-certificates/extra
+  - sudo cp TERENASSLCA3.crt /usr/share/ca-certificates/extra/TERENASSLCA3.crt
+  - sudo update-ca-certificates
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -Nt 5 -c travis.cfg
 
 before_script:
   - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:5.1
   - bin/translation-manage -c
-  - export USE_STREAM=True
-
 
 script:
   - docker ps
-  - echo USE_STREAM is $USE_STREAM
-  - bin/test
+  - env USE_STREAM=True bin/test
   - docker stop oo_server
   - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:latest
   - docker ps
-  - bin/test
+  - env USE_STREAM=True bin/test
   - docker stop oo_server
   - /usr/bin/soffice --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
-  - bin/test
-  - export USE_STREAM=False
-  - echo USE_STREAM is $USE_STREAM
-  - bin/test
+  - env USE_STREAM=False bin/test
+  - env USE_STREAM=True bin/test
 
 after_success:
   - bin/createcoverage -d htmlcov

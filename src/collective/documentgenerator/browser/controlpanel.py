@@ -87,7 +87,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         description=_(u'If enabled, this will force using stream to communicate witth LibreOffice server. '
                       u'This must be true if the LO server is not on localhost or is in a docker container.'),
         required=True,
-        default=bool(os.getenv('USE_STREAM', False)),
+        default=bool(os.getenv('USE_STREAM', False) == 'True'),
     )
 
 
