@@ -44,9 +44,12 @@ install:
 before_script:
   - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:5.1
   - bin/translation-manage -c
+  - export USE_STREAM=True
+
 
 script:
   - docker ps
+  - echo USE_STREAM is $USE_STREAM
   - bin/test
   - docker stop oo_server
   - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:latest
@@ -54,6 +57,9 @@ script:
   - bin/test
   - docker stop oo_server
   - /usr/bin/soffice --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
+  - bin/test
+  - export USE_STREAM=False
+  - echo USE_STREAM is $USE_STREAM
   - bin/test
 
 after_success:

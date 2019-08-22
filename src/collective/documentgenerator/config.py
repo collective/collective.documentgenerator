@@ -101,8 +101,11 @@ def set_raiseOnError_for_non_managers(value):
         value)
 
 
-def set_use_stream(value):
-    api.portal.set_registry_record(
-        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream',
-        value
-    )
+def set_use_stream():
+    """ Get environment value in stream to define communication with LibreOffice """
+    use_stream = os.getenv('USE_STREAM', False)
+    if use_stream:
+        api.portal.set_registry_record(
+            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream',
+            use_stream
+        )

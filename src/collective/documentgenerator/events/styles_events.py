@@ -71,8 +71,8 @@ def _update_template_styles(pod_template, style_template_filename):
     Update template pod_template by templateStyle.
     """
     # we check if the pod_template has been modified except by style only
-    style_changes_only = pod_template.style_modification_md5 and\
-                         pod_template.current_md5 == pod_template.style_modification_md5
+    style_changes_only = \
+        pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
     new_template = open(temp_file.name, 'w')
@@ -81,16 +81,15 @@ def _update_template_styles(pod_template, style_template_filename):
 
     # merge style from templateStyle in template
     cmd = '{path} {script} {tmp_file} {extension} -e ' \
-          '{libreoffice_host} -p {port} -t {style_template} -v -a {stream}'.format(
-        path=config.get_uno_path(),
-        script=CONVSCRIPT,
-        tmp_file=temp_file.name,
-        extension='odt',
-        libreoffice_host=config.get_oo_server(),
-        port=config.get_oo_port(),
-        style_template=style_template_filename,
-        stream=config.get_use_stream(),
-    )
+          '{libreoffice_host} -p {port} ' \
+          '-t {style_template} -v -a {stream}'.format(path=config.get_uno_path(),
+                                                      script=CONVSCRIPT,
+                                                      tmp_file=temp_file.name,
+                                                      extension='odt',
+                                                      libreoffice_host=config.get_oo_server(),
+                                                      port=config.get_oo_port(),
+                                                      style_template=style_template_filename,
+                                                      stream=config.get_use_stream())
     (stdout, stderr) = executeCommand(cmd.split())
     if stderr:
         logger.error("Error during command '%s'" % cmd)
