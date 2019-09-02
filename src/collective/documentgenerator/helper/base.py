@@ -182,7 +182,7 @@ class DocumentGenerationHelperView(object):
     def context_var(self, name, default=''):
         """ Test if a context variable is defined and return it or return default """
         ctx = self.appy_renderer.contentParser.env.context
-        if name in ctx:
+        if name in ctx and ctx[name] is not None:
             return ctx[name]
         else:
             return default

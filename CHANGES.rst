@@ -4,8 +4,8 @@ Changelog
 3.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- context_var returns default when value is None.
+  [sgeulette]
 
 3.8 (2019-08-13)
 ----------------
