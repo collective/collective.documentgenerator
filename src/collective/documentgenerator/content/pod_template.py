@@ -469,16 +469,6 @@ class ConfigurablePODTemplate(PODTemplate):
         return res
 
 
-class IConfigurableEmailTemplate(IConfigurablePODTemplate):
-    """
-    ConfigurableEmailTemplate dexterity schema.
-    """
-
-
-class ConfigurableEmailTemplate(ConfigurablePODTemplate):
-    pass
-
-
 class ISubTemplate(IPODTemplate):
     """
     PODTemplate used only a sub template to merge

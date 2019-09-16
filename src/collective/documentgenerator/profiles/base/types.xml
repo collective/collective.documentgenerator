@@ -3,7 +3,6 @@
  <property name="title">Controls the available content types in your portal</property>
  <object name="PODTemplate" meta_type="Dexterity FTI"/>
  <object name="ConfigurablePODTemplate" meta_type="Dexterity FTI"/>
- <object name="ConfigurableEmailTemplate" meta_type="Dexterity FTI"/>
  <object name="MailingLoopTemplate" meta_type="Dexterity FTI"/>
  <object name="StyleTemplate" meta_type="Dexterity FTI"/>
  <object name="SubTemplate" meta_type="Dexterity FTI"/>
