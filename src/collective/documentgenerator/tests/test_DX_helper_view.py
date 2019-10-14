@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.config import HAS_PLONE_5_1
 from collective.documentgenerator.testing import DexterityIntegrationTests
 from plone import api
 from plone.app.testing import login
@@ -130,24 +131,34 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         # custom_format
         expected_date = '18 yolo 09 yolo 1986'
-        result = self.view.display_date(field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
+        result = self.view.display_date(
+            date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
 
-        expected_date = u'jeu. 18 sept. 1986'
-        result = self.view.display_date(field_name=effective_field_name, custom_format='%a %d %b %Y',
-                                        target_language='fr')
+        # translation format has changed in Plone5.1+
+        if HAS_PLONE_5_1:
+            expected_date = u'jeu. 18 sept. 1986'
+        else:
+            # Plone4
+            expected_date = u'jeu 18 sep 1986'
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format='%a %d %b %Y',
+            target_language='fr')
         self.assertEqual(expected_date, result)
 
         expected_date = u'jeudi 18 Septembre 1986'
-        result = self.view.display_date(field_name=effective_field_name, custom_format='%A %d %B %Y',
-                                        target_language='fr', month_lc=False)
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format='%A %d %B %Y',
+            target_language='fr', month_lc=False)
         self.assertEqual(expected_date, result)
 
         expected_date = u'%Jeudi 18 %B 1986'
-        result = self.view.display_date(field_name=effective_field_name, custom_format='%%%A %d %%B %Y',
-                                        target_language='fr', day_lc=False)
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format='%%%A %d %%B %Y',
+            target_language='fr', day_lc=False)
         self.assertEqual(expected_date, result)
 
         # date
@@ -172,9 +183,11 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         # custom_format
         expected_date = '18 yolo 09 yolo 1986'
-        result = self.view.display_date(field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
+        result = self.view.display_date(
+            date=self.content.birth_datetime, custom_format='%d yolo %m yolo %Y')
         self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):

@@ -9,6 +9,9 @@ Changelog
 - While reusing another POD template odt_file, make sure get_file will have
   access to the POD template holding the odt_file by getting it unrestricted.
   [gbastien]
+- Fixed test `TestDexterityHelperViewMethods.test_display_date_method` as
+  translation format changed starting with `Plone 5.1.x`.
+  [gbastien]
 
 3.8 (2019-08-13)
 ----------------
