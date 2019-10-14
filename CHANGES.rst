@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.9 (unreleased)
+3.9 (2019-10-14)
 ----------------
 
 - context_var returns default when value is None.
