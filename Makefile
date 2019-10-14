@@ -7,7 +7,7 @@ all: run
 .PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
 bootstrap:
 	virtualenv-2.7 .
-	pip install -r requirements.txt
+	bin/pip install -r requirements.txt
 	./bin/python bootstrap.py --version=2.12.0
 
 buildout:
