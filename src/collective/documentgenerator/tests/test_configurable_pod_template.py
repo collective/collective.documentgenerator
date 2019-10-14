@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from Acquisition import aq_base
 from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from collective.documentgenerator.content.pod_template import PodFormatsValidator
@@ -6,6 +7,8 @@ from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from plone import api
+from Products.CMFCore.permissions import View
+from Products.CMFCore.utils import _checkPermission
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import Invalid
@@ -112,6 +115,21 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         # basic case without reuse
         self.test_podtemplate.pod_template_to_use = None
         self.assertEqual(self.test_podtemplate.get_file(), self.test_podtemplate.odt_file, msg)
+
+    def test_get_file_is_unrestricted(self):
+        """When reusing another POD template odt_file, we will get
+           the odt_file unrestricted in case user would not have access to the POD template."""
+        reusable_template = self.portal.podtemplates.get('test_template_reusable')
+        self.test_podtemplate.pod_template_to_use = reusable_template.UID()
+
+        # make reusable template not accessible
+        reusable_template.manage_permission(View, 'Manager')
+        reusable_template.reindexObjectSecurity()
+
+        # get_file will correctly return the odt_file
+        self.assertFalse(_checkPermission(View, reusable_template))
+        self.assertFalse(self.portal.portal_catalog(UID=reusable_template.UID()))
+        self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file)
 
     def test_generation_condition_registration(self):
         from collective.documentgenerator.content.condition import ConfigurablePODTemplateCondition

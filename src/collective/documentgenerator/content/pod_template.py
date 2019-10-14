@@ -366,7 +366,12 @@ class ConfigurablePODTemplate(PODTemplate):
         :return: an odt_file field.
         """
         if self.pod_template_to_use:
-            return api.content.get(UID=self.pod_template_to_use).odt_file
+            # make sure we get the POD template holding the odt_file
+            # by searching it unrestrictedly
+            catalog = api.portal.get_tool('portal_catalog')
+            brains = catalog.unrestrictedSearchResults(UID=self.pod_template_to_use)
+            obj = brains[0]._unrestrictedGetObject()
+            return obj.odt_file
         return self.odt_file
 
     def __setattr__(self, key, value):

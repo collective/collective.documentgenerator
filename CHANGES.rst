@@ -6,6 +6,9 @@ Changelog
 
 - context_var returns default when value is None.
   [sgeulette]
+- While reusing another POD template odt_file, make sure get_file will have
+  access to the POD template holding the odt_file by getting it unrestricted.
+  [gbastien]
 
 3.8 (2019-08-13)
 ----------------
