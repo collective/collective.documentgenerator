@@ -4,8 +4,9 @@ Changelog
 3.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fix test `test_get_file_is_unrestricted` by removing permission `View`
+  to every roles.
+  [gbastien]
 
 3.9 (2019-10-14)
 ----------------
