@@ -15,6 +15,7 @@ env:
   - PLONE_VERSION=4
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
+  - PLONE_VERSION=5.2
 
 services:
   - docker
@@ -34,7 +35,6 @@ install:
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
-  - pip install lxml --no-binary lxml
   - python -V
   - pip install -r requirements.txt
   - python bootstrap.py --version=2.12.0

@@ -15,6 +15,9 @@ class TestConfig(unittest.TestCase):
 
     layer = TEST_INSTALL_INTEGRATION
 
+    def _open_controlpanel(self):
+        self.browser.open('{}/@@collective.documentgenerator-controlpanel'.format(self.portal.absolute_url()))
+
     def test_get_oo_port(self):
         from collective.documentgenerator import config
         unopath = config.get_oo_port()
@@ -64,8 +67,11 @@ class TestConfigView(PODTemplateFunctionalTest):
     Test documentgenerator controlpanel view.
     """
 
+    def _open_controlpanel(self):
+        self.browser.open('{}/@@collective.documentgenerator-controlpanel'.format(self.portal.absolute_url()))
+
     def test_python_path_validator(self):
-        self.browser.open('@@collective.documentgenerator-controlpanel')
+        self._open_controlpanel()
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name='form.widgets.uno_path')
         pythonpath_input.value = 'yolo'
@@ -77,7 +83,7 @@ class TestConfigView(PODTemplateFunctionalTest):
         )
 
     def test_python_with_uno_validator(self):
-        self.browser.open('@@collective.documentgenerator-controlpanel')
+        self._open_controlpanel()
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name='form.widgets.uno_path')
         pythonpath_input.value = os.path.abspath('../../bin/python')
@@ -90,7 +96,7 @@ class TestConfigView(PODTemplateFunctionalTest):
 
     @unittest.skip("Test removed because bad uno package has been removed from Makefile")
     def test_python_path_with_correct_uno_python(self):
-        self.browser.open('@@collective.documentgenerator-controlpanel')
+        self._open_controlpanel()
         form = self.browser.getForm('form')
         pythonpath_input = form.getControl(name='form.widgets.uno_path')
         pythonpath_input.value = os.path.abspath('../../bin/python')
@@ -99,7 +105,7 @@ class TestConfigView(PODTemplateFunctionalTest):
         self.assertTrue('Changements enregistrés' in self.browser.contents, msg)
 
     def test_cancel_button(self):
-        self.browser.open('@@collective.documentgenerator-controlpanel')
+        self._open_controlpanel()
         form = self.browser.getForm('form')
         form.submit('Annuler')
         msg = 'We should have gone back on general control panel view'

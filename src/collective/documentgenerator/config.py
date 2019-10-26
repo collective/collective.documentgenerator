@@ -23,6 +23,13 @@ VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
 HAS_PLONE_5 = api.env.plone_version().startswith('5')
 HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
+HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
+
+if HAS_PLONE_5_2:
+    import sys
+    from zope.deprecation import deprecation
+    sys.modules['collective.documentgenerator.demo.helper.ATDemoHelperView'] = \
+        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 
 
 def get_uno_path():
