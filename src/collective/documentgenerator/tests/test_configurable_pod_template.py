@@ -123,7 +123,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.test_podtemplate.pod_template_to_use = reusable_template.UID()
 
         # make reusable template not accessible
-        reusable_template.manage_permission(View, 'Manager')
+        reusable_template.manage_permission(View, [])
         reusable_template.reindexObjectSecurity()
 
         # get_file will correctly return the odt_file
