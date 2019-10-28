@@ -24,7 +24,7 @@ test:
 	make startlibreoffice
 	rm -fr htmlcov
 	bin/translation-manage -c
-	bin/test
+	env USE_STREAM=True bin/test
 	make stoplibreoffice
 
 cleanall:
