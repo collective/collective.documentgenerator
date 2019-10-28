@@ -7,6 +7,7 @@ from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.testing import ConfigurablePODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from plone import api
+from Products.CMFCore.permissions import AccessContentsInformation
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import _checkPermission
 from zope.component import queryMultiAdapter
@@ -124,10 +125,12 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
         # make reusable template not accessible
         reusable_template.manage_permission(View, [])
+        reusable_template.manage_permission(AccessContentsInformation, [])
         reusable_template.reindexObjectSecurity()
 
         # get_file will correctly return the odt_file
         self.assertFalse(_checkPermission(View, reusable_template))
+        self.assertFalse(_checkPermission(AccessContentsInformation, reusable_template))
         self.assertFalse(self.portal.portal_catalog(UID=reusable_template.UID()))
         self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file)
 
