@@ -1,0 +1,9 @@
+<browser:page
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    for="Products.Archetypes.interfaces.IBaseObject"
+    class="collective.documentgenerator.helper.archetypes.ATDocumentGenerationHelperView"
+    permission="zope2.View"
+    name="document_generation_helper_view"
+/>

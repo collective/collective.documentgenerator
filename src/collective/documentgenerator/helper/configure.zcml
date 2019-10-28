@@ -16,7 +16,8 @@
 
     <!-- helper view and default proxy object for Archetypes -->
 
-    <include zcml:condition="not-have plone-52" file="archetypes.zcml" />
+    <include zcml:condition="not-have plone-52" file="archetypes-page.zcml" />
+    <include zcml:condition="not-have plone-52" file="archetypes-adapter.zcml" />
 
     <!-- helper view and default proxy object for Dexterity -->
     <browser:page
