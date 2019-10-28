@@ -33,6 +33,7 @@ cleanall:
 startlibreoffice:
 	make stoplibreoffice
 	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:$(lo_version)
+	docker ps
 
 stoplibreoffice:
 	if docker ps | grep oo_server;then docker stop oo_server;fi
