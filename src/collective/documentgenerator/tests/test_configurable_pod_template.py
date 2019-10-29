@@ -375,4 +375,4 @@ class TestConfigurablePODTemplateValidator(ConfigurablePODTemplateIntegrationTes
                                  u"template": pod_template.odt_file.filename})
         with self.assertRaises(Invalid) as cm:
             validator.validate(pod_template.pod_formats)
-        self.assertEqual(msg, translate(cm.exception.message))
+        self.assertEqual(msg, translate(cm.exception.args[0]))

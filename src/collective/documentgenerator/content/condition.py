@@ -2,13 +2,12 @@
 
 from collective.behavior.talcondition.behavior import ITALCondition
 from collective.documentgenerator.interfaces import IPODTemplateCondition
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IPODTemplateCondition)
 class PODTemplateCondition(object):
     """ """
-
-    implements(IPODTemplateCondition)
 
     def __init__(self, pod_template, context):
         self.pod_template = pod_template

@@ -116,7 +116,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         with self.assertRaises(Exception) as cm:
             view(template_uid, output_format='')
         self.assertEqual(
-            cm.exception.message,
+            str(cm.exception),
             "No 'output_format' found to generate this document"
         )
         # if 'output_format' is not in available pod_formats of template, it raises an Exception
@@ -125,7 +125,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         with self.assertRaises(Exception) as cm:
             view(template_uid, 'pdf')
         self.assertEqual(
-            cm.exception.message,
+            str(cm.exception),
             "Asked output format 'pdf' is not available for template 'test_template'!"
         )
 
@@ -241,7 +241,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
-        self.assertRegexpMatches(gen_context['header'], '.+(\.odt)$')
+        self.assertRegexpMatches(gen_context['header'], r'.+(\.odt)$')
 
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
@@ -299,8 +299,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         with self.assertRaises(Exception) as cm:
             view(template_uid=template_UID, output_format='odt')
         self.assertTrue(
-            u'Error while evaluating expression "view.unknown_method()".' in
-            cm.exception.message)
+            'Error while evaluating expression "view.unknown_method()".' in str(cm.exception))
 
     def test_mailing_loop_persistent_document_generation(self):
         pod_template = self.portal.podtemplates.get('test_template_possibly_mailed')

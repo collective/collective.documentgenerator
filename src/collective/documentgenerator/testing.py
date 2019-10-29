@@ -65,7 +65,11 @@ class NakedPloneLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, 'collective.documentgenerator')
+        if HAS_PLONE_5_2:
+            from plone.testing import zope
+            zope.uninstallProduct(app, 'collective.documentgenerator')
+        else:
+            z2.uninstallProduct(app, 'collective.documentgenerator')
         (stdout, stderr, st) = runCommand('%s/bin/soffice.sh stop' % os.getenv('PWD'))
 
 
@@ -193,7 +197,11 @@ class BrowserTest(BaseTest):
 
     def setUp(self):
         super(BrowserTest, self).setUp()
-        self.browser = z2.Browser(self.portal)
+        if HAS_PLONE_5_2:
+            from plone.testing import zope
+            self.browser = zope.Browser(self.portal)
+        else:
+            self.browser = z2.Browser(self.portal)
         self.browser.handleErrors = False
 
     def browser_login(self, user, password):

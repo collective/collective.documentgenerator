@@ -6,7 +6,7 @@ from plone.dexterity.utils import iterSchemata
 from plone.memoize.instance import memoize
 from plone.rfc822.interfaces import IPrimaryField
 from zope.filerepresentation.interfaces import IRawWriteFile
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema import getFieldsInOrder
 
 import tempfile
@@ -60,8 +60,8 @@ class ReadFile(ReadFileBase, PrimaryFileBase):
         return out
 
 
+@implementer(IRawWriteFile)
 class WriteFile(DefaultWriteFile, PrimaryFileBase):
-    implements(IRawWriteFile)
 
     def close(self):
         self._message = self._parser.close()

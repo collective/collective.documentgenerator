@@ -7,19 +7,18 @@ from plone.api.validation import mutually_exclusive_parameters
 from Products.CMFPlone.utils import safe_unicode
 from zope.component import getMultiAdapter
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implementer
 
 import copy
 import datetime
 import phonenumbers
 
 
+@implementer(IDocumentGenerationHelper)
 class DocumentGenerationHelperView(object):
     """
     See IDocumentGenerationHelper.
     """
-
-    implements(IDocumentGenerationHelper)
 
     def __init__(self, context, request):
         super(DocumentGenerationHelperView, self).__init__(context, request)
@@ -212,12 +211,13 @@ class DocumentGenerationHelperView(object):
         return 'mailed_data' in ctx
 
 
+@implementer(IDisplayProxyObject)
 class DisplayProxyObject(object):
     """
     See IDisplayProxyObject.
     """
 
-    implements(IDisplayProxyObject)
+    # (IDisplayProxyObject)
 
     def __init__(self, context, display_method):
         self.context = context

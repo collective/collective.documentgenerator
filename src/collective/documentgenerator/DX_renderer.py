@@ -4,16 +4,15 @@
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
 from collective.excelexport.interfaces import IExportable
 from zope.component import getMultiAdapter
-from zope.interface import implements
+from zope.interface import implementer
 
 import datetime
 
 
+@implementer(IFieldRendererForDocument)
 class DexterityExportableAdapter(object):
 
     """Adapter for collective.excelexport exportables."""
-
-    implements(IFieldRendererForDocument)
 
     def __init__(self, field, context, request):
         self.field = field
@@ -27,11 +26,10 @@ class DexterityExportableAdapter(object):
         return self.exportable.render_value(self.context)
 
 
+@implementer(IFieldRendererForDocument)
 class DexterityDateExportableAdapter(DexterityExportableAdapter):
 
     """Adapter for collective.excelexport date field exportable."""
-
-    implements(IFieldRendererForDocument)
 
     def render_value(self):
         """Format the date."""
@@ -42,11 +40,10 @@ class DexterityDateExportableAdapter(DexterityExportableAdapter):
         return plone.toLocalizedTime(value)
 
 
+@implementer(IFieldRendererForDocument)
 class DexterityDatetimeExportableAdapter(DexterityExportableAdapter):
 
     """Adapter for collective.excelexport datetime field exportable."""
-
-    implements(IFieldRendererForDocument)
 
     def render_value(self):
         """Format the date."""
