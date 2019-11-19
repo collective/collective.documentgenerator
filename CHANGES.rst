@@ -7,6 +7,10 @@ Changelog
 - Fix test `test_get_file_is_unrestricted` by removing permission `View`
   to every roles.
   [gbastien]
+- Moved the `get_all_pod_templates/get_generable_templates` logic outside the
+  `DocumentGeneratorLinksViewlet` so it is easier to override.
+  It is now an `IGenerablePODTemplates` adapter.
+  [gbastien]
 
 3.9 (2019-10-14)
 ----------------

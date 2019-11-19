@@ -28,4 +28,10 @@
     <include file="profiles.zcml"/>
     <include file="renderer.zcml"/>
 
+    <adapter
+      for="*"
+      provides=".interfaces.IGenerablePODTemplates"
+      factory=".adapters.GenerablePODTemplatesAdapter"/>
+
+
 </configure>

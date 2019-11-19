@@ -141,6 +141,12 @@ class IDocumentGeneratorSettings(Interface):
     """
 
 
+class IGenerablePODTemplates(Interface):
+    """
+    Marker interface for generable POD templates adapter.
+    """
+
+
 class CyclicMergeTemplatesException(Exception):
     """
     Templates to merge refers to each othert in a cyclic way.
