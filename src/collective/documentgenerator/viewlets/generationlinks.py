@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from ..config import VIEWLET_TYPES
-from plone import api
+from collective.documentgenerator.interfaces import IGenerablePODTemplates
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.view import memoize
+from zope.component import getAdapter
 
 
 class DocumentGeneratorLinksViewlet(ViewletBase):
@@ -12,18 +12,10 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
     def available(self):
         return bool(self.get_generable_templates())
 
-    def get_all_pod_templates(self):
-        catalog = api.portal.get_tool(name='portal_catalog')
-        brains = catalog.unrestrictedSearchResults(portal_type=VIEWLET_TYPES, sort_on='getObjPositionInParent')
-        pod_templates = [self.context.unrestrictedTraverse(brain.getPath()) for brain in brains]
-
-        return pod_templates
-
     @memoize
     def get_generable_templates(self):
-        pod_templates = self.get_all_pod_templates()
-        generable_templates = [pt for pt in pod_templates if pt.can_be_generated(self.context)]
-
+        adapter = getAdapter(self.context, IGenerablePODTemplates)
+        generable_templates = adapter.get_generable_templates()
         return generable_templates
 
     def get_generation_view_name(self, template, output_format):
