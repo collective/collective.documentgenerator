@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.10 (unreleased)
+3.10 (2019-11-26)
 -----------------
 
 - Fix test `test_get_file_is_unrestricted` by removing permission `View`
