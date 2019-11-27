@@ -143,6 +143,6 @@ def update_oo_config(key='oo_port'):
     var = {'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
     full_key = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'.format(key)
     configured_oo_option = api.portal.get_registry_record(full_key)
-    new_oo_option = int(os.getenv(var.get(key, 'NO_ONE'), ''))
+    new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
     if new_oo_option and new_oo_option != configured_oo_option:
         api.portal.set_registry_record(full_key, new_oo_option)

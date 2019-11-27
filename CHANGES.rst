@@ -4,8 +4,8 @@ Changelog
 3.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Casted dynamically variable.
+  [sgeulette]
 
 3.10 (2019-11-26)
 -----------------
