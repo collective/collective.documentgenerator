@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from collective.documentgenerator.config import HAS_PLONE_5
+from collective.documentgenerator.config import HAS_PLONE_5, HAS_PLONE_5_2
 from imio.pyutils.system import runCommand
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -24,6 +24,14 @@ import tempfile
 import transaction
 import unittest
 import zipfile
+
+if HAS_PLONE_5_2:
+    import sys
+    from zope.deprecation import deprecation
+    sys.modules['collective.documentgenerator.tests.ArchetypesIntegrationTests'] = \
+        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
+    sys.modules['collective.documentgenerator.tests.ArchetypesFunctionnalTests'] = \
+        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -57,7 +65,11 @@ class NakedPloneLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, 'collective.documentgenerator')
+        if HAS_PLONE_5_2:
+            from plone.testing import zope
+            zope.uninstallProduct(app, 'collective.documentgenerator')
+        else:
+            z2.uninstallProduct(app, 'collective.documentgenerator')
         (stdout, stderr, st) = runCommand('%s/bin/soffice.sh stop' % os.getenv('PWD'))
 
 
@@ -185,7 +197,11 @@ class BrowserTest(BaseTest):
 
     def setUp(self):
         super(BrowserTest, self).setUp()
-        self.browser = z2.Browser(self.portal)
+        if HAS_PLONE_5_2:
+            from plone.testing import zope
+            self.browser = zope.Browser(self.portal)
+        else:
+            self.browser = z2.Browser(self.portal)
         self.browser.handleErrors = False
 
     def browser_login(self, user, password):
@@ -194,7 +210,10 @@ class BrowserTest(BaseTest):
         self.browser.open(self.portal.absolute_url() + '/login_form')
         self.browser.getControl(name='__ac_name').value = user
         self.browser.getControl(name='__ac_password').value = password
-        self.browser.getControl(name='submit').click()
+        if HAS_PLONE_5_2:
+            self.browser.getControl(name='buttons.login').click()
+        else:
+            self.browser.getControl(name='submit').click()
 
     def _edit_object(self, obj):
         token = createToken()

@@ -14,7 +14,7 @@ from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
-from zope.interface import implements
+from zope.interface import implementer
 
 import os
 
@@ -113,16 +113,16 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
         return self.template()
 
 
+@implementer(IFieldsAndContentProvidersForm)
 class ViewConfigurablePodTemplate(DefaultView):
-    implements(IFieldsAndContentProvidersForm)
     contentProviders = ContentProviders()
 
     contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
     contentProviders['children_pod_template'].position = 4
 
 
+@implementer(IFieldsAndContentProvidersForm)
 class EditConfigurablePodTemplate(DefaultEditForm):
-    implements(IFieldsAndContentProvidersForm)
     contentProviders = ContentProviders()
 
     contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider

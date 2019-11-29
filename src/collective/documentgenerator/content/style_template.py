@@ -9,7 +9,7 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from Products.CMFPlone.utils import safe_unicode
 from zope import schema
-from zope.interface import implements
+from zope.interface import implementer
 
 import logging
 
@@ -32,12 +32,11 @@ class IStyleTemplate(model.Schema):
     initial_md5 = schema.TextLine(description=u'Initially loaded file md5. Will be compared with os file md5.')
 
 
+@implementer(IStyleTemplate)
 class StyleTemplate(Item):
     """
     StyleTemplate dexterity class.
     """
-
-    implements(IStyleTemplate)
 
     @property
     def current_md5(self):

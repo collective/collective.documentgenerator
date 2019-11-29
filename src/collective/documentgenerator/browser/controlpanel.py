@@ -9,7 +9,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from zope import schema
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 
 import inspect
@@ -91,9 +91,8 @@ class IDocumentGeneratorControlPanelSchema(Interface):
     )
 
 
+@implementer(IDocumentGeneratorSettings)
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
-    implements(IDocumentGeneratorSettings)
-
     schema = IDocumentGeneratorControlPanelSchema
     label = _(u'Document Generator settings')
     description = _(u'')

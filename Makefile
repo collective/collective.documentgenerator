@@ -3,12 +3,13 @@
 lo_version=latest
 
 all: run
+py:=2.7
 
 .PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
 bootstrap:
-	virtualenv-2.7 .
+	if [ -f /usr/bin/virtualenv-2.7 ] ; then virtualenv-2.7 -p python$(py) .;else virtualenv -p python$(py) .;fi
 	bin/pip install -r requirements.txt
-	./bin/python bootstrap.py --version=2.12.0
+	./bin/python bootstrap.py --version=2.13.2
 
 buildout:
 	if ! test -f bin/buildout;then make bootstrap;fi
@@ -33,6 +34,7 @@ cleanall:
 startlibreoffice:
 	make stoplibreoffice
 	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:$(lo_version)
+	docker ps
 
 stoplibreoffice:
 	if docker ps | grep oo_server;then docker stop oo_server;fi

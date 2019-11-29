@@ -5,17 +5,16 @@ from collective.documentgenerator.interfaces import isNotFolderishError
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.interfaces import IFolderish
-from zope.interface import implements
+from zope.interface import implementer
 
 import mimetypes
 
 
+@implementer(IDocumentFactory)
 class ATCTFileDocumentFactory(object):
     """
     Factory to create an ATCT File (Archetypes) object persisting a generated document.
     """
-
-    implements(IDocumentFactory)
 
     def __init__(self, context):
         self.context = context
@@ -42,12 +41,11 @@ class ATCTFileDocumentFactory(object):
         return document
 
 
+@implementer(IDocumentFactory)
 class PACTFileDocumentFactory(object):
     """
     Factory to create a PACT File (dexterity) object persisting a generated document.
     """
-
-    implements(IDocumentFactory)
 
     def __init__(self, context):
         self.context = context

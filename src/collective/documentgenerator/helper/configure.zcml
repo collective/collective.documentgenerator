@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.documentgenerator">
 
     <!-- default proxy object for any content type -->
@@ -14,20 +15,9 @@
      />
 
     <!-- helper view and default proxy object for Archetypes -->
-    <browser:page
-        for="Products.Archetypes.interfaces.IBaseObject"
-        class="collective.documentgenerator.helper.archetypes.ATDocumentGenerationHelperView"
-        permission="zope2.View"
-        name="document_generation_helper_view"
-     />
 
-    <adapter
-        for="Products.Archetypes.interfaces.IBaseObject
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
-        factory="collective.documentgenerator.helper.archetypes.ATDisplayProxyObject"
-        permission="zope2.View"
-     />
+    <include zcml:condition="not-have plone-52" file="archetypes-page.zcml" />
+    <include zcml:condition="not-have plone-52" file="archetypes-adapter.zcml" />
 
     <!-- helper view and default proxy object for Dexterity -->
     <browser:page

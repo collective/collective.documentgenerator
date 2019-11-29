@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IFieldRendererForDocument)
 class DefaultATFieldRenderer(object):
     """
     """
-    implements(IFieldRendererForDocument)
 
     def __init__(self, field, widget, context):
         self.field = field

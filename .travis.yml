@@ -1,20 +1,19 @@
-dist: xenial
-
+dist: bionic
 language: python
-
-python:
-  - 2.7
-
 cache:
   pip: true
   directories:
+    - eggs
     - buildout-cache/downloads
     - buildout-cache/eggs
-
+python:
+  - 2.7
 env:
   - PLONE_VERSION=4
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
+  - PLONE_VERSION=5.2
+fast_finish: true
 
 services:
   - docker
@@ -33,27 +32,24 @@ install:
   - mkdir $HOME/tmp
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
-  - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
-  - pip install lxml --no-binary lxml
-  - python -V
+  - sed -ie "s#test-5#test-$PLONE_VERSION#" travis.cfg
   - pip install -r requirements.txt
-  - python bootstrap.py --version=2.12.0
+  - python -V
+  - /usr/bin/python3 -V
+  - python bootstrap.py --version=2.13.2
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -Nt 5 -c travis.cfg
 
 before_script:
-  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:5.1
   - bin/translation-manage -c
 
 script:
-  - docker ps
+  - make startlibreoffice lo_version=5.1
   - env USE_STREAM=True bin/test
-  - docker stop oo_server
-  - docker run -p 127.0.0.1:2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:latest
-  - docker ps
+  - make startlibreoffice
   - env USE_STREAM=True bin/test
-  - docker stop oo_server
-  - /usr/bin/soffice --invisible --headless --nologo --nofirststartwizard --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
+  - make stoplibreoffice
+  - /usr/bin/soffice --invisible --headless --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
   - env USE_STREAM=False bin/test
   - env USE_STREAM=True bin/test
 

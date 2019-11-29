@@ -31,7 +31,7 @@ from zope import schema
 from zope.component import provideAdapter
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import invariant
@@ -78,12 +78,11 @@ class IPODTemplate(model.Schema):
     )
 
 
+@implementer(IPODTemplate)
 class PODTemplate(Item):
     """
     PODTemplate dexterity class.
     """
-
-    implements(IPODTemplate)
 
     def get_file(self):
         """
@@ -351,12 +350,11 @@ validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurable
 provideAdapter(PodFormatsValidator)
 
 
+@implementer(IConfigurablePODTemplate)
 class ConfigurablePODTemplate(PODTemplate):
     """
     ConfigurablePODTemplate dexterity class.
     """
-
-    implements(IConfigurablePODTemplate)
 
     parent_pod_annotation_key = 'linked_child_templates'
 
@@ -480,12 +478,11 @@ class ISubTemplate(IPODTemplate):
     """
 
 
+@implementer(ISubTemplate)
 class SubTemplate(PODTemplate):
     """
     PODTemplate used only a sub template to merge
     """
-
-    implements(ISubTemplate)
 
 
 class IMailingLoopTemplate(IPODTemplate):
@@ -494,12 +491,11 @@ class IMailingLoopTemplate(IPODTemplate):
     """
 
 
+@implementer(IMailingLoopTemplate)
 class MailingLoopTemplate(PODTemplate):
     """
     PODTemplate used only to loop for mailing
     """
-
-    implements(IMailingLoopTemplate)
 
 
 POD_TEMPLATE_TYPES = {

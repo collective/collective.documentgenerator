@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.config import HAS_PLONE_5
+from collective.documentgenerator.config import HAS_PLONE_5_2
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
@@ -11,7 +12,6 @@ from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.events import EditCancelledEvent
 from plone.dexterity.interfaces import IDexterityContainer
-from Products.Archetypes.interfaces.base import IBaseFolder
 from zope.component import getUtility
 from zope.event import notify
 from zope.i18n.interfaces import ITranslationDomain
@@ -123,7 +123,12 @@ class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):
         return self.real_context.getField(field_name).widget.Label(self)
 
     def is_folderish(self):
-        return IBaseFolder.providedBy(self.real_context)
+
+        if HAS_PLONE_5_2:
+            raise NotImplementedError("Archetypes was removed from Plone 5.2")
+        else:
+            from Products.Archetypes.interfaces.base import IBaseFolder
+            return IBaseFolder.providedBy(self.real_context)
 
     def get_collection_CT_fields(self):
         field_list = []
