@@ -6,6 +6,8 @@ Changelog
 
 - Casted dynamically variable.
   [sgeulette]
+- Added Plone 5.2 support
+  [odelaere]
 
 3.10 (2019-11-26)
 -----------------
