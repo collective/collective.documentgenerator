@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.11 (unreleased)
+3.11 (2019-12-03)
 -----------------
 
 - Casted dynamically variable.
