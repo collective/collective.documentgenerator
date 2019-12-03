@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added Plone 5.2 support
   [odelaere]
+- Fixed RichTextATFieldRenderer default render of empty value.
+  [sdelcourt]
 
 3.10 (2019-11-26)
 -----------------
