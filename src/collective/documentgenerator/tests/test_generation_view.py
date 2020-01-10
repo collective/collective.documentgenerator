@@ -368,8 +368,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generation_view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
         generation_view(document_uid=persistent_doc.UID())
         generation_view(document_url_path=persistent_doc.absolute_url_path())
-        generated_id = 'mailing-loop-template'
-        generated_id_2 = 'mailing-loop-template-1'
+        generated_id = 'mailing-loop-template-folder-possibly-mailed-template'
+        generated_id_2 = 'mailing-loop-template-folder-possibly-mailed-template-1'
         msg = "File {0} should have been created in folder.".format(generated_id)
         self.assertTrue(generated_id in folder.objectIds(), msg)
         msg = "File {0} should have been created in folder.".format(generated_id_2)
