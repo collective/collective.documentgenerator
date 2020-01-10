@@ -475,8 +475,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if not annot or 'template_uid' not in annot:
             raise Exception("Cannot find 'template_uid' on document '{0}'".format(self.document.absolute_url()))
         self.orig_template = self.get_pod_template(annot['template_uid'])
-        if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
-                not self.orig_template.mailing_loop_template):
+        if (not base_hasattr(self.orig_template, 'mailing_loop_template') or not self.orig_template.mailing_loop_template):
             raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
                 self.orig_template.absolute_url()))
         loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)
@@ -484,6 +483,12 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if 'output_format' not in annot:
             raise Exception("No 'output_format' found to generate this document")
         return loop_template, annot['output_format']
+
+    def _get_title(self, doc_name, gen_context):
+        splitted_name = doc_name.split('.')
+        extension = splitted_name[-1]
+        filename = u"{} {}".format(safe_unicode(splitted_name[0]), safe_unicode(self.document.title))
+        return filename, extension
 
     def mailing_related_generation_context(self, helper_view, gen_context):
         """
