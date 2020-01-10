@@ -101,7 +101,7 @@ def _update_template_styles(pod_template, style_template_filename):
                                               mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
                                                        'err': safe_unicode(stderr)}),
                                     request=request, type='error')
-        except:
+        except Exception:
             pass
         raise Redirect(request.get('ACTUAL_URL'),
                        translate(_(u"Problem during styles update on template '${tmpl}': ${err}",

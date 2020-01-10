@@ -200,7 +200,7 @@ class DocumentGenerationHelperView(object):
             for key in ('mailing_list', 'mailed_doc'):
                 if key in new_context:
                     del new_context[key]
-        except:
+        except Exception:
             return {'mailed_data': mailed_data}
         new_context['mailed_data'] = mailed_data
         return new_context
