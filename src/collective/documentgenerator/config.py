@@ -6,7 +6,8 @@ from Products.CMFPlone.utils import safe_unicode
 import os
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
-               ('xls', 'Microsoft Excel (.xls)'),)
+               ('xls', 'Microsoft Excel (.xls)'),
+               ('xlsx', 'Microsoft Excel (.xlsx)'),)
 
 ODT_FORMATS = (('odt', 'LibreOffice Writer (.odt)'),
                ('doc', 'Microsoft Word (.doc)'),
