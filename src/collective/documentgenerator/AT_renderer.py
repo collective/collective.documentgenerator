@@ -40,7 +40,7 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
     """
 
     def render_value(self):
-        display_value = self.context.restrictedTraverse('@@at_utils').translate
+        display_value = self.context.unrestrictedTraverse('@@at_utils').translate
 
         voc = self.field.Vocabulary(self.context)
         raw_values = self.field.get(self.context)

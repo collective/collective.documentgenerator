@@ -56,9 +56,9 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             (field, self.real_context, self.request), IFieldRendererForDocument)
         return renderer
 
-    def display(self, field_name, no_value=''):
+    def display(self, field_name, no_value='', bypass_check_permission=False):
         """Display field value."""
-        if self.check_permission(field_name):
+        if bypass_check_permission or self.check_permission(field_name):
             field_renderer = self.get_field_renderer(field_name)
             display_value = field_renderer.render_value()
             if not display_value:

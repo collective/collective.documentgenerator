@@ -11,8 +11,8 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
     Archetypes implementation of document generation helper methods.
     """
 
-    def display(self, field_name, no_value=''):
-        if self.check_permission(field_name):
+    def display(self, field_name, no_value='', bypass_check_permission=False):
+        if bypass_check_permission or self.check_permission(field_name):
             field_renderer = self.get_AT_field_renderer(field_name)
             display_value = field_renderer.render(no_value=no_value)
         else:
