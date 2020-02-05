@@ -2,10 +2,11 @@
 
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
+from DateTime import DateTime
 from plone import api
 from plone.app.testing import login
+from plone.app.testing import logout
 
-import DateTime
 import unittest
 
 
@@ -112,7 +113,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
 
     def test_display_method_on_datefield(self):
         field_name = 'effectiveDate'
-        date_to_set = DateTime.DateTime('23/06/1975')
+        date_to_set = DateTime('23/06/1975')
         expected_date = '23/06/1975 00:00'
         self._test_display_method(field_name, expected_date, date_to_set)
 
@@ -121,9 +122,20 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         msg = "empty value display was expected to be 'yolo'"
         self.assertTrue(displayed == 'yolo', msg)
 
+    def test_display_method_bypass_check_permission(self):
+        self.AT_topic.setEffectiveDate(DateTime('23/06/1975'))
+        expected_date = '23/06/1975 00:00'
+        self.assertFalse(api.user.is_anonymous())
+        self.assertEqual(self.view.display('effectiveDate', bypass_check_permission=False), expected_date)
+        self.assertEqual(self.view.display('effectiveDate', bypass_check_permission=True), expected_date)
+        logout()
+        self.assertTrue(api.user.is_anonymous())
+        self.assertEqual(self.view.display('effectiveDate', bypass_check_permission=False), u'')
+        self.assertEqual(self.view.display('effectiveDate', bypass_check_permission=True), expected_date)
+
     def test_display_date_method(self):
         effective_field_name = 'effectiveDate'
-        date_to_set = DateTime.DateTime('18/09/1986')
+        date_to_set = DateTime('18/09/1986')
 
         field = self.AT_topic.getField(effective_field_name)
         field.set(self.AT_topic, date_to_set)

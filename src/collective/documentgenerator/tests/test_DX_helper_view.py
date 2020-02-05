@@ -4,6 +4,7 @@ from collective.documentgenerator.config import HAS_PLONE_5_1
 from collective.documentgenerator.testing import DexterityIntegrationTests
 from plone import api
 from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.textfield.value import RichTextValue
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
@@ -105,6 +106,16 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         displayed = self.view.display('amount', no_value='foobar')
         msg = "empty value display was expected to be 'foobar'"
         self.assertTrue(displayed == 'foobar', msg)
+
+    def test_display_method_bypass_check_permission(self):
+        self.content.amount = 20
+        self.assertFalse(api.user.is_anonymous())
+        self.assertEqual(self.view.display('amount', bypass_check_permission=False), 20)
+        self.assertEqual(self.view.display('amount', bypass_check_permission=True), 20)
+        logout()
+        self.assertTrue(api.user.is_anonymous())
+        self.assertEqual(self.view.display('amount', bypass_check_permission=False), u'')
+        self.assertEqual(self.view.display('amount', bypass_check_permission=True), 20)
 
     def test_display_date_method(self):
         effective_field_name = 'birth_datetime'
