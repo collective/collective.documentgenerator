@@ -4,9 +4,9 @@ Changelog
 3.12 (unreleased)
 -----------------
 
-- Added parameter `bypass_check_permission` to method
-  `DocumentGenerationHelperView.display` to bypass read permission check,
-  this is useful when context is an object that was get unrestrictively.
+- Added parameter `bypass_check_permission=False` to method
+  `DocumentGenerationHelperView.display`, when True it bypasses read permission
+  check, this is useful when context is an object that was get unrestrictively.
   [gbastien]
 
 3.11 (2019-12-03)
