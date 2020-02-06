@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.12 (unreleased)
+3.12 (2020-02-06)
 -----------------
 
 - Added parameter `bypass_check_permission=False` to method
