@@ -358,18 +358,28 @@ class ConfigurablePODTemplate(PODTemplate):
 
     parent_pod_annotation_key = 'linked_child_templates'
 
-    def get_file(self):
+    def get_pod_template_to_use(self):
         """
-        Method used in renderer in order to retrieve the odt_file to be used.
-        :return: an odt_file field.
+        Method used in renderer in order to retrieve the pod_template to be used.
+        :return: the used object.
         """
         if self.pod_template_to_use:
             # make sure we get the POD template holding the odt_file
             # by searching it unrestrictedly
             catalog = api.portal.get_tool('portal_catalog')
             brains = catalog.unrestrictedSearchResults(UID=self.pod_template_to_use)
-            obj = brains[0]._unrestrictedGetObject()
-            return obj.odt_file
+            if brains:
+                return brains[0]._unrestrictedGetObject()
+        return None
+
+    def get_file(self):
+        """
+        Method used in renderer in order to retrieve the odt_file to be used.
+        :return: an odt_file field.
+        """
+        pttu = self.get_pod_template_to_use()
+        if pttu:
+            return pttu.odt_file
         return self.odt_file
 
     def __setattr__(self, key, value):

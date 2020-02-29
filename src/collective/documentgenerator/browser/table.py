@@ -11,7 +11,9 @@ from z3c.table.column import LinkColumn
 from z3c.table.table import Table
 from zope.cachedescriptors.property import CachedProperty
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.i18n import translate
+from zope.schema.interfaces import IVocabularyFactory
 
 import html
 import os
@@ -166,13 +168,29 @@ class OriginalColumn(Column):
     weight = 40
     cssClasses = {'td': 'original-column'}
 
+    def __init__(self, context, request, table):
+        super(OriginalColumn, self).__init__(context, request, table)
+        voc_name = 'collective.documentgenerator.ExistingPODTemplate'
+        vocabulary = getUtility(IVocabularyFactory, voc_name)
+        self.templates_voc = vocabulary(context)
+
     def renderCell(self, item):
-        if item.has_been_modified():
-            icon = ('++resource++collective.documentgenerator/nok.png',
-                    translate(_('Modified'), context=self.request))
+        img = suffix = msg = info = u''
+        real_template = item
+        if base_hasattr(item, 'pod_template_to_use') and item.pod_template_to_use is not None:
+            real_template = item.get_pod_template_to_use()
+            suffix = u'_use'
+            if item.pod_template_to_use in self.templates_voc:
+                info = translate(u', from ${template}', context=self.request,
+                                 mapping={'template': self.templates_voc.getTerm(item.pod_template_to_use).title})
+        if real_template is None:
+            img, msg = u'missing', u'Original template deleted !'
+        elif real_template.has_been_modified():
+            img, msg = u'nok', u'Modified'
         else:
-            icon = ('++resource++collective.documentgenerator/ok.png',
-                    translate(_('Original'), context=self.request))
+            img, msg = u'ok', u'Original'
+        icon = ('++resource++collective.documentgenerator/{}{}.png'.format(img, suffix),
+                u'{}{}'.format(translate(msg, context=self.request), info))
         return u"<img title='{0}' src='{1}' />".format(
             safe_unicode(icon[1]).replace("'", "&#39;"),
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
