@@ -150,12 +150,12 @@ class EnabledColumn(Column):
         if not base_hasattr(item, 'enabled'):
             return u'-'
         if item.enabled:
-            icon = ('++resource++collective.documentgenerator/ok.png',
+            icon = ('++resource++collective.documentgenerator/ok.svg',
                     translate(_('Enabled'), context=self.request))
         else:
-            icon = ('++resource++collective.documentgenerator/nok.png',
+            icon = ('++resource++collective.documentgenerator/nok.svg',
                     translate(_('Disabled'), context=self.request))
-        return u"<img title='{0}' src='{1}' />".format(
+        return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
             safe_unicode(icon[1]).replace("'", "&#39;"),
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
 
@@ -164,7 +164,7 @@ class OriginalColumn(Column):
 
     """Column that displays original status."""
 
-    header = _("Original")
+    header = _("Status")
     weight = 40
     cssClasses = {'td': 'original-column'}
 
@@ -181,17 +181,20 @@ class OriginalColumn(Column):
             real_template = item.get_pod_template_to_use()
             suffix = u'_use'
             if item.pod_template_to_use in self.templates_voc:
-                info = translate(u', from ${template}', context=self.request,
+                info = translate(u', from ${template}', context=self.request, domain='collective.documentgenerator',
                                  mapping={'template': self.templates_voc.getTerm(item.pod_template_to_use).title})
+        elif base_hasattr(item, 'is_reusable') and item.is_reusable:
+            suffix, info = u'_used', translate(u', is reusable template', context=self.request,
+                                               domain='collective.documentgenerator')
         if real_template is None:
-            img, msg = u'missing', u'Original template deleted !'
+            img, msg = u'missing', u'Linked template deleted !'
         elif real_template.has_been_modified():
             img, msg = u'nok', u'Modified'
         else:
             img, msg = u'ok', u'Original'
-        icon = ('++resource++collective.documentgenerator/{}{}.png'.format(img, suffix),
-                u'{}{}'.format(translate(msg, context=self.request), info))
-        return u"<img title='{0}' src='{1}' />".format(
+        icon = ('++resource++collective.documentgenerator/{}{}.svg'.format(img, suffix),
+                u'{}{}'.format(translate(msg, context=self.request, domain='collective.documentgenerator'), info))
+        return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
             safe_unicode(icon[1]).replace("'", "&#39;"),
             u"{0}/{1}".format(self.table.portal_url, icon[0]))
 
