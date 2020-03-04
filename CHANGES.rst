@@ -4,8 +4,8 @@ Changelog
 3.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Improved dg-templates-listing.
+  [sgeulette]
 
 3.12 (2020-02-06)
 -----------------
