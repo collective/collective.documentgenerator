@@ -40,3 +40,8 @@ div#doc-generation-view {
 span.icon-controlpanel-collective_documentgenerator_settings::before {
     content: "\e80e";
 }
+
+.svg-icon {
+    height: 16px;
+    width: 16px;
+}

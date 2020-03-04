@@ -18,6 +18,14 @@ msgstr ""
 msgid "${error_message} for key = '${key}'"
 msgstr "${error_message} pour la clé '${key}'"
 
+#: ../browser/table.py:184
+msgid ", from ${template}"
+msgstr ", via ${template}"
+
+#: ../browser/table.py:184
+msgid ", is reusable template"
+msgstr ", est un modèle réutilisable"
+
 #: ../profiles/base/types/StyleTemplate.xml
 msgid "A document that holds styles to include into a POD template."
 msgstr "Un document qui contient les styles à incorporer dans un modèle de document POD."
@@ -26,15 +34,15 @@ msgstr "Un document qui contient les styles à incorporer dans un modèle de doc
 msgid "A document to generate on a content."
 msgstr "Un document à générer depuis un type de contenu."
 
-#: ../browser/table.py:221
+#: ../browser/table.py:242
 msgid "Actions"
 msgstr "Actions"
 
-#: ../content/pod_template.py:272
+#: ../content/pod_template.py:271
 msgid "Allowed portal types"
 msgstr "Types de contenu autorisés"
 
-#: ../content/pod_template.py:263
+#: ../content/pod_template.py:262
 msgid "Available formats"
 msgstr "Formats disponibles"
 
@@ -42,27 +50,27 @@ msgstr "Formats disponibles"
 msgid "Bad phone number: '${nb}'"
 msgstr "Numéro de téléphone non reconnu: '${nb}'"
 
-#: ../interfaces.py:159
+#: ../interfaces.py:165
 msgid "Can't create a persistent document on a non folderish context."
 msgstr "Impossible de créer un document persistant si le contexte n'est pas un conteneur."
 
-#: ../interfaces.py:155
+#: ../interfaces.py:161
 msgid "Can't import python uno library with the python path"
 msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
 
-#: ../browser/controlpanel.py:112
+#: ../browser/controlpanel.py:111
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../browser/controlpanel.py:109
+#: ../browser/controlpanel.py:108
 msgid "Changes saved"
 msgstr "Changements enregistrés"
 
-#: ../content/pod_template.py:248
+#: ../content/pod_template.py:247
 msgid "Check if this POD Template can be reused by other POD Template"
 msgstr "Cocher si ce modèle canvas odt peut-être réutilisé dans d'autres modèles de documents POD"
 
-#: ../content/pod_template.py:302
+#: ../content/pod_template.py:301
 msgid "Choose the mailing loop template to apply for this template."
 msgstr "Sélectionnez le modèle de boucle de publipostage."
 
@@ -78,7 +86,7 @@ msgstr "Modèle collection"
 msgid "ConfigurablePODTemplate"
 msgstr "Modèle de document POD"
 
-#: ../content/pod_template.py:291
+#: ../content/pod_template.py:290
 msgid "Context variables."
 msgstr "Variables du contexte"
 
@@ -86,7 +94,7 @@ msgstr "Variables du contexte"
 msgid "Dict update collision on key"
 msgstr "Collision dans la mise à jour du dictionnaire"
 
-#: ../browser/table.py:155
+#: ../browser/table.py:157
 #: ../content/vocabulary.py:102
 msgid "Disabled"
 msgstr "Désactivé"
@@ -95,41 +103,41 @@ msgstr "Désactivé"
 msgid "Distribute"
 msgstr "Distribuer"
 
-#: ../content/pod_template.py:182
+#: ../content/pod_template.py:181
 msgid "Do rendering"
 msgstr "Pré-rendu"
 
-#: ../browser/controlpanel.py:98
+#: ../browser/controlpanel.py:97
 #: ../profiles/base/controlpanel.xml
 msgid "Document Generator settings"
 msgstr "Configuration du générateur de document"
 
-#: ../browser/controlpanel.py:114
+#: ../browser/controlpanel.py:113
 msgid "Edit cancelled"
 msgstr "Édition annulée"
 
-#: ../browser/table.py:143
+#: ../browser/table.py:145
 #: ../content/pod_template.py:67
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/generation_view.py:297
+#: ../browser/generation_view.py:299
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:295
+#: ../browser/generation_view.py:297
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:437
+#: ../browser/generation_view.py:439
 msgid "Error when merging mailed_data in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
 
-#: ../browser/generation_view.py:502
+#: ../browser/generation_view.py:504
 msgid "Error when merging mailing_list in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
 
-#: ../browser/generation_view.py:202
+#: ../browser/generation_view.py:204
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
@@ -190,7 +198,7 @@ msgstr "Installs the collective.documentgenerator add-on."
 msgid "Installs the collective.documentgenerator demo profile."
 msgstr "Installs the collective.documentgenerator demo profile."
 
-#: ../interfaces.py:151
+#: ../interfaces.py:157
 msgid "Invalid Python path"
 msgstr "Le chemin python spécifié semble erroné"
 
@@ -202,7 +210,11 @@ msgstr "Numéro de téléphone non valide: '${nb}'"
 msgid "Linked POD Template using this one"
 msgstr "Modèle de document POD liés utilisant celui-ci"
 
-#: ../content/pod_template.py:301
+#: ../browser/table.py:189
+msgid "Linked template deleted !"
+msgstr "Modèle lié effacé !"
+
+#: ../content/pod_template.py:300
 #: ../setuphandlers.py:111
 msgid "Mailing loop template"
 msgstr "Modèle de boucle de publipostage"
@@ -211,7 +223,8 @@ msgstr "Modèle de boucle de publipostage"
 msgid "MailingLoopTemplate"
 msgstr "Modèle de boucle de publipostage"
 
-#: ../browser/table.py:172
+#. Default: "Modifié"
+#: ../browser/table.py:191
 msgid "Modified"
 msgstr "Modifié"
 
@@ -219,7 +232,7 @@ msgstr "Modifié"
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
-#: ../content/pod_template.py:218
+#: ../content/pod_template.py:217
 msgid "No format selected"
 msgstr "Aucun format sélectionné"
 
@@ -240,7 +253,7 @@ msgstr "Canevas"
 msgid "Optimize"
 msgstr "Optimiser"
 
-#: ../browser/table.py:165
+#: ../browser/table.py:193
 msgid "Original"
 msgstr "Original"
 
@@ -248,7 +261,7 @@ msgstr "Original"
 msgid "POD Templates"
 msgstr "Modèles POD"
 
-#: ../content/pod_template.py:176
+#: ../content/pod_template.py:175
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
 
@@ -256,7 +269,7 @@ msgstr "Nom de variable du modèle"
 msgid "PODTemplate"
 msgstr "Modèle de document POD restreint"
 
-#: ../browser/table.py:107
+#: ../browser/table.py:109
 msgid "Path"
 msgstr "Chemin relatif"
 
@@ -264,7 +277,7 @@ msgstr "Chemin relatif"
 msgid "Path of python with uno."
 msgstr "Chemin d'un python avec la librairie uno"
 
-#: ../browser/table.py:185
+#: ../browser/table.py:206
 msgid "Pod formats"
 msgstr "Formats"
 
@@ -276,7 +289,7 @@ msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 msgid "Possibly mailed template"
 msgstr "Modèle qui peut être publiposté"
 
-#: ../events/styles_events.py:98
+#: ../events/styles_events.py:100
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
 
@@ -284,7 +297,7 @@ msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${er
 msgid "Raise an error instead generating the document"
 msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
 
-#: ../content/pod_template.py:247
+#: ../content/pod_template.py:246
 msgid "Reusable"
 msgstr "Réutilisable"
 
@@ -296,25 +309,29 @@ msgstr "Modèle réutilisable"
 msgid "Reuse Test Template"
 msgstr "Modèle utilisant le fichier ODT d'un autre modèle"
 
-#: ../browser/controlpanel.py:101
+#: ../browser/controlpanel.py:100
 msgid "Save"
 msgstr "Sauver"
 
-#: ../content/pod_template.py:255
+#: ../content/pod_template.py:254
 msgid "Select Existing POD Template to reuse"
 msgstr "Choisir un modèle de document POD existant à réutiliser"
 
-#: ../content/pod_template.py:273
+#: ../content/pod_template.py:272
 msgid "Select for which content types the template will be available."
 msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera disponible."
 
-#: ../content/pod_template.py:264
+#: ../content/pod_template.py:263
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
 #: ../setuphandlers.py:195
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
+
+#: ../browser/table.py:167
+msgid "Status"
+msgstr "Statut"
 
 #: ../testing.zcml:14
 msgid "Steps to ease tests of collective.documentgenerator"
@@ -337,43 +354,43 @@ msgid "SubTemplate"
 msgstr "Sous modèle"
 
 #: ../browser/controlpanel.py:67
-#: ../content/pod_template.py:308
+#: ../content/pod_template.py:307
 msgid "Table column modifier"
 msgstr "Modification sur les colonnes de tableaux"
 
-#: ../content/pod_template.py:170
+#: ../content/pod_template.py:169
 msgid "Template"
 msgstr "Modèle"
 
-#: ../content/pod_template.py:280
+#: ../content/pod_template.py:279
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
 
-#: ../content/pod_template.py:292
+#: ../content/pod_template.py:291
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
 
-#: ../content/pod_template.py:196
+#: ../content/pod_template.py:195
 msgid "Value"
 msgstr "Valeur"
 
-#: ../content/pod_template.py:191
+#: ../content/pod_template.py:190
 msgid "Variable name"
 msgstr "Nom de variable"
 
-#: ../content/pod_template.py:341
+#: ../content/pod_template.py:340
 msgid "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."
 msgstr "Vous ne pouvez pas définir un 'Canevas' ou définir ce modèle comme 'Réutilisable' si vous avez choisi un modèle dans la liste 'Choisir un modèle de document POD existant à réutiliser'."
 
-#: ../content/pod_template.py:326
+#: ../content/pod_template.py:325
 msgid "You can't use one of these words: ${list}"
 msgstr "Vous ne pouvez pas utiliser un de ces noms réservés: ${list}"
 
-#: ../content/pod_template.py:329
+#: ../content/pod_template.py:328
 msgid "You have twice used the same name '${name}'"
 msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 
-#: ../content/pod_template.py:336
+#: ../content/pod_template.py:335
 msgid "You must select an odt file or an existing pod template"
 msgstr "Un des champs 'Canevas' ou 'Choisir un modèle de document POD existant à réutiliser' doit être rempli."
 
@@ -394,7 +411,7 @@ msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:222
+#: ../content/pod_template.py:221
 msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 

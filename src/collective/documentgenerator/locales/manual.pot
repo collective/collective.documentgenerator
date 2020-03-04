@@ -1,10 +1,30 @@
 msgid ""
 msgstr ""
 
+#: ../browser/table.py:184
+msgid ", from ${template}"
+msgstr ""
+
+#: ../browser/table.py:184
+msgid ", is reusable template"
+msgstr ""
+
 #: ../helper/base.py:79
 msgid "Bad phone number: '${nb}'"
 msgstr ""
 
 #: ../helper/base.py:83
 msgid "Invalid phone number: '${nb}'"
+msgstr ""
+
+#: ../browser/table.py:189
+msgid "Linked template deleted !"
+msgstr ""
+
+#: ../browser/table.py:191
+msgid "Modified"
+msgstr "Modifié"
+
+#: ../browser/table.py:193
+msgid "Original"
 msgstr ""
