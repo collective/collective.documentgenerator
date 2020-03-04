@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.13 (unreleased)
+3.13 (2020-03-04)
 -----------------
 
 - Improved dg-templates-listing.
