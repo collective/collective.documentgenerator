@@ -13,6 +13,7 @@ from plone.autoform.interfaces import READ_PERMISSIONS_KEY
 from plone.behavior.interfaces import IBehavior
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.supermodel.utils import mergedTaggedValueDict
+from Products.CMFPlone.utils import base_hasattr
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -84,7 +85,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         """
             strict: if False and field doesn't exist, be cool and return default value
         """
-        if not strict and not self.has_field(field_name):
+        if not strict and not base_hasattr(self.real_context, field_name):
             return default
         value = getattr(self.real_context, field_name)
         if value is None:

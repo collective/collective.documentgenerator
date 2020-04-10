@@ -4,8 +4,8 @@ Changelog
 3.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Updated get_value to test if attribute exist on object.
+  [sgeulette]
 
 3.13 (2020-03-04)
 -----------------
