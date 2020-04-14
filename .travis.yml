@@ -37,6 +37,7 @@ install:
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
   - sed -ie "s#test-5#test-$PLONE_VERSION#" travis.cfg
+  - rm -fr bin develop-eggs htmlcov include .installed.cfg lib .mr.developer.cfg parts eggs
   - virtualenv -p `which python` .
   - bin/pip install -r requirements.txt
   - python -V
