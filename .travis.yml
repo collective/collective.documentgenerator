@@ -1,5 +1,8 @@
+os:
+  - linux
 dist: bionic
 language: python
+
 cache:
   pip: true
   directories:
@@ -12,7 +15,9 @@ env:
   - PLONE_VERSION=4
   - PLONE_VERSION=5.1
   - PLONE_VERSION=5.2
-fast_finish: true
+
+jobs:
+  fast_finish: true
 
 services:
   - docker
@@ -32,10 +37,10 @@ install:
   - chmod 777 $HOME/tmp
   - export TMPDIR=$HOME/tmp
   - sed -ie "s#test-5#test-$PLONE_VERSION#" travis.cfg
-  - pip install -r requirements.txt
+  - virtualenv -p `which python` .
+  - bin/pip install -r requirements.txt
   - python -V
   - /usr/bin/python3 -V
-  - python bootstrap.py --version=2.13.2
   - bin/buildout -N -c travis.cfg annotate
   - bin/buildout -Nt 5 -c travis.cfg
 
@@ -43,6 +48,7 @@ before_script:
   - bin/translation-manage -c
 
 script:
+  - bin/code-analysis
   - make startlibreoffice lo_version=5.1
   - env USE_STREAM=True bin/test
   - make startlibreoffice
@@ -53,10 +59,9 @@ script:
   - env USE_STREAM=True bin/test
 
 after_success:
-  - bin/createcoverage -d htmlcov
-  - pip install --upgrade pip
-  - pip install -q coveralls==0.5
-  - coveralls
+  - bin/createcoverage --output-dir=parts/test/coverage
+  - bin/pip install -q coveralls
+  - bin/coveralls
 
 notifications:
   email:
