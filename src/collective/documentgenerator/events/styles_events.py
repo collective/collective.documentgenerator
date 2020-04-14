@@ -96,13 +96,11 @@ def _update_template_styles(pod_template, style_template_filename):
         logger.error("Error is '%s'" % stderr)
         portal = api.portal.get()
         request = portal.REQUEST
-        try:
-            api.portal.show_message(message=_(u"Problem during styles update on template '${tmpl}': ${err}",
-                                              mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
-                                                       'err': safe_unicode(stderr)}),
-                                    request=request, type='error')
-        except:
-            pass
+        api.portal.show_message(message=_(u"Problem during styles update on template '${tmpl}': ${err}",
+                                          mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),
+                                                   'err': safe_unicode(stderr)}),
+                                request=request,
+                                type='error')
         raise Redirect(request.get('ACTUAL_URL'),
                        translate(_(u"Problem during styles update on template '${tmpl}': ${err}",
                                    mapping={'tmpl': safe_unicode(pod_template.absolute_url_path()),

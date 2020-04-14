@@ -200,10 +200,10 @@ class DocumentGenerationHelperView(object):
             for key in ('mailing_list', 'mailed_doc'):
                 if key in new_context:
                     del new_context[key]
-        except:
+            new_context['mailed_data'] = mailed_data
+            return new_context
+        except AttributeError:  # in case one object is None starting with self.appy_renderer
             return {'mailed_data': mailed_data}
-        new_context['mailed_data'] = mailed_data
-        return new_context
 
     def do_mailing(self):
         """ Check if mailing data must be replaced in template """
