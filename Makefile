@@ -17,8 +17,8 @@ buildout:
 
 run:
 	if ! test -f bin/instance;then make buildout;fi
-	bin/instance fg
 	mkdir -p var/tmp
+	bin/instance fg
 
 test:
 	if ! test -f bin/test;then make buildout;fi
