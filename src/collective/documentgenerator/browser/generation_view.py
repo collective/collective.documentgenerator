@@ -4,15 +4,15 @@ import mimetypes
 import os
 import tempfile
 import unicodedata
-from StringIO import StringIO
+
+from appy.pod.renderer import Renderer
+from appy.pod.styles_manager import TableProperties
 
 import pkg_resources
 from AccessControl import Unauthorized
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from appy.pod.renderer import Renderer
-from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
 from collective.documentgenerator.content.pod_template import IPODTemplate
@@ -108,9 +108,8 @@ class DocumentGenerationView(BrowserView):
         # Recursive generation of the document and all its subtemplates.
         document_path, gen_context = self._recursive_generate_doc(pod_template, output_format)
 
-        rendered_document = open(document_path, 'rb')
-        rendered = rendered_document.read()
-        rendered_document.close()
+        with open(document_path, 'rb') as rendered_document:
+            rendered = rendered_document.read()
         remove_tmp_file(document_path)
         filename = self._get_filename()
         return rendered, filename, gen_context
@@ -191,7 +190,6 @@ class DocumentGenerationView(BrowserView):
         Subdocuments is a dictionnary of previously generated subtemplate
         that will be merged into the current generated document.
         """
-        document_template = pod_template.get_file()
         tmp_dir = os.getenv('CUSTOM_TMP', None)
         temp_filename = tempfile.mktemp(suffix='.{extension}'.format(extension=output_format), dir=tmp_dir)
 
@@ -255,7 +253,7 @@ class DocumentGenerationView(BrowserView):
         #                       })
 
         renderer = Renderer(
-            StringIO(document_template.data),
+            pod_template.file_path(),
             generation_context,
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),

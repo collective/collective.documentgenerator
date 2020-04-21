@@ -91,6 +91,13 @@ class PODTemplate(Item):
         """
         return self.odt_file
 
+    def file_path(self):
+        """
+        Method used in renderer in order to retrieve the odt_file path on disk to be used.
+        :return: the file path as a string
+        """
+        return self.get_file()._blob.committed()
+
     def can_be_generated(self, context):
         """
         Evaluate if the template can be generated on a given context.
