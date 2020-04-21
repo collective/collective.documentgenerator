@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
 
+from collective.documentgenerator.config import set_use_stream
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 from plone import api
@@ -37,7 +39,8 @@ def install_demo(context):
         return
 
     portal = api.portal.get()
-
+    use_stream = os.getenv('USE_STREAM', False) == 'True'
+    set_use_stream(use_stream)
     if not hasattr(portal, 'podtemplates'):
         templates_folder = api.content.create(
             type='Folder',

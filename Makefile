@@ -18,7 +18,8 @@ buildout:
 run:
 	if ! test -f bin/instance;then make buildout;fi
 	mkdir -p var/tmp
-	bin/instance fg
+	make startlibreoffice
+	env USE_STREAM=True bin/instance fg
 
 test:
 	if ! test -f bin/test;then make buildout;fi
