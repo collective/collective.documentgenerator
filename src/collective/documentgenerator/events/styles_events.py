@@ -75,9 +75,8 @@ def _update_template_styles(pod_template, style_template_filename):
         pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
-    new_template = open(temp_file.name, 'w')
-    new_template.write(pod_template.odt_file.data)
-    new_template.close()
+    with open(temp_file.name, 'w') as new_template:
+        new_template.write(pod_template.odt_file.data)
 
     # merge style from templateStyle in template
     cmd = '{path} {script} {tmp_file} {extension} -e ' \
