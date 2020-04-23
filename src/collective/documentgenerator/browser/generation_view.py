@@ -52,7 +52,7 @@ class DocumentGenerationView(BrowserView):
 
     def __call__(self, template_uid='', output_format='', **kwargs):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
-        return self.generate_and_download_doc(self.pod_template, self.output_format)
+        return self.generate_and_download_doc(self.pod_template, self.output_format, **kwargs)
 
     def _get_base_args(self, template_uid, output_format):
         template_uid = template_uid or self.get_pod_template_uid()
@@ -81,7 +81,7 @@ class DocumentGenerationView(BrowserView):
                 output_format)
             log_info(AUDIT_MESSAGE.format(user, ip, action, extras))
 
-        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
+        doc, doc_name, gen_context = self._generate_doc(pod_template, output_format, **kwargs)
         self._set_header_response(doc_name)
         return doc
 
