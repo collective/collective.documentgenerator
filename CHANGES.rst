@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.14 (unreleased)
+3.14 (2020-04-23)
 -----------------
 
 - Updated get_value to test if attribute exist on object.
