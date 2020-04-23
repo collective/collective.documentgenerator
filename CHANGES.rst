@@ -6,6 +6,9 @@ Changelog
 
 - Updated get_value to test if attribute exist on object.
   [sgeulette]
+- Added possibility to pass `kwargs` to `DocumentGenerationView.__call__`,
+  then submethods `generate_and_download_doc` and `_generate_doc`.
+  [gbastien]
 
 3.13 (2020-03-04)
 -----------------

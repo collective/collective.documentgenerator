@@ -50,7 +50,7 @@ class DocumentGenerationView(BrowserView):
         self.pod_template = None
         self.output_format = None
 
-    def __call__(self, template_uid='', output_format=''):
+    def __call__(self, template_uid='', output_format='', **kwargs):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
         return self.generate_and_download_doc(self.pod_template, self.output_format)
 
@@ -63,7 +63,7 @@ class DocumentGenerationView(BrowserView):
 
         return pod_template, output_format
 
-    def generate_and_download_doc(self, pod_template, output_format):
+    def generate_and_download_doc(self, pod_template, output_format, **kwargs):
         """
         Generate a document of format 'output_format' from the template
         'pod_template' and return it as a downloadable file.
@@ -85,7 +85,7 @@ class DocumentGenerationView(BrowserView):
         self._set_header_response(doc_name)
         return doc
 
-    def _generate_doc(self, pod_template, output_format):
+    def _generate_doc(self, pod_template, output_format, **kwargs):
         """
         Generate a document of format 'output_format' from the template
         'pod_template'.
