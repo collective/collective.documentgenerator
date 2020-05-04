@@ -14,7 +14,7 @@ setup(
     version='3.15.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (http://appyframework.org) and OpenOffice/LibreOffice",
     long_description=long_description,
-    # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
@@ -28,7 +28,7 @@ setup(
     keywords='plone document generation generator odt word pdf libreoffice template',
     author='Simon Delcourt',
     author_email='simon.delcourt@imio.be',
-    url='http://pypi.python.org/pypi/collective.documentgenerator',
+    url='https://pypi.org/project/collective.documentgenerator',
     license='GPL',
     packages=find_packages('src', exclude=['ez_setup']),
     namespace_packages=['collective'],
