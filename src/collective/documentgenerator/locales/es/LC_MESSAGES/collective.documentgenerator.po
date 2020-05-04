@@ -1,0 +1,450 @@
+# Translation of collective.documentgenerator.pot to Spanish
+# Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: collective.documentgenerator 1.0\n"
+"POT-Creation-Date: 2020-05-04 21:34+0000\n"
+"PO-Revision-Date: 2020-05-04 14:23-0400\n"
+"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"Language-Team: ES <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Code: es\n"
+"Language-Name: Spanish\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.documentgenerator\n"
+"Language: es\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
+
+#: ../utils.py:77
+msgid "${error_message} for key = '${key}'"
+msgstr "${error_message} por la clave '${key}'"
+
+#: ../browser/table.py:184
+msgid ", from ${template}"
+msgstr ", desde ${template}"
+
+#: ../browser/table.py:184
+msgid ", is reusable template"
+msgstr ", es plantilla reutilizable"
+
+#: ../profiles/base/types/StyleTemplate.xml
+msgid "A document that holds styles to include into a POD template."
+msgstr "Un documento que contiene los estilos a incluir dentro de un modelo de documento POD."
+
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
+msgid "A document to generate on a content."
+msgstr "Un documento a generar en un tipo de contenido."
+
+#: ../browser/table.py:242
+msgid "Actions"
+msgstr "Acciones"
+
+#: ../content/pod_template.py:271
+msgid "Allowed portal types"
+msgstr "Tipos de contenido permitidos"
+
+#: ../content/pod_template.py:262
+msgid "Available formats"
+msgstr "Formatos disponibles"
+
+#: ../helper/base.py:79
+msgid "Bad phone number: '${nb}'"
+msgstr "Numero de teléfono no reconocido: '${nb}'"
+
+#: ../interfaces.py:165
+msgid "Can't create a persistent document on a non folderish context."
+msgstr "No se puede crear un documento persistente si el contexto no es un contenedor."
+
+#: ../interfaces.py:161
+msgid "Can't import python uno library with the python path"
+msgstr "Falló la importación de la librería UNO en su entorno Python"
+
+#: ../browser/controlpanel.py:111
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../browser/controlpanel.py:108
+msgid "Changes saved"
+msgstr "Cambios guardados"
+
+#: ../content/pod_template.py:247
+msgid "Check if this POD Template can be reused by other POD Template"
+msgstr "Chequear si este plantilla POD puede ser reutilizada en otra plantilla POD"
+
+#: ../content/pod_template.py:301
+msgid "Choose the mailing loop template to apply for this template."
+msgstr "Seleccione la plantilla de bucle de publicación por correo para ser aplicada a esta plantilla."
+
+#: ../content/pod_template.py:75
+msgid "Choose the style template to apply for this template."
+msgstr "Seleccione la plantilla de estilo a aplicar en esta plantilla."
+
+#: ../setuphandlers.py:168
+msgid "Collection template"
+msgstr "Plantilla Collection"
+
+#: ../profiles/base/types/ConfigurablePODTemplate.xml
+msgid "ConfigurablePODTemplate"
+msgstr "Plantilla de documento POD"
+
+#: ../content/pod_template.py:290
+msgid "Context variables."
+msgstr "Variables de contexto."
+
+#: ../utils.py:74
+msgid "Dict update collision on key"
+msgstr "Colisión al actualizar la misma clave del diccionario"
+
+#: ../browser/table.py:157
+#: ../content/vocabulary.py:102
+msgid "Disabled"
+msgstr "Desactivar"
+
+#: ../content/vocabulary.py:105
+msgid "Distribute"
+msgstr "Distribuir"
+
+#: ../content/pod_template.py:181
+msgid "Do rendering"
+msgstr "Hacer renderizado"
+
+#: ../browser/controlpanel.py:97
+#: ../profiles/base/controlpanel.xml
+msgid "Document Generator settings"
+msgstr "Configuración de Generador de Documento"
+
+#: ../browser/controlpanel.py:113
+msgid "Edit cancelled"
+msgstr "Edición cancelada"
+
+#: ../browser/table.py:145
+#: ../content/pod_template.py:67
+msgid "Enabled"
+msgstr "Activo"
+
+#: ../browser/generation_view.py:299
+msgid "Error when merging context_variables in generation context"
+msgstr "Error cuando mezclaba la variable de contexto context_variables en la generación de contexto"
+
+#: ../browser/generation_view.py:297
+msgid "Error when merging helper_view in generation context"
+msgstr "Error cuando mezclaba la variable de contexto helper_view en la generación de contexto"
+
+#: ../browser/generation_view.py:439
+msgid "Error when merging mailed_data in generation context"
+msgstr "Error cuando mezclaba la variable de contexto mailed_data en la generación de contexto"
+
+#: ../browser/generation_view.py:504
+msgid "Error when merging mailing_list in generation context"
+msgstr "Error cuando mezclaba la variable de contexto mailing_list en la generación de contexto"
+
+#: ../browser/generation_view.py:204
+msgid "Error when merging merge_templates in generation context"
+msgstr "Error cuando mezclaba la variable de contexto merge_templates en la generación de contexto"
+
+#: ../tests/test_generation_view.py:253
+msgid "Failing template"
+msgstr "Plantilla que falla"
+
+#: ../browser/controlpanel.py:86
+msgid "Force communication via in/out stream with LibreOffice."
+msgstr "Forzar la comunicación a través del stream de entrada/salida con LibreOffice."
+
+#: ../content/vocabulary.py:127
+msgid "Force disabled"
+msgstr "Desactivar (ignorar el valor global)"
+
+#: ../content/vocabulary.py:130
+msgid "Force distribute"
+msgstr "Distribuir (ignorar el valor global)"
+
+#: ../content/vocabulary.py:128
+msgid "Force nothing"
+msgstr "Activado pero sin tratamiento por defecto (ignorar el valor global)"
+
+#: ../content/vocabulary.py:129
+msgid "Force optimize"
+msgstr "Optimizar (ignorar el valor global)"
+
+#: ../setuphandlers.py:130
+msgid "General template"
+msgstr "Plantilla general"
+
+#. Default: "global_value"
+#: ../content/vocabulary.py:122
+msgid "Global value (${global_value})"
+msgstr "Use el valor global (${global_value})"
+
+#: ../setuphandlers.py:98
+msgid "Header"
+msgstr "Encabezado"
+
+#: ../browser/controlpanel.py:46
+msgid "IP address or hostname of OO."
+msgstr "Dirección IP o nombre de host de OpenOffice/LibreOffice."
+
+#: ../browser/controlpanel.py:19
+msgid "If enabled, this will allow the \"table-layout: fixed|auto|none\" CSS style handling while generating document. If no such style is defined on the table, the chosen column modifier of LibreOffice will be applied."
+msgstr "Si está habilitado, esto permitirá el procesamiento de estilos CSS \"table-layout: fixed|auto|none\" durante la generación del documento. Si no se define ningún estilo en la tabla, se elige el procesamiento de ancho de columna de LibreOffice será aplicado."
+
+#: ../browser/controlpanel.py:76
+msgid "If enabled, this will avoid generating a document containing an error, instead a common Plone error will be raised.  Nevertheless to ease debugging, Managers will continue to get errors in the generated document if it uses .odt format."
+msgstr "Una vez activado, esto evita que se genere un documento que contiene un error, en su lugar, se generará un error de Plone. Sin embargo, para facilitar la depuración, los administradores continuarán recibiendo errores en los documentos generados si se generan en formato Open Document '.odt'."
+
+#: ../browser/controlpanel.py:87
+msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
+msgstr "Si está habilitado, esto obligará a usar el stream para comunicarse con el servidor OpenOffice/LibreOffice. Esto debe ser cierto si el servidor OpenOffice/LibreOffice no está en localhost o está en un contenedor acoplable."
+
+#: ../profiles.zcml:15
+msgid "Installs the collective.documentgenerator add-on."
+msgstr "Instalar el complemento collective.documentgenerator."
+
+#: ../profiles.zcml:41
+msgid "Installs the collective.documentgenerator demo profile."
+msgstr "Instalar el perfil demo de collective.documentgenerator."
+
+#: ../interfaces.py:157
+msgid "Invalid Python path"
+msgstr "Le ruta Python especificada no valida"
+
+#: ../helper/base.py:83
+msgid "Invalid phone number: '${nb}'"
+msgstr "Número de teléfono no valido: '${nb}'"
+
+#: ../browser/children_pod_template.pt:2
+msgid "Linked POD Template using this one"
+msgstr "Plantilla de documento POD enlazada usada en esta"
+
+#: ../browser/table.py:189
+msgid "Linked template deleted !"
+msgstr "¡Plantilla vinculada eliminada!"
+
+##msgstr "Modelo de boucle de publipostage"
+#: ../content/pod_template.py:300
+#: ../setuphandlers.py:114
+msgid "Mailing loop template"
+msgstr "Plantilla de bucle de publicación por correo"
+
+#: ../profiles/base/types/MailingLoopTemplate.xml
+msgid "MailingLoopTemplate"
+msgstr "Plantilla de bucle de publicación por correo"
+
+#. Default: "Modifié"
+#: ../browser/table.py:191
+msgid "Modified"
+msgstr "Modificado"
+
+#: ../setuphandlers.py:144
+msgid "Multiple format template"
+msgstr "Plantilla de formatos múltiples"
+
+#: ../content/pod_template.py:217
+msgid "No format selected"
+msgstr "Sin formato seleccionado"
+
+#: ../browser/children_pod_template.pt:14
+msgid "None"
+msgstr "Ningún"
+
+#: ../content/vocabulary.py:103
+msgid "Nothing"
+msgstr "Activado pero sin procesamiento por defecto"
+
+#: ../content/pod_template.py:55
+#: ../content/style_template.py:28
+msgid "ODT File"
+msgstr "Archivo ODT"
+
+#: ../content/vocabulary.py:104
+msgid "Optimize"
+msgstr "Optimizar"
+
+#: ../browser/table.py:193
+msgid "Original"
+msgstr "Original"
+
+#: ../setuphandlers.py:47
+msgid "POD Templates"
+msgstr "Plantillas POD"
+
+#: ../content/pod_template.py:175
+msgid "POD context name"
+msgstr "Nombre de variable de contexto de plantilla"
+
+#: ../profiles/base/types/PODTemplate.xml
+msgid "PODTemplate"
+msgstr "Plantilla de documento POD restringida"
+
+#: ../browser/table.py:109
+msgid "Path"
+msgstr "Ruta relativa"
+
+#: ../browser/controlpanel.py:60
+msgid "Path of python with uno."
+msgstr "Ruta Python con la librería UNO."
+
+#: ../browser/table.py:206
+msgid "Pod formats"
+msgstr "Formatos"
+
+#: ../browser/controlpanel.py:53
+msgid "Port Number of OO."
+msgstr "Indique el número del puerto en el que se ejecuta LibreOffice/OpenOffice."
+
+#: ../setuphandlers.py:215
+msgid "Possibly mailed template"
+msgstr "Plantilla la cual se puede enviar por correo"
+
+#: ../events/styles_events.py:99
+msgid "Problem during styles update on template '${tmpl}': ${err}"
+msgstr "Problema al actualizar de estilos en la plantilla '${tmpl}': ${err}"
+
+#: ../browser/controlpanel.py:75
+msgid "Raise an error instead generating the document"
+msgstr "En caso de error, produzca un error de Plone en lugar de un error en el documento generado"
+
+#: ../content/pod_template.py:246
+msgid "Reusable"
+msgstr "Reutilizable"
+
+#: ../setuphandlers.py:238
+msgid "Reusable template"
+msgstr "Plantilla reutilizable"
+
+#: ../setuphandlers.py:257
+msgid "Reuse Test Template"
+msgstr "Plantilla usada en el archivo Open Document de otra plantilla"
+
+#: ../browser/controlpanel.py:100
+msgid "Save"
+msgstr "Guardar"
+
+#: ../content/pod_template.py:254
+msgid "Select Existing POD Template to reuse"
+msgstr "Seleccione una Plantilla POD existente a ser reutilizada"
+
+#: ../content/pod_template.py:272
+msgid "Select for which content types the template will be available."
+msgstr "Seleccione para cual de los tipos de contenidos la plantilla estará disponible."
+
+#: ../content/pod_template.py:263
+msgid "Select format in which the template will be generable."
+msgstr "Seleccione los formatos en los cuales la plantilla podrá ser generada."
+
+#: ../setuphandlers.py:198
+msgid "Spreadsheet template"
+msgstr "Plantilla de hoja de cálculo"
+
+#: ../browser/table.py:167
+msgid "Status"
+msgstr "Estado"
+
+#: ../testing.zcml:14
+msgid "Steps to ease tests of collective.documentgenerator"
+msgstr "Pasos para de forma fácil probar el paquete collective.documentgenerator"
+
+#: ../content/pod_template.py:74
+msgid "Style template"
+msgstr "Plantilla de estilo"
+
+#: ../profiles/base/types/StyleTemplate.xml
+msgid "StyleTemplate"
+msgstr "Plantilla de estilo"
+
+#: ../setuphandlers.py:83
+msgid "Styles n°2"
+msgstr "Estilos n°2"
+
+#: ../profiles/base/types/SubTemplate.xml
+msgid "SubTemplate"
+msgstr "Sub plantilla"
+
+#: ../browser/controlpanel.py:67
+#: ../content/pod_template.py:307
+msgid "Table column modifier"
+msgstr "Modificación de los columnas de tabla"
+
+#: ../content/pod_template.py:169
+msgid "Template"
+msgstr "Plantilla"
+
+#: ../content/pod_template.py:279
+msgid "Templates to merge."
+msgstr "Plantillas a fusionar."
+
+#: ../browser/controlpanel.py:98
+msgid "The Document Generator settings control panel"
+msgstr "El panel de control de configuración del Generador de documentos"
+
+#: ../content/pod_template.py:291
+msgid "These context variables are added to the odt_file context."
+msgstr "Esas variables de contexto son añadidas al contexto del odt_file o plantilla Open Document."
+
+#: ../content/pod_template.py:195
+msgid "Value"
+msgstr "Valor"
+
+#: ../content/pod_template.py:190
+msgid "Variable name"
+msgstr "Nombre de variable"
+
+#: ../content/pod_template.py:340
+msgid "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."
+msgstr "Usted no puede definir una Plantilla POD o definir esta plantilla como 'Reutilizable' si ha elegido una plantilla de la lista 'Elija una plantilla de documento POD existente para reutilizar'."
+
+#: ../content/pod_template.py:325
+msgid "You can't use one of these words: ${list}"
+msgstr "Usted no puede usar uno de estos palabras o nombres reservados: ${list}"
+
+#: ../content/pod_template.py:328
+msgid "You have twice used the same name '${name}'"
+msgstr "Usted ha declarado el mismo nombre de variable dos veces: '${name}'"
+
+#: ../content/pod_template.py:335
+msgid "You must select an odt file or an existing pod template"
+msgstr "Usted debe seleccionar un archivo Open Document o 'Elegir una plantilla de documento POD existente para reutilizar'"
+
+#: ../profiles.zcml:15
+msgid "collective.documentgenerator"
+msgstr "collective.documentgenerator"
+
+#: ../profiles.zcml:41
+msgid "collective.documentgenerator demo"
+msgstr "collective.documentgenerator - demo"
+
+#: ../testing.zcml:14
+msgid "collective.documentgenerator tests"
+msgstr "collective.documentgenerator - pruebas"
+
+#: ../demo/helper.py:72
+msgid "comment"
+msgstr "Comentario"
+
+#. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
+#: ../content/pod_template.py:221
+msgid "element_not_valid"
+msgstr "El elemento ${elem} no es valido para la extensión .${extension} de su plantilla \"${template}\""
+
+#: ../demo/helper.py:70
+msgid "input_field"
+msgstr "Campos de entrada"
+
+#: ../demo/helper.py:80
+msgid "last_change"
+msgstr "Ultima modificación"
+
+#: ../browser/controlpanel.py:52
+msgid "oo_port"
+msgstr "Numero del puerto Office"
+
+#: ../browser/controlpanel.py:45
+msgid "oo_server"
+msgstr "Servidor OpenOffice/LibreOffice"
+
+#: ../browser/controlpanel.py:59
+msgid "uno path"
+msgstr "Ruta de Python UNO"

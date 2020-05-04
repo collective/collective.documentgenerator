@@ -4,6 +4,9 @@ Changelog
 3.15 (unreleased)
 -----------------
 
+- Added Spanish translation.
+  [macagua]
+
 - Updated the i18n support.
   [macagua]
 
