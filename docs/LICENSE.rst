@@ -1,4 +1,4 @@
-bobtemplates.ecreall Copyright 2013, "Cédric Messiant"
+collective.documentgenerator Copyright 2015, "Simon Delcourt"
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
