@@ -1,7 +1,10 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-05-04 21:34+0000\n"
+"POT-Creation-Date: 2020-05-04 18:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,16 +15,8 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
-
-#: ../profiles/testing/types/member.xml
-msgid "None"
-msgstr ""
-
-#: ../profiles/testing/types/member.xml
-msgid "Test type"
-msgstr ""
+"Domain: plone\n"
 
 #: ../browser/configure.zcml:59
 msgid "dg-templates-listing"
-msgstr "Vue modèles de document"
+msgstr ""

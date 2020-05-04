@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"POT-Creation-Date: 2020-05-04 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgstr "Sélectionnez le modèle de boucle de publipostage."
 msgid "Choose the style template to apply for this template."
 msgstr "Sélectionnez le fichier de style à utiliser pour ce modèle."
 
-#: ../setuphandlers.py:165
+#: ../setuphandlers.py:168
 msgid "Collection template"
 msgstr "Modèle collection"
 
@@ -141,6 +141,10 @@ msgstr "Erreur lors de la mise à jour du contexte de génération avec les donn
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
+#: ../tests/test_generation_view.py:253
+msgid "Failing template"
+msgstr ""
+
 #: ../browser/controlpanel.py:86
 msgid "Force communication via in/out stream with LibreOffice."
 msgstr "Forcer la communication avec LibreOffice via flux http."
@@ -161,7 +165,7 @@ msgstr "Activé mais sans traitement par défaut (ignorer la valeur globale)"
 msgid "Force optimize"
 msgstr "Optimiser (ignorer la valeur globale)"
 
-#: ../setuphandlers.py:127
+#: ../setuphandlers.py:130
 msgid "General template"
 msgstr "Modèle général"
 
@@ -170,7 +174,7 @@ msgstr "Modèle général"
 msgid "Global value (${global_value})"
 msgstr "Utiliser la valeur globale (${global_value})"
 
-#: ../setuphandlers.py:95
+#: ../setuphandlers.py:98
 msgid "Header"
 msgstr "En-tête"
 
@@ -215,7 +219,7 @@ msgid "Linked template deleted !"
 msgstr "Modèle lié effacé !"
 
 #: ../content/pod_template.py:300
-#: ../setuphandlers.py:111
+#: ../setuphandlers.py:114
 msgid "Mailing loop template"
 msgstr "Modèle de boucle de publipostage"
 
@@ -228,7 +232,7 @@ msgstr "Modèle de boucle de publipostage"
 msgid "Modified"
 msgstr "Modifié"
 
-#: ../setuphandlers.py:141
+#: ../setuphandlers.py:144
 msgid "Multiple format template"
 msgstr "Modèle différents formats"
 
@@ -257,7 +261,7 @@ msgstr "Optimiser"
 msgid "Original"
 msgstr "Original"
 
-#: ../setuphandlers.py:44
+#: ../setuphandlers.py:47
 msgid "POD Templates"
 msgstr "Modèles POD"
 
@@ -285,11 +289,11 @@ msgstr "Formats"
 msgid "Port Number of OO."
 msgstr "Indiquez le numéro du port sous lequel tourne Libre (ou Open) Office."
 
-#: ../setuphandlers.py:212
+#: ../setuphandlers.py:215
 msgid "Possibly mailed template"
 msgstr "Modèle qui peut être publiposté"
 
-#: ../events/styles_events.py:100
+#: ../events/styles_events.py:99
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${err}"
 
@@ -301,11 +305,11 @@ msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le 
 msgid "Reusable"
 msgstr "Réutilisable"
 
-#: ../setuphandlers.py:235
+#: ../setuphandlers.py:238
 msgid "Reusable template"
 msgstr "Modèle réutilisable"
 
-#: ../setuphandlers.py:254
+#: ../setuphandlers.py:257
 msgid "Reuse Test Template"
 msgstr "Modèle utilisant le fichier ODT d'un autre modèle"
 
@@ -325,7 +329,7 @@ msgstr "Sélectionnez les types de contenus pour lesquels le modèle sera dispon
 msgid "Select format in which the template will be generable."
 msgstr "Sélectionnez les formats dans lesquels le modèle pourra être généré."
 
-#: ../setuphandlers.py:195
+#: ../setuphandlers.py:198
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -345,7 +349,7 @@ msgstr "Modèle de style"
 msgid "StyleTemplate"
 msgstr "Modèle de style"
 
-#: ../setuphandlers.py:80
+#: ../setuphandlers.py:83
 msgid "Styles n°2"
 msgstr ""
 
@@ -365,6 +369,10 @@ msgstr "Modèle"
 #: ../content/pod_template.py:279
 msgid "Templates to merge."
 msgstr "Modèles à fusionner."
+
+#: ../browser/controlpanel.py:98
+msgid "The Document Generator settings control panel"
+msgstr ""
 
 #: ../content/pod_template.py:291
 msgid "These context variables are added to the odt_file context."

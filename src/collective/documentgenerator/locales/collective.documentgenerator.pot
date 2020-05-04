@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-03-02 14:36+0000\n"
+"POT-Creation-Date: 2020-05-04 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,10 +13,6 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-
-#: ../browser/controlpanel.py:98
-msgid ""
-msgstr ""
 
 #: ../utils.py:77
 msgid "${error_message} for key = '${key}'"
@@ -82,7 +78,7 @@ msgstr ""
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:165
+#: ../setuphandlers.py:168
 msgid "Collection template"
 msgstr ""
 
@@ -145,6 +141,10 @@ msgstr ""
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
+#: ../tests/test_generation_view.py:253
+msgid "Failing template"
+msgstr ""
+
 #: ../browser/controlpanel.py:86
 msgid "Force communication via in/out stream with LibreOffice."
 msgstr ""
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Force optimize"
 msgstr ""
 
-#: ../setuphandlers.py:127
+#: ../setuphandlers.py:130
 msgid "General template"
 msgstr ""
 
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Global value (${global_value})"
 msgstr ""
 
-#: ../setuphandlers.py:95
+#: ../setuphandlers.py:98
 msgid "Header"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgid "Linked template deleted !"
 msgstr ""
 
 #: ../content/pod_template.py:300
-#: ../setuphandlers.py:111
+#: ../setuphandlers.py:114
 msgid "Mailing loop template"
 msgstr ""
 
@@ -231,7 +231,7 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: ../setuphandlers.py:141
+#: ../setuphandlers.py:144
 msgid "Multiple format template"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Original"
 msgstr ""
 
-#: ../setuphandlers.py:44
+#: ../setuphandlers.py:47
 msgid "POD Templates"
 msgstr ""
 
@@ -288,11 +288,11 @@ msgstr ""
 msgid "Port Number of OO."
 msgstr ""
 
-#: ../setuphandlers.py:212
+#: ../setuphandlers.py:215
 msgid "Possibly mailed template"
 msgstr ""
 
-#: ../events/styles_events.py:100
+#: ../events/styles_events.py:99
 msgid "Problem during styles update on template '${tmpl}': ${err}"
 msgstr ""
 
@@ -304,11 +304,11 @@ msgstr ""
 msgid "Reusable"
 msgstr ""
 
-#: ../setuphandlers.py:235
+#: ../setuphandlers.py:238
 msgid "Reusable template"
 msgstr ""
 
-#: ../setuphandlers.py:254
+#: ../setuphandlers.py:257
 msgid "Reuse Test Template"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr ""
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../setuphandlers.py:195
+#: ../setuphandlers.py:198
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:80
+#: ../setuphandlers.py:83
 msgid "Styles n°2"
 msgstr ""
 
@@ -367,6 +367,10 @@ msgstr ""
 
 #: ../content/pod_template.py:279
 msgid "Templates to merge."
+msgstr ""
+
+#: ../browser/controlpanel.py:98
+msgid "The Document Generator settings control panel"
 msgstr ""
 
 #: ../content/pod_template.py:291

@@ -95,7 +95,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
     schema = IDocumentGeneratorControlPanelSchema
     label = _(u'Document Generator settings')
-    description = _(u'')
+    description = _(u'The Document Generator settings control panel')
 
     @button.buttonAndHandler(_('Save'), name=None)
     def handle_save(self, action):

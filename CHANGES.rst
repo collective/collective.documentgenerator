@@ -4,7 +4,8 @@ Changelog
 3.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Updated the i18n support.
+  [macagua]
 
 
 3.14 (2020-04-23)
