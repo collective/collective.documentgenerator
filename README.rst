@@ -18,9 +18,9 @@ New content types are used to store the different templates:
 * **basic templates**
 * **advanced templates**, regarding configuration
 
-Templates are created within `libreoffice <http://www.libreoffice.org>`_ software.
+Templates are created within `LibreOffice <http://www.libreoffice.org>`_ software.
 
-Output formats are those that can be produced by libreoffice:
+Output formats are those that can be produced by LibreOffice:
 
 * odt and ods formats
 * doc, docx, xls, xlsx formats
@@ -28,8 +28,40 @@ Output formats are those that can be produced by libreoffice:
 
 You can use a demo profile to easily test the product.
 
+
+Translations
+------------
+
+This product has been translated into
+
+- French.
+
+- Spanish.
+
+You can contribute for any message missing or other new languages, join us at
+`Plone Collective Team <https://www.transifex.com/plone/plone-collective/>`_
+into *Transifex.net* service with all world Plone translators community.
+
+
+Installation
+============
+
+Install ``collective.documentgenerator`` by adding it to your buildout:
+
+   [buildout]
+
+    ...
+
+    eggs =
+        collective.documentgenerator
+
+
+and then running "bin/buildout"
+
+
 Usage
 =====
+
 
 **How to add a new POD template?**
 ----------------------------------
@@ -43,12 +75,13 @@ In your Plone site, you can add two sorts of main templates :
   * portal types selection
   * style template selection
   * subtemplate selection
-  * tal expression as condition (`behavior <https://github.com/collective/collective.behavior.talcondition>`_).
+  * TAL expression as condition (`behavior <https://github.com/collective/collective.behavior.talcondition>`_).
   * enabling flag
   * context variables list
   * mailing loop template
 
 If you want, you can organize your templates in one or more folder.
+
 
 **How to write the template ?**
 -------------------------------
@@ -66,6 +99,7 @@ You can do the following things:
 
 Base helper methods can be used in templates and custom methods can be added.
 
+
 **How to generate a document?**
 -------------------------------
 
@@ -75,27 +109,54 @@ Clicking the template link will call the 'document-generation' view.
 - Calling 'document-generation' view
 
   * render template and propose to download the generated document
-  * parameters: template uid and document type
+  * parameters: template UID and document type
   * this is the default view used in the viewlet
 
 - Calling 'persistent-document-generation' view
 
   * render template and create a file with the generated document
-  * parameters: template uid and document type
+  * parameters: template UID and document type
 
 - Calling 'mailing-loop-persistent-document-generation' view
 
   * loop on persisted rendered document and create a file containing all documents
-  * parameters: document uid
+  * parameters: document UID
+
+
+Tests status
+============
+
+This add-on is tested using Travis CI. The current status of the add-on is:
+
+.. image:: https://travis-ci.org/collective/collective.documentgenerator.svg?branch=master
+   :alt: Travis CI badge
+   :target: https://travis-ci.org/collective/collective.documentgenerator
+
+.. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
+   :alt: Coveralls badge
+   :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
+
+.. image:: http://img.shields.io/pypi/v/collective.documentgenerator.svg
+   :alt: PyPI badge
+   :target: https://pypi.org/project/collective.documentgenerator
+
 
 Plone versions
-==============
+--------------
+
 It is working and tested on Plone 4.3, Plone 5.0 and 5.1.
 
-Source code
-===========
+
+Contribute
+==========
 
 * `Source code @ GitHub <https://github.com/collective/collective.documentgenerator.git>`_
 * `Issues @ GitHub <https://github.com/collective/collective.documentgenerator/issues>`_
 * `Continuous Integration @ Travis CI <https://travis-ci.org/collective/collective.documentgenerator>`_
 * `Code Coverage @ Coveralls.io <https://coveralls.io/r/collective/collective.documentgenerator?branch=master>`_
+
+
+License
+=======
+
+The project is licensed under the GPLv2.
