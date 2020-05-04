@@ -4,6 +4,9 @@ Changelog
 3.15 (unreleased)
 -----------------
 
+- Added Transifex.net service integration to manage the translation process.
+  [macagua]
+
 - Added Spanish translation.
   [macagua]
 

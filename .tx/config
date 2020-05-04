@@ -1,0 +1,16 @@
+[main]
+host = https://www.transifex.com
+
+[plone-collective.collective-documentgenerator-pot]
+file_filter = src/collective/documentgenerator/locales/<lang>/LC_MESSAGES/collective.documentgenerator.po
+minimum_perc = 0
+source_file = src/collective/documentgenerator/locales/collective.documentgenerator.pot
+source_lang = en
+type = PO
+
+[plone-collective.collective-documentgenerator-plone-pot]
+file_filter = src/collective/documentgenerator/locales/<lang>/LC_MESSAGES/plone.po
+minimum_perc = 0
+source_file = src/collective/documentgenerator/locales/plone.pot
+source_lang = en
+type = PO
