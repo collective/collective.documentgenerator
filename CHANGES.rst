@@ -4,6 +4,10 @@ Changelog
 3.15 (unreleased)
 -----------------
 
+- Improve integration of stream parameter for Appy, this allow to explicitly set the value to `False`.
+  The default value remain `auto`.
+  [mpeeters]
+
 - Added Transifex.net service integration to manage the translation process.
   [macagua]
 

@@ -62,6 +62,12 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <utility
+        factory=".vocabulary.ConfigStreamVocabularyFactory"
+        name="collective.documentgenerator.ConfigStream"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
     <!-- MISSING VOCABULARIES -->
     <!-- type, layer, view, field, vocabulary, widget -->
     <adapter

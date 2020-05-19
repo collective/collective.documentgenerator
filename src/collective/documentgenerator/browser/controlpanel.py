@@ -82,12 +82,13 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=False
     )
 
-    use_stream = schema.Bool(
+    use_stream = schema.Choice(
         title=_(u'Force communication via in/out stream with LibreOffice.'),
         description=_(u'If enabled, this will force using stream to communicate witth LibreOffice server. '
                       u'This must be true if the LO server is not on localhost or is in a docker container.'),
         required=True,
-        default=bool(os.getenv('USE_STREAM', False) == 'True'),
+        vocabulary='collective.documentgenerator.ConfigStream',
+        default=os.getenv('USE_STREAM', 'auto'),
     )
 
 

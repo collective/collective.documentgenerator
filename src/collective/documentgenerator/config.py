@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from plone import api
 from Products.CMFPlone.utils import safe_unicode
+from plone import api
 
 import os
 
@@ -68,8 +68,7 @@ def get_use_stream():
     use_stream = api.portal.get_registry_record(
         'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream'
     )
-    # backward compat. Default value is auto
-    return use_stream or 'auto'
+    return use_stream
 
 
 def set_oo_server():

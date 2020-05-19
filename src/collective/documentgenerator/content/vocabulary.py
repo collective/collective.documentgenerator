@@ -249,3 +249,18 @@ class PTMCTV(MissingChoiceTermsVocabulary, MissingTerms):
             return getUtility(IVocabularyFactory, 'collective.documentgenerator.AllMailingLoopTemplates')(self.context)
         else:
             return SimpleVocabulary([])
+
+
+class ConfigStreamVocabularyFactory(object):
+    """
+    Vocabulary factory for control panel 'use_stream' field.
+    """
+
+    def __call__(self, context):
+        voc_terms = [
+            SimpleTerm('auto', 'auto', _('Auto')),
+            SimpleTerm(True, True, _('Yes')),
+            SimpleTerm(False, False, _('No')),
+        ]
+
+        return SimpleVocabulary(voc_terms)
