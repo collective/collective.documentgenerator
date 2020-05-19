@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.15 (unreleased)
+3.15 (2020-05-19)
 -----------------
 
 - Improve integration of stream parameter for Appy, this allow to explicitly set the value to `False`.
