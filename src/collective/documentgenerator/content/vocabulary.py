@@ -258,7 +258,7 @@ class ConfigStreamVocabularyFactory(object):
 
     def __call__(self, context):
         voc_terms = [
-            SimpleTerm('auto', 'auto', _('Auto')),
+            SimpleTerm(u'auto', u'auto', _('Auto')),
             SimpleTerm(True, True, _('Yes')),
             SimpleTerm(False, False, _('No')),
         ]

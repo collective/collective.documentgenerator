@@ -130,6 +130,16 @@
             import_steps="plone.app.registry" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeSteps
+        source="10"
+        destination="11"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeStep
+            title="collective.documentgenerator: upgrade to 11"
+            description="This will migrate the use_stream parameter"
+            handler="collective.documentgenerator.migrations.migrate_to_11.migrate" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 
