@@ -22,6 +22,10 @@ COLUMN_MODIFIER_DESCR = _(
     u'the chosen column modifier of LibreOffice will be applied.')
 
 
+def _string_to_boolean(value):
+    return value == "True"
+
+
 def check_for_uno(value):
     """
     """
@@ -88,7 +92,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
                       u'This must be true if the LO server is not on localhost or is in a docker container.'),
         required=True,
         vocabulary='collective.documentgenerator.ConfigStream',
-        default=os.getenv('USE_STREAM', 'auto'),
+        default=os.getenv('USE_STREAM', None) is None and 'auto' or _string_to_boolean(os.getenv('USE_STREAM')),
     )
 
 
