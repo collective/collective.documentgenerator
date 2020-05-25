@@ -1,5 +1,6 @@
 graft src/collective
 graft docs
+graft .tx
 include *.cfg *.rst *.in
 include *.py
 include .coveragerc
