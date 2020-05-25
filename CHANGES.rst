@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.16 (unreleased)
+3.16 (2020-05-25)
 -----------------
 
 - Fix `RuntimeError: set changed size during iteration` error in get_children_pod_template() method.
