@@ -470,6 +470,7 @@ class ConfigurablePODTemplate(PODTemplate):
         Handles the case when the uid doesn't match any object by deleting the uid from anotation.
         """
         res = set()
+        to_delete = set()
         annotated = get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self)
         if annotated:
             for uid in annotated:
@@ -478,7 +479,9 @@ class ConfigurablePODTemplate(PODTemplate):
                     res.add(child)
                 else:
                     # child doesn't exist anymore. api.content.get returned None
-                    del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)
+                    to_delete.add(uid)
+        for uid in to_delete:
+            del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)
         return res
 
 
