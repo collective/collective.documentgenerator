@@ -33,7 +33,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
 
     def get_value(self, field_name, default=None, as_utf8=False):
         field = self.real_context.getField(field_name)
-        value = field.get(self.real_context)
+        value = field.getAccessor(self.real_context)()
         if value is None:
             return default
         if as_utf8 and isinstance(value, unicode):
@@ -44,7 +44,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         display_value = self.real_context.restrictedTraverse('@@at_utils').translate
 
         field = self.real_context.getField(field_name)
-        raw_values = field.get(self.real_context)
+        raw_values = field.getAccessor(self.real_context)()
         voc = field.Vocabulary(self.real_context)
         values = [display_value(voc, val) for val in raw_values]
         display = separator.join(values)

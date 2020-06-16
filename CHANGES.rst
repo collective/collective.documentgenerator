@@ -4,8 +4,9 @@ Changelog
 3.17 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `AT` renderer and helper, use field accessor instead `get()` method
+  to get the stored value.
+  [gbastien]
 
 3.16 (2020-05-25)
 -----------------
