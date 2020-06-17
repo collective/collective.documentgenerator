@@ -28,10 +28,10 @@ class DefaultATFieldRenderer(object):
         Compute the rendering of the display value.
         To override for each different type of ATFieldRenderer.
         """
-        return self.field.get(self.context)
+        return self.field.getAccessor(self.context)()
 
     def has_no_value(self):
-        is_empty = not bool(self.field.get(self.context))
+        is_empty = not bool(self.field.getAccessor(self.context)())
         return is_empty
 
 
@@ -43,7 +43,7 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
         display_value = self.context.unrestrictedTraverse('@@at_utils').translate
 
         voc = self.field.Vocabulary(self.context)
-        raw_values = self.field.get(self.context)
+        raw_values = self.field.getAccessor(self.context)()
         if type(raw_values) not in [list, tuple]:
             raw_values = [raw_values]
         values = [display_value(voc, val) for val in raw_values]
@@ -57,7 +57,7 @@ class DateATFieldRenderer(DefaultATFieldRenderer):
     """
 
     def render_value(self):
-        date = self.field.get(self.context)
+        date = self.field.getAccessor(self.context)()
         display = date.strftime('%d/%m/%Y %H:%M')
 
         return display
