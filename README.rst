@@ -1,3 +1,16 @@
+.. image:: https://travis-ci.org/collective/collective.documentgenerator.svg?branch=master
+   :alt: Travis CI badge
+   :target: https://travis-ci.org/collective/collective.documentgenerator
+
+.. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
+   :alt: Coveralls badge
+   :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
+
+.. image:: http://img.shields.io/pypi/v/collective.documentgenerator.svg
+   :alt: PyPI badge
+   :target: https://pypi.org/project/collective.documentgenerator
+
+
 ============================
 collective.documentgenerator
 ============================
@@ -117,28 +130,10 @@ Clicking the template link will call the 'document-generation' view.
   * parameters: document UID
 
 
-Tests status
-============
-
-This add-on is tested using Travis CI. The current status of the add-on is:
-
-.. image:: https://travis-ci.org/collective/collective.documentgenerator.svg?branch=master
-   :alt: Travis CI badge
-   :target: https://travis-ci.org/collective/collective.documentgenerator
-
-.. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
-   :alt: Coveralls badge
-   :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
-
-.. image:: http://img.shields.io/pypi/v/collective.documentgenerator.svg
-   :alt: PyPI badge
-   :target: https://pypi.org/project/collective.documentgenerator
-
-
 Plone versions
 --------------
 
-It is working and tested on Plone 4.3, Plone 5.0 and 5.1.
+It is working and tested on Plone 4.3, Plone 5.0, 5.1 and 5.2 (Python2.7).
 
 
 Contribute
