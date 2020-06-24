@@ -14,7 +14,6 @@ Changelog
 - Fix `RuntimeError: set changed size during iteration` error in get_children_pod_template() method.
   [sdelcourt]
 
-
 3.15 (2020-05-19)
 -----------------
 
