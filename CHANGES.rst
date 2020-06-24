@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.17 (unreleased)
+3.17 (2020-06-24)
 -----------------
 
 - In `AT` renderer and helper, use field accessor instead `get()` method
