@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from plone.dexterity.filerepresentation import DefaultWriteFile
 from plone.dexterity.filerepresentation import ReadFileBase
 from plone.dexterity.utils import iterSchemata
@@ -9,6 +8,7 @@ from zope.filerepresentation.interfaces import IRawWriteFile
 from zope.interface import implementer
 from zope.schema import getFieldsInOrder
 
+import base64
 import tempfile
 
 
@@ -67,4 +67,7 @@ class WriteFile(DefaultWriteFile, PrimaryFileBase):
         self._message = self._parser.close()
         self._closed = True
         primary_field = self._get_primary_field()
-        primary_field.data = self._message.get_payload()
+        data = self._message.get_payload()
+        if self._message.get('Content-Transfer-Encoding', 'not') == 'base64':
+            data = base64.b64decode(data)
+        primary_field.data = data
