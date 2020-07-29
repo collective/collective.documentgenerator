@@ -67,13 +67,6 @@ class RichTextATFieldRenderer(DefaultATFieldRenderer):
     """
     """
 
-    def render(self, no_value='<p></p>'):
-        if self.has_no_value():
-            display_value = self.helper_view.render_xhtml(no_value)
-        else:
-            display_value = self.render_value()
-        return display_value
-
     def render_value(self):
         display = self.helper_view.render_xhtml(self.field.getName())
         return display
