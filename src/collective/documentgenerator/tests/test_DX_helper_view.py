@@ -110,7 +110,12 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertTrue(displayed == 'foobar', msg)
 
         displayed = self.doc_view.display('text', no_value='yolo')
-        self.assertEqual('', self.doc_view.real_context.getText())
+        self.assertFalse(hasattr(self.doc, 'text'))
+        self.assertTrue(displayed == 'yolo', msg)
+
+        self.doc.text = RichTextValue()
+        displayed = self.doc_view.display('text', no_value='yolo')
+        self.assertEqual('', self.doc_view.real_context.text.output)
         self.assertTrue(displayed == 'yolo', msg)
 
     def test_display_method_bypass_check_permission(self):
