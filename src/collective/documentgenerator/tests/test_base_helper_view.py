@@ -45,7 +45,7 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
         # Empty context_variables attribute
         self.assertIsNone(pod_template.context_variables)
 
-        doc = api.content.create(type='Document', id='doc', container=self.portal)
+        doc = api.content.create(type='Document', id='mydoc', container=self.portal)
         view = doc.restrictedTraverse('@@document-generation')
         view(template_uid=pod_template.UID(), output_format='odt')
         document_template = pod_template.get_file()
