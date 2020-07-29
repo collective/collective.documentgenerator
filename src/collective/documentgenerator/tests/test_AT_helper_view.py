@@ -70,6 +70,7 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def setUp(self):
         super(TestArchetypesHelperViewMethods, self).setUp()
         self.view = self.AT_topic.unrestrictedTraverse('@@document_generation_helper_view')
+        self.doc_view = self.AT_doc.unrestrictedTraverse('@@document_generation_helper_view')
 
     def _test_display(self, field_name, expected, result):
         msg = "Expected display of field '{}' to be '{}' but got '{}'".format(
@@ -120,6 +121,10 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     def test_display_method_empty_value(self):
         displayed = self.view.display('effectiveDate', no_value='yolo')
         msg = "empty value display was expected to be 'yolo'"
+        self.assertTrue(displayed == 'yolo', msg)
+
+        displayed = self.doc_view.display('text', no_value='yolo')
+        self.assertEqual('', self.doc_view.real_context.getText())
         self.assertTrue(displayed == 'yolo', msg)
 
     def test_display_method_bypass_check_permission(self):

@@ -70,6 +70,8 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         super(TestDexterityHelperViewMethods, self).setUp()
         self.view = self.content.unrestrictedTraverse(
             '@@document_generation_helper_view')
+        self.doc_view = self.doc.unrestrictedTraverse(
+            '@@document_generation_helper_view')
 
     def test_display_method_on_text_field(self):
         field_name = 'fullname'
@@ -106,6 +108,10 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         displayed = self.view.display('amount', no_value='foobar')
         msg = "empty value display was expected to be 'foobar'"
         self.assertTrue(displayed == 'foobar', msg)
+
+        displayed = self.doc_view.display('text', no_value='yolo')
+        self.assertEqual('', self.doc_view.real_context.getText())
+        self.assertTrue(displayed == 'yolo', msg)
 
     def test_display_method_bypass_check_permission(self):
         self.content.amount = 20

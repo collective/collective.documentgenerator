@@ -275,6 +275,13 @@ class ArchetypesIntegrationTests(BaseTest):
         )
         self.AT_topic = AT_topic
 
+        AT_doc = api.content.create(
+            type='Document',
+            id='AT_doc',
+            container=self.portal
+        )
+        self.AT_doc = AT_doc
+
 
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
     """Base class for Archetypes functional tests."""
@@ -294,6 +301,13 @@ class DexterityIntegrationTests(BaseTest):
         # create a test content type
         self.content = api.content.create(
             container=self.portal, id='johndoe', type='member')
+
+        doc = api.content.create(
+            type='Document',
+            id='doc',
+            container=self.portal
+        )
+        self.doc = doc
 
 
 class DexterityFunctionnalTests(DexterityIntegrationTests):
