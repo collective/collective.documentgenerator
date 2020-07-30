@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_5_1
+from collective.documentgenerator.config import HAS_PLONE_5_1, HAS_PLONE_4
 from collective.documentgenerator.testing import DexterityIntegrationTests
 from plone import api
 from plone.app.testing import login
@@ -110,7 +110,13 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertTrue(displayed == 'foobar', msg)
 
         displayed = self.doc_view.display('text', no_value='yolo')
-        self.assertFalse(hasattr(self.doc, 'text'))
+
+        # in plone 4 DX, the attr doesn't exist before manually set but it's None with plone > 5.0
+        if HAS_PLONE_4:
+            self.assertFalse(hasattr(self.doc, 'text'))
+        else:
+            self.assertIsNone(self.doc.text)
+
         self.assertTrue(displayed == 'yolo', msg)
 
         self.doc.text = RichTextValue()

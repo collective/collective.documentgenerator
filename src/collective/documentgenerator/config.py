@@ -22,6 +22,7 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
+HAS_PLONE_4 = api.env.plone_version().startswith('4')
 HAS_PLONE_5 = api.env.plone_version().startswith('5')
 HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
 HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
