@@ -106,7 +106,7 @@ class DocumentGenerationView(BrowserView):
         self._check_cyclic_merges(pod_template)
 
         # Recursive generation of the document and all its subtemplates.
-        document_path, gen_context = self._recursive_generate_doc(pod_template, output_format)
+        document_path, gen_context = self._recursive_generate_doc(pod_template, output_format, **kwargs)
 
         rendered_document = open(document_path, 'rb')
         rendered = rendered_document.read()
@@ -129,7 +129,7 @@ class DocumentGenerationView(BrowserView):
         filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), self.output_format)
         return filename
 
-    def _recursive_generate_doc(self, pod_template, output_format):
+    def _recursive_generate_doc(self, pod_template, output_format, **kwargs):
         """
         Generate a document recursively by starting to generate all its
         subtemplates before merging them in the final document.
@@ -148,7 +148,7 @@ class DocumentGenerationView(BrowserView):
             else:
                 sub_documents[context_name] = sub_pod
 
-        document_path, gen_context = self._render_document(pod_template, output_format, sub_documents)
+        document_path, gen_context = self._render_document(pod_template, output_format, sub_documents, **kwargs)
 
         return document_path, gen_context
 

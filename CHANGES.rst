@@ -8,6 +8,13 @@ Changelog
   [sgeulette]
 - Fixed bug when rendering an empty RichTextATFieldRenderer.
   [odelaere]
+- Pass `kwargs` given to `DocumentGenerationView.__call__`,
+  to submethods `generate_and_download_doc`,  `_generate_doc`,
+  `_recursive_generate_doc` then `_render_document` so it is possible to pass
+  `raiseOnError=False` parameter to `_render_document`.
+  [gbastien]
+
+
 
 3.17 (2020-06-24)
 -----------------
