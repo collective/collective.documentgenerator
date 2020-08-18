@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.18 (unreleased)
+3.18 (2020-08-18)
 -----------------
 
 - Updated file_representation to be compliant with zopeedit < 1.0 (current windows exe) and zopeedit >= 1.0.
