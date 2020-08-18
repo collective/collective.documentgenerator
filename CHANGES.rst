@@ -14,8 +14,6 @@ Changelog
   `raiseOnError=False` parameter to `_render_document`.
   [gbastien]
 
-
-
 3.17 (2020-06-24)
 -----------------
 
