@@ -59,9 +59,11 @@ script:
   - env USE_STREAM=True bin/test
 
 after_success:
-  - bin/coverage run bin/test
-  - bin/pip install coveralls==0.5
-  - bin/coveralls
+  - bin/coverage run bin/test --test=\!"robot"
+  - pip install coverage==4.5.4
+  - python -m coverage.pickle2json
+  - pip install coveralls
+  - coveralls
 
 notifications:
   email:
