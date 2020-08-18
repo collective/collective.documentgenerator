@@ -59,8 +59,8 @@ script:
   - env USE_STREAM=True bin/test
 
 after_success:
-  - bin/createcoverage --output-dir=parts/test/coverage
-  - bin/pip install -q coveralls
+  - bin/coverage run bin/test
+  - bin/pip install coveralls==0.5
   - bin/coveralls
 
 notifications:
