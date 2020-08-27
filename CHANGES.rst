@@ -4,7 +4,8 @@ Changelog
 3.19 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Use the same default values between controlpanel schema and registry records.
+  [odelaere]
 
 
 3.18 (2020-08-18)
