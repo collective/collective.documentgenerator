@@ -4,6 +4,8 @@ Changelog
 3.18 (unreleased)
 -----------------
 
+- Prevent "AttributeError" by not render actionpanel's external edit when there is another pod template to use
+  [fngaha]
 - Updated file_representation to be compliant with zopeedit < 1.0 (current windows exe) and zopeedit >= 1.0.
   [sgeulette]
 - Fixed bug when rendering an empty RichTextATFieldRenderer.
