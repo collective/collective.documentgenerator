@@ -4,7 +4,6 @@ from Products.CMFPlone.utils import base_hasattr
 try:
     from imio.actionspanel.browser.views import ActionsPanelView
 
-
     class ConfigurablePODTemplateActionsPanelView(ActionsPanelView):
 
         def __init__(self, context, request):
