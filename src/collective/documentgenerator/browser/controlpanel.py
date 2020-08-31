@@ -2,6 +2,8 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
+from collective.documentgenerator.config import DEFAULT_OO_SERVER, DEFAULT_OO_PORT, DEFAULT_PYTHON_UNO, \
+    DEFAULT_COLUMN_MODIFIER
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -49,21 +51,21 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u'oo_server'),
         description=_(u'IP address or hostname of OO.'),
         required=False,
-        default=safe_unicode(os.getenv('OO_SERVER', u'localhost')),
+        default=safe_unicode(os.getenv('OO_SERVER', DEFAULT_OO_SERVER)),
     )
 
     oo_port = schema.Int(
         title=_(u'oo_port'),
         description=_(u'Port Number of OO.'),
         required=False,
-        default=int(os.getenv('OO_PORT', 2002))
+        default=int(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     )
 
     uno_path = schema.TextLine(
         title=_(u'uno path'),
         description=_(u'Path of python with uno.'),
         required=False,
-        default=safe_unicode(os.getenv('PYTHON_UNO', u'/usr/bin/python3')),
+        default=safe_unicode(os.getenv('PYTHON_UNO', DEFAULT_PYTHON_UNO)),
         constraint=check_for_uno
     )
 
@@ -72,7 +74,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         description=_(COLUMN_MODIFIER_DESCR),
         vocabulary='collective.documentgenerator.ConfigColumnModifier',
         required=True,
-        default='nothing'
+        default=DEFAULT_COLUMN_MODIFIER
     )
 
     raiseOnError_for_non_managers = schema.Bool(

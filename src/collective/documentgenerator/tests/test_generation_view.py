@@ -264,7 +264,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         api.user.create(
             email='test@test.be',
             username='user',
-            password='user',
+            password='12345',
             roles=['Member'],
             properties={})
 
@@ -407,9 +407,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         doc = self.portal.get('front-page')
         # add a table to check if it is optimized or not
         text = u'<table><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
-        textNone = u'<table style="table-layout:none"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
-        textAuto = u'<table style="table-layout:auto"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
-        textFixed = u'<table style="table-layout:fixed"><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>'
+        textNone = u'<table style="table-layout:none"><tr><td>Text1</td><td>Text2</td></tr>' \
+            u'<tr><td>Text3</td><td>Text4</td></tr></table>'
+        textAuto = u'<table style="table-layout:auto"><tr><td>Text1</td><td>Text2</td></tr>' \
+            u'<tr><td>Text3</td><td>Text4</td></tr></table>'
+        textFixed = u'<table style="table-layout:fixed"><tr><td>Text1</td><td>Text2</td></tr>' \
+            u'<tr><td>Text3</td><td>Text4</td></tr></table>'
 
         generation_view = doc.restrictedTraverse('@@document-generation')
 
@@ -427,7 +430,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             self.assertEquals(ocw_in_xml, 'OCW' in content_xml)
             self.assertEquals(dc_in_xml, 'DC' in content_xml)
 
-        # By default : column_modifier disabled globally, CSS override enabled globally and pod_template using global parameter
+        # By default : column_modifier disabled globally, CSS override enabled globally
+        # and pod_template using global parameter
         self.assertEquals(get_column_modifier(), 'nothing')
         self.assertEquals(pod_template.get_column_modifier(), -1)
 

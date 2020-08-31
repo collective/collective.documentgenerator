@@ -27,6 +27,12 @@ HAS_PLONE_5 = api.env.plone_version().startswith('5')
 HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
 HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
 
+DEFAULT_OO_SERVER = u'localhost'
+DEFAULT_OO_PORT = 2002
+DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
+DEFAULT_COLUMN_MODIFIER = u'nothing'
+
+
 if HAS_PLONE_5_2:
     import sys
     from zope.deprecation import deprecation
@@ -74,15 +80,15 @@ def get_use_stream():
 
 def set_oo_server():
     """ Get environment value in buildout to define port """
-    oo_server = os.getenv('OO_SERVER', None)
+    oo_server = os.getenv('OO_SERVER', DEFAULT_OO_SERVER)
     if oo_server:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                       'IDocumentGeneratorControlPanelSchema.oo_server', oo_server)
+                                       'IDocumentGeneratorControlPanelSchema.oo_server', safe_unicode(oo_server))
 
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = os.getenv('OO_PORT', None)
+    oo_port = os.getenv('OO_PORT', DEFAULT_OO_PORT)
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_port', int(oo_port))
@@ -90,7 +96,7 @@ def set_oo_port():
 
 def set_uno_path():
     """ Get environment value in buildout to define path """
-    python_uno = os.getenv('PYTHON_UNO', None)
+    python_uno = os.getenv('PYTHON_UNO', DEFAULT_PYTHON_UNO)
     if python_uno:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.uno_path', safe_unicode(python_uno))

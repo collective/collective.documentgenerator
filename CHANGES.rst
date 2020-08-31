@@ -1,7 +1,14 @@
 Changelog
 =========
 
-3.18 (unreleased)
+3.19 (unreleased)
+-----------------
+
+- Use the same default values between controlpanel schema and registry records.
+  [odelaere]
+
+
+3.18 (2020-08-18)
 -----------------
 
 - Prevent "AttributeError" by not render actionpanel's external edit when there is another pod template to use
@@ -15,8 +22,6 @@ Changelog
   `_recursive_generate_doc` then `_render_document` so it is possible to pass
   `raiseOnError=False` parameter to `_render_document`.
   [gbastien]
-
-
 
 3.17 (2020-06-24)
 -----------------
