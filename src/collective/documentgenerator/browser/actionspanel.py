@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from imio.actionspanel.browser.views import ActionsPanelView
+from Products.CMFPlone.utils import base_hasattr
 
 
 class ConfigurablePODTemplateActionsPanelView(ActionsPanelView):
@@ -11,7 +12,7 @@ class ConfigurablePODTemplateActionsPanelView(ActionsPanelView):
         """
           Method that check if special 'external_edit' action has to be displayed.
         """
-        if hasattr(self.context, 'pod_template_to_use'):
+        if base_hasattr(self.context, 'pod_template_to_use'):
             if getattr(self.context, 'pod_template_to_use'):
                 return False
         return super(ConfigurablePODTemplateActionsPanelView, self).mayExtEdit()
