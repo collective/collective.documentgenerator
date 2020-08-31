@@ -79,6 +79,19 @@
         permission="zope2.View"
         />
 
+    <!-- configure actionspanel -->
+    <configure zcml:condition="installed imio.actionspanel" package="imio.actionspanel">
+
+        <browser:page
+            for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+            name="actions_panel"
+            class="collective.documentgenerator.browser.actionspanel.ConfigurablePODTemplateActionsPanelView"
+            layer="imio.actionspanel.interfaces.IActionsPanelLayer"
+            template="browser/actions_panel.pt"
+            permission="zope2.View" />
+
+    </configure>
+
     <!-- z3c.table -->
     <adapter
         zcml:condition="installed collective.eeafaceted.batchactions"
