@@ -80,7 +80,7 @@
         />
 
     <!-- configure actionspanel -->
-    <configure package="imio.actionspanel">
+    <configure zcml:condition="installed imio.actionspanel" package="imio.actionspanel">
 
         <browser:page
             for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
