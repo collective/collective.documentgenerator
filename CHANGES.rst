@@ -4,6 +4,8 @@ Changelog
 3.19 (unreleased)
 -----------------
 
+- Prevent "AttributeError" by not render actionpanel's external edit when there is another pod template to use
+  [fngaha]
 - Use the same default values between controlpanel schema and registry records.
   [odelaere]
 
@@ -11,8 +13,6 @@ Changelog
 3.18 (2020-08-18)
 -----------------
 
-- Prevent "AttributeError" by not render actionpanel's external edit when there is another pod template to use
-  [fngaha]
 - Updated file_representation to be compliant with zopeedit < 1.0 (current windows exe) and zopeedit >= 1.0.
   [sgeulette]
 - Fixed bug when rendering an empty RichTextATFieldRenderer.
