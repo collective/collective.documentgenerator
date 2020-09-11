@@ -6,9 +6,6 @@ try:
 
     class ConfigurablePODTemplateActionsPanelView(ActionsPanelView):
 
-        def __init__(self, context, request):
-            super(ConfigurablePODTemplateActionsPanelView, self).__init__(context, request)
-
         def mayExtEdit(self):
             """
               Method that check if special 'external_edit' action has to be displayed.
