@@ -52,7 +52,7 @@ def update_templates(templates, profile='', force=False):
             continue
         if not obj.odt_file:
             logger.warn("The plone template '%s' doesn't have odt file" % ppath)
-            ret.append((ppath, ospath, 'not odt file'))
+            ret.append((ppath, ospath, 'no odt file'))
             continue
         if not os.path.exists(ospath):
             logger.warn("The template file '%s' doesn't exist" % ospath)
