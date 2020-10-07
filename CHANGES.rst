@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.19 (unreleased)
+3.19 (2020-10-07)
 -----------------
 
 - Prevent "AttributeError" by not render actionpanel's external edit when there is another pod template to use
