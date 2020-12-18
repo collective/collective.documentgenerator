@@ -11,7 +11,7 @@ from AccessControl import Unauthorized
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from appy.pod.renderer import Renderer
+from appy.pod.renderer import Renderer, CsvOptions
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
@@ -254,6 +254,12 @@ class DocumentGenerationView(BrowserView):
         #                       'para[class=indentation,parent=cell]': 'cellIndentation',
         #                       })
 
+        csvOptions = None
+
+        if output_format == "csv":
+            csvOptions = CsvOptions(fieldSeparator=pod_template.csv_field_delimiter,
+                                    textDelimiter=pod_template.csv_string_delimiter)
+
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
@@ -268,6 +274,7 @@ class DocumentGenerationView(BrowserView):
             distributeColumns=distributeColumns,
             stylesMapping=stylesMapping,
             stream=config.get_use_stream(),
+            csvOptions=csvOptions,
             **kwargs
         )
 
@@ -276,6 +283,8 @@ class DocumentGenerationView(BrowserView):
         for view in all_helper_views:
             view._set_appy_renderer(renderer)
 
+        # import ipdb
+        # ipdb.set_trace()
         renderer.run()
 
         # return also generation_context to test ist content in tests

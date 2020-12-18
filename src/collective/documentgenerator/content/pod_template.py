@@ -266,6 +266,21 @@ class IConfigurablePODTemplate(IPODTemplate):
         default=['odt', ],
     )
 
+    csv_field_delimiter = schema.Choice(
+        title=_(u'Field Delimiter for CSV format'),
+        description=_(u"Select the character to be used to separate fields into CSV files"),
+        vocabulary='collective.documentgenerator.CSVFieldDelimiter',
+        required=True,
+        default=u","
+    )
+    csv_string_delimiter = schema.Choice(
+        title=_(u'String Delimiter for CSV format'),
+        description=_(u"Select the character to be used to wrap around string values in CSV files"),
+        vocabulary='collective.documentgenerator.CSVStringDelimiter',
+        required=True,
+        default=u'"'
+    )
+
     form.widget('pod_portal_types', CheckBoxFieldWidget, multiple='multiple', size=15)
     pod_portal_types = schema.List(
         title=_(u'Allowed portal types'),

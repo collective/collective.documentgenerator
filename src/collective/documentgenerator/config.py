@@ -6,6 +6,7 @@ from plone import api
 import os
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
+               ('csv', 'Comma Separated Values (.csv)'),
                ('xls', 'Microsoft Excel (.xls)'),
                ('xlsx', 'Microsoft Excel (.xlsx)'),)
 
@@ -31,6 +32,9 @@ DEFAULT_OO_SERVER = u'localhost'
 DEFAULT_OO_PORT = 2002
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
+
+DEFAULT_CSV_FIELD_DELIMITERS = {u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
+DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
 
 
 if HAS_PLONE_5_2:
@@ -78,6 +82,23 @@ def get_use_stream():
     return use_stream
 
 
+def get_csv_field_delimiters():
+    csv_field_delimiters = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.csv_field_delimiters',
+        default=DEFAULT_CSV_FIELD_DELIMITERS
+    )
+    return csv_field_delimiters
+
+
+def get_csv_string_delimiters():
+    csv_string_delimiters = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.'
+        'IDocumentGeneratorControlPanelSchema.csv_string_delimiters',
+        default=DEFAULT_CSV_STRING_DELIMITERS
+    )
+    return csv_string_delimiters
+
+
 def set_oo_server():
     """ Get environment value in buildout to define port """
     oo_server = os.getenv('OO_SERVER', DEFAULT_OO_SERVER)
@@ -119,5 +140,20 @@ def set_raiseOnError_for_non_managers(value):
 def set_use_stream(value):
     api.portal.set_registry_record(
         'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream',
+        value
+    )
+
+
+def set_csv_field_delimiters(value):
+    api.portal.set_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.csv_field_delimiters',
+        value
+    )
+
+
+def set_csv_string_delimiters(value):
+    api.portal.set_registry_record(
+        'collective.documentgenerator.browser.controlpanel.'
+        'IDocumentGeneratorControlPanelSchema.csv_string_delimiters',
         value
     )
