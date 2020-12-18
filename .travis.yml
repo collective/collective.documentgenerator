@@ -24,7 +24,6 @@ services:
 
 before_install:
   - pip install --upgrade pip
-  - docker pull xcgd/libreoffice:5.1
   - docker pull xcgd/libreoffice:latest
 
 install:
@@ -49,14 +48,9 @@ before_script:
 
 script:
   - bin/code-analysis
-  - make startlibreoffice lo_version=5.1
-  - env USE_STREAM=True bin/test
   - make startlibreoffice
-  - env USE_STREAM=True bin/test
+  - bin/test
   - make stoplibreoffice
-  - /usr/bin/soffice --invisible --headless --accept="socket,host=localhost,port=2002;urp" & > /dev/null 2>&1
-  - env USE_STREAM=False bin/test
-  - env USE_STREAM=True bin/test
 
 after_success:
   - bin/coverage run bin/test --test=\!"robot"

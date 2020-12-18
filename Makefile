@@ -26,7 +26,7 @@ test:
 	make startlibreoffice
 	rm -fr htmlcov
 	bin/translation-manage -c
-	env USE_STREAM=True bin/test
+	env bin/test
 	make stoplibreoffice
 
 cleanall:
@@ -34,7 +34,13 @@ cleanall:
 
 startlibreoffice:
 	make stoplibreoffice
-	docker run -p 2002:8997 -d --rm --name="oo_server" xcgd/libreoffice:$(lo_version)
+	docker run -p 2002:8997\
+ 			   -d \
+ 			   --rm \
+ 			   --name="oo_server" \
+ 			   -v /tmp:/tmp \
+ 			   -v /var/tmp:/var/tmp \
+ 			   xcgd/libreoffice:$(lo_version)
 	docker ps
 
 stoplibreoffice:
