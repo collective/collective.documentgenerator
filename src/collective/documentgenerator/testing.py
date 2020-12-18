@@ -25,6 +25,8 @@ import transaction
 import unittest
 import zipfile
 
+from zope.globalrequest import setLocal
+
 if HAS_PLONE_5_2:
     import sys
     from zope.deprecation import deprecation
@@ -231,6 +233,7 @@ class PODTemplateIntegrationTest(BrowserTest):
         super(PODTemplateIntegrationTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+        setLocal('request', self.portal.REQUEST)
 
 
 class PODTemplateFunctionalTest(BrowserTest):
@@ -242,6 +245,7 @@ class PODTemplateFunctionalTest(BrowserTest):
         super(PODTemplateFunctionalTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+        setLocal('request', self.portal.REQUEST)
 
 
 class ConfigurablePODTemplateIntegrationTest(BrowserTest):
@@ -253,6 +257,7 @@ class ConfigurablePODTemplateIntegrationTest(BrowserTest):
         super(ConfigurablePODTemplateIntegrationTest, self).setUp()
         self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
+        setLocal('request', self.portal.REQUEST)
 
 
 class ArchetypesIntegrationTests(BaseTest):
@@ -281,6 +286,7 @@ class ArchetypesIntegrationTests(BaseTest):
             container=self.portal
         )
         self.AT_doc = AT_doc
+        setLocal('request', self.portal.REQUEST)
 
 
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
