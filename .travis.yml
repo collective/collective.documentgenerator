@@ -11,11 +11,15 @@ cache:
     - buildout-cache/eggs
 python:
   - 2.7
-env:
-  - PLONE_VERSION=4.3
-  - PLONE_VERSION=5.1
-  - PLONE_VERSION=5.2
 
+env:
+  global:
+    - TMPDIR=/tmp
+    - CUSTOM_TMP=/tmp
+  jobs:
+    - PLONE_VERSION=4.3
+    - PLONE_VERSION=5.1
+    - PLONE_VERSION=5.2
 jobs:
   fast_finish: true
 
