@@ -2,6 +2,8 @@
 #
 lo_version=latest
 
+args = $(filter-out $@,$(MAKECMDGOALS))
+
 all: run
 py:=2.7
 
@@ -26,7 +28,7 @@ test:
 	make startlibreoffice
 	rm -fr htmlcov
 	bin/translation-manage -c
-	env bin/test
+	if test -z "$(args)" ;then bin/test;else bin/test -t $(args);fi
 	make stoplibreoffice
 
 cleanall:
