@@ -45,14 +45,14 @@ install:
 
 before_script:
   - bin/translation-manage -c
+  - make startlibreoffice
 
 script:
   - bin/code-analysis
-  - make startlibreoffice
   - bin/test
-  - make stoplibreoffice
 
 after_success:
+  - make stoplibreoffice
   - bin/coverage run bin/test --test=\!"robot"
   - pip install coverage==4.5.4
   - python -m coverage.pickle2json
