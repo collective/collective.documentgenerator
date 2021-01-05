@@ -44,8 +44,8 @@ install:
   - bin/pip install -r requirements.txt
   - python -V
   - /usr/bin/python3 -V
-  - bin/buildout -N -c travis.cfg annotate
-  - bin/buildout -Nt 5 -c travis.cfg
+  - bin/buildout -c travis.cfg annotate
+  - bin/buildout -c travis.cfg
 
 before_script:
   - bin/translation-manage -c
