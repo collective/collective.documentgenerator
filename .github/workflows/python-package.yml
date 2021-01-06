@@ -27,12 +27,19 @@ jobs:
         chmod 777 $HOME/tmp
         export TMPDIR=$HOME/tmp
         make startlibreoffice
+    - name: Cache eggs
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-eggs
+      with:
+        path: ./buildout-cache/eggs ./eggs
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION) }}
+        restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION) }}
     - name: buildout
       run: |
         sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" travis.cfg
         virtualenv -p `which python` .
         bin/pip install -r requirements.txt
-        /usr/bin/python3 -V
         bin/buildout -c travis.cfg annotate
         bin/buildout -c travis.cfg
         bin/translation-manage -c
