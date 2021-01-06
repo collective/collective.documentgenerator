@@ -22,7 +22,7 @@ jobs:
         sudo apt-get install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
         sudo apt-get autoremove -qq -y
         sudo apt-get autoclean -qq -y
-        smkdir -p buildout-cache/{eggs,downloads}
+        mkdir -p buildout-cache/{eggs,downloads}
         mkdir $HOME/tmp
         chmod 777 $HOME/tmp
         export TMPDIR=$HOME/tmp
