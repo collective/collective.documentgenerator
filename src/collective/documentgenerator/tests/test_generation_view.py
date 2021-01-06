@@ -440,7 +440,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         set_text(textNone)
         assert_result(False, False)
         set_text(textAuto)
-        # assert_result(True, False)
+        assert_result(True, False)
         set_text(textFixed)
         assert_result(False, True)
 
@@ -473,7 +473,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         set_text(textNone)
         assert_result(False, False)
         set_text(textAuto)
-        # assert_result(True, False)
+        assert_result(True, False)
         set_text(textFixed)
         assert_result(False, True)
 
@@ -487,7 +487,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         set_text(textNone)
         assert_result(False, False)
         set_text(textAuto)
-        # assert_result(True, False)
+        assert_result(True, False)
         set_text(textFixed)
         assert_result(False, True)
 
@@ -520,7 +520,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         set_text(textNone)
         assert_result(False, False)
         set_text(textAuto)
-        # assert_result(True, False)
+        assert_result(True, False)
         set_text(textFixed)
         assert_result(False, True)
 
