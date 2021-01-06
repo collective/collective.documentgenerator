@@ -12,7 +12,7 @@ jobs:
    runs-on: ubuntu-18.04
    strategy:
      matrix:
-        key: [PLONE_VERSION, 4.3, 5.1, 5.2]
+        PLONE_VERSION: [4.3, 5.1, 5.2]
    steps:
     - name: Checkout
       uses: actions/checkout@v2
