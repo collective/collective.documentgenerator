@@ -1,0 +1,53 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+   runs-on: ubuntu-18.04
+   strategy:
+     matrix:
+        python-version: [2.7]
+        key: [PLONE_VERSION, 4.3, 5.1, 5.2]
+   steps:
+    - uses: actions/checkout@v2
+    - with: 
+        python-version: 2.7
+    - name: Setup Env
+    - run: |
+        sudo apt update -qq -y
+        sudo apt-get install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
+        sudo apt-get autoremove -qq -y
+        sudo apt-get autoclean -qq -y
+        smkdir -p buildout-cache/{eggs,downloads}
+        mkdir $HOME/tmp
+        chmod 777 $HOME/tmp
+        export TMPDIR=$HOME/tmp
+        make startlibreoffice
+    - name: buildout
+    - run: |
+        sed -ie "s#plone-5#plone-$PLONE_VERSION#" travis.cfg
+        virtualenv -p `which python` .
+        bin/pip install -r requirements.txt
+        /usr/bin/python3 -V
+        bin/buildout -c travis.cfg annotate
+        bin/buildout -c travis.cfg
+        bin/translation-manage -c
+    - name: test
+    - run: |
+        bin/code-analysis
+        bin/test
+    - name: test passed
+    - run: |
+        make stoplibreoffice
+        bin/coverage run bin/test --test=\!"robot"
+        pip install coverage==4.5.4
+        python -m coverage.pickle2json
+        pip install coveralls
+        coveralls
+        
