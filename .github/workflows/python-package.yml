@@ -14,8 +14,9 @@ jobs:
      matrix:
         key: [PLONE_VERSION, 4.3, 5.1, 5.2]
    steps:
-    - uses: actions/checkout
-    - with: 
+    - name: Checkout
+      uses: actions/checkout
+      with: 
         python-version: 2.7
     - name: Setup Env
       run: |
