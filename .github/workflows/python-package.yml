@@ -19,6 +19,7 @@ jobs:
     - with: 
         python-version: 2.7
     - name: Setup Env
+    - uses: actions/checkout@v2
     - run: |
         sudo apt update -qq -y
         sudo apt-get install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
@@ -30,6 +31,7 @@ jobs:
         export TMPDIR=$HOME/tmp
         make startlibreoffice
     - name: buildout
+    - uses: actions/checkout@v2
     - run: |
         sed -ie "s#plone-5#plone-$PLONE_VERSION#" travis.cfg
         virtualenv -p `which python` .
@@ -39,10 +41,12 @@ jobs:
         bin/buildout -c travis.cfg
         bin/translation-manage -c
     - name: test
+    - uses: actions/checkout@v2
     - run: |
         bin/code-analysis
         bin/test
     - name: test passed
+    - uses: actions/checkout@v2
     - run: |
         make stoplibreoffice
         bin/coverage run bin/test --test=\!"robot"
