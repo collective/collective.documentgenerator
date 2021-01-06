@@ -12,15 +12,13 @@ jobs:
    runs-on: ubuntu-18.04
    strategy:
      matrix:
-        python-version: [2.7]
         key: [PLONE_VERSION, 4.3, 5.1, 5.2]
    steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout
     - with: 
         python-version: 2.7
     - name: Setup Env
-    - uses: actions/checkout@v2
-    - run: |
+      run: |
         sudo apt update -qq -y
         sudo apt-get install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
         sudo apt-get autoremove -qq -y
@@ -31,8 +29,7 @@ jobs:
         export TMPDIR=$HOME/tmp
         make startlibreoffice
     - name: buildout
-    - uses: actions/checkout@v2
-    - run: |
+      run: |
         sed -ie "s#plone-5#plone-$PLONE_VERSION#" travis.cfg
         virtualenv -p `which python` .
         bin/pip install -r requirements.txt
@@ -41,17 +38,14 @@ jobs:
         bin/buildout -c travis.cfg
         bin/translation-manage -c
     - name: test
-    - uses: actions/checkout@v2
-    - run: |
+      run: |
         bin/code-analysis
         bin/test
     - name: test passed
-    - uses: actions/checkout@v2
-    - run: |
+      run: |
         make stoplibreoffice
         bin/coverage run bin/test --test=\!"robot"
         pip install coverage==4.5.4
         python -m coverage.pickle2json
         pip install coveralls
         coveralls
-        
