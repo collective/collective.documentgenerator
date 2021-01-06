@@ -48,16 +48,16 @@ jobs:
       run: |
         bin/code-analysis
         bin/test
-    - name: coverage test
-      run: |
-        bin/coverage run bin/test --test=\!"robot"
-        make stoplibreoffice
-    - name: coverage
-      run: |
-        pip install coverage==4.5.4
-        python -m coverage.pickle2json
-    - name: coveralls
-      run: |
-        pip install coveralls
-        coveralls
+#     - name: coverage test
+#       run: |
+#         bin/coverage run bin/test --test=\!"robot"
+#         make stoplibreoffice
+#     - name: coverage
+#       run: |
+#         pip install coverage==4.5.4
+#         python -m coverage.pickle2json
+#     - name: coveralls
+#       run: |
+#         pip install coveralls
+#         coveralls
         
