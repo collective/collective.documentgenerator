@@ -19,7 +19,7 @@ jobs:
     - name: Setup Env
       run: |
         sudo apt update -qq -y
-        sudo apt-get install -qq -y libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
+        sudo apt-get install -qq -y python2.7-dev virtualenv python-pip libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
         sudo apt-get autoremove -qq -y
         sudo apt-get autoclean -qq -y
         mkdir -p buildout-cache/{eggs,downloads}
