@@ -9,55 +9,53 @@ on:
 
 jobs:
   build:
-   runs-on: ubuntu-18.04
-   strategy:
-     fail-fast: false
-     matrix:
-        PLONE_VERSION: [4.3, 5.1, 5.2]
-   steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup Env
-      run: |
-        sudo apt update -qq -y
-        sudo apt-get install -qq -y python2.7-dev virtualenv python-pip libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
-        sudo apt-get autoremove -qq -y
-        sudo apt-get autoclean -qq -y
-        mkdir -p buildout-cache/{eggs,downloads}
-        mkdir $HOME/tmp
-        chmod 777 $HOME/tmp
-        export TMPDIR=$HOME/tmp
-        make startlibreoffice
-    - name: Cache eggs
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-eggs
-      with:
-        path: ./buildout-cache/eggs ./eggs
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-        restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-    - name: buildout
-      run: |
-        sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" travis.cfg
-        virtualenv -p `which python` .
-        bin/pip install -r requirements.txt
-        bin/buildout -c travis.cfg annotate
-        bin/buildout -c travis.cfg
-        bin/translation-manage -c
-    - name: test
-      run: |
-        bin/code-analysis
-        bin/test
-#     - name: coverage test
-#       run: |
-#         bin/coverage run bin/test --test=\!"robot"
-#         make stoplibreoffice
-#     - name: coverage
-#       run: |
-#         pip install coverage==4.5.4
-#         python -m coverage.pickle2json
-#     - name: coveralls
-#       run: |
-#         pip install coveralls
-#         coveralls
-        
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        PLONE_VERSION: [ 4.3, 5.1, 5.2 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Env
+        run: |
+          sudo apt update -qq -y
+          sudo apt-get install -qq -y python2.7-dev virtualenv python-pip libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
+          sudo apt-get autoremove -qq -y
+          sudo apt-get autoclean -qq -y
+          mkdir -p buildout-cache/{eggs,downloads}
+          mkdir $HOME/tmp
+          chmod 777 $HOME/tmp
+          export TMPDIR=$HOME/tmp
+          make startlibreoffice
+      - name: Cache eggs
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-eggs
+        with:
+          path: ./buildout-cache/eggs ./eggs
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+      - name: buildout
+        run: |
+          sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" travis.cfg
+          virtualenv -p `which python` .
+          bin/pip install -r requirements.txt
+          bin/buildout -c travis.cfg annotate
+          bin/buildout -c travis.cfg
+          bin/translation-manage -c
+      - name: test
+        run: |
+          bin/code-analysis
+          bin/test
+      - name: coverage test
+        run: |
+          bin/coverage run bin/test --test=\!"robot"
+      - name: coverage
+        run: |
+          pip install coverage==5.3.1
+          coverage json -i
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
