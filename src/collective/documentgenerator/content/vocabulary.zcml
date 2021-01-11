@@ -80,4 +80,18 @@
         factory=".vocabulary.PTMCTV"
     />
 
+    <!-- CSV field delimiter Vocabulary -->
+    <utility
+        factory=".vocabulary.CSVFieldDelimiterFactory"
+        name="collective.documentgenerator.CSVFieldDelimiter"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <!-- CSV string delimiter Vocabulary -->
+    <utility
+        factory=".vocabulary.CSVStringDelimiterFactory"
+        name="collective.documentgenerator.CSVStringDelimiter"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>
