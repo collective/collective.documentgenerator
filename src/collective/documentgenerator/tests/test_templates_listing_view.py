@@ -69,7 +69,7 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         self.assertEquals(column.renderCell(item),
                           u'<a href="http://nohost/plone/podtemplates/test_template" class="pretty_link state-private">'
                           u'<span class="pretty_link_icons"><img title="Modèle de document POD restreint" '
-                          u'src="http://nohost/plone/++resource++collective.documentgenerator/podtemplate.png" />'
+                          u'src="http://nohost/plone/++resource++collective.documentgenerator/podtemplate.svg" />'
                           u'</span><span class="pretty_link_content">General template</span></a>')
 
     def test_PathColumn(self):

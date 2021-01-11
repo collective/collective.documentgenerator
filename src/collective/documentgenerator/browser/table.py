@@ -86,8 +86,8 @@ class TitleColumn(LinkColumn):
             purl = api.portal.get_tool('portal_url')()
             typeInfo = api.portal.get_tool('portal_types')[item.portal_type]
             if typeInfo.icon_expr:
-                # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.png
-                # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.png
+                # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.svg
+                # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
                 title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
                 icon_link = u'<img title="%s" src="%s/%s" />' % (safe_unicode(title), purl, contentIcon)
@@ -213,7 +213,7 @@ class FormatsColumn(Column):
         ret = []
         for fmt in item.pod_formats or []:
             ret.append(u"<img title='{0}' src='{1}' />".format(
-                fmt, '%s/++resource++collective.documentgenerator/%s.png' % (self.table.portal_url, fmt)))
+                fmt, '%s/++resource++collective.documentgenerator/%s.svg' % (self.table.portal_url, fmt)))
         return '\n'.join(ret)
 
 
@@ -262,7 +262,7 @@ class DownloadColumn(LinkColumn):
     # def renderHeadCell(self):
     #     return u"<img title='{0}' src='{1}' />".format(
     #         translate('Download', domain='plone', context=self.request),
-    #         u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+    #         u"{0}/{1}".format(self.table.portal_url, 'download_icon.svg'))
 
     def getLinkURL(self, item):
         """Setup link url."""
@@ -276,7 +276,7 @@ class DownloadColumn(LinkColumn):
     def getLinkContent(self, item):
         down_img = u"<img title='{0}' src='{1}' />".format(
             safe_unicode(translate(PMF('Download'), context=self.request)),
-            u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+            u"{0}/{1}".format(self.table.portal_url, 'download_icon.svg'))
         down_img = u"<img src='{0}' />".format(
-            u"{0}/{1}".format(self.table.portal_url, 'download_icon.png'))
+            u"{0}/{1}".format(self.table.portal_url, 'download_icon.svg'))
         return down_img

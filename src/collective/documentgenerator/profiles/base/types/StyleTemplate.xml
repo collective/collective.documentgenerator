@@ -3,7 +3,7 @@
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">StyleTemplate</property>
  <property name="description" i18n:translate="">A document that holds styles to include into a POD template.</property>
- <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/style.png</property>
+ <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/style.svg</property>
  <property name="factory">StyleTemplate</property>
  <property
     name="add_view_expr">string:${folder_url}/++add++StyleTemplate</property>

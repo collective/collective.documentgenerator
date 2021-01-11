@@ -3,7 +3,7 @@
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">MailingLoopTemplate</property>
  <property name="description" i18n:translate=""></property>
- <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/mailinglooptemplate.png</property>
+ <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/mailinglooptemplate.svg</property>
  <property name="factory">MailingLoopTemplate</property>
  <property
     name="add_view_expr">string:${folder_url}/++add++MailingLoopTemplate</property>
