@@ -11,7 +11,8 @@ from AccessControl import Unauthorized
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from appy.pod.renderer import Renderer, CsvOptions
+from appy.pod.renderer import CsvOptions
+from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
@@ -283,8 +284,6 @@ class DocumentGenerationView(BrowserView):
         for view in all_helper_views:
             view._set_appy_renderer(renderer)
 
-        # import ipdb
-        # ipdb.set_trace()
         renderer.run()
 
         # return also generation_context to test ist content in tests
