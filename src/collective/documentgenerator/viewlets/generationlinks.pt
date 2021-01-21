@@ -6,7 +6,7 @@
       <li tal:repeat="infos view/get_links_info">
         <a tal:attributes="href infos/link;
                            title infos/description;">
-          <img src="#" width="24" height="24"
+          <img src="#" class="svg-icon"
                tal:attributes="src string:${view/portal_url}/++resource++collective.documentgenerator/${infos/output_format}.svg" />
           <span tal:replace="infos/title">Template title</span>
         </a>

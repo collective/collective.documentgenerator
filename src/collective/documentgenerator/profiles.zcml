@@ -140,6 +140,16 @@
             handler="collective.documentgenerator.migrations.migrate_to_11.migrate" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeSteps
+        source="11"
+        destination="12"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeStep
+            title="collective.documentgenerator: upgrade to 12"
+            description="This apply new svg icons"
+            handler="collective.documentgenerator.migrations.migrate_to_12.migrate" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

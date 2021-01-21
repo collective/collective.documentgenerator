@@ -90,7 +90,7 @@ class TitleColumn(LinkColumn):
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
                 title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
-                icon_link = u'<img title="%s" src="%s/%s" />' % (safe_unicode(title), purl, contentIcon)
+                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % (safe_unicode(title), purl, contentIcon)
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 
@@ -212,7 +212,7 @@ class FormatsColumn(Column):
             return ''
         ret = []
         for fmt in item.pod_formats or []:
-            ret.append(u"<img title='{0}' src='{1}' />".format(
+            ret.append(u"<img class='svg-icon' title='{0}' src='{1}' />".format(
                 fmt, '%s/++resource++collective.documentgenerator/%s.svg' % (self.table.portal_url, fmt)))
         return '\n'.join(ret)
 
@@ -274,9 +274,7 @@ class DownloadColumn(LinkColumn):
                                            quote=True)
 
     def getLinkContent(self, item):
-        down_img = u"<img title='{0}' src='{1}' />".format(
+        down_img = u"<img class='svg-icon' title='{0}' src='{1}' />".format(
             safe_unicode(translate(PMF('Download'), context=self.request)),
-            u"{0}/{1}".format(self.table.portal_url, 'download_icon.svg'))
-        down_img = u"<img src='{0}' />".format(
-            u"{0}/{1}".format(self.table.portal_url, 'download_icon.svg'))
+            u'%s/++resource++collective.documentgenerator/download_icon.svg' % self.table.portal_url)
         return down_img
