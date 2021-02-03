@@ -398,6 +398,30 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('details', gen_context)
         self.assertEqual(gen_context['details'], '1')
 
+    def test_set_generated_document_title(self):
+        """
+        By default, this will get template title for output file title.
+        If a generated_doc_title is set, this title must be the output file title
+        """
+        pod_template = self.test_podtemplate
+        template_uid = pod_template.UID()
+        custom_title = 'my awesome title'
+        generation_context = api.content.create(
+            type='Folder',
+            title=u'Folder for my awesome file with awesome title',
+            id='test_titlefolder',
+            container=self.portal,
+        )
+        # customize the title
+        generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
+        generation_view(template_uid=template_uid, output_format='odt', generated_doc_title=custom_title)
+        docgen_file = generation_context.objectValues()[0]
+        self.assertTrue(docgen_file.Title() == custom_title)
+        # test the temlate default title
+        generation_view(template_uid=template_uid, output_format='odt')
+        docgen_file_without_custom_title = generation_context.objectValues()[1]
+        self.assertTrue(docgen_file_without_custom_title.Title() == pod_template.Title())
+
     def test_table_column_modifier(self):
         """ """
         pod_template = self.portal.podtemplates.get('test_template_multiple')
