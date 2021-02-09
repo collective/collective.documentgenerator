@@ -416,6 +416,20 @@ class SearchAndReplace(Search):
     """
     """
 
+    def __init__(self, find_expr, filenames_expr, replace_expr, tmpdir=None, ignorecase=False, recursive=False):
+        """
+        """
+        super(SearchAndReplace, self).__init__(find_expr, filenames_expr, ignorecase, recursive)
+        self.replace_expr = replace_expr
+        self.tmpdir = tmpdir
+
+    def run(self):
+        """
+        """
+        files = self.find_files(self.filenames_expr, self.recursive)
+        search_result = self.searchAndReplaceAllODT(self.find_expr, self.replace_expr, files, self.ignorecase, self.tmpdir)
+        return search_result
+
 
 # parsing arguments code
 req_version = (2, 7)
