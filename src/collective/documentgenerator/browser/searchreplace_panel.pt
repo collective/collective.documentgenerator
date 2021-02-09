@@ -18,15 +18,15 @@
         <span tal:replace="structure view/contents" />
     </div>
 
-    <div class="portlet" tal:condition="python: bool(view.form_instance.preview)">
+    <div class="portlet" tal:condition="python: bool(view.get_preview())">
         <div class="portletHeader">
             <span class="portletTitle">Preview</span>
         </div>
-        <table class="datagridwidget-table-view" tal:define="podtemplates python:view.form_instance.preview.items()">
+        <table class="datagridwidget-table-view" tal:define="podtemplates python:view.get_preview().items()">
             <thead>
             <tr>
                 <th class="header">
-                    Template Id
+                    Template
                 </th>
                 <th class="header">
                     Matched
@@ -46,15 +46,15 @@
         </table>
     </div>
 
-    <div class="portlet" tal:condition="python: bool(view.form_instance.results)">
+    <div class="portlet" tal:condition="python: bool(view.get_results())">
         <div class="portletHeader info">
             <span class="portletTitle">Results</span>
         </div>
-        <table class="datagridwidget-table-view" tal:define="podtemplates python:view.form_instance.results.items()">
+        <table class="datagridwidget-table-view" tal:define="podtemplates python:view.get_results().items()">
             <thead>
             <tr>
                 <th class="header">
-                    Template Id
+                    Template
                 </th>
                 <th class="header">
                     Matched

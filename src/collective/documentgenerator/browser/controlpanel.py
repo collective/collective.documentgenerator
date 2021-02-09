@@ -115,12 +115,12 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
         IStatusMessage(self.request).addStatusMessage(_(u'Changes saved'), 'info')
         self.context.REQUEST.RESPONSE.redirect('@@collective.documentgenerator-controlpanel')
 
-    @button.buttonAndHandler(_('Migrate'), name='migrate')
+    @button.buttonAndHandler(_('Search & replace'), name='search_and_replace')
     def handleMigrate(self, action):
         self.request.response.redirect(
             '{context_url}/{view}'.format(
                 context_url=self.context.absolute_url(),
-                view="@@collective.documentgenerator-migratepanel"
+                view="@@collective.documentgenerator-searchreplacepanel"
             )
         )
 

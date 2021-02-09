@@ -48,12 +48,12 @@
         />
 
     <browser:page
-        name="collective.documentgenerator-migratepanel"
+        name="collective.documentgenerator-searchreplacepanel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class="collective.documentgenerator.browser.migratepanel.DocumentGeneratorMigrate"
+        class="collective.documentgenerator.browser.searchreplace_panel.DocumentGeneratorSearchReplace"
         permission="cmf.ManagePortal"
         layer="..interfaces.ICollectiveDocumentGeneratorLayer"
-        template="migratepanel.pt"
+        template="searchreplace_panel.pt"
         />
 
     <browser:page
@@ -186,7 +186,7 @@
         />
 
 
-    <adapter factory=".migratepanel.DocumentGeneratorMigratePanelAdapter"/>
+    <adapter factory=".searchreplace_panel.DocumentGeneratorSearchReplacePanelAdapter"/>
 
     <!-- batchactions -->
     <browser:viewlet
