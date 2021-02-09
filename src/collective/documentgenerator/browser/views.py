@@ -221,7 +221,17 @@ class CheckPodTemplatesView(BrowserView):
         This will find context objects working with given p_pod_template.
         We return one obj of each pod_portal_types respecting the TAL condition.
         """
-        catalog = api.portal.get_tool('portal_catalog')
+        def _search_context(portal_types):
+            catalog = api.portal.get_tool('portal_catalog')
+            for portal_type in portal_types:
+                # get an element for which the TAL condition is True
+                brains = catalog(portal_type=portal_type)
+                for brain in brains:
+                    ctx = brain.getObject()
+                    if pod_template.can_be_generated(ctx):
+                        return ctx
+            return None
+
         res = []
         if hasattr(pod_template, "pod_portal_types"):
             pod_portal_types = pod_template.pod_portal_types
@@ -231,13 +241,7 @@ class CheckPodTemplatesView(BrowserView):
             if ttool is None:
                 res = []
             pod_portal_types = ttool.listContentTypes()
-
-        for pod_portal_type in pod_portal_types:
-            # get an element for which the TAL condition is True
-            brains = catalog(portal_type=pod_portal_type)
-            for brain in brains:
-                obj = brain.getObject()
-                if pod_template.can_be_generated(obj):
-                    res.append(obj)
-                    break
+        found_context = _search_context(pod_portal_types)
+        if found_context:
+            res.append(found_context)
         return res
