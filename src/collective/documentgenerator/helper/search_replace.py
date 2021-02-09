@@ -11,6 +11,10 @@ import sys
 import xml.dom.minidom
 import zipfile
 
+from collective.documentgenerator.events.styles_events import create_temporary_file
+from collective.documentgenerator.utils import remove_tmp_file
+from plone.app.uuid.utils import uuidToObject
+
 
 def unzip(f, folder, odf=False):
     '''
@@ -429,6 +433,71 @@ class SearchAndReplace(Search):
         files = self.find_files(self.filenames_expr, self.recursive)
         search_result = self.searchAndReplaceAllODT(self.find_expr, self.replace_expr, files, self.ignorecase, self.tmpdir)
         return search_result
+
+
+class PODTemplateSearchReplace:
+
+    def __init__(self, templates_uid):
+        self.templates_uid = templates_uid
+        self.pod_template = uuidToObject(self.templates_uid)
+
+    def __enter__(self):
+        temp_file = create_temporary_file(self.pod_template.odt_file, 'pod_template.odt')
+        temp_file = open(temp_file.name, 'w')
+        temp_file.write(self.pod_template.odt_file.data)
+        temp_file.close()
+        self.file = temp_file
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        # TODO : save temp_file back in the PODTemplate Blob
+        remove_tmp_file(self.file.name)
+
+    def search(self, find_expr):
+        """
+        """
+        if type(find_expr) is str:
+            find_expr = [find_expr]
+
+        _xml, search_results = searchOneODT(self.file.name, find_expr)
+
+        results = []
+
+        for result in search_results:
+            matches = result["match"]
+            for match in matches:
+                match_start, match_end = match.start(), match.end()
+                statement = result["XMLnode"].data
+                results.append(
+                    {
+                        "statement": statement,
+                        "match": statement[match_start:match_end]
+                    }
+                )
+        return results
+
+    def replace(self, find_expr, replace_expr):
+        """
+        """
+        if type(find_expr) is str:
+            find_expr = [find_expr]
+
+        search_results = searchAndReplaceOneODT(self.file.name, find_expr, replace_expr)
+
+        results = []
+
+        for result in search_results:
+            matches = result["match"]
+            for match in matches:
+                match_start, match_end = match.start(), match.end()
+                statement = result["XMLnode"].data
+                results.append(
+                    {
+                        "statement": statement,
+                        "match": statement[match_start:match_end]
+                    }
+                )
+        return results
 
 
 # parsing arguments code

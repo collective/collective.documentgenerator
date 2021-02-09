@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)"/>
+
+<body>
+<div id="content" metal:fill-slot="prefs_configlet_content">
+
+    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+
+    <div id="layout-contents">
+        <span tal:replace="structure view/contents"/>
+    </div>
+
+    <div class="portlet" tal:condition="python: bool(view.get_preview_table())">
+        <div class="portletHeader">
+            <span class="portletTitle">Preview</span>
+        </div>
+        <table class="datagridwidget-table-view"
+               tal:define="templates python:view.get_preview_table().items()">
+            <thead>
+            <tr>
+                <th class="header">
+                    Statement
+                </th>
+                <th class="header">
+                    Match
+                </th>
+            </tr>
+            </thead>
+            <tbody id="datagridwidget-tbody">
+            <tal:block repeat="template templates">
+                <tr class="header">
+                    <td colspan="3">
+                        <div class="search-group">
+                            <span tal:content="python:template[0]" />
+                        </div>
+                    </td>
+                </tr>
+                <tal:block repeat="result python:template[1]">
+                <tr>
+                    <td><span class="search-cell" tal:content="python:result['statement']"/></td>
+                    <td><span class="search-cell" tal:content="python:result['match']"/></td>
+                </tr>
+                </tal:block>
+            </tal:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="portlet" tal:condition="python: len(view.get_results_list()) > 0">
+        <div class="portletHeader info">
+            <span class="portletTitle">Results</span>
+        </div>
+        <table class="datagridwidget-table-view"
+               tal:define="podtemplates python:view.get_results_list()">
+            <thead>
+            <tr>
+                <th class="header">
+                    Template
+                </th>
+                <th class="header">
+                    Matched
+                </th>
+                <th class="header">
+                    Replaced by
+                </th>
+            </tr>
+            </thead>
+            <tbody id="datagridwidget-tbody">
+            <tal:block repeat="podtemplate podtemplates">
+                <tr>
+                    <td>
+                        <span tal:replace="python:podtemplate"/>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </tal:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
