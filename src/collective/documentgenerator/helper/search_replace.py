@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import mimetypes
 import os
 import os.path
 import re
@@ -41,9 +42,12 @@ class Search():
         for root, dirs, filenames in os.walk(base_path):
             for filename in filenames:
                 for regex in regexs:
-                    if regex.match(filename):
+                    if regex.match(filename) and self.is_ODT_file(filename):
                         result.append(os.path.join(root, filename))
-        return result
+        return list(set(result))
+
+    def is_ODT_file(self, filename):
+        return mimetypes.guess_type(filename)[0].startswith('application/vnd.oasis.opendocument')
 
     def search(self, find_expr, files_paths, ignorecase=False):
         """
@@ -55,14 +59,15 @@ class Search():
             if zip_file:
                 content_file = self.openOdtContent(zip_file)
                 odt_content = content_file.read()
-            zip_file.close()
+                zip_file.close()
 
             if odt_content:
                 # search...
                 xml_tree = xml.dom.minidom.parseString(odt_content)
-                searchresult = self.search_XML_content(xml_tree, filename, find_expr, ignorecase)
-
-                result[filename] = (xml_tree, searchresult)
+                search_result = self.search_XML_content(xml_tree, filename, find_expr, ignorecase)
+                if search_result:
+                    result[filename] = (xml_tree, search_result)
+                    self.print_match(find_expr, filename, search_result)
         return result
 
     def openZip(self, filename, mode):
@@ -89,33 +94,31 @@ class Search():
         logging.debug("searching text content of '%s'" % filename)
         # the two xml tags we want to browse are 'office:annotation' and 'text:text-input', since its the only place
         # where appyPOD code can be written
-        result = []
-        annotations = [node.getElementsByTagName('text:p') for node in xml_tree.getElementsByTagName('office:annotation')]
+        annotation_nodes = [node.getElementsByTagName('text:p') for node in
+                            xml_tree.getElementsByTagName('office:annotation')]
 
         result = self.search_XML_pod_zone(
-            elements=annotations,
+            nodes=annotation_nodes,
             filename=filename,
-            element_type='commentaire',
+            node_type='commentaire',
             findexpr=findexpr,
             ignorecase=ignorecase,
         )
 
-        expressions = xml_tree.getElementsByTagName('text:text-input')
-        result.extend(
-            self.search_XML_pod_zone(
-                elements=expressions,
-                filename=filename,
-                element_type='champ de saisie',
-                findexpr=findexpr,
-                firstfound=not bool(result),
-                ignorecase=ignorecase,
-            )
+        input_nodes = xml_tree.getElementsByTagName('text:text-input')
+        result_inputs = self.search_XML_pod_zone(
+            nodes=input_nodes,
+            filename=filename,
+            node_type='champ de saisie',
+            findexpr=findexpr,
+            ignorecase=ignorecase,
         )
+        result.extend(result_inputs)
         return result
 
-    def search_XML_pod_zone(self, elements, filename, element_type, findexpr, firstfound=True, ignorecase=False):
+    def search_XML_pod_zone(self, nodes, filename, node_type, findexpr, ignorecase=False):
         text_lines = []
-        node_groups = [self.reach_text_node(element) for element in elements]
+        node_groups = [self.reach_text_node(node) for node in nodes]
         flags = ignorecase and re.I or 0
         i = 1
         for node_group in node_groups:
@@ -125,26 +128,22 @@ class Search():
                     for expr in findexpr:
                         matches = list(re.finditer(expr, text, flags=flags))
                         if matches:
-                            text_lines.append({'match': matches, 'XMLnode': node})
-                            if firstfound and not self.silent:
-                                print filename
-                                firstfound = False
-                            if not self.silent:
-                                for match in matches:
-                                    self.printMatch(
-                                        text,
-                                        match.start(),
-                                        match.end(),
-                                        findexpr, '%s %i' % (element_type, i)
-                                    )
+                            text_lines.append(
+                                {
+                                    'matches': matches,
+                                    'XMLnode': node,
+                                    'node_number': i,
+                                    'node_type': node_type
+                                }
+                            )
             i = i + 1
         return text_lines
 
     def reach_text_node(self, node):
         def recursive_reach_text_node(node, result):
             if hasattr(node, '__iter__'):
-                for list_element in node:
-                    recursive_reach_text_node(list_element, result)
+                for list_node in node:
+                    recursive_reach_text_node(list_node, result)
             elif node.nodeType == node.TEXT_NODE:
                 result.append(node)
             else:
@@ -152,26 +151,33 @@ class Search():
             return result
         return recursive_reach_text_node(node, [])
 
-    def printMatch(self, text, start, end, findexpr, textzone):
-        display_line = ['', '', '']
-        d_start = 0
-        if start > 100:
-            d_start = start - 100
-            display_line[0] = '...'
-        d_end = len(text)
-        if end + 100 < len(text):
-            d_end = end + 100
-            display_line[2] = '...'
-        if sys.stdout.isatty():
-            text = '%s\033[93m%s\033[0m%s' % (text[d_start:start], text[start:end], text[end:d_end])
-        else:
-            text = text[d_start:d_end]
-        display_line[1] = text
-        display_line = ''.join(display_line)
-        if len(findexpr) > 1:
-            print "  %s : %s > %s" % (textzone, text, display_line)
-        else:
-            print "  %s : %s" % (textzone, display_line)
+    def print_match(self, findexpr, filename, searchresult):
+        print filename
+        for result in searchresult:
+            text = result['XMLnode'].data
+            textzone = '%s %i' % (result['node_type'], result['node_number'])
+            for match in result['matches']:
+                start = match.start()
+                end = match.end()
+                display_line = ['', '', '']
+                d_start = 0
+                if start > 100:
+                    d_start = start - 100
+                    display_line[0] = '...'
+                d_end = len(text)
+                if end + 100 < len(text):
+                    d_end = end + 100
+                    display_line[2] = '...'
+                if sys.stdout.isatty():
+                    text = '%s\033[93m%s\033[0m%s' % (text[d_start:start], text[start:end], text[end:d_end])
+                else:
+                    text = text[d_start:d_end]
+                display_line[1] = text
+                display_line = ''.join(display_line)
+                if len(findexpr) > 1:
+                    print "  %s : %s > %s" % (textzone, text, display_line)
+                else:
+                    print "  %s : %s" % (textzone, display_line)
 
 
 class SearchAndReplace(Search):
@@ -218,8 +224,8 @@ if cur_version >= req_version:
         arguments = vars(arguments)
         if not arguments['replace']:
             search = Search(**dict([(k, v) for k, v in arguments.iteritems() if v]))
-            return search.run()
-        # searchODTs(**arguments)
+            result = search.run()
+            return result
 
     if __name__ == "__main__":
         main()
