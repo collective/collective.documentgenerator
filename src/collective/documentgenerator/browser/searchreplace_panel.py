@@ -20,8 +20,8 @@ class IReplacementRowSchema(interface.Interface):
     Schema for DataGridField widget's row of field 'replacements'
     """
 
-    search_expr = schema.TextLine(title=_(u"Search"), required=True,)
-    replace_expr = schema.TextLine(title=_(u"Replace"), required=False,)
+    search_expr = schema.TextLine(title=_(u"Search"), required=True, default=u"")
+    replace_expr = schema.TextLine(title=_(u"Replace"), required=False, default=u"")
 
     directives.widget("include", SingleCheckBoxFieldWidget)
     include = schema.Bool(title=_(u"Preview ?"),)
@@ -64,7 +64,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     def __init__(self, context, request):
         self.preview_table = OrderedDict()
-        self.results_list = []
+        self.results_table = OrderedDict()
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
 
     @button.buttonAndHandler(_("Launch"), name="launch")
@@ -74,12 +74,21 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = self.formErrorsMessage
             return
 
-        for template_uuid in data["selected_templates"]:  # TODO : Exctract me elsewhere !
-            with PODTemplateSearchReplace(template_uuid) as podtemplate_search_replace:
+        for template_uuid in data["selected_templates"]:  # TODO : Extract me elsewhere !
+            template = uuidToObject(template_uuid)
+            template_path = get_site_root_relative_path(template)
+            self.results_table[template_path] = []
+            with PODTemplateSearchReplace(template) as search_replace:
                 for replacement in data["replacements"]:
-                    podtemplate_search_replace.replace(
+                    replace_results = search_replace.replace(
                         replacement["search_expr"], replacement["replace_expr"]
                     )
+                    for replace_result in replace_results:
+                        replace_result["old_pod_expr"] = self.highlight_pod_expr(
+                            replace_result["old_pod_expr"], replace_result["match_start"],
+                            replace_result["match_end"]
+                        )
+                        self.results_table[template_path].append(replace_result)
         return self.render()
 
     @button.buttonAndHandler(_("Preview"), name="preview")
@@ -88,15 +97,22 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         if errors:
             self.status = self.formErrorsMessage
             return
+        search_expr = self.get_search_exprs(data["replacements"])
 
-        for template_uuid in data["selected_templates"]:  # TODO : Exctract me elsewhere !
+        if len(search_expr) == 0:
+            self.status = _("Nothing to preview.")
+            return
+
+        for template_uuid in data["selected_templates"]:  # TODO : Extract me elsewhere !
             template = uuidToObject(template_uuid)
             template_path = get_site_root_relative_path(template)
-            search_expr = self.get_search_exprs(data["replacements"])
             self.preview_table[template_path] = []
-            with PODTemplateSearchReplace(template_uuid) as podtemplate_search_replace:
-                search_results = podtemplate_search_replace.search(search_expr)
+            with PODTemplateSearchReplace(template) as search_replace:
+                search_results = search_replace.search(search_expr)
                 for search_result in search_results:
+                    search_result["pod_expr"] = self.highlight_pod_expr(
+                        search_result["pod_expr"], search_result["match_start"], search_result["match_end"]
+                    )
                     self.preview_table[template_path].append(search_result)
 
         return self.render()
@@ -113,16 +129,17 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
         self.actions["launch"].addClass("context")  # Make Launch button primary
 
-    def updateWidgets(self):
-        super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets()
+    def updateWidgets(self, prefix=None):
+        super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets(prefix)
         self.widgets["replacements"].auto_append = False
 
     def get_search_exprs(self, replacements_form_data):
-        results = []
-        for replacement in replacements_form_data:
-            if replacement["include"]:
-                results.append(replacement["search_expr"])
-        return results
+        filtered = filter(lambda replacement: replacement["include"], replacements_form_data)
+        search_exprs = map(lambda r: r["search_expr"], filtered)
+        return search_exprs
+
+    def highlight_pod_expr(self, pod_expr, start, end):
+        return pod_expr[:start] + "<b class='highlight'>" + pod_expr[start:end] + "</b>" + pod_expr[end:]
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
@@ -131,5 +148,5 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
     def get_preview_table(self):
         return self.form_instance.preview_table
 
-    def get_results_list(self):
-        return self.form_instance.results_list
+    def get_results_table(self):
+        return self.form_instance.results_table
