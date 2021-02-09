@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from Products.CMFCore.utils import getToolByName
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
@@ -15,6 +16,7 @@ from Products.Five import BrowserView
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
+from zope.component.hooks import getSite
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer
 
@@ -163,7 +165,7 @@ class CheckPodTemplatesView(BrowserView):
                 continue
 
             # we do not manage 'StyleTemplate' automatically for now...
-            if pod_template.portal_type in ('StyleTemplate', 'DashboardPODTemplate', 'PODTemplate',
+            if pod_template.portal_type in ('StyleTemplate', 'DashboardPODTemplate',
                                             'SubTemplate', 'MailingLoopTemplate'):
                 not_managed.append((pod_template, None))
                 continue
@@ -179,8 +181,8 @@ class CheckPodTemplatesView(BrowserView):
                 continue
 
             for obj in objs:
-                view = obj.restrictedTraverse('@@document-generation')
                 self.request.set('template_uid', pod_template.UID())
+                view = obj.restrictedTraverse('@@document-generation')
                 if hasattr(pod_template, "pod_formats"):
                     output_format = pod_template.pod_formats[0]
                 else:
@@ -221,7 +223,16 @@ class CheckPodTemplatesView(BrowserView):
         """
         catalog = api.portal.get_tool('portal_catalog')
         res = []
-        for pod_portal_type in pod_template.pod_portal_types:
+        if hasattr(pod_template, "pod_portal_types"):
+            pod_portal_types = pod_template.pod_portal_types
+        else:
+            site = getSite()
+            ttool = getToolByName(site, 'portal_types', None)
+            if ttool is None:
+                res = []
+            pod_portal_types = ttool.listContentTypes()
+
+        for pod_portal_type in pod_portal_types:
             # get an element for which the TAL condition is True
             brains = catalog(portal_type=pod_portal_type)
             for brain in brains:
