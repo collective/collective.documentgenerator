@@ -404,12 +404,24 @@ class Search():
         """
         """
         files = self.find_files(self.filenames_expr, self.recursive)
-        search_result = self.searchAllODT(self.find_expr, files, self.ignorecase)
+        search_result = self.search(self.find_expr, files, self.ignorecase)
         return search_result
 
-    def find_files(self, filenames_expr):
+    def find_files(self, filenames_expr, recursive=False):
         """
         """
+        result = []
+        base_path = os.path.dirname(filenames_expr[0])
+        files_exprs = [os.path.split(n)[1] for n in filenames_expr]
+
+        regexs = [re.compile(expr) for expr in files_exprs]
+
+        for root, dirs, filenames in os.walk(base_path):
+            for filename in filenames:
+                for regex in regexs:
+                    if regex.match(filename):
+                        result.append(os.path.join(root, filename))
+        return result
 
 
 class SearchAndReplace(Search):
@@ -440,12 +452,12 @@ if cur_version >= req_version:
 
     def parseArguments():
         parser = argparse.ArgumentParser(description='Search and replace in comments and input fields of .odt files')
-        parser.add_argument('findexpr', action='append')
+        parser.add_argument('find_expr', action='append')
         parser.add_argument('--replace')
         parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
         parser.add_argument('-i', '--ignorecase', action='store_true')
         parser.add_argument('-r', '--recursive', action='store_true')
-        parser.add_argument('filenames', nargs='+')
+        parser.add_argument('filenames_expr', nargs='+')
         return parser.parse_args()
 
     def main():
@@ -454,7 +466,10 @@ if cur_version >= req_version:
         if verbosity:
             logging.basicConfig(level=logging.DEBUG)
         arguments = vars(arguments)
-        searchODTs(**arguments)
+        if not arguments['replace']:
+            search = Search(**dict([(k, v) for k, v in arguments.iteritems() if v]))
+            return search.run()
+        # searchODTs(**arguments)
 
     if __name__ == "__main__":
         main()
