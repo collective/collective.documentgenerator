@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from collections import OrderedDict
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
+from collective.documentgenerator.utils import translate as _
 from OFS.interfaces import IOrderedContainer
 from plone import api
 from plone.dexterity.browser.edit import DefaultEditForm
@@ -129,3 +131,102 @@ class EditConfigurablePodTemplate(DefaultEditForm):
 
     contentProviders["children_pod_template"] = DisplayChildrenPodTemplateProvider
     contentProviders["children_pod_template"].position = 4
+
+
+class CheckPodTemplatesView(BrowserView):
+    """
+      Check existing pod templates to try to find one out that is generating errors.
+    """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self):
+        '''Generate Pod Templates and check if some are genering errors.'''
+        self.messages = self.manage_messages()
+        return self.index()
+
+    def manage_messages(self):
+        ''' '''
+        error = []
+        no_obj_found = []
+        no_pod_portal_types = []
+        not_enabled = []
+        not_managed = []
+        clean = []
+
+        pod_templates = self.find_pod_templates()
+        for pod_template in pod_templates:
+
+            if not pod_template.enabled:
+                not_enabled.append((pod_template, None))
+                continue
+
+            # we do not manage 'StyleTemplate' automatically for now...
+            if pod_template.portal_type in ('StyleTemplate', 'DashboardPODTemplate', 'PODTemplate',
+                                            'SubTemplate', 'MailingLoopTemplate'):
+                not_managed.append((pod_template, None))
+                continue
+
+            # here we have a 'ConfigurablePODTemplate'
+            if hasattr(pod_template, 'pod_portal_types') and not pod_template.pod_portal_types:
+                no_pod_portal_types.append((pod_template, None))
+                continue
+
+            objs = self.find_context_for(pod_template)
+            if not objs:
+                no_obj_found.append((pod_template, None))
+                continue
+
+            for obj in objs:
+                view = obj.restrictedTraverse('@@document-generation')
+                self.request.set('template_uid', pod_template.UID())
+                if hasattr(pod_template, "pod_formats"):
+                    output_format = pod_template.pod_formats[0]
+                else:
+                    output_format = 'odt'
+                self.request.set('output_format', output_format)
+                try:
+                    view()
+                    view._generate_doc(pod_template, output_format=output_format, raiseOnError=True)
+                    clean.append((pod_template, obj))
+                except Exception as exc:
+                    error.append((pod_template, obj, (_('Error'), exc.message)))
+
+        messages = OrderedDict()
+        messages[_('check_pod_template_error')] = error
+        messages[_('check_pod_template_no_obj_found')] = no_obj_found
+        messages[_('check_pod_template_no_pod_portal_types')] = no_pod_portal_types
+        messages[_('check_pod_template_not_enabled')] = not_enabled
+        messages[_('check_pod_template_not_managed')] = not_managed
+        messages[_('check_pod_template_clean')] = clean
+        return messages
+
+    def find_pod_templates(self):
+        """
+        This will find all potamplates in this site.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        brains = catalog(object_provides=IPODTemplate.__identifier__)
+        res = []
+        for brain in brains:
+            pod_template = brain.getObject()
+            res.append(pod_template)
+        return res
+
+    def find_context_for(self, pod_template):
+        """
+        This will find context objects working with given p_pod_template.
+        We return one obj of each pod_portal_types respecting the TAL condition.
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        res = []
+        for pod_portal_type in pod_template.pod_portal_types:
+            # get an element for which the TAL condition is True
+            brains = catalog(portal_type=pod_portal_type)
+            for brain in brains:
+                obj = brain.getObject()
+                if pod_template.can_be_generated(obj):
+                    res.append(obj)
+                    break
+        return res

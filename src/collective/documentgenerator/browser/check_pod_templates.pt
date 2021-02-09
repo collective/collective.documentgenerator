@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="collective.documentgenerator">
+
+  <body>
+  <metal:fill fill-slot="main">
+
+    <h1 class="documentFirstHeading" i18n:translate="check_pod_templates">Check Pod templates</h1>
+
+    <tal:loop repeat="infos python: view.messages.iteritems()">
+      <h2 i18n:translate=""
+          tal:define="content python: infos[0]"
+          tal:attributes="class string:${content}"
+          tal:content="content" />
+      <tal:loop2 repeat="elt python: infos[1]">
+        <h3 style="display: inline;"><span tal:content="python: elt[0].__class__.__name__">Pod Template</span> :</h3>
+        <a href="#"
+           tal:attributes="href python: elt[0].absolute_url()"
+           tal:content="python: elt[0].Title()">
+          Link to template
+        </a>
+        <tal:used_obj condition="python: elt[1]">
+          <h3 style="display: inline;"><span i18n:translate="">Used object</span> :</h3>
+          <a href="#"
+             tal:attributes="href python: elt[1].absolute_url()"
+             tal:content="python: elt[1].Title()">
+            Link to used object
+          </a>
+          <tal:comment replace="nothing">Display additional message if any</tal:comment>
+          <tal:additionInfo condition="python: len(elt) == 3">
+            <h3 style="display: inline;"><span tal:content="python: elt[2][0]">Additional info type</span> :</h3>
+            <p><pre tal:content="python: elt[2][1]">Additional info message</pre></p>
+          </tal:additionInfo>
+        </tal:used_obj>
+        <br />
+      </tal:loop2>
+      <span tal:condition="python: not infos[1]"
+            class="discreet"
+            i18n:domain="plone"
+            i18n:translate="description_no_results_found">
+        No results.
+      </span>
+      <p>&nbsp;</p>
+    </tal:loop>
+
+  </metal:fill>
+  </body>
+</html>

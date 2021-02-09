@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-09 10:39+0000\n"
+"POT-Creation-Date: 2021-02-09 12:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,6 +123,10 @@ msgstr ""
 #: ../browser/table.py:145
 #: ../content/pod_template.py:67
 msgid "Enabled"
+msgstr ""
+
+#: ../browser/views.py:192
+msgid "Error"
 msgstr ""
 
 #: ../browser/generation_view.py:307
@@ -397,6 +401,10 @@ msgstr ""
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
+#: ../browser/check_pod_templates.pt:28
+msgid "Used object"
+msgstr ""
+
 #: ../content/pod_template.py:195
 msgid "Value"
 msgstr ""
@@ -423,6 +431,35 @@ msgstr ""
 
 #: ../content/pod_template.py:350
 msgid "You must select an odt file or an existing pod template"
+msgstr ""
+
+#: ../browser/views.py:200
+msgid "check_pod_template_clean"
+msgstr ""
+
+#: ../browser/views.py:195
+msgid "check_pod_template_error"
+msgstr ""
+
+#: ../browser/views.py:196
+msgid "check_pod_template_no_obj_found"
+msgstr ""
+
+#: ../browser/views.py:197
+msgid "check_pod_template_no_pod_portal_types"
+msgstr ""
+
+#: ../browser/views.py:198
+msgid "check_pod_template_not_enabled"
+msgstr ""
+
+#: ../browser/views.py:199
+msgid "check_pod_template_not_managed"
+msgstr ""
+
+#. Default: "Check Pod templates"
+#: ../browser/check_pod_templates.pt:13
+msgid "check_pod_templates"
 msgstr ""
 
 #: ../profiles.zcml:15

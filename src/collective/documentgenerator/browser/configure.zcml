@@ -196,5 +196,11 @@
           layer=".interfaces.ILayer" />
     </configure>
 
+    <browser:page
+      for="*"
+      name="check-pod-templates"
+      template="check_pod_templates.pt"
+      class=".views.CheckPodTemplatesView"
+      permission="cmf.ManagePortal" />
 
 </configure>

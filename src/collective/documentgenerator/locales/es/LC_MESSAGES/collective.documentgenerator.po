@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.documentgenerator 1.0\n"
-"POT-Creation-Date: 2021-02-09 10:39+0000\n"
+"POT-Creation-Date: 2021-02-09 12:05+0000\n"
 "PO-Revision-Date: 2020-05-04 14:23-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -129,6 +129,10 @@ msgstr "Edición cancelada"
 #: ../content/pod_template.py:67
 msgid "Enabled"
 msgstr "Activo"
+
+#: ../browser/views.py:192
+msgid "Error"
+msgstr ""
 
 #: ../browser/generation_view.py:307
 msgid "Error when merging context_variables in generation context"
@@ -404,6 +408,10 @@ msgstr "El panel de control de configuración del Generador de documentos"
 msgid "These context variables are added to the odt_file context."
 msgstr "Esas variables de contexto son añadidas al contexto del odt_file o plantilla Open Document."
 
+#: ../browser/check_pod_templates.pt:28
+msgid "Used object"
+msgstr ""
+
 #: ../content/pod_template.py:195
 msgid "Value"
 msgstr "Valor"
@@ -431,6 +439,35 @@ msgstr "Usted ha declarado el mismo nombre de variable dos veces: '${name}'"
 #: ../content/pod_template.py:350
 msgid "You must select an odt file or an existing pod template"
 msgstr "Usted debe seleccionar un archivo Open Document o 'Elegir una plantilla de documento POD existente para reutilizar'"
+
+#: ../browser/views.py:200
+msgid "check_pod_template_clean"
+msgstr ""
+
+#: ../browser/views.py:195
+msgid "check_pod_template_error"
+msgstr ""
+
+#: ../browser/views.py:196
+msgid "check_pod_template_no_obj_found"
+msgstr ""
+
+#: ../browser/views.py:197
+msgid "check_pod_template_no_pod_portal_types"
+msgstr ""
+
+#: ../browser/views.py:198
+msgid "check_pod_template_not_enabled"
+msgstr ""
+
+#: ../browser/views.py:199
+msgid "check_pod_template_not_managed"
+msgstr ""
+
+#. Default: "Check Pod templates"
+#: ../browser/check_pod_templates.pt:13
+msgid "check_pod_templates"
+msgstr ""
 
 #: ../profiles.zcml:15
 msgid "collective.documentgenerator"
