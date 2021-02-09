@@ -204,6 +204,30 @@ class ExistingPODTemplateFactory(object):
         return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
 
 
+class AllPODTemplateFactory(object):
+    """
+    Vocabulary factory with all existing_pod_templates.
+    """
+
+    def __call__(self, context):
+        voc_terms = []
+
+        for brain in self._get_all_pod_templates():
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+
+        return SimpleVocabulary(voc_terms)
+
+    def _get_all_pod_templates(self):
+        brains = []
+        catalog = api.portal.get_tool('portal_catalog')
+        for brain in catalog(object_provides=IConfigurablePODTemplate.__identifier__):
+            brains.append(brain)
+        return brains
+
+    def _renderTermTitle(self, brain):
+        return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
+
+
 class CSVFieldDelimiterFactory(object):
     def __call__(self, context):
         voc_terms = []

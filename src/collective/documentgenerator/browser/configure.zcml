@@ -48,6 +48,15 @@
         />
 
     <browser:page
+        name="collective.documentgenerator-migratepanel"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class="collective.documentgenerator.browser.migratepanel.DocumentGeneratorMigrate"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
+        template="migratepanel.pt"
+        />
+
+    <browser:page
         for="collective.documentgenerator.content.pod_template.IPODTemplate"
         name="dg-reset-md5"
         class=".views.ResetMd5"
@@ -175,6 +184,9 @@
         provides="z3c.table.interfaces.IColumn"
         factory=".table.DownloadColumn"
         />
+
+
+    <adapter factory=".migratepanel.DocumentGeneratorMigratePanelAdapter"/>
 
     <!-- batchactions -->
     <browser:viewlet
