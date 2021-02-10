@@ -115,6 +115,15 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
         IStatusMessage(self.request).addStatusMessage(_(u'Changes saved'), 'info')
         self.context.REQUEST.RESPONSE.redirect('@@collective.documentgenerator-controlpanel')
 
+    @button.buttonAndHandler(_('Check Pod Templates'), name='checkPod')
+    def handleCheckPod(self, action):
+        self.request.response.redirect(
+            '{context_url}/{view}'.format(
+                context_url=self.context.absolute_url(),
+                view="@@check-pod-templates"
+            )
+        )
+
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
         IStatusMessage(self.request).addStatusMessage(_(u'Edit cancelled'), 'info')

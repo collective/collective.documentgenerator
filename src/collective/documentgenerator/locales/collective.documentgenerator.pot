@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-10 13:21+0000\n"
+"POT-Creation-Date: 2021-02-10 14:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,12 +62,16 @@ msgstr ""
 msgid "Can't import python uno library with the python path"
 msgstr ""
 
-#: ../browser/controlpanel.py:118
+#: ../browser/controlpanel.py:127
 msgid "Cancel"
 msgstr ""
 
 #: ../browser/controlpanel.py:115
 msgid "Changes saved"
+msgstr ""
+
+#: ../browser/controlpanel.py:118
+msgid "Check Pod Templates"
 msgstr ""
 
 #: ../content/pod_template.py:247
@@ -94,6 +98,10 @@ msgstr ""
 msgid "Context variables."
 msgstr ""
 
+#: ../browser/views.py:353
+msgid "Could not check"
+msgstr ""
+
 #: ../utils.py:78
 msgid "Dict update collision on key"
 msgstr ""
@@ -116,7 +124,7 @@ msgstr ""
 msgid "Document Generator settings"
 msgstr ""
 
-#: ../browser/controlpanel.py:120
+#: ../browser/controlpanel.py:129
 msgid "Edit cancelled"
 msgstr ""
 
@@ -125,7 +133,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/views.py:229
+#: ../browser/views.py:253
 msgid "Error"
 msgstr ""
 
@@ -253,10 +261,6 @@ msgstr ""
 
 #: ../browser/children_pod_template.pt:14
 msgid "None"
-msgstr ""
-
-#: ../browser/views.py:307
-msgid "Could not check"
 msgstr ""
 
 #: ../content/vocabulary.py:103
@@ -437,27 +441,27 @@ msgstr ""
 msgid "You must select an odt file or an existing pod template"
 msgstr ""
 
-#: ../browser/views.py:313
+#: ../browser/views.py:359
 msgid "check_pod_template_clean"
 msgstr ""
 
-#: ../browser/views.py:308
+#: ../browser/views.py:354
 msgid "check_pod_template_error"
 msgstr ""
 
-#: ../browser/views.py:309
+#: ../browser/views.py:355
 msgid "check_pod_template_no_obj_found"
 msgstr ""
 
-#: ../browser/views.py:310
+#: ../browser/views.py:356
 msgid "check_pod_template_no_pod_portal_types"
 msgstr ""
 
-#: ../browser/views.py:311
+#: ../browser/views.py:357
 msgid "check_pod_template_not_enabled"
 msgstr ""
 
-#: ../browser/views.py:312
+#: ../browser/views.py:358
 msgid "check_pod_template_not_managed"
 msgstr ""
 
