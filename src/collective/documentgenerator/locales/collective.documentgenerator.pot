@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-09 12:05+0000\n"
+"POT-Creation-Date: 2021-02-10 13:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../browser/views.py:192
+#: ../browser/views.py:229
 msgid "Error"
 msgstr ""
 
@@ -253,6 +253,10 @@ msgstr ""
 
 #: ../browser/children_pod_template.pt:14
 msgid "None"
+msgstr ""
+
+#: ../browser/views.py:307
+msgid "Could not check"
 msgstr ""
 
 #: ../content/vocabulary.py:103
@@ -433,27 +437,27 @@ msgstr ""
 msgid "You must select an odt file or an existing pod template"
 msgstr ""
 
-#: ../browser/views.py:200
+#: ../browser/views.py:313
 msgid "check_pod_template_clean"
 msgstr ""
 
-#: ../browser/views.py:195
+#: ../browser/views.py:308
 msgid "check_pod_template_error"
 msgstr ""
 
-#: ../browser/views.py:196
+#: ../browser/views.py:309
 msgid "check_pod_template_no_obj_found"
 msgstr ""
 
-#: ../browser/views.py:197
+#: ../browser/views.py:310
 msgid "check_pod_template_no_pod_portal_types"
 msgstr ""
 
-#: ../browser/views.py:198
+#: ../browser/views.py:311
 msgid "check_pod_template_not_enabled"
 msgstr ""
 
-#: ../browser/views.py:199
+#: ../browser/views.py:312
 msgid "check_pod_template_not_managed"
 msgstr ""
 

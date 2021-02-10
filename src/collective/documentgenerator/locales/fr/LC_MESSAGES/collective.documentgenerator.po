@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-02-09 12:05+0000\n"
+"POT-Creation-Date: 2021-02-10 13:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,7 +125,7 @@ msgstr "Édition annulée"
 msgid "Enabled"
 msgstr "Activé"
 
-#: ../browser/views.py:192
+#: ../browser/views.py:229
 msgid "Error"
 msgstr "Erreur"
 
@@ -255,6 +255,10 @@ msgstr "Aucun format sélectionné"
 #: ../browser/children_pod_template.pt:14
 msgid "None"
 msgstr "Aucun"
+
+#: ../browser/views.py:307
+msgid "Could not check"
+msgstr "N'a pas pu être vérifié"
 
 #: ../content/vocabulary.py:103
 msgid "Nothing"
@@ -434,27 +438,27 @@ msgstr "Vous avez déclaré 2 fois le même nom de variable: ${list}"
 msgid "You must select an odt file or an existing pod template"
 msgstr "Un des champs 'Canevas' ou 'Choisir un modèle de document POD existant à réutiliser' doit être rempli."
 
-#: ../browser/views.py:200
+#: ../browser/views.py:313
 msgid "check_pod_template_clean"
 msgstr "Modèles propres"
 
-#: ../browser/views.py:195
+#: ../browser/views.py:308
 msgid "check_pod_template_error"
 msgstr "Modèles avec erreurs"
 
-#: ../browser/views.py:196
+#: ../browser/views.py:309
 msgid "check_pod_template_no_obj_found"
 msgstr "Aucun objet trouvé"
 
-#: ../browser/views.py:197
+#: ../browser/views.py:310
 msgid "check_pod_template_no_pod_portal_types"
 msgstr "Champ \"Types de contenu autorisés\" non renseigné"
 
-#: ../browser/views.py:198
+#: ../browser/views.py:311
 msgid "check_pod_template_not_enabled"
 msgstr "Modèles désactivés"
 
-#: ../browser/views.py:199
+#: ../browser/views.py:312
 msgid "check_pod_template_not_managed"
 msgstr "Vérification non prise en charge"
 

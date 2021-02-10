@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
+import plone
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from collective.documentgenerator.browser.table import TemplatesTable
-from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.content.pod_template import IPODTemplate, MailingLoopTemplate, SubTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from collective.documentgenerator.utils import translate as _
 from OFS.interfaces import IOrderedContainer
 from plone import api
+from plone.app.uuid.utils import uuidToObject
 from plone.dexterity.browser.edit import DefaultEditForm
 from plone.dexterity.browser.view import DefaultView
 from Products.Five import BrowserView
@@ -18,7 +20,7 @@ from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
 from zope.component.hooks import getSite
 from zope.contentprovider.provider import ContentProviderBase
-from zope.interface import implementer
+from zope.interface import implementer, alsoProvides
 
 import os
 
@@ -144,65 +146,121 @@ class CheckPodTemplatesView(BrowserView):
         self.request = request
 
     def __call__(self):
-        '''Generate Pod Templates and check if some are genering errors.'''
-        self.messages = self.manage_messages()
+        # Disable CSRF protection for this request
+        if "IDisableCSRFProtection" in dir(plone.protect.interfaces):
+            alsoProvides(self.request, plone.protect.interfaces.IDisableCSRFProtection)
+
+        self.error = []
+        self.no_obj_found = []
+        self.no_pod_portal_types = []
+        self.not_enabled = []
+        self.not_managed = []
+        self.clean = []
+        self.mailing_loop_templates = {}
+        self.sub_templates = {}
+        self.left_to_verify = self.find_pod_templates()
+        self.check_all_pod_templates()
+        self.messages = self.manage_messages
         return self.index()
 
-    def manage_messages(self):
-        ''' '''
-        error = []
-        no_obj_found = []
-        no_pod_portal_types = []
-        not_enabled = []
-        not_managed = []
-        clean = []
+    def excluded_portal_types(self):
+        return ('StyleTemplate')
 
-        pod_templates = self.find_pod_templates()
+    def check_all_pod_templates(self):
+        pod_templates = list(self.left_to_verify)
+
         for pod_template in pod_templates:
 
             if not pod_template.enabled:
-                not_enabled.append((pod_template, None))
+                self.not_enabled.append((pod_template, None))
                 continue
 
             # we do not manage 'StyleTemplate' automatically for now...
-            if pod_template.portal_type in ('StyleTemplate', 'DashboardPODTemplate',
-                                            'SubTemplate', 'MailingLoopTemplate'):
-                not_managed.append((pod_template, None))
+            if pod_template.portal_type in self.excluded_portal_types():
+                self.not_managed.append((pod_template, None))
+                self.left_to_verify.remove(pod_template)
                 continue
 
-            # here we have a 'ConfigurablePODTemplate'
+            if isinstance(pod_template, MailingLoopTemplate):
+                self.mailing_loop_templates[pod_template.UID()] = pod_template
+                continue
+
+            if isinstance(pod_template, SubTemplate):
+                self.sub_templates[pod_template.UID()] = pod_template
+                continue
+
             if hasattr(pod_template, 'pod_portal_types') and not pod_template.pod_portal_types:
-                no_pod_portal_types.append((pod_template, None))
+                self.no_pod_portal_types.append((pod_template, None))
+                self.left_to_verify.remove(pod_template)
                 continue
 
             objs = self.find_context_for(pod_template)
             if not objs:
-                no_obj_found.append((pod_template, None))
+                self.no_obj_found.append((pod_template, None))
+                self.left_to_verify.remove(pod_template)
                 continue
 
             for obj in objs:
                 self.request.set('template_uid', pod_template.UID())
-                view = obj.restrictedTraverse('@@document-generation')
                 if hasattr(pod_template, "pod_formats"):
                     output_format = pod_template.pod_formats[0]
                 else:
                     output_format = 'odt'
                 self.request.set('output_format', output_format)
-                try:
-                    view()
-                    view._generate_doc(pod_template, output_format=output_format, raiseOnError=True)
-                    clean.append((pod_template, obj))
-                except Exception as exc:
-                    error.append((pod_template, obj, (_('Error'), exc.message)))
 
-        messages = OrderedDict()
-        messages[_('check_pod_template_error')] = error
-        messages[_('check_pod_template_no_obj_found')] = no_obj_found
-        messages[_('check_pod_template_no_pod_portal_types')] = no_pod_portal_types
-        messages[_('check_pod_template_not_enabled')] = not_enabled
-        messages[_('check_pod_template_not_managed')] = not_managed
-        messages[_('check_pod_template_clean')] = clean
-        return messages
+                self.check_pod_template(pod_template, obj, output_format)
+
+                if hasattr(pod_template, "merge_templates") and pod_template.merge_templates:
+                    for merged_template in pod_template.merge_templates:
+                        sub_template_uid = merged_template['template']
+                        if sub_template_uid not in self.sub_templates:
+                            self.sub_templates[sub_template_uid] = uuidToObject(sub_template_uid)
+                        self.clean.append((self.sub_templates[sub_template_uid], obj))
+                        if self.sub_templates[sub_template_uid] in self.left_to_verify:
+                            self.left_to_verify.remove(self.sub_templates[sub_template_uid])
+
+                if hasattr(pod_template, "mailing_loop_template") and pod_template.mailing_loop_template:
+                    self.check_mailing_loop(pod_template, obj, output_format)
+
+    def check_pod_template(self, pod_template, obj, output_format):
+        try:
+            view = obj.restrictedTraverse('@@document-generation')
+            view()
+            view._generate_doc(pod_template, output_format=output_format, raiseOnError=True)
+            self.clean.append((pod_template, obj))
+
+        except Exception as exc:
+            self.error.append((pod_template, obj, (_('Error'), str(exc))))
+        self.left_to_verify.remove(pod_template)
+
+    def check_mailing_loop(self, mailed_template, obj, output_format):
+        folder = api.content.create(type='Folder', title=u'Folder', id='temp_folder', container=self.context)
+
+        def do_nothing(ignored_param):
+            pass
+
+        mailing_loop_template_uid = mailed_template.mailing_loop_template
+        try:
+            if mailing_loop_template_uid not in self.mailing_loop_templates.keys():
+                mailing_loop_template = uuidToObject(mailing_loop_template_uid)
+                self.mailing_loop_templates[mailing_loop_template_uid] = mailing_loop_template
+            generation_view = folder.restrictedTraverse('@@persistent-document-generation')
+            generation_view.redirects = do_nothing
+            generation_view(mailed_template.UID(), 'odt')
+            persistant_doc = folder.listFolderContents()[0]
+            view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
+            view.redirects = do_nothing
+            view(document_uid=persistant_doc.UID())
+            # double check anyway just in case there is an error inside the result file
+            view._generate_doc(self.mailing_loop_templates[mailing_loop_template_uid],
+                               output_format=output_format, raiseOnError=True)
+
+            self.clean.append((self.mailing_loop_templates[mailing_loop_template_uid], obj))
+        except Exception as exc:
+            self.error.append((self.mailing_loop_templates[mailing_loop_template_uid], obj, (_('Error'), str(exc))))
+        finally:
+            api.content.delete(obj=folder)
+        self.left_to_verify.remove(self.mailing_loop_templates[mailing_loop_template_uid])
 
     def find_pod_templates(self):
         """
@@ -245,3 +303,16 @@ class CheckPodTemplatesView(BrowserView):
         if found_context:
             res.append(found_context)
         return res
+
+    @property
+    def manage_messages(self):
+        messages = OrderedDict()
+        for left_over in self.left_to_verify:
+            self.no_obj_found.append((left_over, _('Could not check')))
+        messages[_('check_pod_template_error')] = self.error
+        messages[_('check_pod_template_no_obj_found')] = self.no_obj_found
+        messages[_('check_pod_template_no_pod_portal_types')] = self.no_pod_portal_types
+        messages[_('check_pod_template_not_enabled')] = self.not_enabled
+        messages[_('check_pod_template_not_managed')] = self.not_managed
+        messages[_('check_pod_template_clean')] = self.clean
+        return messages
