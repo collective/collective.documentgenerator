@@ -350,7 +350,7 @@ class CheckPodTemplatesView(BrowserView):
     def manage_messages(self):
         messages = OrderedDict()
         for left_over in self.left_to_verify:
-            self.no_obj_found.append((left_over, _("Could not check")))
+            self.error.append((left_over, None, (_("Error"), _("Could not check"))))
         messages[_("check_pod_template_error")] = self.error
         messages[_("check_pod_template_no_obj_found")] = self.no_obj_found
         messages[_("check_pod_template_no_pod_portal_types")] = self.no_pod_portal_types
