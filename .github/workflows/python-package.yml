@@ -40,7 +40,7 @@ jobs:
         run: |
           sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" test-ci.cfg
           virtualenv -p `which python` .
-          bin/pip install -r requirements.txt coverage==5.3.1
+          bin/pip install -r requirements.txt coverage==5.3.1 coveralls
           bin/buildout -c test-ci.cfg annotate
           bin/buildout -c test-ci.cfg
           bin/translation-manage -c
@@ -51,10 +51,7 @@ jobs:
       - name: coverage test
         run: |
           bin/coverage run bin/test --test=\!"robot"
-      - name: coverage
-        run: |
-          coverage json -i
       - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --service=github
