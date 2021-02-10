@@ -40,18 +40,20 @@ jobs:
         run: |
           sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" test-ci.cfg
           virtualenv -p `which python` .
-          bin/pip install -r requirements.txt coverage==5.3.1 coveralls
+          bin/pip install -r requirements.txt coverage==5.3.1
           bin/buildout -c test-ci.cfg annotate
           bin/buildout -c test-ci.cfg
           bin/translation-manage -c
-      - name: test
+      - name: code-analysis
         run: |
           bin/code-analysis
-          bin/test
-      - name: coverage test
+      - name: test
         run: |
           bin/coverage run bin/test --test=\!"robot"
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls --service=github
+        run: |
+          sudo apt-get install -qqy python3-dev
+          python3 -m pip install -U pip setuptools docopt coveralls
+          coveralls --service=github
