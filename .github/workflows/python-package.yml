@@ -8,7 +8,22 @@ on:
   pull_request:
 
 jobs:
-  build:
+  setup:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup Env
+        run: |
+          sudo apt update -qq -y
+          sudo apt-get install -qq -y python2.7-dev virtualenv python-pip python3-dev python3-pip libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
+          sudo apt-get autoremove -qq -y
+          sudo apt-get autoclean -qq -y
+          mkdir -p buildout-cache/{eggs,downloads}
+          mkdir $HOME/tmp
+          chmod 777 $HOME/tmp
+          export TMPDIR=$HOME/tmp
+          make startlibreoffice
+  test:
+    needs: setup
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -17,17 +32,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Env
-        run: |
-          sudo apt update -qq -y
-          sudo apt-get install -qq -y python2.7-dev virtualenv python-pip libfreetype6-dev liblcms2-dev make libreoffice libreoffice-script-provider-python
-          sudo apt-get autoremove -qq -y
-          sudo apt-get autoclean -qq -y
-          mkdir -p buildout-cache/{eggs,downloads}
-          mkdir $HOME/tmp
-          chmod 777 $HOME/tmp
-          export TMPDIR=$HOME/tmp
-          make startlibreoffice
       - name: Cache eggs
         uses: actions/cache@v2
         env:
@@ -50,10 +54,18 @@ jobs:
       - name: test
         run: |
           bin/coverage run bin/test --test=\!"robot"
-      - name: Coveralls
+  coveralls:
+    needs: test
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Install Coveralls
+        run: |
+          sudo apt-get purge -qqy python2.7-dev virtualenv python-pip
+          sudo apt-get install -qqy python3-dev python3-pip
+          rm -rf ~/.cache/pip
+          pip install -U pip setuptools "coveralls>=3.0.0" --no-cache-dir
+      - name: Publish to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sudo apt-get install -qqy python3-dev
-          python3 -m pip install -U pip setuptools docopt coveralls
           coveralls --service=github
