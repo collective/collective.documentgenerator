@@ -4,10 +4,12 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="collective.documentgenerator">
 
 <metal:block fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)"/>
+
+
 
 <body>
 <div id="content" metal:fill-slot="prefs_configlet_content">
@@ -20,16 +22,16 @@
 
     <div class="portlet" tal:condition="python: bool(view.get_preview_table())">
         <div class="portletHeader">
-            <span class="portletTitle">Preview</span>
+            <span class="portletTitle" i18n:translate="">Preview</span>
         </div>
         <table class="datagridwidget-table-view"
                tal:define="templates python:view.get_preview_table().items()">
             <thead>
             <tr>
-                <th class="header">
-                    Statement
+                <th class="header" i18n:translate="">
+                    POD expression
                 </th>
-                <th class="header">
+                <th class="header" i18n:translate="">
                     Match
                 </th>
             </tr>
@@ -39,15 +41,16 @@
                 <tr class="header">
                     <td colspan="3">
                         <div class="search-group">
-                            <span tal:content="python:template[0]" />
+                            <span tal:content="python:template[0]"/>
                         </div>
                     </td>
                 </tr>
                 <tal:block repeat="result python:template[1]">
-                <tr>
-                    <td><span class="search-cell" tal:content="structure python:result['pod_expr']"/></td>
-                    <td><span class="search-cell" tal:content="python:result['match']"/></td>
-                </tr>
+                    <tr>
+                        <td><span class="search-cell"
+                                  tal:content="structure python:result['pod_expr']"/></td>
+                        <td><span class="search-cell" tal:content="python:result['match']"/></td>
+                    </tr>
                 </tal:block>
             </tal:block>
             </tbody>
@@ -56,19 +59,19 @@
 
     <div class="portlet" tal:condition="python: bool(view.get_results_table())">
         <div class="portletHeader">
-            <span class="portletTitle">Results</span>
+            <span class="portletTitle" i18n:translate="">Results</span>
         </div>
         <table class="datagridwidget-table-view"
                tal:define="templates python:view.get_results_table().items()">
             <thead>
             <tr>
-                <th class="header">
+                <th class="header" i18n:translate="">
                     POD expression
                 </th>
-                <th class="header">
+                <th class="header" i18n:translate="">
                     Match
                 </th>
-                <th class="header">
+                <th class="header" i18n:translate="">
                     Replaced by
                 </th>
             </tr>
@@ -78,19 +81,22 @@
                 <tr class="header">
                     <td colspan="3">
                         <div class="search-group">
-                            <span tal:content="python:template[0]" />
+                            <span tal:content="python:template[0]"/>
                         </div>
                     </td>
                 </tr>
                 <tal:block repeat="result python:template[1]">
-                <tr>
-                    <td>
-                        <b>Before:</b><span class="search-cell" tal:content="structure python:result['old_pod_expr']"/>
-                        <b>After:</b><span class="search-cell" tal:content="python:result['new_pod_expr']"/>
-                    </td>
-                    <td><span class="search-cell" tal:content="python:result['match']"/></td>
-                    <td><span class="search-cell" tal:content="python:result['replaced_by']"/></td>
-                </tr>
+                    <tr>
+                        <td>
+                            <b i18n:translate="">Before:</b><span class="search-cell"
+                                                                  tal:content="structure python:result['old_pod_expr']"/>
+                            <b i18n:translate="">After:</b><span class="search-cell"
+                                                                 tal:content="python:result['new_pod_expr']"/>
+                        </td>
+                        <td><span class="search-cell" tal:content="python:result['match']"/></td>
+                        <td><span class="search-cell" tal:content="python:result['replaced_by']"/>
+                        </td>
+                    </tr>
                 </tal:block>
             </tal:block>
             </tbody>

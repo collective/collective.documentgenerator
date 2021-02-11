@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from collections import OrderedDict
 
 from collective.documentgenerator.helper.search_replace import PODTemplateSearchReplace
@@ -20,7 +21,14 @@ class IReplacementRowSchema(interface.Interface):
     Schema for DataGridField widget's row of field 'replacements'
     """
 
-    search_expr = schema.TextLine(title=_(u"Search"), required=True, default=u"")
+    def is_valid_regex(value):
+        try:
+            re.compile(value)
+            return True
+        except re.error:
+            return False
+
+    search_expr = schema.TextLine(title=_(u"Search"), required=True, default=u"", constraint=is_valid_regex)
     replace_expr = schema.TextLine(title=_(u"Replace"), required=False, default=u"")
 
     directives.widget("include", SingleCheckBoxFieldWidget)
@@ -34,7 +42,7 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
 
     selected_templates = schema.List(
         title=_(u"heading_selected_templates", default=u"Selected templates"),
-        description=_(u"description_selected_templates", default=u"Select which templates."),
+        description=_(u"description_selected_templates", default=u""),
         required=False,
         default=[],
         missing_value=[],
@@ -74,21 +82,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = self.formErrorsMessage
             return
 
-        for template_uuid in data["selected_templates"]:  # TODO : Extract me elsewhere !
-            template = uuidToObject(template_uuid)
-            template_path = get_site_root_relative_path(template)
-            self.results_table[template_path] = []
-            with PODTemplateSearchReplace(template) as search_replace:
-                for replacement in data["replacements"]:
-                    replace_results = search_replace.replace(
-                        replacement["search_expr"], replacement["replace_expr"]
-                    )
-                    for replace_result in replace_results:
-                        replace_result["old_pod_expr"] = self.highlight_pod_expr(
-                            replace_result["old_pod_expr"], replace_result["match_start"],
-                            replace_result["match_end"]
-                        )
-                        self.results_table[template_path].append(replace_result)
+        self.perform_replacements(data)
         return self.render()
 
     @button.buttonAndHandler(_("Preview"), name="preview")
@@ -97,24 +91,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         if errors:
             self.status = self.formErrorsMessage
             return
-        search_expr = self.get_search_exprs(data["replacements"])
-
-        if len(search_expr) == 0:
-            self.status = _("Nothing to preview.")
-            return
-
-        for template_uuid in data["selected_templates"]:  # TODO : Extract me elsewhere !
-            template = uuidToObject(template_uuid)
-            template_path = get_site_root_relative_path(template)
-            self.preview_table[template_path] = []
-            with PODTemplateSearchReplace(template) as search_replace:
-                search_results = search_replace.search(search_expr)
-                for search_result in search_results:
-                    search_result["pod_expr"] = self.highlight_pod_expr(
-                        search_result["pod_expr"], search_result["match_start"], search_result["match_end"]
-                    )
-                    self.preview_table[template_path].append(search_result)
-
+        self.perform_preview(data)
         return self.render()
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
@@ -140,6 +117,45 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     def highlight_pod_expr(self, pod_expr, start, end):
         return pod_expr[:start] + "<b class='highlight'>" + pod_expr[start:end] + "</b>" + pod_expr[end:]
+
+    def perform_replacements(self, form_data):
+        for template_uuid in form_data["selected_templates"]:
+            template = uuidToObject(template_uuid)
+            template_path = get_site_root_relative_path(template)
+            self.results_table[template_path] = []
+            with PODTemplateSearchReplace(template) as search_replace:
+                for replacement in form_data["replacements"]:
+                    if replacement["replace_expr"] is None:
+                        replacement["replace_expr"] = ""
+
+                    replace_results = search_replace.replace(
+                        replacement["search_expr"], replacement["replace_expr"]
+                    )
+                    for replace_result in replace_results:
+                        replace_result["old_pod_expr"] = self.highlight_pod_expr(
+                            replace_result["old_pod_expr"], replace_result["match_start"],
+                            replace_result["match_end"]
+                        )
+                        self.results_table[template_path].append(replace_result)
+
+    def perform_preview(self, form_data):
+        search_expr = self.get_search_exprs(form_data["replacements"])
+        if len(search_expr) == 0:
+            self.status = _("Nothing to preview.")
+            return
+
+        for template_uuid in form_data["selected_templates"]:
+            template = uuidToObject(template_uuid)
+            template_path = get_site_root_relative_path(template)
+            self.preview_table[template_path] = []
+            with PODTemplateSearchReplace(template) as search_replace:
+                search_results = search_replace.search(search_expr)
+                for search_result in search_results:
+                    search_result["pod_expr"] = self.highlight_pod_expr(
+                        search_result["pod_expr"], search_result["match_start"],
+                        search_result["match_end"]
+                    )
+                    self.preview_table[template_path].append(search_result)
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):

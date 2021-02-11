@@ -29,6 +29,9 @@ src/collective.excelexport
 # Installer logs
 pip-log.txt
 
+# Any log file
+*.log
+
 # Unit test / coverage reports
 .coverage
 .tox

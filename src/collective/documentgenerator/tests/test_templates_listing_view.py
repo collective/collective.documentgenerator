@@ -27,27 +27,27 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         self.assertTrue(self.view.local_search)
         self.view()
         # we found 11 example templates + 1 sub_template
-        self.assertEqual(len(self.view.table.results_list), 12)
+        self.assertEqual(len(self.view.table.results), 12)
 
         self.view(local_search=True, search_depth=1)
         # we found 11 example templates
-        self.assertEqual(len(self.view.table.results_list), 11)
+        self.assertEqual(len(self.view.table.results), 11)
 
         self.view(local_search=False, search_depth=1)
         # we found all existing templates
-        self.assertEqual(len(self.view.table.results_list), 13)
+        self.assertEqual(len(self.view.table.results), 13)
 
         self.view.request.set('local_search', '1')
         self.view.request.set('search_depth', '1')
         self.view()
         # we found 11 example templates
-        self.assertEqual(len(self.view.table.results_list), 11)
+        self.assertEqual(len(self.view.table.results), 11)
 
         # check order
         self.view(local_search=False)
         # we found all existing templates
         self.assertListEqual(
-            [o.id for o in self.view.table.results_list],
+            [o.id for o in self.view.table.results],
             ['other_template',
              'test_style_template',
              'test_style_template_2',
