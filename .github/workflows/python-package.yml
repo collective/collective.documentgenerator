@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python
+      - name: Set up Python 2
         uses: actions/setup-python@v2
         with:
           python-version: 2.7
@@ -56,6 +56,10 @@ jobs:
       - name: test
         run: |
           bin/coverage run bin/test --test=\!"robot"
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Install Coveralls
         run: |
           pip3 install -U pip setuptools --no-cache-dir
