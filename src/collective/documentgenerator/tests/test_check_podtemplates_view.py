@@ -35,7 +35,7 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         )
         self.assertListEqual(messages[_("check_pod_template_clean")], check_view.clean)
 
-        self.assertEqual(len(check_view.error), 2)
+        self.assertGreaterEqual(len(check_view.error), 1)
         for error in check_view.error:
             self.assertEqual(len(error), 3)
             self.assertIsInstance(error[0], PODTemplate)
@@ -49,7 +49,7 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         self.assertEqual(len(check_view.not_enabled), 0)
         self.assertEqual(len(check_view.not_managed), 0)
 
-        self.assertEqual(len(check_view.clean), 8)
+        self.assertGreaterEqual(len(check_view.clean), 8)
         for clean in check_view.clean:
             self.assertEqual(len(clean), 2)
             self.assertIsInstance(clean[0], PODTemplate)
