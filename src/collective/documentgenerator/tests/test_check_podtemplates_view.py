@@ -12,18 +12,27 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
     def setUp(self):
         super(TestCheckPodTemplatesView, self).setUp()
 
-    def test_view_check_pod_tamplates_message(self):
-        check_view = self.portal.restrictedTraverse('@@check-pod-templates')
-        html_view = check_view()
+    def test_view_check_pod_templates_message(self):
+        check_view = self.portal.restrictedTraverse("@@check-pod-templates")
+        check_view()
         messages = check_view.messages
 
         self.assertEqual(len(messages), 6)
         self.assertEqual(len(check_view.left_to_verify), 0)
         self.assertListEqual(messages[_("check_pod_template_error")], check_view.error)
-        self.assertListEqual(messages[_("check_pod_template_no_obj_found")], check_view.no_obj_found)
-        self.assertListEqual(messages[_("check_pod_template_no_pod_portal_types")], check_view.no_pod_portal_types)
-        self.assertListEqual(messages[_("check_pod_template_not_enabled")], check_view.not_enabled)
-        self.assertListEqual(messages[_("check_pod_template_not_managed")], check_view.not_managed)
+        self.assertListEqual(
+            messages[_("check_pod_template_no_obj_found")], check_view.no_obj_found
+        )
+        self.assertListEqual(
+            messages[_("check_pod_template_no_pod_portal_types")],
+            check_view.no_pod_portal_types,
+        )
+        self.assertListEqual(
+            messages[_("check_pod_template_not_enabled")], check_view.not_enabled
+        )
+        self.assertListEqual(
+            messages[_("check_pod_template_not_managed")], check_view.not_managed
+        )
         self.assertListEqual(messages[_("check_pod_template_clean")], check_view.clean)
 
         self.assertEqual(len(check_view.error), 2)
@@ -51,6 +60,3 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         brains = catalog(object_provides=IPODTemplate.__identifier__)
         total_nb_checked = len(check_view.error) + len(check_view.clean)
         self.assertGreaterEqual(total_nb_checked, len(brains))
-
-
-
