@@ -169,7 +169,7 @@ class CheckPodTemplatesView(BrowserView):
         return self.index()
 
     def excluded_portal_types(self):
-        return "StyleTemplate"
+        return ["StyleTemplate", ]
 
     def check_all_pod_templates(self):
         pod_templates = list(self.left_to_verify)
