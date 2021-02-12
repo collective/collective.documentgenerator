@@ -178,6 +178,7 @@ class CheckPodTemplatesView(BrowserView):
 
             if not pod_template.enabled:
                 self.not_enabled.append((pod_template, None))
+                self.left_to_verify.remove(pod_template)
                 continue
 
             # we do not manage 'StyleTemplate' automatically for now...
