@@ -400,8 +400,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
     def test_set_generated_document_title(self):
         """
-        By default, this will get template title for output file title.
-        If a generated_doc_title is set, this title must be the output file title
+        By default, the template title is the output file title.
+        If a generated_doc_title is set, the title must be the generated_doc_title value
         """
         pod_template = self.test_podtemplate
         template_uid = pod_template.UID()
