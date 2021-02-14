@@ -203,7 +203,6 @@ class SearchAndReplacePODTemplates(SearchPODTemplates):
             os.mkdir(self.tmp_dir)
         self.backup_dir = os.path.join(self.tmp_dir, '{}-backup'.format(str(datetime.datetime.today())))
         os.mkdir(self.backup_dir)
-        self.replaced_files = set()
 
     def run(self, find_expr='', replace_expr=''):
         """

@@ -244,6 +244,7 @@ class SearchAndReplaceSitePODTemplates(SearchSitePODTemplates, SearchAndReplaceP
         """
         """
         # templates to effectively replace
+        self.replaced_files = set()
         super(SearchAndReplaceSitePODTemplates, self).__init__(pod_templates, find_expr, ignorecase, recursive)
         super(SearchSitePODTemplates, self).__init__(find_expr, self.filenames_expr, replace_expr, ignorecase, recursive)
 
@@ -260,3 +261,11 @@ class SearchAndReplaceSitePODTemplates(SearchSitePODTemplates, SearchAndReplaceP
                 pod_template.odt_file = result
         # clean tmp file
         super(SearchAndReplaceSitePODTemplates, self).__exit__(exc_type, exc_value, traceback)
+
+    def replace(self, find_expr, replace_expr, search_results, target_dir):
+        new_files = super(SearchSitePODTemplates, self).replace(find_expr, replace_expr, search_results, target_dir)
+        # keep track of effectively changed files to push them back into the
+        # site
+        for new_file in new_files:
+            self.replaced_files.add(new_file.filename)
+        return new_files
