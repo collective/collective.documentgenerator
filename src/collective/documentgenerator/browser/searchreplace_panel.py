@@ -9,6 +9,7 @@ from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
 from plone.autoform import directives
 from plone.autoform.form import AutoExtensibleForm
+from plone.namedfile import NamedBlobFile
 from plone.z3cform.widget import SingleCheckBoxFieldWidget
 from z3c.form import button, form
 from zope import schema, interface, component
@@ -129,20 +130,26 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             templates.append(template)
             template_path = get_site_root_relative_path(template)
             self.preview_table[template_path] = []
-        with SearchSitePODTemplates(template) as search_replace:
+        with SearchAndReplaceSitePODTemplates(templates) as replace:
             for replacement in form_data["replacements"]:
-                if replacement["replace_expr"] is None:
-                    replacement["replace_expr"] = ""
+                replacement["replace_expr"] = replacement["replace_expr"] or ''
+                search_expr = replacement["search_expr"]
+                replace_expr = replacement["replace_expr"]
+                replace_results, new_files = replace.run(search_expr, replace_expr)
 
-                replace_results = search_replace.replace(
-                    replacement["search_expr"], replacement["replace_expr"]
-                )
-                for replace_result in replace_results:
-                    replace_result["old_pod_expr"] = self.highlight_pod_expr(
-                        replace_result["old_pod_expr"], replace_result["match_start"],
-                        replace_result["match_end"]
-                    )
-                    self.results_table[template_path].append(replace_result)
+                for filename, replace_result in replace_results.iteritems():
+                    template_path = replace.templates_by_filename[filename]['path']
+                    for match_pod_zone in replace_result[1]:
+                        pod_expr = match_pod_zone["XMLnode"].data
+                        for match in match_pod_zone['matches']:
+                            to_display = {'pod_expr': pod_expr}
+                            match_start = match.start()
+                            match_end = match.end()
+                            to_display['match'] = pod_expr[match_start:match_end]
+                            to_display["pod_expr"] = self.highlight_pod_expr(
+                                pod_expr, match_start, match_end
+                            )
+                            self.preview_table[template_path].append(to_display)
 
     def perform_preview(self, form_data):
         search_exprs = self.get_search_exprs(form_data["replacements"])
@@ -233,3 +240,25 @@ class SearchSitePODTemplates(SearchPODTemplates):
 class SearchAndReplaceSitePODTemplates(SearchSitePODTemplates, SearchAndReplacePODTemplates):
     """
     """
+    def __init__(self, pod_templates, find_expr='', replace_expr='', ignorecase=False, recursive=False, silent=False):
+        """
+        """
+        # templates to effectively replace
+        super(SearchAndReplaceSitePODTemplates, self).__init__(pod_templates, find_expr, ignorecase, recursive)
+        super(SearchSitePODTemplates, self).__init__(find_expr, self.filenames_expr, replace_expr, ignorecase, recursive)
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        # push the result back into the site pod templates
+        for filename in self.replaced_files:
+            with open(filename, "rb") as replaced_file:
+                pod_template = self.templates_by_filename[filename]['obj']
+                result = NamedBlobFile(
+                    data=replaced_file.read(),
+                    contentType=mimetypes.guess_type(filename),
+                    filename=pod_template.odt_file.filename,
+                )
+                pod_template.odt_file = result
+        # clean tmp file
+        for filename in self.filenames_expr:
+            if os.path.isfile(filename):
+                os.remove(filename)

@@ -203,13 +203,18 @@ class SearchAndReplacePODTemplates(SearchPODTemplates):
             os.mkdir(self.tmp_dir)
         self.backup_dir = os.path.join(self.tmp_dir, '{}-backup'.format(str(datetime.datetime.today())))
         os.mkdir(self.backup_dir)
+        self.replaced_files = set()
 
-    def run(self):
+    def run(self, find_expr='', replace_expr=''):
         """
         """
+        # we can run the replace again with a new find_expr and a new replace_expr
+        self.find_expr = find_expr and re.compile(find_expr, self.flags) or self.find_expr
+        self.replace_expr = replace_expr and replace_expr or self.replace_expr
+
         search_result = super(SearchAndReplacePODTemplates, self).run()
         new_files = self.replace(self.find_expr, self.replace_expr, search_result, self.target_dir)
-        return {'search_result': search_result, 'replaced_odfs': new_files}
+        return search_result, new_files
 
     def replace(self, find_expr, replace_expr, search_results, target_dir):
         """
@@ -225,6 +230,7 @@ class SearchAndReplacePODTemplates(SearchPODTemplates):
             newcontent = self.get_ODF_new_content(xml_tree, match_result, replace_expr)
             new_filename = target_dir and os.path.join(target_dir, backup_filename) or filename
             new_files.append(self.create_new_ODF(zip_file, newcontent, new_filename, target_dir))
+            self.replaced_files.add(filename)
         return new_files
 
     def create_new_ODF(self, old_odf, newcontent, new_odf_name, target_dir):
