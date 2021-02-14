@@ -229,7 +229,6 @@ class SearchAndReplacePODTemplates(SearchPODTemplates):
             newcontent = self.get_ODF_new_content(xml_tree, match_result, replace_expr)
             new_filename = target_dir and os.path.join(target_dir, backup_filename) or filename
             new_files.append(self.create_new_ODF(zip_file, newcontent, new_filename, target_dir))
-            self.replaced_files.add(filename)
         return new_files
 
     def create_new_ODF(self, old_odf, newcontent, new_odf_name, target_dir):
