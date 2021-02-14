@@ -20,7 +20,8 @@ class SearchPODTemplates(object):
         """
         """
         self.flags = ignorecase and re.I or 0
-        self.find_expr = re.compile(find_expr[0], self.flags)
+        find_expr = type(find_expr) in (list, tuple) and find_expr[0] or find_expr
+        self.find_expr = re.compile(find_expr, self.flags)
         self.filenames_expr = filenames_expr
         self.ignorecase = ignorecase
         self.recursive = recursive
@@ -29,7 +30,9 @@ class SearchPODTemplates(object):
     def run(self, find_expr=None):
         """
         """
-        self.find_expr = find_expr and re.compile(find_expr[0], self.flags) or self.find_expr
+        # we can run the search again with a new find_expr
+        self.find_expr = find_expr and re.compile(find_expr, self.flags) or self.find_expr
+
         files = self.find_files(self.filenames_expr, self.recursive)
         search_result = self.search(self.find_expr, files)
         return search_result

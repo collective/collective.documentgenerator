@@ -3,6 +3,7 @@ import re
 from collections import OrderedDict
 
 from collective.documentgenerator.helper.search_replace import SearchPODTemplates
+from collective.documentgenerator.helper.search_replace import SearchAndReplacePODTemplates
 from collective.documentgenerator.utils import get_site_root_relative_path
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
@@ -122,28 +123,30 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         return pod_expr[:start] + "<b class='highlight'>" + pod_expr[start:end] + "</b>" + pod_expr[end:]
 
     def perform_replacements(self, form_data):
+        templates = []
         for template_uuid in form_data["selected_templates"]:
             template = uuidToObject(template_uuid)
+            templates.append(template)
             template_path = get_site_root_relative_path(template)
-            self.results_table[template_path] = []
-            with SearchSitePODTemplates(template) as search_replace:
-                for replacement in form_data["replacements"]:
-                    if replacement["replace_expr"] is None:
-                        replacement["replace_expr"] = ""
+            self.preview_table[template_path] = []
+        with SearchSitePODTemplates(template) as search_replace:
+            for replacement in form_data["replacements"]:
+                if replacement["replace_expr"] is None:
+                    replacement["replace_expr"] = ""
 
-                    replace_results = search_replace.replace(
-                        replacement["search_expr"], replacement["replace_expr"]
+                replace_results = search_replace.replace(
+                    replacement["search_expr"], replacement["replace_expr"]
+                )
+                for replace_result in replace_results:
+                    replace_result["old_pod_expr"] = self.highlight_pod_expr(
+                        replace_result["old_pod_expr"], replace_result["match_start"],
+                        replace_result["match_end"]
                     )
-                    for replace_result in replace_results:
-                        replace_result["old_pod_expr"] = self.highlight_pod_expr(
-                            replace_result["old_pod_expr"], replace_result["match_start"],
-                            replace_result["match_end"]
-                        )
-                        self.results_table[template_path].append(replace_result)
+                    self.results_table[template_path].append(replace_result)
 
     def perform_preview(self, form_data):
-        search_expr = self.get_search_exprs(form_data["replacements"])
-        if len(search_expr) == 0:
+        search_exprs = self.get_search_exprs(form_data["replacements"])
+        if len(search_exprs) == 0:
             self.status = _("Nothing to preview.")
             return
 
@@ -155,20 +158,21 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.preview_table[template_path] = []
 
         with SearchSitePODTemplates(templates) as search:
-            search_results = search.run(search_expr)
-            for filename, search_result in search_results.iteritems():
-                template_path = search.templates_by_filename[filename]['path']
-                for match_pod_zone in search_result[1]:
-                    pod_expr = match_pod_zone["XMLnode"].data
-                    for match in match_pod_zone['matches']:
-                        to_display = {'pod_expr': pod_expr}
-                        match_start = match.start()
-                        match_end = match.end()
-                        to_display['match'] = pod_expr[match_start:match_end]
-                        to_display["pod_expr"] = self.highlight_pod_expr(
-                            pod_expr, match_start, match_end
-                        )
-                        self.preview_table[template_path].append(to_display)
+            for search_expr in search_exprs:
+                search_results = search.run(search_expr)
+                for filename, search_result in search_results.iteritems():
+                    template_path = search.templates_by_filename[filename]['path']
+                    for match_pod_zone in search_result[1]:
+                        pod_expr = match_pod_zone["XMLnode"].data
+                        for match in match_pod_zone['matches']:
+                            to_display = {'pod_expr': pod_expr}
+                            match_start = match.start()
+                            match_end = match.end()
+                            to_display['match'] = pod_expr[match_start:match_end]
+                            to_display["pod_expr"] = self.highlight_pod_expr(
+                                pod_expr, match_start, match_end
+                            )
+                            self.preview_table[template_path].append(to_display)
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
@@ -185,7 +189,7 @@ class SearchSitePODTemplates(SearchPODTemplates):
     """
     """
 
-    def __init__(self, pod_templates, find_expr=[''], ignorecase=False, recursive=False, silent=False):
+    def __init__(self, pod_templates, find_expr='', ignorecase=False, recursive=False, silent=False):
         """
         """
         self.pod_templates = pod_templates
@@ -224,3 +228,8 @@ class SearchSitePODTemplates(SearchPODTemplates):
         for filename in self.filenames_expr:
             if os.path.isfile(filename):
                 os.remove(filename)
+
+
+class SearchAndReplaceSitePODTemplates(SearchSitePODTemplates, SearchAndReplacePODTemplates):
+    """
+    """
