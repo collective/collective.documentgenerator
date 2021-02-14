@@ -2,7 +2,7 @@
 import re
 from collections import OrderedDict
 
-from collective.documentgenerator.helper.search_replace import PODTemplateSearchReplace
+from collective.documentgenerator.helper.search_replace import SearchPODTemplates
 from collective.documentgenerator.utils import get_site_root_relative_path
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
@@ -14,6 +14,9 @@ from zope import schema, interface, component
 
 from collective.z3cform.datagridfield import DictRow, DataGridFieldFactory
 from collective.documentgenerator import _
+
+import mimetypes
+import os
 
 
 class IReplacementRowSchema(interface.Interface):
@@ -123,7 +126,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             template = uuidToObject(template_uuid)
             template_path = get_site_root_relative_path(template)
             self.results_table[template_path] = []
-            with PODTemplateSearchReplace(template) as search_replace:
+            with SearchSitePODTemplates(template) as search_replace:
                 for replacement in form_data["replacements"]:
                     if replacement["replace_expr"] is None:
                         replacement["replace_expr"] = ""
@@ -144,18 +147,28 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = _("Nothing to preview.")
             return
 
+        templates = []
         for template_uuid in form_data["selected_templates"]:
             template = uuidToObject(template_uuid)
+            templates.append(template)
             template_path = get_site_root_relative_path(template)
             self.preview_table[template_path] = []
-            with PODTemplateSearchReplace(template) as search_replace:
-                search_results = search_replace.search(search_expr)
-                for search_result in search_results:
-                    search_result["pod_expr"] = self.highlight_pod_expr(
-                        search_result["pod_expr"], search_result["match_start"],
-                        search_result["match_end"]
-                    )
-                    self.preview_table[template_path].append(search_result)
+
+        with SearchSitePODTemplates(templates) as search:
+            search_results = search.run(search_expr)
+            for filename, search_result in search_results.iteritems():
+                template_path = search.templates_by_filename[filename]['path']
+                for match_pod_zone in search_result[1]:
+                    pod_expr = match_pod_zone["XMLnode"].data
+                    for match in match_pod_zone['matches']:
+                        to_display = {'pod_expr': pod_expr}
+                        match_start = match.start()
+                        match_end = match.end()
+                        to_display['match'] = pod_expr[match_start:match_end]
+                        to_display["pod_expr"] = self.highlight_pod_expr(
+                            pod_expr, match_start, match_end
+                        )
+                        self.preview_table[template_path].append(to_display)
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
@@ -166,3 +179,48 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
 
     def get_results_table(self):
         return self.form_instance.results_table
+
+
+class SearchSitePODTemplates(SearchPODTemplates):
+    """
+    """
+
+    def __init__(self, pod_templates, find_expr=[''], ignorecase=False, recursive=False, silent=False):
+        """
+        """
+        self.pod_templates = pod_templates
+        self.templates_by_filename = {}
+        self.tmp_dir = '/tmp/docgen'
+        if not os.path.isdir(self.tmp_dir):
+            os.mkdir(self.tmp_dir)
+
+        # compute the (future) file system path of the plone pod templates
+        for pod_template in pod_templates:
+            template_path = get_site_root_relative_path(pod_template)
+            extension = mimetypes.guess_extension(pod_template.odt_file.contentType)
+            fs_filename = '{}/{}{}'.format(self.tmp_dir, template_path.replace('/', '_'), extension)
+            self.templates_by_filename[fs_filename] = {'obj': pod_template, 'path': template_path}
+
+        filenames_expr = self.templates_by_filename.keys()
+
+        super(SearchSitePODTemplates, self).__init__(find_expr, filenames_expr, ignorecase, recursive)
+
+    def __enter__(self):
+        """
+        copy the plone pod template content on the file system
+        """
+        for filename in self.filenames_expr:
+            # clean old files
+            if os.path.isfile(filename):
+                os.remove(filename)
+            # copy the pod templates on the file system.
+            template_file = open(filename, 'w')
+            plone_template = self.templates_by_filename[filename]['obj']
+            template_file.write(plone_template.odt_file.data)
+            template_file.close()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        for filename in self.filenames_expr:
+            if os.path.isfile(filename):
+                os.remove(filename)
