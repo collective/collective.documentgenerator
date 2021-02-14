@@ -254,11 +254,9 @@ class SearchAndReplaceSitePODTemplates(SearchSitePODTemplates, SearchAndReplaceP
                 pod_template = self.templates_by_filename[filename]['obj']
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType=mimetypes.guess_type(filename),
+                    contentType=mimetypes.guess_type(filename)[0],
                     filename=pod_template.odt_file.filename,
                 )
                 pod_template.odt_file = result
         # clean tmp file
-        for filename in self.filenames_expr:
-            if os.path.isfile(filename):
-                os.remove(filename)
+        super(SearchAndReplaceSitePODTemplates, self).__exit__(exc_type, exc_value, traceback)
