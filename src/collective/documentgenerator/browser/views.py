@@ -4,7 +4,6 @@ from collections import OrderedDict
 import plone
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from Products.CMFCore.utils import getToolByName
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import (
     IPODTemplate,
@@ -22,7 +21,6 @@ from Products.Five import BrowserView
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
-from zope.component.hooks import getSite
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer, alsoProvides
 
@@ -168,7 +166,7 @@ class CheckPodTemplatesView(BrowserView):
         self.messages = self.manage_messages
         return self.index()
 
-    def excluded_portal_types(self):
+    def excluded_pod_portal_types(self):
         return ["StyleTemplate", ]
 
     def check_all_pod_templates(self):
@@ -182,7 +180,7 @@ class CheckPodTemplatesView(BrowserView):
                 continue
 
             # we do not manage 'StyleTemplate' automatically for now...
-            if pod_template.portal_type in self.excluded_portal_types():
+            if pod_template.portal_type in self.excluded_pod_portal_types():
                 self.not_managed.append((pod_template, None))
                 self.left_to_verify.remove(pod_template)
                 continue
@@ -337,10 +335,7 @@ class CheckPodTemplatesView(BrowserView):
         if hasattr(pod_template, "pod_portal_types"):
             pod_portal_types = pod_template.pod_portal_types
         else:
-            site = getSite()
-            ttool = getToolByName(site, "portal_types", None)
-            if ttool is None:
-                res = []
+            ttool = api.portal.get_tool("portal_types")
             pod_portal_types = ttool.listContentTypes()
         found_context = _search_context(pod_portal_types)
         if found_context:

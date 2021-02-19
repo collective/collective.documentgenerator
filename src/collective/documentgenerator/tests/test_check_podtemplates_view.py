@@ -92,7 +92,7 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         self._assert_messages_format(check_view, 10)
 
         self.add_failing_template()
-        # # test no_pod_portal_types
+        # test no_pod_portal_types
         check_view()
         self._assert_messages_format(check_view, 10, nb_no_pod_portal_types=1)
         # test error
@@ -109,8 +109,8 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         self._assert_messages_format(check_view, 10, nb_not_enabled=1)
         # test not_managed
 
-        def exclude_more_portal_types():
+        def exclude_more_pod_portal_types():
             return ["StyleTemplate", "PODTemplate"]
-        check_view.excluded_portal_types = exclude_more_portal_types
+        check_view.excluded_pod_portal_types = exclude_more_pod_portal_types
         check_view()
         self._assert_messages_format(check_view, 9, nb_not_managed=1, nb_not_enabled=1)
