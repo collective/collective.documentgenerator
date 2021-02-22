@@ -35,12 +35,12 @@ class TemplatesListing(BrowserView):
         super(TemplatesListing, self).__init__(context, request)
 
     def query_dict(self):
-        crit = {'object_provides': self.provides}
+        crit = {"object_provides": self.provides}
         if self.local_search:
-            container_path = '/'.join(self.context.getPhysicalPath())
-            crit['path'] = {'query': container_path}
+            container_path = "/".join(self.context.getPhysicalPath())
+            crit["path"] = {"query": container_path}
             if self.depth is not None:
-                crit['path']['depth'] = self.depth
+                crit["path"]["depth"] = self.depth
         # crit['sort_on'] = ['path', 'getObjPositionInParent']
         # how to sort by parent path
         # crit['sort_on'] = 'path'
@@ -48,15 +48,17 @@ class TemplatesListing(BrowserView):
 
     def update(self):
         self.table = self.__table__(self.context, self.request)
-        self.table.__name__ = u'dg-templates-listing'
-        catalog = api.portal.get_tool('portal_catalog')
+        self.table.__name__ = u"dg-templates-listing"
+        catalog = api.portal.get_tool("portal_catalog")
         brains = catalog.searchResults(**self.query_dict())
-        res = [(brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains]
+        res = [
+            (brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains
+        ]
 
         def keys(param):
             """ Goal: order by level of folder, parent folder, position in folder,"""
             (obj, path) = param
-            level = len(path.split('/'))
+            level = len(path.split("/"))
             parent = aq_parent(aq_inner(obj))
             ordered = IOrderedContainer(parent, None)
             if ordered is not None:
@@ -75,19 +77,19 @@ class TemplatesListing(BrowserView):
         if search_depth is not None:
             self.depth = search_depth
         else:
-            sd = self.request.get('search_depth', '')
+            sd = self.request.get("search_depth", "")
             if sd:
                 self.depth = int(sd)
         if local_search is not None:
             self.local_search = local_search
         else:
-            self.local_search = 'local_search' in self.request or self.local_search
+            self.local_search = "local_search" in self.request or self.local_search
         self.update()
         return self.index()
 
 
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):
-    template = ViewPageTemplateFile('children_pod_template.pt')
+    template = ViewPageTemplateFile("children_pod_template.pt")
 
     @property
     def name(self):
@@ -101,13 +103,13 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
 
     @property
     def label(self):
-        return ''
+        return ""
 
     def get_children(self):
         return self.context.get_children_pod_template()
 
     def render_child(self, child):
-        return '{0} ({1})'.format(child.Title(), child.absolute_url())
+        return "{0} ({1})".format(child.Title(), child.absolute_url())
 
     def render(self):
         return self.template()
@@ -117,13 +119,13 @@ class DisplayChildrenPodTemplateProvider(ContentProviderBase):
 class ViewConfigurablePodTemplate(DefaultView):
     contentProviders = ContentProviders()
 
-    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
-    contentProviders['children_pod_template'].position = 4
+    contentProviders["children_pod_template"] = DisplayChildrenPodTemplateProvider
+    contentProviders["children_pod_template"].position = 4
 
 
 @implementer(IFieldsAndContentProvidersForm)
 class EditConfigurablePodTemplate(DefaultEditForm):
     contentProviders = ContentProviders()
 
-    contentProviders['children_pod_template'] = DisplayChildrenPodTemplateProvider
-    contentProviders['children_pod_template'].position = 4
+    contentProviders["children_pod_template"] = DisplayChildrenPodTemplateProvider
+    contentProviders["children_pod_template"].position = 4
