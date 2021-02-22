@@ -380,9 +380,9 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     Persistent document generation view.
     """
 
-    def __call__(self, template_uid='', output_format=''):
+    def __call__(self, template_uid='', output_format='', generated_doc_title=''):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
-        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
+        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format, generated_doc_title)
         self.redirects(persisted_doc)
 
     def add_mailing_infos(self, doc, gen_context):
@@ -394,13 +394,13 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
                                           'output_format': self.output_format, 'context_uid': self.context.UID()}
 
-    def _get_title(self, doc_name, gen_context):
+    def _get_title(self, doc_name, gen_context, generated_doc_title):
         splitted_name = doc_name.split('.')
-        title = self.pod_template.title
+        title = generated_doc_title or self.pod_template.title
         extension = splitted_name[-1]
         return safe_unicode(title), extension
 
-    def generate_persistent_doc(self, pod_template, output_format):
+    def generate_persistent_doc(self, pod_template, output_format, generated_doc_title):
         """
         Generate a document of format 'output_format' from the template
         'pod_template' and persist it by creating a File containing the
@@ -409,7 +409,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
         doc, doc_name, gen_context = self._generate_doc(pod_template, output_format)
 
-        title, extension = self._get_title(doc_name, gen_context)
+        title, extension = self._get_title(doc_name, gen_context, generated_doc_title)
 
         factory = queryAdapter(self.context, IDocumentFactory)
 
@@ -462,7 +462,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
     """
 
-    def __call__(self, document_uid='', document_url_path=''):
+    def __call__(self, document_uid='', document_url_path='', generated_doc_title=''):
         document_uid = document_uid or self.request.get('document_uid', '')
         document_url_path = document_url_path or self.request.get('document_url_path', '')
         if not document_uid and not document_url_path:
@@ -475,7 +475,7 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         if not self.document:
             raise Exception("Cannot find document with UID '{0}'".format(document_uid))
         self.pod_template, self.output_format = self._get_base_args('', '')
-        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
+        persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format, generated_doc_title)
         self.redirects(persisted_doc)
 
     def _get_base_args(self, template_uid, output_format):
