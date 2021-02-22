@@ -189,6 +189,13 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             filename,
             u'General template.odt')
         self.assertEqual(content_type, 'application/vnd.oasis.opendocument.text')
+        self.assertEqual(persistent_doc.Title(), pod_template.Title())
+
+        # customize the title
+        custom_title = 'my awesome title'
+        generation_view(template_uid=template_uid, output_format='odt', generated_doc_title=custom_title)
+        docgen_file = generation_context.objectValues()[1]
+        self.assertEqual(docgen_file.Title(), custom_title)
 
     def test_persistent_document_generation_on_non_folderish_context(self):
         """
@@ -397,30 +404,6 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
                                                               generation_view.pod_template)
         self.assertIn('details', gen_context)
         self.assertEqual(gen_context['details'], '1')
-
-    def test_set_generated_document_title(self):
-        """
-        By default, the template title is the output file title.
-        If a generated_doc_title is set, the title must be the generated_doc_title value
-        """
-        pod_template = self.test_podtemplate
-        template_uid = pod_template.UID()
-        custom_title = 'my awesome title'
-        generation_context = api.content.create(
-            type='Folder',
-            title=u'Folder for my awesome file with awesome title',
-            id='test_titlefolder',
-            container=self.portal,
-        )
-        # customize the title
-        generation_view = generation_context.restrictedTraverse('@@persistent-document-generation')
-        generation_view(template_uid=template_uid, output_format='odt', generated_doc_title=custom_title)
-        docgen_file = generation_context.objectValues()[0]
-        self.assertTrue(docgen_file.Title() == custom_title)
-        # test the temlate default title
-        generation_view(template_uid=template_uid, output_format='odt')
-        docgen_file_without_custom_title = generation_context.objectValues()[1]
-        self.assertTrue(docgen_file_without_custom_title.Title() == pod_template.Title())
 
     def test_table_column_modifier(self):
         """ """
