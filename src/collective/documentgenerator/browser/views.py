@@ -153,12 +153,12 @@ class CheckPodTemplatesView(BrowserView):
         if "IDisableCSRFProtection" in dir(plone.protect.interfaces):
             alsoProvides(self.request, plone.protect.interfaces.IDisableCSRFProtection)
 
-        self.error = []
-        self.no_obj_found = []
-        self.no_pod_portal_types = []
-        self.not_enabled = []
-        self.not_managed = []
-        self.clean = []
+        self.error = {}
+        self.no_obj_found = {}
+        self.no_pod_portal_types = {}
+        self.not_enabled = {}
+        self.not_managed = {}
+        self.clean = {}
         self.mailing_loop_templates = {}
         self.sub_templates = {}
         self.left_to_verify = self.find_pod_templates()
@@ -166,8 +166,16 @@ class CheckPodTemplatesView(BrowserView):
         self.messages = self.manage_messages
         return self.index()
 
+    def _add_by_path(self, obj, dictionary, context=None, message=None):
+        path = "/".join(obj.aq_parent.getPhysicalPath())
+        if path not in dictionary:
+            dictionary[path] = []
+        dictionary[path].append((obj, context, message))
+
     def excluded_pod_portal_types(self):
-        return ["StyleTemplate", ]
+        return [
+            "StyleTemplate",
+        ]
 
     def check_all_pod_templates(self):
         pod_templates = list(self.left_to_verify)
@@ -175,13 +183,13 @@ class CheckPodTemplatesView(BrowserView):
         for pod_template in pod_templates:
 
             if not pod_template.enabled:
-                self.not_enabled.append((pod_template, None))
+                self._add_by_path(pod_template, self.not_enabled)
                 self.left_to_verify.remove(pod_template)
                 continue
 
             # we do not manage 'StyleTemplate' automatically for now...
             if pod_template.portal_type in self.excluded_pod_portal_types():
-                self.not_managed.append((pod_template, None))
+                self._add_by_path(pod_template, self.not_managed)
                 self.left_to_verify.remove(pod_template)
                 continue
 
@@ -197,13 +205,13 @@ class CheckPodTemplatesView(BrowserView):
                 hasattr(pod_template, "pod_portal_types")
                 and not pod_template.pod_portal_types
             ):
-                self.no_pod_portal_types.append((pod_template, None))
+                self._add_by_path(pod_template, self.no_pod_portal_types)
                 self.left_to_verify.remove(pod_template)
                 continue
 
             objs = self.find_context_for(pod_template)
             if not objs:
-                self.no_obj_found.append((pod_template, None))
+                self._add_by_path(pod_template, self.no_obj_found)
                 self.left_to_verify.remove(pod_template)
                 continue
 
@@ -227,7 +235,9 @@ class CheckPodTemplatesView(BrowserView):
                             self.sub_templates[sub_template_uid] = uuidToObject(
                                 sub_template_uid
                             )
-                        self.clean.append((self.sub_templates[sub_template_uid], obj))
+                        self._add_by_path(
+                            self.sub_templates[sub_template_uid], self.clean, obj
+                        )
                         if self.sub_templates[sub_template_uid] in self.left_to_verify:
                             self.left_to_verify.remove(
                                 self.sub_templates[sub_template_uid]
@@ -246,10 +256,10 @@ class CheckPodTemplatesView(BrowserView):
             view._generate_doc(
                 pod_template, output_format=output_format, raiseOnError=True
             )
-            self.clean.append((pod_template, obj))
+            self._add_by_path(pod_template, self.clean, obj)
 
         except Exception as exc:
-            self.error.append((pod_template, obj, (_("Error"), str(exc))))
+            self._add_by_path(pod_template, self.error, obj, (_("Error"), str(exc)))
         self.left_to_verify.remove(pod_template)
 
     def check_mailing_loop(self, mailed_template, obj, output_format):
@@ -285,16 +295,15 @@ class CheckPodTemplatesView(BrowserView):
                 raiseOnError=True,
             )
 
-            self.clean.append(
-                (self.mailing_loop_templates[mailing_loop_template_uid], obj)
+            self._add_by_path(
+                self.mailing_loop_templates[mailing_loop_template_uid], self.clean, obj
             )
         except Exception as exc:
-            self.error.append(
-                (
-                    self.mailing_loop_templates[mailing_loop_template_uid],
-                    obj,
-                    (_("Error"), str(exc)),
-                )
+            self._add_by_path(
+                self.mailing_loop_templates[mailing_loop_template_uid],
+                self.error,
+                obj,
+                (_("Error"), str(exc)),
             )
         finally:
             api.content.delete(obj=folder)
@@ -346,11 +355,13 @@ class CheckPodTemplatesView(BrowserView):
     def manage_messages(self):
         messages = OrderedDict()
         for left_over in self.left_to_verify:
-            self.error.append((left_over, None, (_("Error"), _("Could not check"))))
-        messages[_("check_pod_template_error")] = self.error
-        messages[_("check_pod_template_no_obj_found")] = self.no_obj_found
-        messages[_("check_pod_template_no_pod_portal_types")] = self.no_pod_portal_types
-        messages[_("check_pod_template_not_enabled")] = self.not_enabled
-        messages[_("check_pod_template_not_managed")] = self.not_managed
-        messages[_("check_pod_template_clean")] = self.clean
+            self._add_by_path(
+                left_over, self.error, None, (_("Error"), _("Could not check"))
+            )
+        messages["check_pod_template_error"] = self.error
+        messages["check_pod_template_no_obj_found"] = self.no_obj_found
+        messages["check_pod_template_no_pod_portal_types"] = self.no_pod_portal_types
+        messages["check_pod_template_not_enabled"] = self.not_enabled
+        messages["check_pod_template_not_managed"] = self.not_managed
+        messages["check_pod_template_clean"] = self.clean
         return messages

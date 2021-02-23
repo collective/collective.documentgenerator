@@ -13,36 +13,45 @@
     <h1 class="documentFirstHeading" i18n:translate="check_pod_templates">Check Pod templates</h1>
 
     <tal:loop repeat="infos python: view.messages.iteritems()">
-      <h2 i18n:translate=""
-          tal:define="content python: infos[0]"
+      <h2 tal:define="content python: infos[0]"
           tal:attributes="class string:${content}"
-          tal:content="content" />
-      <tal:loop2 repeat="elt python: infos[1]">
-        <h3 style="display: inline;"><span tal:content="python: elt[0].__class__.__name__">Pod Template</span> :</h3>
-        <a href="#"
-           tal:attributes="href python: elt[0].absolute_url()"
-           tal:content="python: elt[0].Title()">
-          Link to template
-        </a>
-        <tal:used_obj condition="python: elt[1]">
-          <h3 style="display: inline;"><span i18n:translate="">Used object</span> :</h3>
+          i18n:translate=""
+          tal:content="python: content"/>
+      <tal:loop2 tal:condition="python: infos[1]"
+                 repeat="path python: infos[1].keys()">
+        <h3 tal:content="python: path" />
+        <tal:loop3 repeat="elt python: infos[1][path]">
+          <h4 style="display: inline;"><span tal:content="python: elt[0].__class__.__name__">Pod Template</span> :</h4>
           <a href="#"
+             tal:attributes="href python: elt[0].absolute_url()"
+             tal:content="python: elt[0].Title()">
+            Link to template
+          </a>
+          <h4 style="display: inline;"><span i18n:translate="">Used object</span> :</h4>
+          <a href="#"
+             tal:condition="python: elt[1]"
              tal:attributes="href python: elt[1].absolute_url()"
              tal:content="python: elt[1].Title()">
             Link to used object
           </a>
+          <span tal:condition="python: not elt[1]"
+                class="discreet"
+                i18n:domain="plone"
+                i18n:translate="text_nomatches">
+            No object.
+          </span>
           <tal:comment replace="nothing">Display additional message if any</tal:comment>
-          <tal:additionInfo condition="python: len(elt) == 3">
-            <h3 style="display: inline;"><span tal:content="python: elt[2][0]">Additional info type</span> :</h3>
+          <tal:additionInfo condition="python: len(elt) == 3 and elt[2]">
+            <h4 style="display: inline;"><span tal:content="python: elt[2][0]">Additional info type</span> :</h4>
             <p><pre tal:content="python: elt[2][1]">Additional info message</pre></p>
           </tal:additionInfo>
-        </tal:used_obj>
-        <br />
+          <br />
+        </tal:loop3>
       </tal:loop2>
       <span tal:condition="python: not infos[1]"
             class="discreet"
             i18n:domain="plone"
-            i18n:translate="description_no_results_found">
+            i18n:translate="text_nomatches">
         No results.
       </span>
       <p>&nbsp;</p>
