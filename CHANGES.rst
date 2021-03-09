@@ -8,7 +8,8 @@ Changelog
   [odelaere]
 - Reworked icons to use svg instead of png and have a more consistent set.
   [odelaere]
-
+- Add generated title parameter for PersistentDocumentGenerationView.
+  [jjaumotte]
 
 3.19 (2020-10-07)
 -----------------
