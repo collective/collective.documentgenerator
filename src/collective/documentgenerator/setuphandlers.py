@@ -204,7 +204,7 @@ def install_demo(context):
             container=pod_folder,
             exclude_from_nav=True,
             pod_formats=['ods', 'xls', ],
-            pod_portal_types=['Document'],
+            pod_portal_types=['Collection', 'Folder'],
             style_template=[style_template.UID()],
         )
 

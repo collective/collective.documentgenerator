@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.documentgenerator 1.0\n"
-"POT-Creation-Date: 2021-02-09 10:39+0000\n"
+"POT-Creation-Date: 2021-02-10 14:03+0000\n"
 "PO-Revision-Date: 2020-05-04 14:23-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -67,13 +67,17 @@ msgstr "No se puede crear un documento persistente si el contexto no es un conte
 msgid "Can't import python uno library with the python path"
 msgstr "Falló la importación de la librería UNO en su entorno Python"
 
-#: ../browser/controlpanel.py:118
+#: ../browser/controlpanel.py:127
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: ../browser/controlpanel.py:115
 msgid "Changes saved"
 msgstr "Cambios guardados"
+
+#: ../browser/controlpanel.py:118
+msgid "Check Pod Templates"
+msgstr ""
 
 #: ../content/pod_template.py:247
 msgid "Check if this POD Template can be reused by other POD Template"
@@ -99,6 +103,10 @@ msgstr "Plantilla de documento POD"
 msgid "Context variables."
 msgstr "Variables de contexto."
 
+#: ../browser/views.py:353
+msgid "Could not check"
+msgstr ""
+
 #: ../utils.py:78
 msgid "Dict update collision on key"
 msgstr "Colisión al actualizar la misma clave del diccionario"
@@ -121,7 +129,7 @@ msgstr "Hacer renderizado"
 msgid "Document Generator settings"
 msgstr "Configuración de Generador de Documento"
 
-#: ../browser/controlpanel.py:120
+#: ../browser/controlpanel.py:129
 msgid "Edit cancelled"
 msgstr "Edición cancelada"
 
@@ -129,6 +137,10 @@ msgstr "Edición cancelada"
 #: ../content/pod_template.py:67
 msgid "Enabled"
 msgstr "Activo"
+
+#: ../browser/views.py:253
+msgid "Error"
+msgstr ""
 
 #: ../browser/generation_view.py:307
 msgid "Error when merging context_variables in generation context"
@@ -404,6 +416,10 @@ msgstr "El panel de control de configuración del Generador de documentos"
 msgid "These context variables are added to the odt_file context."
 msgstr "Esas variables de contexto son añadidas al contexto del odt_file o plantilla Open Document."
 
+#: ../browser/check_pod_templates.pt:28
+msgid "Used object"
+msgstr ""
+
 #: ../content/pod_template.py:195
 msgid "Value"
 msgstr "Valor"
@@ -431,6 +447,35 @@ msgstr "Usted ha declarado el mismo nombre de variable dos veces: '${name}'"
 #: ../content/pod_template.py:350
 msgid "You must select an odt file or an existing pod template"
 msgstr "Usted debe seleccionar un archivo Open Document o 'Elegir una plantilla de documento POD existente para reutilizar'"
+
+#: ../browser/views.py:359
+msgid "check_pod_template_clean"
+msgstr ""
+
+#: ../browser/views.py:354
+msgid "check_pod_template_error"
+msgstr ""
+
+#: ../browser/views.py:355
+msgid "check_pod_template_no_obj_found"
+msgstr ""
+
+#: ../browser/views.py:356
+msgid "check_pod_template_no_pod_portal_types"
+msgstr ""
+
+#: ../browser/views.py:357
+msgid "check_pod_template_not_enabled"
+msgstr ""
+
+#: ../browser/views.py:358
+msgid "check_pod_template_not_managed"
+msgstr ""
+
+#. Default: "Check Pod templates"
+#: ../browser/check_pod_templates.pt:13
+msgid "check_pod_templates"
+msgstr ""
 
 #: ../profiles.zcml:15
 msgid "collective.documentgenerator"

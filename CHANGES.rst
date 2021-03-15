@@ -4,7 +4,8 @@ Changelog
 3.21 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- - Added a view to check up every POD templates `@@check-pod-templates`.
+  [odelaere]
 
 
 3.20 (2021-03-09)

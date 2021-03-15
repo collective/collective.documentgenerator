@@ -45,3 +45,27 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     height: 24px;
     width: 24px;
 }
+
+.check_pod_template_error {
+    color:red
+}
+
+.check_pod_template_no_obj_found {
+    color:DarkOrange
+}
+
+.check_pod_template_no_pod_portal_types {
+    color:DarkOrange
+}
+
+.check_pod_template_not_enabled {
+    color:DarkOrange
+}
+
+.check_pod_template_not_managed {
+    color:DarkOrange
+}
+
+.check_pod_template_clean {
+    color:green
+}

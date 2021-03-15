@@ -15,7 +15,7 @@ echo "There are $FATAL fatal errors \(template could not be parsed, eg. if it\'s
 echo "For more details, run \'find . -name \"\*pt\" \| xargs i18ndude find-untranslated\' or"
 echo "Look the rebuild i18n log generate for this script called \'rebuild_i18n.log\' on locales dir"
 
-rm ./rebuild_i18n.log
+rm -f ./rebuild_i18n.log
 touch ./rebuild_i18n.log
 
 find ../ -name "*pt" | xargs i18ndude find-untranslated > ./rebuild_i18n.log
