@@ -4,9 +4,12 @@ Changelog
 3.21 (unreleased)
 -----------------
 
-- - Added a view to check up every POD templates `@@check-pod-templates`.
+- Added a view to check up every POD templates `@@check-pod-templates`.
   [odelaere]
-
+- Adapted the `@@check-pod-templates` way to `find_pod_templates` to take into
+  account current context.  This way, we may check pod templates on a
+  particular folder.
+  [gbastien]
 
 3.20 (2021-03-09)
 -----------------

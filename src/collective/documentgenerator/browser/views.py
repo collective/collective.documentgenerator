@@ -315,8 +315,8 @@ class CheckPodTemplatesView(BrowserView):
         """
         This will find all potamplates in this site.
         """
-        catalog = api.portal.get_tool("portal_catalog")
-        brains = catalog(object_provides=IPODTemplate.__identifier__)
+        brains = api.content.find(context=self.context,
+                                  object_provides=IPODTemplate.__identifier__)
         res = []
         for brain in brains:
             pod_template = brain.getObject()
