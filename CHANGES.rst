@@ -10,6 +10,8 @@ Changelog
   account current context.  This way, we may check pod templates on a
   particular folder.
   [gbastien]
+- Corrected domain
+  [sgeulette]
 
 3.20 (2021-03-09)
 -----------------
