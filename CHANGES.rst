@@ -12,6 +12,9 @@ Changelog
   [gbastien]
 - Corrected domain
   [sgeulette]
+- Don't check by default selection column in dg-templates-listing to avoid
+  user error with batch buttons
+  [sgeulette]
 
 3.20 (2021-03-09)
 -----------------
