@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.20 (unreleased)
+3.20 (2021-04-14)
 -----------------
 
 - Added CSV file support.
