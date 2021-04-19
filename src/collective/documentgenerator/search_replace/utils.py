@@ -12,7 +12,7 @@ import xml.dom.minidom
 import zipfile
 
 
-class SearchPODTemplates(object):
+class SearchPODTemplateFiles(object):
     """
     """
 
@@ -188,14 +188,14 @@ class SearchPODTemplates(object):
         return to_display
 
 
-class SearchAndReplacePODTemplates(SearchPODTemplates):
+class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
     """
     """
 
     def __init__(self, find_expr, filenames_expr, replace, target_dir=None, ignorecase=False, recursive=False, silent=True):
         """
         """
-        super(SearchAndReplacePODTemplates, self).__init__(find_expr, filenames_expr, ignorecase, recursive)
+        super(SearchAndReplacePODTemplateFiles, self).__init__(find_expr, filenames_expr, ignorecase, recursive)
         self.replace_expr = replace
         self.target_dir = target_dir
         self.tmp_dir = '/tmp/docgen'
@@ -211,7 +211,7 @@ class SearchAndReplacePODTemplates(SearchPODTemplates):
         self.find_expr = find_expr and re.compile(find_expr, self.flags) or self.find_expr
         self.replace_expr = replace_expr and replace_expr or self.replace_expr
 
-        search_result = super(SearchAndReplacePODTemplates, self).run()
+        search_result = super(SearchAndReplacePODTemplateFiles, self).run()
         new_files = self.replace(self.find_expr, self.replace_expr, search_result, self.target_dir)
         return search_result, new_files
 
@@ -275,10 +275,10 @@ if cur_version >= req_version:
             logging.basicConfig(level=logging.DEBUG)
         arguments = vars(arguments)
         if not arguments['replace']:
-            search = SearchPODTemplates(**dict([(k, v) for k, v in arguments.iteritems() if v]))
+            search = SearchPODTemplateFiles(**dict([(k, v) for k, v in arguments.iteritems() if v]))
             result = search.run()
         else:
-            replace = SearchAndReplacePODTemplates(**dict([(k, v) for k, v in arguments.iteritems() if v]))
+            replace = SearchAndReplacePODTemplateFiles(**dict([(k, v) for k, v in arguments.iteritems() if v]))
             result = replace.run()
         return result
 

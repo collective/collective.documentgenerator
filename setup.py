@@ -64,5 +64,7 @@ setup(
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
+    [console_scripts]
+    search_replace=collective.documentgenerator.search_replace.utils:main
     """,
 )
