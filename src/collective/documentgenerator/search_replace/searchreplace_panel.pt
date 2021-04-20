@@ -49,7 +49,7 @@
                     <tr>
                         <td><span class="search-cell"
                                   tal:content="structure python:result['pod_expr']"/></td>
-                        <td><span class="search-cell" tal:content="python:result['match']"/></td>
+                        <td><span class="search-cell" tal:content="python:result['pod_expr_match']"/></td>
                     </tr>
                 </tal:block>
             </tal:block>
@@ -68,12 +68,6 @@
                 <th class="header" i18n:translate="">
                     POD expression
                 </th>
-                <th class="header" i18n:translate="">
-                    Match
-                </th>
-                <th class="header" i18n:translate="">
-                    Replaced by
-                </th>
             </tr>
             </thead>
             <tbody class="datagridwidget-tbody">
@@ -88,13 +82,8 @@
                 <tal:block repeat="result python:template[1]">
                     <tr>
                         <td>
-                            <b i18n:translate="">Before:</b><span class="search-cell"
-                                                                  tal:content="structure python:result['old_pod_expr']"/>
-                            <b i18n:translate="">After:</b><span class="search-cell"
-                                                                 tal:content="python:result['new_pod_expr']"/>
-                        </td>
-                        <td><span class="search-cell" tal:content="python:result['match']"/></td>
-                        <td><span class="search-cell" tal:content="python:result['replaced_by']"/>
+                           <span class="search-cell"
+                           tal:content="structure python:result['pod_expr']"/>
                         </td>
                     </tr>
                 </tal:block>
