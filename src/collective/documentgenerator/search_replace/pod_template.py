@@ -28,9 +28,11 @@ class SearchPODTemplates(SearchPODTemplateFiles):
         # compute the (future) file system path of the plone pod templates
         for pod_template in pod_templates:
             template_path = get_site_root_relative_path(pod_template)
-            extension = mimetypes.guess_extension(pod_template.odt_file.contentType)
-            fs_filename = '{}/{}{}'.format(self.tmp_dir, template_path.replace('/', '_'), extension)
-            self.templates_by_filename[fs_filename] = {'obj': pod_template, 'path': template_path}
+            # only works on template with a real odt file and ignore templates refering another pod template.
+            if pod_template.odt_file:
+                extension = mimetypes.guess_extension(pod_template.odt_file.contentType)
+                fs_filename = '{}/{}{}'.format(self.tmp_dir, template_path.replace('/', '_'), extension)
+                self.templates_by_filename[fs_filename] = {'obj': pod_template, 'path': template_path}
 
         filenames_expr = self.templates_by_filename.keys()
 

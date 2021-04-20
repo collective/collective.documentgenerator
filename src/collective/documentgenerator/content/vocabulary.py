@@ -2,6 +2,7 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
+from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.config import get_column_modifier, get_csv_field_delimiters, get_csv_string_delimiters
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.utils import get_site_root_relative_path
@@ -221,7 +222,7 @@ class AllPODTemplateFactory(object):
     def _get_all_pod_templates(self):
         brains = []
         catalog = api.portal.get_tool('portal_catalog')
-        for brain in catalog(object_provides=IConfigurablePODTemplate.__identifier__):
+        for brain in catalog(object_provides=IPODTemplate.__identifier__):
             brains.append(brain)
         return brains
 
