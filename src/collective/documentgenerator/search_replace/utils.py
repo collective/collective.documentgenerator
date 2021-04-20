@@ -232,13 +232,27 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         return new_files
 
     def create_new_ODF(self, old_odf, newcontent, new_odf_name, target_dir):
-        new_odf = self.open_zip(new_odf_name, 'a')
+        in_place = False
+        new_tmp_odf_name = new_odf_name
+        if old_odf.filename == new_odf_name:
+            new_tmp_odf_name = '{}.tmp'.format(new_odf_name)
+            in_place = True
+
+        new_odf = self.open_zip(new_tmp_odf_name, 'a')
         for item in old_odf.infolist():
             if item.filename == 'content.xml':
                 new_odf.writestr('content.xml', newcontent)
-            elif target_dir:
+            else:
                 new_odf.writestr(item, old_odf.read(item.filename))
+        old_odf.close()
         new_odf.close()
+
+        if in_place:
+            os.remove(old_odf.filename)
+            shutil.move(new_tmp_odf_name, old_odf.filename)
+            new_odf = self.open_zip(new_odf_name, 'r')
+            new_odf.close()
+
         return new_odf
 
     def get_ODF_new_content(self, xml_tree, match_result, replace_expr):
