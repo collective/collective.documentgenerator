@@ -84,8 +84,8 @@ class SearchPODTemplateFiles(object):
                     result[filename] = (xml_tree, search_result)
                     if not self.silent:
                         display = self.get_result_display(search_result)
-                        print filename
-                        print '\n'.join(display)
+                        print(filename)
+                        print('\n'.join(display))
         return result
 
     def open_zip(self, filename, mode):
@@ -93,7 +93,7 @@ class SearchPODTemplateFiles(object):
         try:
             zip_file = zipfile.ZipFile(filename, mode)
         except zipfile.BadZipfile as wrongzipfile:
-            print "!!! could not open '%s' : %s" % (filename, wrongzipfile)
+            print("!!! could not open '%s' : %s" % (filename, wrongzipfile))
             return None
         else:
             return zip_file
@@ -103,7 +103,7 @@ class SearchPODTemplateFiles(object):
         try:
             odf_content = zip_file.open('content.xml')
         except KeyError as nocontent:
-            print "!!! could not read the content of %s : %s" % (zip_file.filename, nocontent)
+            print("!!! could not read the content of %s : %s" % (zip_file.filename, nocontent))
             return None
         else:
             return odf_content
@@ -241,7 +241,7 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         new_odf = self.open_zip(new_tmp_odf_name, 'a')
         for item in old_odf.infolist():
             if item.filename == 'content.xml':
-                new_odf.writestr('content.xml', newcontent)
+                new_odf.writestr('content.xml', newcontent, zipfile.ZIP_DEFLATED)
             else:
                 new_odf.writestr(item, old_odf.read(item.filename))
         old_odf.close()
