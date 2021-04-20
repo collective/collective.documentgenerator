@@ -16,3 +16,4 @@ recursive-include docs *.png
 recursive-include docs *.rst
 recursive-include bin *.sh
 global-exclude *.pyc
+prune .github
