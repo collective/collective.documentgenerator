@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.21 (unreleased)
+3.21 (2021-04-20)
 -----------------
 
 - Added a view to check up every POD templates `@@check-pod-templates`.
