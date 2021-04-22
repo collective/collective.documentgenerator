@@ -1,6 +1,5 @@
-.. image:: https://travis-ci.org/collective/collective.documentgenerator.svg?branch=master
-   :alt: Travis CI badge
-   :target: https://travis-ci.org/collective/collective.documentgenerator
+.. image:: https://github.com/collective/collective.documentgenerator/actions/workflows/python-package.yml/badge.svg?branch=master
+    :target: https://github.com/collective/collective.documentgenerator/actions/workflows/python-package.yml
 
 .. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
    :alt: Coveralls badge
