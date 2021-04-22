@@ -1,14 +1,37 @@
 Changelog
 =========
 
-3.20 (2021-04-14)
+
+3.22 (unreleased)
+-----------------
+
+- Nothing changed yet.
+
+
+3.21 (2021-04-20)
+-----------------
+
+- Added a view to check up every POD templates `@@check-pod-templates`.
+  [odelaere]
+- Adapted the `@@check-pod-templates` way to `find_pod_templates` to take into
+  account current context.  This way, we may check pod templates on a
+  particular folder.
+  [gbastien]
+- Corrected domain
+  [sgeulette]
+- Don't check by default selection column in dg-templates-listing to avoid
+  user error with batch buttons
+  [sgeulette]
+
+3.20 (2021-03-09)
 -----------------
 
 - Added CSV file support.
   [odelaere]
 - Reworked icons to use svg instead of png and have a more consistent set.
   [odelaere]
-
+- Add generated title parameter for PersistentDocumentGenerationView.
+  [jjaumotte]
 
 3.19 (2020-10-07)
 -----------------

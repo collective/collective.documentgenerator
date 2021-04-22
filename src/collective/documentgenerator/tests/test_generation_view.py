@@ -189,6 +189,13 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             filename,
             u'General template.odt')
         self.assertEqual(content_type, 'application/vnd.oasis.opendocument.text')
+        self.assertEqual(persistent_doc.Title(), pod_template.Title())
+
+        # customize the title
+        custom_title = 'my awesome title'
+        generation_view(template_uid=template_uid, output_format='odt', generated_doc_title=custom_title)
+        docgen_file = generation_context.objectValues()[1]
+        self.assertEqual(docgen_file.Title(), custom_title)
 
     def test_persistent_document_generation_on_non_folderish_context(self):
         """

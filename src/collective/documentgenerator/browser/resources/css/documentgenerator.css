@@ -46,6 +46,7 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     width: 24px;
 }
 
+
 /* search and replace controlpanel */
 
 .template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .search-cell {
@@ -68,3 +69,28 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     font-size: 1.2em;
     color: red;
 }
+
+.check_pod_template_error {
+    color:red
+}
+
+.check_pod_template_no_obj_found {
+    color:DarkOrange
+}
+
+.check_pod_template_no_pod_portal_types {
+    color:DarkOrange
+}
+
+.check_pod_template_not_enabled {
+    color:DarkOrange
+}
+
+.check_pod_template_not_managed {
+    color:DarkOrange
+}
+
+.check_pod_template_clean {
+    color:green
+}
+

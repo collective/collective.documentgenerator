@@ -380,7 +380,8 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     Persistent document generation view.
     """
 
-    def __call__(self, template_uid='', output_format=''):
+    def __call__(self, template_uid='', output_format='', generated_doc_title=''):
+        self.generated_doc_title = generated_doc_title
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
         persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
@@ -396,7 +397,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
     def _get_title(self, doc_name, gen_context):
         splitted_name = doc_name.split('.')
-        title = self.pod_template.title
+        title = self.generated_doc_title or self.pod_template.title
         extension = splitted_name[-1]
         return safe_unicode(title), extension
 
@@ -462,7 +463,8 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
     """
 
-    def __call__(self, document_uid='', document_url_path=''):
+    def __call__(self, document_uid='', document_url_path='', generated_doc_title=''):
+        self.generated_doc_title = generated_doc_title
         document_uid = document_uid or self.request.get('document_uid', '')
         document_url_path = document_url_path or self.request.get('document_url_path', '')
         if not document_uid and not document_url_path:

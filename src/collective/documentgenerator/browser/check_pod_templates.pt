@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="collective.documentgenerator">
+
+  <body>
+  <metal:fill fill-slot="main">
+
+    <h1 class="documentFirstHeading" i18n:translate="check_pod_templates">Check Pod templates</h1>
+
+    <tal:loop repeat="infos python: view.messages.iteritems()">
+      <h2 tal:define="content python: infos[0]"
+          tal:attributes="class string:${content}"
+          i18n:translate=""
+          tal:content="python: content"/>
+      <tal:loop2 tal:condition="python: infos[1]"
+                 repeat="path python: infos[1].keys()">
+        <h3 tal:content="python: path" />
+        <tal:loop3 repeat="elt python: infos[1][path]">
+          <p><strong><span tal:content="python: elt[0].__class__.__name__">Pod Template</span> :</strong>
+            <a href="#"
+             tal:attributes="href python: elt[0].absolute_url()"
+             tal:content="python: elt[0].Title()">
+            Link to template
+            </a>
+            <span i18n:translate="">Used object</span> :
+            <a href="#"
+             tal:condition="python: elt[1]"
+             tal:attributes="href python: elt[1].absolute_url()"
+             tal:content="python: elt[1].Title()">
+            Link to used object
+            </a>
+            <span tal:condition="python: not elt[1]"
+                i18n:domain="plone"
+                i18n:translate="text_nomatches">
+            No object.
+            </span>
+          </p>
+
+          <tal:comment replace="nothing">Display additional message if any</tal:comment>
+          <tal:additionInfo condition="python: len(elt) == 3 and elt[2]">
+            <h4 style="display: inline;"><span tal:content="python: elt[2][0]">Additional info type</span> :</h4>
+            <p><pre tal:content="python: elt[2][1]">Additional info message</pre></p>
+          </tal:additionInfo>
+          <br />
+        </tal:loop3>
+      </tal:loop2>
+      <span tal:condition="python: not infos[1]"
+            class="discreet"
+            i18n:domain="plone"
+            i18n:translate="text_nomatches">
+        No results.
+      </span>
+      <p>&nbsp;</p>
+    </tal:loop>
+
+  </metal:fill>
+  </body>
+</html>

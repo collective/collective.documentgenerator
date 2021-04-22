@@ -65,6 +65,7 @@ class CheckBoxColumn(cbc_base):
 
     cssClasses = {'td': 'select-column'}
     weight = 5
+    checked_by_default = False
 
     def getValue(self, item):
         return item.UID()
