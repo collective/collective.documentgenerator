@@ -37,7 +37,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
     def test_can_search_regex(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
             # We want only the `view` before the `get_localized_field_name` method
-            results = search_replace.search("view(?=\.get_localized_field_name)")
+            results = search_replace.search("view(?=.get_localized_field_name)")
 
         template1_results = results[self.template1.UID()]
         self.assertTrue(len(template1_results) == 1)
@@ -88,7 +88,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         # Test if it clean after itself after an exception is raised
         try:
             with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
-                result = search_replace.search("view", is_regex=False)
+                search_replace.search("view", is_regex=False)
                 raise OSError
         except OSError:
             pass
