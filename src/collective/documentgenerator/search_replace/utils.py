@@ -116,12 +116,12 @@ class SearchPODTemplateFiles(object):
                             xml_tree.getElementsByTagName('office:annotation')]
         result = []
         result.extend(
-            self.search_XML_pod_zone(annotation_nodes, filename, 'commentaire', findexpr)
+            self.search_XML_pod_zone(annotation_nodes, filename, 'comment', findexpr)
         )
 
         input_nodes = xml_tree.getElementsByTagName('text:text-input')
         result.extend(
-            self.search_XML_pod_zone(input_nodes, filename, 'champ de saisie', findexpr)
+            self.search_XML_pod_zone(input_nodes, filename, 'input field', findexpr)
         )
         return result
 
@@ -192,17 +192,18 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
     """
     """
 
-    def __init__(self, find_expr, filenames_expr, replace, target_dir=None, ignorecase=False, recursive=False, silent=True):
+    def __init__(self, find_expr, filenames_expr, replace, target_dir=None, ignorecase=False, recursive=False, silent=True, backup=True):
         """
         """
-        super(SearchAndReplacePODTemplateFiles, self).__init__(find_expr, filenames_expr, ignorecase, recursive)
+        super(SearchAndReplacePODTemplateFiles, self).__init__(find_expr, filenames_expr, ignorecase, recursive, silent)
         self.replace_expr = replace
         self.target_dir = target_dir
         self.tmp_dir = '/tmp/docgen'
         if not os.path.isdir(self.tmp_dir):
             os.mkdir(self.tmp_dir)
-        self.backup_dir = os.path.join(self.tmp_dir, '{}-backup'.format(str(datetime.datetime.today())))
-        os.mkdir(self.backup_dir)
+        if backup:
+            self.backup_dir = os.path.join(self.tmp_dir, '{}-backup'.format(str(datetime.datetime.today())))
+            os.mkdir(self.backup_dir)
 
     def run(self, find_expr='', replace_expr=''):
         """
@@ -223,7 +224,8 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
             backup_filename = os.path.split(filename)[-1]
             if self.recursive:
                 backup_filename = filename.strip('./').replace('/', '-')
-            shutil.copyfile(filename, '{}/{}'.format(self.backup_dir, backup_filename))
+            if hasattr(self, "backup_dir"):
+                shutil.copyfile(filename, '{}/{}'.format(self.backup_dir, backup_filename))
             zip_file = zipfile.ZipFile(filename)
             xml_tree, match_result = search_result
             newcontent = self.get_ODF_new_content(xml_tree, match_result, replace_expr)

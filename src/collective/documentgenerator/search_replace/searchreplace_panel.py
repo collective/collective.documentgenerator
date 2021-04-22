@@ -12,10 +12,7 @@ from z3c.form import button, form
 from zope import schema, interface, component
 
 from collective.z3cform.datagridfield import DictRow, DataGridFieldFactory
-from collective.documentgenerator.search_replace.pod_template import (
-    SearchAndReplacePODTemplates,
-    SearchPODTemplates,
-)
+from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator import _
 
 
@@ -132,13 +129,6 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         """
         return [uuidToObject(template_uuid) for template_uuid in form_data["selected_templates"]]
 
-    @staticmethod
-    def highlight_pod_expr(pod_expr, substr):
-        """
-        Add a <strong> HTML tag with class highlight around substr
-        """
-        return pod_expr.replace(substr, "<strong class='highlight'>" + substr + "</strong>")
-
     def perform_replacements(self, form_data):
         """
         Execute replacements action
@@ -150,22 +140,17 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         templates = self.get_selected_templates(form_data)
         self.results_table = {get_site_root_relative_path(template): [] for template in templates}
 
-        with SearchAndReplacePODTemplates(templates, silent=True) as replace:
+        with SearchAndReplacePODTemplates(templates) as replace:
             for replacement in form_data["replacements"]:
                 replacement["replace_expr"] = replacement["replace_expr"] or ""
                 search_expr = replacement["search_expr"]
                 replace_expr = replacement["replace_expr"]
-                replace_results, new_files = replace.run(search_expr, replace_expr)
+                replace_results = replace.replace(search_expr, replace_expr)
 
-                for filename, replace_result in replace_results.iteritems():  # For each PODTemplate
-                    template_path = replace.templates_by_filename[filename]["path"]
-                    for match_pod_zone in replace_result[1]:  # For each POD Zone
-                        pod_expr = match_pod_zone["XMLnode"].data
-                        for match in match_pod_zone["matches"]:  # For each match
-                            to_display = {
-                                "pod_expr": self.highlight_pod_expr(pod_expr, replace_expr),
-                            }
-                            self.results_table[template_path].append(to_display)
+                for template_uid, template_result in replace_results.items():
+                    template = uuidToObject(template_uid)
+                    template_path = get_site_root_relative_path(template)
+                    self.results_table[template_path] += template_result
 
     def perform_preview(self, form_data):
         """
@@ -179,26 +164,20 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
         self.preview_table = {get_site_root_relative_path(template): [] for template in templates}
 
-        with SearchPODTemplates(templates, silent=True) as search:
+        with SearchAndReplacePODTemplates(templates) as search_replace:
             for search_expr in search_exprs:
-                search_results = search.run(search_expr)
-                for filename, search_result in search_results.iteritems():  # For each PODTemplate
-                    template_path = search.templates_by_filename[filename]["path"]
-                    for match_pod_zone in search_result[1]:  # For each POD zone
-                        pod_expr = match_pod_zone["XMLnode"].data
-                        for match in match_pod_zone["matches"]:  # For each match
-                            pod_expr_match = pod_expr[match.start(): match.end()]
-                            to_display = {
-                                "pod_expr": self.highlight_pod_expr(pod_expr, pod_expr_match),
-                                "pod_expr_match": pod_expr_match,
-                            }
-                            self.preview_table[template_path].append(to_display)
+                search_results = search_replace.search(search_expr)
+                for template_uid, template_result in search_results.items():
+                    template = uuidToObject(template_uid)
+                    template_path = get_site_root_relative_path(template)
+                    self.preview_table[template_path] += template_result
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
     """
     DocumentGenerator Search & Replace control panel
     """
+
     form = DocumentGeneratorSearchReplacePanelForm
 
     def get_preview_table(self):
@@ -206,3 +185,10 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
 
     def get_results_table(self):
         return self.form_instance.results_table
+
+    @staticmethod
+    def highlight_pod_expr(pod_expr, start, end):
+        """
+        Add a <strong> HTML tag with class highlight around start and end indices
+        """
+        return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
