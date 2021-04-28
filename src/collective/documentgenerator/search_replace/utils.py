@@ -41,7 +41,7 @@ class SearchPODTemplateFiles(object):
         """
         """
         result = []
-        base_paths = list(set([os.path.dirname(path) or '.' for path in filenames_expr]))
+        base_paths = list(set([os.path.dirname(path) or "." for path in filenames_expr]))
         files_exprs = [os.path.split(n)[1] for n in filenames_expr]
         regexs = [re.compile(expr) for expr in files_exprs]
 
@@ -61,7 +61,7 @@ class SearchPODTemplateFiles(object):
 
     def is_ODF_file(self, filename):
         guess = mimetypes.guess_type(filename)[0]
-        is_ODF = guess and guess.startswith('application/vnd.oasis.opendocument')
+        is_ODF = guess and guess.startswith("application/vnd.oasis.opendocument")
         return is_ODF
 
     def search(self, find_expr, files_paths):
@@ -69,7 +69,7 @@ class SearchPODTemplateFiles(object):
         """
         result = {}
         for filename in files_paths:
-            zip_file = self.open_zip(filename, 'r')
+            zip_file = self.open_zip(filename, "r")
             odf_content = None
             if zip_file:
                 content_file = self.open_template_content(zip_file)
@@ -85,7 +85,7 @@ class SearchPODTemplateFiles(object):
                     if not self.silent:
                         display = self.get_result_display(search_result)
                         print(filename)
-                        print('\n'.join(display))
+                        print("\n".join(display))
         return result
 
     def open_zip(self, filename, mode):
@@ -101,7 +101,7 @@ class SearchPODTemplateFiles(object):
     def open_template_content(self, zip_file):
         logging.debug("opening archive file '%s'" % zip_file.filename)
         try:
-            odf_content = zip_file.open('content.xml')
+            odf_content = zip_file.open("content.xml")
         except KeyError as nocontent:
             print("!!! could not read the content of %s : %s" % (zip_file.filename, nocontent))
             return None
@@ -112,17 +112,14 @@ class SearchPODTemplateFiles(object):
         logging.debug("searching text content of '%s'" % filename)
         # the two xml tags we want to browse are 'office:annotation' and 'text:text-input', since its the only place
         # where appyPOD code can be written
-        annotation_nodes = [node.getElementsByTagName('text:p') for node in
-                            xml_tree.getElementsByTagName('office:annotation')]
+        annotation_nodes = [
+            node.getElementsByTagName("text:p") for node in xml_tree.getElementsByTagName("office:annotation")
+        ]
         result = []
-        result.extend(
-            self.search_XML_pod_zone(annotation_nodes, filename, 'comment', findexpr)
-        )
+        result.extend(self.search_XML_pod_zone(annotation_nodes, filename, "comment", findexpr))
 
-        input_nodes = xml_tree.getElementsByTagName('text:text-input')
-        result.extend(
-            self.search_XML_pod_zone(input_nodes, filename, 'input field', findexpr)
-        )
+        input_nodes = xml_tree.getElementsByTagName("text:text-input")
+        result.extend(self.search_XML_pod_zone(input_nodes, filename, "input field", findexpr))
         return result
 
     def search_XML_pod_zone(self, nodes, filename, node_type, findexpr):
@@ -135,19 +132,14 @@ class SearchPODTemplateFiles(object):
                 matches = list(findexpr.finditer(text))
                 if matches:
                     text_lines.append(
-                        {
-                            'matches': matches,
-                            'XMLnode': node,
-                            'node_number': i,
-                            'node_type': node_type
-                        }
+                        {"matches": matches, "XMLnode": node, "node_number": i, "node_type": node_type}
                     )
             i = i + 1
         return text_lines
 
     def reach_text_node(self, node):
         def recursive_reach_text_node(node, result):
-            if hasattr(node, '__iter__'):
+            if hasattr(node, "__iter__"):
                 for list_node in node:
                     recursive_reach_text_node(list_node, result)
             elif node.nodeType == node.TEXT_NODE:
@@ -155,31 +147,36 @@ class SearchPODTemplateFiles(object):
             else:
                 recursive_reach_text_node(node.childNodes, result)
             return result
+
         return recursive_reach_text_node(node, [])
 
     def get_result_display(self, searchresult):
         to_display = []
         for result in searchresult:
-            text = result['XMLnode'].data
-            textzone = '%s %i' % (result['node_type'], result['node_number'])
-            for match in result['matches']:
+            text = result["XMLnode"].data
+            textzone = "%s %i" % (result["node_type"], result["node_number"])
+            for match in result["matches"]:
                 start = match.start()
                 end = match.end()
-                display_line = ['', '', '']
+                display_line = ["", "", ""]
                 d_start = 0
                 if start > 100:
                     d_start = start - 100
-                    display_line[0] = '...'
+                    display_line[0] = "..."
                 d_end = len(text)
                 if end + 100 < len(text):
                     d_end = end + 100
-                    display_line[2] = '...'
+                    display_line[2] = "..."
                 if sys.stdout.isatty():
-                    text_display = '%s\033[93m%s\033[0m%s' % (text[d_start:start], text[start:end], text[end:d_end])
+                    text_display = "%s\033[93m%s\033[0m%s" % (
+                        text[d_start:start],
+                        text[start:end],
+                        text[end:d_end],
+                    )
                 else:
                     text_display = text[d_start:d_end]
                 display_line[1] = text_display
-                final_display_line = ''.join(display_line)
+                final_display_line = "".join(display_line)
                 if display_line[0] or display_line[2]:
                     display = "  %s : %s > %s" % (textzone, text_display, final_display_line)
                 else:
@@ -192,20 +189,32 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
     """
     """
 
-    def __init__(self, find_expr, filenames_expr, replace, target_dir=None, ignorecase=False, recursive=False, silent=True, backup=True):
+    def __init__(
+        self,
+        find_expr,
+        filenames_expr,
+        replace,
+        target_dir=None,
+        ignorecase=False,
+        recursive=False,
+        silent=True,
+        backup=True,
+    ):
         """
         """
-        super(SearchAndReplacePODTemplateFiles, self).__init__(find_expr, filenames_expr, ignorecase, recursive, silent)
+        super(SearchAndReplacePODTemplateFiles, self).__init__(
+            find_expr, filenames_expr, ignorecase, recursive, silent
+        )
         self.replace_expr = replace
         self.target_dir = target_dir
-        self.tmp_dir = '/tmp/docgen'
+        self.tmp_dir = "/tmp/docgen"
         if not os.path.isdir(self.tmp_dir):
             os.mkdir(self.tmp_dir)
         if backup:
-            self.backup_dir = os.path.join(self.tmp_dir, '{}-backup'.format(str(datetime.datetime.today())))
+            self.backup_dir = os.path.join(self.tmp_dir, "{}-backup".format(str(datetime.datetime.today())))
             os.mkdir(self.backup_dir)
 
-    def run(self, find_expr='', replace_expr=''):
+    def run(self, find_expr="", replace_expr=""):
         """
         """
         # we can run the replace again with a new find_expr and a new replace_expr
@@ -223,9 +232,9 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         for filename, search_result in search_results.iteritems():
             backup_filename = os.path.split(filename)[-1]
             if self.recursive:
-                backup_filename = filename.strip('./').replace('/', '-')
+                backup_filename = filename.strip("./").replace("/", "-")
             if hasattr(self, "backup_dir"):
-                shutil.copyfile(filename, '{}/{}'.format(self.backup_dir, backup_filename))
+                shutil.copyfile(filename, "{}/{}".format(self.backup_dir, backup_filename))
             zip_file = zipfile.ZipFile(filename)
             xml_tree, match_result = search_result
             newcontent = self.get_ODF_new_content(xml_tree, match_result, replace_expr)
@@ -237,13 +246,13 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         in_place = False
         new_tmp_odf_name = new_odf_name
         if old_odf.filename == new_odf_name:
-            new_tmp_odf_name = '{}.tmp'.format(new_odf_name)
+            new_tmp_odf_name = "{}.tmp".format(new_odf_name)
             in_place = True
 
-        new_odf = self.open_zip(new_tmp_odf_name, 'a')
+        new_odf = self.open_zip(new_tmp_odf_name, "a")
         for item in old_odf.infolist():
-            if item.filename == 'content.xml':
-                new_odf.writestr('content.xml', newcontent, zipfile.ZIP_DEFLATED)
+            if item.filename == "content.xml":
+                new_odf.writestr("content.xml", newcontent, zipfile.ZIP_DEFLATED)
             else:
                 new_odf.writestr(item, old_odf.read(item.filename))
         old_odf.close()
@@ -252,17 +261,17 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         if in_place:
             os.remove(old_odf.filename)
             shutil.move(new_tmp_odf_name, old_odf.filename)
-            new_odf = self.open_zip(new_odf_name, 'r')
+            new_odf = self.open_zip(new_odf_name, "r")
             new_odf.close()
 
         return new_odf
 
     def get_ODF_new_content(self, xml_tree, match_result, replace_expr):
         for result in match_result:
-            line = result['XMLnode'].data
+            line = result["XMLnode"].data
             replaced = self.find_expr.sub(replace_expr, line)
-            result['XMLnode'].data = replaced
-        return xml_tree.toxml('utf-8')
+            result["XMLnode"].data = replaced
+        return xml_tree.toxml("utf-8")
 
 
 # parsing arguments code
@@ -273,24 +282,26 @@ if cur_version >= req_version:
     import argparse
 
     def parseArguments():
-        parser = argparse.ArgumentParser(description='Search and replace in comments and input fields of .odf files')
-        parser.add_argument('find_expr', action='append')
-        parser.add_argument('--replace')
-        parser.add_argument('-d', '--target_dir')
-        parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
-        parser.add_argument('-i', '--ignorecase', action='store_true')
-        parser.add_argument('-r', '--recursive', action='store_true')
-        parser.add_argument('-s', '--silent', action='store_true', default=False)
-        parser.add_argument('filenames_expr', nargs='*', default='.')
+        parser = argparse.ArgumentParser(
+            description="Search and replace in comments and input fields of .odf files"
+        )
+        parser.add_argument("find_expr", action="append")
+        parser.add_argument("--replace")
+        parser.add_argument("-d", "--target_dir")
+        parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+        parser.add_argument("-i", "--ignorecase", action="store_true")
+        parser.add_argument("-r", "--recursive", action="store_true")
+        parser.add_argument("-s", "--silent", action="store_true", default=False)
+        parser.add_argument("filenames_expr", nargs="*", default=".")
         return parser.parse_args()
 
     def main():
         arguments = parseArguments()
-        verbosity = arguments.__dict__.pop('verbose')
+        verbosity = arguments.__dict__.pop("verbose")
         if verbosity:
             logging.basicConfig(level=logging.DEBUG)
         arguments = vars(arguments)
-        if not arguments['replace']:
+        if not arguments["replace"]:
             search = SearchPODTemplateFiles(**dict([(k, v) for k, v in arguments.iteritems() if v]))
             result = search.run()
         else:

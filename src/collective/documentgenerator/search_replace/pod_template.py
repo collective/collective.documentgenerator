@@ -9,8 +9,7 @@ from collective.documentgenerator.search_replace.utils import SearchAndReplacePO
 from collective.documentgenerator.utils import get_site_root_relative_path
 
 SearchReplaceResult = collections.namedtuple(
-    "SearchReplaceResult",
-    ["pod_expr", "match_start", "match_end", "match", "node_type", "new_pod_expr"]
+    "SearchReplaceResult", ["pod_expr", "match_start", "match_end", "match", "node_type", "new_pod_expr"]
 )
 
 
@@ -89,8 +88,7 @@ class SearchAndReplacePODTemplates:
         regex = re.compile(find_expr)
 
         search_files_results = SearchAndReplacePODTemplateFiles(
-            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None,
-            silent=True, backup=False
+            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None, silent=True, backup=False
         ).search(regex, self.templates_by_filename.keys())
 
         results = self._prepare_results_output(search_files_results)
@@ -109,8 +107,7 @@ class SearchAndReplacePODTemplates:
         regex = re.compile(find_expr)
 
         search_files_results = SearchAndReplacePODTemplateFiles(
-            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None,
-            silent=True, backup=False
+            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None, silent=True, backup=False
         ).search(regex, self.templates_by_filename.keys())
 
         results = self._prepare_results_output(search_files_results, replace_expr)
@@ -137,8 +134,8 @@ class SearchAndReplacePODTemplates:
             for file_result in file_results[1]:
                 pod_expr = file_result["XMLnode"].data
                 for match in file_result["matches"]:
-                    match_str = pod_expr[match.start(): match.end()]
-                    new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end():]
+                    match_str = pod_expr[match.start() : match.end()]
+                    new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end() :]
                     results[template_uid].append(
                         SearchReplaceResult(
                             match=match_str,
@@ -164,7 +161,6 @@ class SearchAndReplacePODTemplates:
             user, ip = get_request_information()
             action = "replace_in_template"
             extras = u"podtemplate={0} match={1} replaced_by={2} old_pod_expr={3} new_pod_expr={4}".format(
-                "/".join(template.getPhysicalPath()), match, replaced_by, old_pod_expr,
-                new_pod_expr,
+                "/".join(template.getPhysicalPath()), match, replaced_by, old_pod_expr, new_pod_expr,
             )
             log_info(unicode(AUDIT_MESSAGE).format(user, ip, action, extras))
