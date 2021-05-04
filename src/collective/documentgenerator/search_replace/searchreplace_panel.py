@@ -14,6 +14,7 @@ from zope import schema, interface, component
 from collective.z3cform.datagridfield import DictRow, DataGridFieldFactory
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator import _
+from zope.interface import invariant, Invalid
 
 
 class IReplacementRowSchema(interface.Interface):
@@ -21,18 +22,11 @@ class IReplacementRowSchema(interface.Interface):
     Schema for DataGridField widget's row of field 'replacements'
     """
 
-    def is_valid_regex(value):
-        try:
-            re.compile(value)
-            return True
-        except re.error:
-            return False
-
-    search_expr = schema.TextLine(title=_(u"Search"), required=True, default=u"", constraint=is_valid_regex)
+    search_expr = schema.TextLine(title=_(u"Search"), required=True, default=u"")
     replace_expr = schema.TextLine(title=_(u"Replace"), required=False, default=u"")
 
-    directives.widget("include", SingleCheckBoxFieldWidget)
-    include = schema.Bool(title=_(u"Preview ?"),)
+    directives.widget("is_regex", SingleCheckBoxFieldWidget)
+    is_regex = schema.Bool(title=_(u"Regex"),)
 
 
 class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
@@ -56,6 +50,16 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
         value_type=DictRow(schema=IReplacementRowSchema, required=True),
     )
 
+    @invariant
+    def has_valid_regexes(data):
+        for i, row in enumerate(data.replacements):
+            if row["is_regex"]:
+                try:
+                    re.compile(row["search_expr"])
+                except re.error:
+                    raise Invalid(_(u"Incorrect regex at row #{}").format(i + 1))
+        return True
+
 
 class DocumentGeneratorSearchReplacePanelAdapter(object):
     interface.implements(IDocumentGeneratorSearchReplacePanelSchema)
@@ -75,18 +79,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     description = _(u"Search & replace among all template directives in this Plone site templates")
 
     def __init__(self, context, request):
-        self.preview_table = OrderedDict()
+        self.is_previewing = False
         self.results_table = OrderedDict()
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
-
-    @button.buttonAndHandler(_("Launch"), name="launch")
-    def handle_launch(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        self.perform_replacements(data)
-        return self.render()
 
     @button.buttonAndHandler(_("Preview"), name="preview")
     def handle_preview(self, action):
@@ -95,6 +90,15 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = self.formErrorsMessage
             return
         self.perform_preview(data)
+        return self.render()
+
+    @button.buttonAndHandler(_("Launch"), name="launch")
+    def handle_launch(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        self.perform_replacements(data)
         return self.render()
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
@@ -112,15 +116,6 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     def updateWidgets(self, prefix=None):
         super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets(prefix)
         self.widgets["replacements"].auto_append = False
-
-    @staticmethod
-    def get_search_exprs(replacements_form_data):
-        """
-        Get all search expressions from form_data
-        """
-        filtered = filter(lambda replacement: replacement["include"], replacements_form_data)
-        search_exprs = map(lambda r: r["search_expr"], filtered)
-        return search_exprs
 
     @staticmethod
     def get_selected_templates(form_data):
@@ -141,11 +136,11 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         self.results_table = {get_site_root_relative_path(template): [] for template in templates}
 
         with SearchAndReplacePODTemplates(templates) as replace:
-            for replacement in form_data["replacements"]:
-                replacement["replace_expr"] = replacement["replace_expr"] or ""
-                search_expr = replacement["search_expr"]
-                replace_expr = replacement["replace_expr"]
-                replace_results = replace.replace(search_expr, replace_expr)
+            for row in form_data["replacements"]:
+                row["replace_expr"] = row["replace_expr"] or ""
+                search_expr = row["search_expr"]
+                replace_expr = row["replace_expr"]
+                replace_results = replace.replace(search_expr, replace_expr, is_regex=row["is_regex"])
 
                 for template_uid, template_result in replace_results.items():
                     template = uuidToObject(template_uid)
@@ -156,21 +151,22 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         """
         Execute preview action
         """
-        search_exprs = self.get_search_exprs(form_data["replacements"])
-        if len(search_exprs) == 0:
+        if len(form_data["replacements"]) == 0:
             self.status = _("Nothing to preview.")
             return
         templates = self.get_selected_templates(form_data)
 
-        self.preview_table = {get_site_root_relative_path(template): [] for template in templates}
+        self.results_table = {get_site_root_relative_path(template): [] for template in templates}
 
         with SearchAndReplacePODTemplates(templates) as search_replace:
-            for search_expr in search_exprs:
-                search_results = search_replace.search(search_expr)
+            for row in form_data["replacements"]:
+                search_expr = row["search_expr"]
+                search_results = search_replace.search(search_expr, is_regex=row["is_regex"])
                 for template_uid, template_result in search_results.items():
                     template = uuidToObject(template_uid)
                     template_path = get_site_root_relative_path(template)
-                    self.preview_table[template_path] += template_result
+                    self.results_table[template_path] += template_result
+            self.is_previewing = True
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
@@ -180,8 +176,8 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
 
     form = DocumentGeneratorSearchReplacePanelForm
 
-    def get_preview_table(self):
-        return self.form_instance.preview_table
+    def is_previewing(self):
+        return self.form_instance.is_previewing
 
     def get_results_table(self):
         return self.form_instance.results_table

@@ -11,6 +11,9 @@ import sys
 import xml.dom.minidom
 import zipfile
 
+CONTENT_XML = "content.xml"
+STYLES_XML = "styles.xml"
+
 
 class SearchPODTemplateFiles(object):
     """
@@ -26,6 +29,7 @@ class SearchPODTemplateFiles(object):
         self.ignorecase = ignorecase
         self.recursive = recursive
         self.silent = silent
+        self.SEARCHABLE_FILES = (CONTENT_XML, STYLES_XML)
 
     def run(self, find_expr=None):
         """
@@ -69,19 +73,17 @@ class SearchPODTemplateFiles(object):
         """
         result = {}
         for filename in files_paths:
-            zip_file = self.open_zip(filename, "r")
-            odf_content = None
-            if zip_file:
-                content_file = self.open_template_content(zip_file)
-                odf_content = content_file.read()
-                zip_file.close()
-
-            if odf_content:
+            for SEARCHABLE_FILE in self.SEARCHABLE_FILES:
+                file_content = self.open_template_content(filename, SEARCHABLE_FILE)
+                if not file_content:
+                    continue
                 # search...
-                xml_tree = xml.dom.minidom.parseString(odf_content)
-                search_result = self.search_XML_content(xml_tree, filename, find_expr)
+                xml_tree = xml.dom.minidom.parseString(file_content)
+                search_result = self.search_XML_content(xml_tree, find_expr)
                 if search_result:
-                    result[filename] = (xml_tree, search_result)
+                    if not result.get(filename):
+                        result[filename] = {}
+                    result[filename][SEARCHABLE_FILE] = (xml_tree, search_result)
                     if not self.silent:
                         display = self.get_result_display(search_result)
                         print(filename)
@@ -98,31 +100,33 @@ class SearchPODTemplateFiles(object):
         else:
             return zip_file
 
-    def open_template_content(self, zip_file):
+    def open_template_content(self, template_file, file):
+        zip_file = self.open_zip(template_file, "r")
         logging.debug("opening archive file '%s'" % zip_file.filename)
         try:
-            odf_content = zip_file.open("content.xml")
+            odf_file = zip_file.open(file)
+            odf_content = odf_file.read()
+            return odf_content
         except KeyError as nocontent:
             print("!!! could not read the content of %s : %s" % (zip_file.filename, nocontent))
             return None
-        else:
-            return odf_content
+        finally:
+            zip_file.close()
 
-    def search_XML_content(self, xml_tree, filename, findexpr):
-        logging.debug("searching text content of '%s'" % filename)
+    def search_XML_content(self, xml_tree, findexpr):
         # the two xml tags we want to browse are 'office:annotation' and 'text:text-input', since its the only place
         # where appyPOD code can be written
         annotation_nodes = [
             node.getElementsByTagName("text:p") for node in xml_tree.getElementsByTagName("office:annotation")
         ]
         result = []
-        result.extend(self.search_XML_pod_zone(annotation_nodes, filename, "comment", findexpr))
+        result.extend(self.search_XML_pod_zone(annotation_nodes, "comment", findexpr))
 
         input_nodes = xml_tree.getElementsByTagName("text:text-input")
-        result.extend(self.search_XML_pod_zone(input_nodes, filename, "input field", findexpr))
+        result.extend(self.search_XML_pod_zone(input_nodes, "input field", findexpr))
         return result
 
-    def search_XML_pod_zone(self, nodes, filename, node_type, findexpr):
+    def search_XML_pod_zone(self, nodes, node_type, findexpr):
         text_lines = []
         node_groups = [self.reach_text_node(node) for node in nodes]
         i = 1
@@ -230,19 +234,22 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         """
         new_files = []
         for filename, search_result in search_results.iteritems():
+            zip_file = zipfile.ZipFile(filename)
             backup_filename = os.path.split(filename)[-1]
+            new_contents = {}
             if self.recursive:
                 backup_filename = filename.strip("./").replace("/", "-")
             if hasattr(self, "backup_dir"):
                 shutil.copyfile(filename, "{}/{}".format(self.backup_dir, backup_filename))
-            zip_file = zipfile.ZipFile(filename)
-            xml_tree, match_result = search_result
-            newcontent = self.get_ODF_new_content(xml_tree, match_result, replace_expr)
+            for sub_file, sub_file_search_result in search_result.items():
+                xml_tree, match_result = sub_file_search_result
+                new_contents[sub_file] = self.get_ODF_new_content(xml_tree, match_result, replace_expr)
+
             new_filename = target_dir and os.path.join(target_dir, backup_filename) or filename
-            new_files.append(self.create_new_ODF(zip_file, newcontent, new_filename, target_dir))
+            new_files.append(self.create_new_ODF(zip_file, new_contents, new_filename, target_dir))
         return new_files
 
-    def create_new_ODF(self, old_odf, newcontent, new_odf_name, target_dir):
+    def create_new_ODF(self, old_odf, newcontents, new_odf_name, target_dir):
         in_place = False
         new_tmp_odf_name = new_odf_name
         if old_odf.filename == new_odf_name:
@@ -251,8 +258,8 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
 
         new_odf = self.open_zip(new_tmp_odf_name, "a")
         for item in old_odf.infolist():
-            if item.filename == "content.xml":
-                new_odf.writestr("content.xml", newcontent, zipfile.ZIP_DEFLATED)
+            if item.filename in newcontents.keys():
+                new_odf.writestr(item.filename, newcontents[item.filename], zipfile.ZIP_DEFLATED)
             else:
                 new_odf.writestr(item, old_odf.read(item.filename))
         old_odf.close()
@@ -292,6 +299,7 @@ if cur_version >= req_version:
         parser.add_argument("-i", "--ignorecase", action="store_true")
         parser.add_argument("-r", "--recursive", action="store_true")
         parser.add_argument("-s", "--silent", action="store_true", default=False)
+        parser.add_argument("-E", "--extended-regexp", action="store_true", default=False)
         parser.add_argument("filenames_expr", nargs="*", default=".")
         return parser.parse_args()
 
@@ -301,6 +309,11 @@ if cur_version >= req_version:
         if verbosity:
             logging.basicConfig(level=logging.DEBUG)
         arguments = vars(arguments)
+
+        is_regex = arguments.pop("extended_regexp")
+        if not is_regex:
+            arguments["find_expr"] = [re.escape(expr) for expr in arguments["find_expr"]]
+
         if not arguments["replace"]:
             search = SearchPODTemplateFiles(**dict([(k, v) for k, v in arguments.iteritems() if v]))
             result = search.run()

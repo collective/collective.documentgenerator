@@ -18,8 +18,8 @@ class SearchAndReplacePODTemplates:
     Search and replace POD expression among PODTemplates.
     Use it like this:
         with SearchAndReplacePODTemplates(podtemplate_obj) as search_replace:
-            search_results = search_replace.search('WhatISearch', is_regex=False)
-            replace_results = search_replace.replace('^WillBeReplaced$', 'ByThis')
+            search_results = search_replace.search('WhatISearch')
+            replace_results = search_replace.replace('^WillBeReplaced$', 'ByThis', is_regex=True)
     """
 
     def __init__(self, podtemplates):
@@ -76,7 +76,7 @@ class SearchAndReplacePODTemplates:
             if os.path.isfile(filename):
                 os.remove(filename)
 
-    def search(self, find_expr, is_regex=True):
+    def search(self, find_expr, is_regex=False):
         """
         Search find_expr in self.podtemplates
         :param find_expr: A regex str or simple string
@@ -91,10 +91,10 @@ class SearchAndReplacePODTemplates:
             find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None, silent=True, backup=False
         ).search(regex, self.templates_by_filename.keys())
 
-        results = self._prepare_results_output(search_files_results)
+        results = self._prepare_results_output(search_files_results, is_replacing=False)
         return results
 
-    def replace(self, find_expr, replace_expr, is_regex=True):
+    def replace(self, find_expr, replace_expr, is_regex=False):
         """
         Replace find_expr match with replace_expr in self.podtemplates
         :param find_expr: A regex str or simple str
@@ -124,29 +124,31 @@ class SearchAndReplacePODTemplates:
             self.changed_files.add(new_file.filename)
         return results
 
-    def _prepare_results_output(self, search_files_results, replace_expr=""):
+    def _prepare_results_output(self, search_files_results, replace_expr="", is_replacing=True):
         """ Prepare results output so we have a nice feedback when searching and replacing """
         results = {}
         for file_path, file_results in search_files_results.items():
             template = self.templates_by_filename[file_path]["obj"]
             template_uid = template.UID()
             results[template_uid] = []
-            for file_result in file_results[1]:
-                pod_expr = file_result["XMLnode"].data
-                for match in file_result["matches"]:
-                    match_str = pod_expr[match.start() : match.end()]
-                    new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end() :]
-                    results[template_uid].append(
-                        SearchReplaceResult(
-                            match=match_str,
-                            pod_expr=pod_expr,
-                            match_start=match.start(),
-                            match_end=match.end(),
-                            node_type=file_result["node_type"],
-                            new_pod_expr=new_pod_expr,
+            for sub_file, sub_file_results in file_results.items():
+                for file_result in sub_file_results[1]:
+                    pod_expr = file_result["XMLnode"].data
+                    for match in file_result["matches"]:
+                        match_str = pod_expr[match.start() : match.end()]
+                        new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end() :]
+                        results[template_uid].append(
+                            SearchReplaceResult(
+                                match=match_str,
+                                pod_expr=pod_expr,
+                                match_start=match.start(),
+                                match_end=match.end(),
+                                node_type=file_result["node_type"],
+                                new_pod_expr=new_pod_expr,
+                            )
                         )
-                    )
-                    self._log_replace(template, match_str, replace_expr, pod_expr, new_pod_expr)
+                        if is_replacing:
+                            self._log_replace(template, match_str, replace_expr, pod_expr, new_pod_expr)
         return results
 
     @staticmethod

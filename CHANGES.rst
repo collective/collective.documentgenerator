@@ -14,6 +14,8 @@ Changelog
   [sdelcourt]
 - Added a script `bin/search_replace` to search and replace in ODT files via CLI.
   [sdelcourt]
+- Added some documentation about search and replace feature.
+  [aduchene]
 
 3.21 (2021-04-20)
 -----------------
