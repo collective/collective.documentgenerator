@@ -285,7 +285,7 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
 req_version = (2, 7)
 cur_version = sys.version_info
 
-if cur_version >= req_version:
+if cur_version >= req_version:  # pragma: no cover
     import argparse
 
     def parseArguments():
