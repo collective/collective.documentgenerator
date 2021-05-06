@@ -313,9 +313,9 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
             self.template2.UID()
         ]
         replacement_mock = [
-            {"replace_expr": "^view.display_date", "search_expr": "view.display_new_date",
+            {"search_expr": "^view.display_date", "replace_expr": "view.display_new_date",
              "is_regex": True},
-            {"replace_expr": "Author", "search_expr": "Writer", "is_regex": False},
+            {"search_expr": "Author", "replace_expr": "Writer", "is_regex": False},
         ]
         formData = {
             "selected_templates": selected_templates_mock,
