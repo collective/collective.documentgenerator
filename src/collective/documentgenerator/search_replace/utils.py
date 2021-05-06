@@ -41,7 +41,7 @@ class SearchPODTemplateFiles(object):
         search_result = self.search(self.find_expr, files)
         return search_result
 
-    def find_files(self, filenames_expr, recursive=False):
+    def find_files(self, filenames_expr, recursive=False):  # pragma: no cover
         """
         """
         result = []
@@ -63,7 +63,7 @@ class SearchPODTemplateFiles(object):
                             result.append(os.path.join(base_path, filename))
         return list(set(result))
 
-    def is_ODF_file(self, filename):
+    def is_ODF_file(self, filename):  # pragma: no cover
         guess = mimetypes.guess_type(filename)[0]
         is_ODF = guess and guess.startswith("application/vnd.oasis.opendocument")
         return is_ODF
@@ -154,7 +154,7 @@ class SearchPODTemplateFiles(object):
 
         return recursive_reach_text_node(node, [])
 
-    def get_result_display(self, searchresult):
+    def get_result_display(self, searchresult):  # pragma: no cover
         to_display = []
         for result in searchresult:
             text = result["XMLnode"].data
@@ -281,12 +281,11 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         return xml_tree.toxml("utf-8")
 
 
-# pragma: no cover
 # parsing arguments code
 req_version = (2, 7)
 cur_version = sys.version_info
 
-if cur_version >= req_version:
+if cur_version >= req_version:  # pragma: no cover
     import argparse
 
     def parseArguments():
