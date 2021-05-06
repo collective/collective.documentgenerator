@@ -84,7 +84,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
 
     @button.buttonAndHandler(_("Preview"), name="preview")
-    def handle_preview(self, action):
+    def handle_preview(self, action):  # pragma: no cover
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
@@ -93,7 +93,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         return self.render()
 
     @button.buttonAndHandler(_("Launch"), name="launch")
-    def handle_launch(self, action):
+    def handle_launch(self, action):  # pragma: no cover
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
@@ -102,18 +102,18 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         return self.render()
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
-    def handle_cancel(self, action):
+    def handle_cancel(self, action):  # pragma: no cover
         self.request.response.redirect(
             "{context_url}/{view}".format(
                 context_url=self.context.absolute_url(), view="@@collective.documentgenerator-controlpanel"
             )
         )
 
-    def updateActions(self):
+    def updateActions(self):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
         self.actions["launch"].addClass("context")  # Make Launch button primary
 
-    def updateWidgets(self, prefix=None):
+    def updateWidgets(self, prefix=None):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets(prefix)
         self.widgets["replacements"].auto_append = False
 

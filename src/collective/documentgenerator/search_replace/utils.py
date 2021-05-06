@@ -31,7 +31,7 @@ class SearchPODTemplateFiles(object):
         self.silent = silent
         self.SEARCHABLE_FILES = (CONTENT_XML, STYLES_XML)
 
-    def run(self, find_expr=None):
+    def run(self, find_expr=None):  # pragma: no cover
         """
         """
         # we can run the search again with a new find_expr
@@ -218,7 +218,7 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
             self.backup_dir = os.path.join(self.tmp_dir, "{}-backup".format(str(datetime.datetime.today())))
             os.mkdir(self.backup_dir)
 
-    def run(self, find_expr="", replace_expr=""):
+    def run(self, find_expr="", replace_expr=""):  # pragma: no cover
         """
         """
         # we can run the replace again with a new find_expr and a new replace_expr
@@ -281,11 +281,12 @@ class SearchAndReplacePODTemplateFiles(SearchPODTemplateFiles):
         return xml_tree.toxml("utf-8")
 
 
+# pragma: no cover
 # parsing arguments code
 req_version = (2, 7)
 cur_version = sys.version_info
 
-if cur_version >= req_version:  # pragma: no cover
+if cur_version >= req_version:
     import argparse
 
     def parseArguments():

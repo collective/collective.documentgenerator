@@ -287,3 +287,40 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         self.browser.open(
             "{}/@@collective.documentgenerator-searchreplacepanel".format(self.portal.absolute_url())
         )
+
+    def test_search_replace_control_panel_can_preview(self):
+        view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")
+        selected_templates_mock = [
+            self.template1.UID(),
+            self.template2.UID()
+        ]
+        replacement_mock = [
+            {"replace_expr": "^view.display_date", "search_expr": "view.display_new_date", "is_regex": True},
+            {"replace_expr": "Author", "search_expr": "Writer", "is_regex": False},
+        ]
+        formData = {
+            "selected_templates": selected_templates_mock,
+            "replacements": replacement_mock
+        }
+
+        view.form_instance.perform_preview(formData)
+        view()
+
+    def test_search_replace_control_panel_can_replace(self):
+        view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")
+        selected_templates_mock = [
+            self.template1.UID(),
+            self.template2.UID()
+        ]
+        replacement_mock = [
+            {"replace_expr": "^view.display_date", "search_expr": "view.display_new_date",
+             "is_regex": True},
+            {"replace_expr": "Author", "search_expr": "Writer", "is_regex": False},
+        ]
+        formData = {
+            "selected_templates": selected_templates_mock,
+            "replacements": replacement_mock
+        }
+
+        view.form_instance.perform_replacements(formData)
+        view()
