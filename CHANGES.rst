@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.18 (unreleased)
------------------
+3.18.1 (2021-05-07)
+-------------------
 
 - Updated file_representation to be compliant with zopeedit < 1.0 (current windows exe) and zopeedit >= 1.0.
   [sgeulette]
