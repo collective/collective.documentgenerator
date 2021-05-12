@@ -150,7 +150,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                 for template_uid, template_result in replace_results.items():
                     template = uuidToObject(template_uid)
                     template_path = get_site_root_relative_path(template)
-                    self.results_table[template_path] += template_result
+                    self.results_table[template_path] = template_result
 
         if len(self.results_table) == 0:
             self.status = _("Nothing found.")
@@ -173,7 +173,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                 for template_uid, template_result in search_results.items():
                     template = uuidToObject(template_uid)
                     template_path = get_site_root_relative_path(template)
-                    self.results_table[template_path] += template_result
+                    self.results_table[template_path] = template_result
             self.is_previewing = True
 
         if len(self.results_table) == 0:
