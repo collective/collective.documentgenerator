@@ -44,7 +44,7 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
         required=False,
         default=[],
         missing_value=[],
-        value_type=schema.Choice(source="collective.documentgenerator.AllPODTemplate"),
+        value_type=schema.Choice(source="collective.documentgenerator.AllPODTemplateWithFile"),
     )
     directives.widget("replacements", DataGridFieldFactory)
     replacements = schema.List(

@@ -206,24 +206,26 @@ class ExistingPODTemplateFactory(object):
         return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
 
 
-class AllPODTemplateFactory(object):
+class AllPODTemplateWithFileFactory(object):
     """
-    Vocabulary factory with all existing_pod_templates.
+    Vocabulary factory with all existing pod_templates.
     """
 
     def __call__(self, context):
         voc_terms = []
 
-        for brain in self._get_all_pod_templates():
+        for brain in self._get_all_pod_templates_with_file():
             voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
 
         return SimpleVocabulary(voc_terms)
 
-    def _get_all_pod_templates(self):
+    def _get_all_pod_templates_with_file(self):
         brains = []
         catalog = api.portal.get_tool('portal_catalog')
         for brain in catalog(object_provides=IPODTemplate.__identifier__):
-            brains.append(brain)
+            template = brain.getObject()
+            if hasattr(template, "odt_file") and template.odt_file:
+                brains.append(brain)
         return brains
 
     def _renderTermTitle(self, brain):

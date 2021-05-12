@@ -139,7 +139,7 @@ class TestVocabularies(BaseTest):
         """
         Test the AllPODTemplate vocabulary.
         """
-        voc_name = 'collective.documentgenerator.AllPODTemplate'
+        voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
-        self.assertEquals(len(voc), 9)
+        self.assertEquals(len(voc), 8)
