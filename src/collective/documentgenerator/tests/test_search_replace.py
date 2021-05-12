@@ -1,13 +1,14 @@
 # coding=utf-8
+from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
+from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.utils import compute_md5
+from plone.testing._z2_testbrowser import Browser
+from zExceptions import Unauthorized
+from zope.interface import Invalid
+
 import io
 import os
 import zipfile
-
-from plone.testing._z2_testbrowser import Browser
-from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
-from collective.documentgenerator.utils import compute_md5
-from zExceptions import Unauthorized
 
 
 class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
@@ -313,4 +314,24 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         view()
 
     def test_search_replace_control_panel_regex_validator(self):
-        pass
+        view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")
+        form = view.form_instance
+        form.update()
+        selected_templates = [self.template1.UID(), self.template2.UID()]
+        replacements = [
+            {"search_expr": "get_elements(", "replace_expr": "", "is_regex": False},
+            {"search_expr": "get_elements(", "replace_expr": "", "is_regex": True},
+        ]
+        data = {'replacements': replacements,
+                'selected_templates': selected_templates}
+        errors = form.widgets.validate(data)
+        self.assertEqual(len(errors), 1)
+        self.assertTrue(isinstance(errors[0], Invalid))
+        self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')
+        replacements = [
+            {"search_expr": "get_elements(", "replace_expr": "", "is_regex": False},
+            {"search_expr": "valid_regex?", "replace_expr": "", "is_regex": True},
+        ]
+        data = {'replacements': replacements}
+        errors = form.widgets.validate(data)
+        self.assertFalse(errors)

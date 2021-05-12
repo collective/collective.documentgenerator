@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
-import re
 from collections import OrderedDict
-
+from collective.documentgenerator import _
+from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator.utils import get_site_root_relative_path
+from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield import DictRow
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
 from plone.autoform import directives
 from plone.autoform.form import AutoExtensibleForm
 from plone.z3cform.widget import SingleCheckBoxFieldWidget
-from z3c.form import button, form
-from zope import schema, interface, component
+from z3c.form import button
+from z3c.form import form
+from zope import component
+from zope import interface
+from zope import schema
+from zope.interface import Invalid
+from zope.interface import invariant
 
-from collective.z3cform.datagridfield import DictRow, DataGridFieldFactory
-from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
-from collective.documentgenerator import _
-from zope.interface import invariant, Invalid
+import re
 
 
 class IReplacementRowSchema(interface.Interface):
@@ -57,7 +61,8 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
                 try:
                     re.compile(row["search_expr"])
                 except re.error:
-                    raise Invalid(_(u"Incorrect regex at row #{}").format(i + 1))
+                    raise Invalid(_(u"Incorrect regex at row #{0} : \"{1}\"").format(
+                        i + 1, row["search_expr"]))
         return True
 
 
