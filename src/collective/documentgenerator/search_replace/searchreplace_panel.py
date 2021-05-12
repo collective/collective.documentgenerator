@@ -56,14 +56,14 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
 
     @invariant
     def has_valid_regexes(data):
-        for i, row in enumerate(data.replacements):
-            if row["is_regex"]:
-                try:
-                    re.compile(row["search_expr"])
-                except re.error:
-                    raise Invalid(_(u"Incorrect regex at row #{0} : \"{1}\"").format(
-                        i + 1, row["search_expr"]))
-        return True
+        if hasattr(data, 'replacements'):
+            for i, row in enumerate(data.replacements):
+                if row["is_regex"]:
+                    try:
+                        re.compile(row["search_expr"])
+                    except re.error:
+                        raise Invalid(_(u"Incorrect regex at row #{0} : \"{1}\"").format(
+                            i + 1, row["search_expr"]))
 
 
 class DocumentGeneratorSearchReplacePanelAdapter(object):
