@@ -94,3 +94,7 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     color:green
 }
 
+/* selected_templates field, make it higher */
+div#formfield-form-widgets-selected_templates select {
+    height: 300px;
+}

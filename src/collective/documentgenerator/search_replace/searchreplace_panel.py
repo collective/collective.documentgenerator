@@ -30,7 +30,7 @@ class IReplacementRowSchema(interface.Interface):
     replace_expr = schema.TextLine(title=_(u"Replace"), required=False, default=u"")
 
     directives.widget("is_regex", SingleCheckBoxFieldWidget)
-    is_regex = schema.Bool(title=_(u"Regex"),)
+    is_regex = schema.Bool(title=_(u"Regex?"),)
 
 
 class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):

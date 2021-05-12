@@ -9,8 +9,6 @@
 <metal:block fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)"/>
 
-
-
 <body>
 <div id="content" metal:fill-slot="prefs_configlet_content">
 
@@ -49,11 +47,11 @@
                 <tal:block repeat="result python:template[1]">
                     <tr>
                         <td>
-                            <b tal:condition="not:view/is_previewing" i18n:translate="">Before :</b>
+                            <b tal:condition="not:view/is_previewing"><span i18n:translate="">Before</span> :</b>
                             <span class="search-cell"
                                 tal:content="structure python:view.highlight_pod_expr(result.pod_expr, result.match_start, result.match_end)"
                             />
-                            <b tal:condition="not:view/is_previewing" i18n:translate="">After :</b>
+                            <b tal:condition="not:view/is_previewing"><span i18n:translate="">After</span> :</b>
                             <span class="search-cell" tal:condition="not:view/is_previewing" tal:content="python:result.new_pod_expr"/>
                         </td>
                         <td>
