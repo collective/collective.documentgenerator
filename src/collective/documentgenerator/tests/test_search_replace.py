@@ -291,23 +291,26 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
     def test_search_replace_control_panel_can_preview(self):
         view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")
         selected_templates_mock = [self.template1.UID(), self.template2.UID()]
-        replacement_mock = [
+        replacements_mock = [
             {"search_expr": "^view.display_date", "replace_expr": "view.display_new_date", "is_regex": True},
             {"search_expr": "Author", "replace_expr": "Writer", "is_regex": False},
         ]
-        formData = {"selected_templates": selected_templates_mock, "replacements": replacement_mock}
+        form_data = {"selected_templates": selected_templates_mock, "replacements": replacements_mock}
 
-        view.form_instance.perform_preview(formData)
+        view.form_instance.perform_preview(form_data)
         view()
 
     def test_search_replace_control_panel_can_replace(self):
         view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")
         selected_templates_mock = [self.template1.UID(), self.template2.UID()]
-        replacement_mock = [
+        replacements_mock = [
             {"search_expr": "^view.display_date", "replace_expr": "view.display_new_date", "is_regex": True},
             {"search_expr": "Author", "replace_expr": "Writer", "is_regex": False},
         ]
-        formData = {"selected_templates": selected_templates_mock, "replacements": replacement_mock}
+        form_data = {"selected_templates": selected_templates_mock, "replacements": replacements_mock}
 
-        view.form_instance.perform_replacements(formData)
+        view.form_instance.perform_replacements(form_data)
         view()
+
+    def test_search_replace_control_panel_regex_validator(self):
+        pass
