@@ -5,6 +5,7 @@ from collective.documentgenerator.search_replace.pod_template import SearchAndRe
 from collective.documentgenerator.utils import get_site_root_relative_path
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from plone import api
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
 from plone.autoform import directives
@@ -192,6 +193,9 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
 
     def get_results_table(self):
         return self.form_instance.results_table
+
+    def get_template_link(self, path):
+        return api.portal.get().absolute_url() + path
 
     @staticmethod
     def highlight_pod_expr(pod_expr, start, end):

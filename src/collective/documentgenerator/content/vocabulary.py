@@ -229,7 +229,7 @@ class AllPODTemplateWithFileFactory(object):
         return brains
 
     def _renderTermTitle(self, brain):
-        return get_site_root_relative_path(brain.getObject())
+        return u'{} ({})'.format(safe_unicode(get_site_root_relative_path(brain.getObject())), safe_unicode(brain.Title))
 
 
 class CSVFieldDelimiterFactory(object):

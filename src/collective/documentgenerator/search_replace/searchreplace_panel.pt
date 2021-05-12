@@ -39,8 +39,8 @@
             <tal:block repeat="template templates">
                 <tr class="header">
                     <td colspan="3">
-                        <div class="search-group">
-                            <span tal:content="python:template[0]"/>
+                        <div class="search-group" tal:define="template_url python:view.get_template_link(template[0])">
+                            <a tal:attributes="href template_url" tal:content="python:template[0]"/>
                         </div>
                     </td>
                 </tr>
