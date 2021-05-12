@@ -138,7 +138,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             return
 
         templates = self.get_selected_templates(form_data)
-        self.results_table = {get_site_root_relative_path(template): [] for template in templates}
+        self.results_table = {}
 
         with SearchAndReplacePODTemplates(templates) as replace:
             for row in form_data["replacements"]:
@@ -152,6 +152,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                     template_path = get_site_root_relative_path(template)
                     self.results_table[template_path] += template_result
 
+        if len(self.results_table) == 0:
+            self.status = _("Nothing found.")
+
     def perform_preview(self, form_data):
         """
         Execute preview action
@@ -161,7 +164,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             return
         templates = self.get_selected_templates(form_data)
 
-        self.results_table = {get_site_root_relative_path(template): [] for template in templates}
+        self.results_table = {}
 
         with SearchAndReplacePODTemplates(templates) as search_replace:
             for row in form_data["replacements"]:
@@ -172,6 +175,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                     template_path = get_site_root_relative_path(template)
                     self.results_table[template_path] += template_result
             self.is_previewing = True
+
+        if len(self.results_table) == 0:
+            self.status = _("Nothing found.")
 
 
 class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):

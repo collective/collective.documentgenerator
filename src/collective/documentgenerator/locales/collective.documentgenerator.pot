@@ -302,6 +302,11 @@ msgstr ""
 msgid "Nothing to replace."
 msgstr ""
 
+#: ../search_replace/searchreplace_panel.py:156
+#: ../search_replace/searchreplace_panel.py:180
+msgid "Nothing found."
+msgstr ""
+
 #: ../content/pod_template.py:55
 #: ../content/style_template.py:28
 msgid "ODT File"
