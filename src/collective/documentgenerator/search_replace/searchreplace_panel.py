@@ -98,8 +98,8 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         self.perform_preview(data)
         return self.render()
 
-    @button.buttonAndHandler(_("Launch"), name="launch")
-    def handle_launch(self, action):  # pragma: no cover
+    @button.buttonAndHandler(_("Apply"), name="apply")
+    def handle_apply(self, action):  # pragma: no cover
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
@@ -117,7 +117,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     def updateActions(self):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
-        self.actions["launch"].addClass("context")  # Make Launch button primary
+        self.actions["apply"].addClass("context")  # Make "Apply" button primary
 
     def updateWidgets(self, prefix=None):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets(prefix)

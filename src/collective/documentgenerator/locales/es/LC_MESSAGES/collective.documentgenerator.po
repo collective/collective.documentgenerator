@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.documentgenerator 1.0\n"
-"POT-Creation-Date: 2021-05-12 12:36+0000\n"
+"POT-Creation-Date: 2021-05-19 10:38+0000\n"
 "PO-Revision-Date: 2020-05-04 14:23-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -51,7 +51,11 @@ msgstr ""
 msgid "Allowed portal types"
 msgstr "Tipos de contenido permitidos"
 
-#: ../content/vocabulary.py:304
+#: ../search_replace/searchreplace_panel.py:101
+msgid "Apply"
+msgstr ""
+
+#: ../content/vocabulary.py:306
 msgid "Auto"
 msgstr ""
 
@@ -76,7 +80,7 @@ msgid "Can't import python uno library with the python path"
 msgstr "Falló la importación de la librería UNO en su entorno Python"
 
 #: ../browser/controlpanel.py:137
-#: ../search_replace/searchreplace_panel.py:109
+#: ../search_replace/searchreplace_panel.py:110
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -230,7 +234,7 @@ msgstr "Una vez activado, esto evita que se genere un documento que contiene un 
 msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
 msgstr "Si está habilitado, esto obligará a usar el stream para comunicarse con el servidor OpenOffice/LibreOffice. Esto debe ser cierto si el servidor OpenOffice/LibreOffice no está en localhost o está en un contenedor acoplable."
 
-#: ../search_replace/searchreplace_panel.py:65
+#: ../search_replace/searchreplace_panel.py:66
 msgid "Incorrect regex at row #{0} : \"{1}\""
 msgstr ""
 
@@ -249,10 +253,6 @@ msgstr "Le ruta Python especificada no valida"
 #: ../helper/base.py:83
 msgid "Invalid phone number: '${nb}'"
 msgstr "Número de teléfono no valido: '${nb}'"
-
-#: ../search_replace/searchreplace_panel.py:100
-msgid "Launch"
-msgstr ""
 
 #: ../browser/children_pod_template.pt:2
 msgid "Linked POD Template using this one"
@@ -285,7 +285,7 @@ msgstr "Modificado"
 msgid "Multiple format template"
 msgstr "Plantilla de formatos múltiples"
 
-#: ../content/vocabulary.py:306
+#: ../content/vocabulary.py:308
 msgid "No"
 msgstr ""
 
@@ -301,11 +301,15 @@ msgstr "Ningún"
 msgid "Nothing"
 msgstr "Activado pero sin procesamiento por defecto"
 
-#: ../search_replace/searchreplace_panel.py:160
+#: ../search_replace/searchreplace_panel.py:157
+msgid "Nothing found."
+msgstr ""
+
+#: ../search_replace/searchreplace_panel.py:164
 msgid "Nothing to preview."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:137
+#: ../search_replace/searchreplace_panel.py:138
 msgid "Nothing to replace."
 msgstr ""
 
@@ -359,7 +363,7 @@ msgid "Possibly mailed template"
 msgstr "Plantilla la cual se puede enviar por correo"
 
 #: ../search_replace/searchreplace_panel.pt:24
-#: ../search_replace/searchreplace_panel.py:91
+#: ../search_replace/searchreplace_panel.py:92
 msgid "Preview"
 msgstr ""
 
@@ -371,15 +375,15 @@ msgstr "Problema al actualizar de estilos en la plantilla '${tmpl}': ${err}"
 msgid "Raise an error instead generating the document"
 msgstr "En caso de error, produzca un error de Plone en lugar de un error en el documento generado"
 
-#: ../search_replace/searchreplace_panel.py:33
+#: ../search_replace/searchreplace_panel.py:34
 msgid "Regex?"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:30
+#: ../search_replace/searchreplace_panel.py:31
 msgid "Replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:51
+#: ../search_replace/searchreplace_panel.py:52
 msgid "Replacements"
 msgstr ""
 
@@ -403,11 +407,11 @@ msgstr "Plantilla usada en el archivo Open Document de otra plantilla"
 msgid "Save"
 msgstr "Guardar"
 
-#: ../search_replace/searchreplace_panel.py:29
+#: ../search_replace/searchreplace_panel.py:30
 msgid "Search"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:83
+#: ../search_replace/searchreplace_panel.py:84
 msgid "Search & Replace"
 msgstr ""
 
@@ -415,7 +419,7 @@ msgstr ""
 msgid "Search & replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:84
+#: ../search_replace/searchreplace_panel.py:85
 msgid "Search & replace among all template directives in this Plone site templates"
 msgstr ""
 
@@ -488,7 +492,7 @@ msgstr "Plantillas a fusionar."
 msgid "The Document Generator settings control panel"
 msgstr "El panel de control de configuración del Generador de documentos"
 
-#: ../search_replace/searchreplace_panel.py:52
+#: ../search_replace/searchreplace_panel.py:53
 msgid "The replacements that will be made."
 msgstr ""
 
@@ -508,7 +512,7 @@ msgstr "Valor"
 msgid "Variable name"
 msgstr "Nombre de variable"
 
-#: ../content/vocabulary.py:305
+#: ../content/vocabulary.py:307
 msgid "Yes"
 msgstr ""
 
@@ -550,7 +554,7 @@ msgid "comment"
 msgstr "Comentario"
 
 #. Default: "Select which templates."
-#: ../search_replace/searchreplace_panel.py:43
+#: ../search_replace/searchreplace_panel.py:44
 msgid "description_selected_templates"
 msgstr ""
 
@@ -560,7 +564,7 @@ msgid "element_not_valid"
 msgstr "El elemento ${elem} no es valido para la extensión .${extension} de su plantilla \"${template}\""
 
 #. Default: "Selected templates"
-#: ../search_replace/searchreplace_panel.py:42
+#: ../search_replace/searchreplace_panel.py:43
 msgid "heading_selected_templates"
 msgstr ""
 
