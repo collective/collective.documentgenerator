@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import mimetypes
-import os
-import tempfile
-import unicodedata
-from StringIO import StringIO
-
-import pkg_resources
+from .. import _
 from AccessControl import Unauthorized
-from Products.CMFPlone.utils import base_hasattr
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
 from appy.pod.renderer import CsvOptions
 from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
@@ -24,11 +15,21 @@ from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from StringIO import StringIO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryAdapter
 from zope.component import queryUtility
-from .. import _
+
+import mimetypes
+import os
+import pkg_resources
+import tempfile
+import unicodedata
+
 
 HAS_FINGERPOINTING = None
 

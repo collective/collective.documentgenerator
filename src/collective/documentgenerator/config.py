@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from Products.CMFPlone.utils import safe_unicode
 from plone import api
+from Products.CMFPlone.utils import safe_unicode
 
 import os
+
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
                ('csv', 'Comma Separated Values (.csv)'),

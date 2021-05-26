@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from collective.documentgenerator import _
 from plone import api
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
 from zope.component import getMultiAdapter

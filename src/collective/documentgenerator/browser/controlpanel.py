@@ -2,8 +2,10 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
-from collective.documentgenerator.config import DEFAULT_OO_SERVER, DEFAULT_OO_PORT, DEFAULT_PYTHON_UNO, \
-    DEFAULT_COLUMN_MODIFIER
+from collective.documentgenerator.config import DEFAULT_COLUMN_MODIFIER
+from collective.documentgenerator.config import DEFAULT_OO_PORT
+from collective.documentgenerator.config import DEFAULT_OO_SERVER
+from collective.documentgenerator.config import DEFAULT_PYTHON_UNO
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm

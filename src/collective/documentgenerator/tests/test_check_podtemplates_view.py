@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
-
-from collective.documentgenerator.content.pod_template import PODTemplate, IPODTemplate
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.content.pod_template import PODTemplate
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import translate as _
 from plone import api
 from plone.namedfile import NamedBlobFile
+
+import os
 
 
 class TestCheckPodTemplatesView(PODTemplateIntegrationTest):

@@ -1,12 +1,13 @@
-import collections
-import os
-import mimetypes
-import re
-
-from plone.namedfile import NamedBlobFile
 from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINTING
 from collective.documentgenerator.search_replace.utils import SearchAndReplacePODTemplateFiles
 from collective.documentgenerator.utils import get_site_root_relative_path
+from plone.namedfile import NamedBlobFile
+
+import collections
+import mimetypes
+import os
+import re
+
 
 SearchReplaceResult = collections.namedtuple(
     "SearchReplaceResult", ["pod_expr", "match_start", "match_end", "match", "node_type", "new_pod_expr"]

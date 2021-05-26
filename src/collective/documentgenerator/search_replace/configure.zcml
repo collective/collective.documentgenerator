@@ -12,9 +12,8 @@
         class="collective.documentgenerator.search_replace.searchreplace_panel.DocumentGeneratorSearchReplace"
         permission="cmf.ManagePortal"
         layer="..interfaces.ICollectiveDocumentGeneratorLayer"
-        template="searchreplace_panel.pt"
-    />
+        template="searchreplace_panel.pt" />
 
-    <adapter factory=".searchreplace_panel.DocumentGeneratorSearchReplacePanelAdapter"/>
+    <adapter factory=".searchreplace_panel.DocumentGeneratorSearchReplacePanelAdapter" />
 
 </configure>

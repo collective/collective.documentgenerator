@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import os
-import tempfile
-
-import appy.pod
-from Products.CMFPlone.utils import safe_unicode
 from appy.shared.utils import executeCommand
 from collective.documentgenerator import _
 from collective.documentgenerator import config
@@ -13,8 +7,15 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
 from zope.i18n import translate
+
+import appy.pod
+import logging
+import os
+import tempfile
+
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 

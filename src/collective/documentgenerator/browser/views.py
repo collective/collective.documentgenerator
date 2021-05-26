@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-from collections import OrderedDict
-
-import plone
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from collections import OrderedDict
 from collective.documentgenerator.browser.table import TemplatesTable
-from collective.documentgenerator.content.pod_template import (
-    IPODTemplate,
-    MailingLoopTemplate,
-    SubTemplate,
-)
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.content.pod_template import MailingLoopTemplate
+from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from collective.documentgenerator.utils import translate as _
 from OFS.interfaces import IOrderedContainer
@@ -22,9 +18,11 @@ from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.browserpage import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
-from zope.interface import implementer, alsoProvides
+from zope.interface import alsoProvides
+from zope.interface import implementer
 
 import os
+import plone
 
 
 class ResetMd5(BrowserView):

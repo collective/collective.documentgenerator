@@ -46,7 +46,7 @@
 
     <!-- All POD Template Vocabulary -->
     <utility
-        factory=".vocabulary.AllPODTemplateWithFileFactory"
+        factory=".vocabulary.AllPODTemplateWithFileVocabularyFactory"
         name="collective.documentgenerator.AllPODTemplateWithFile"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />

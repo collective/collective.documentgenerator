@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator import _
+from collective.documentgenerator.config import get_column_modifier
+from collective.documentgenerator.config import get_csv_field_delimiters
+from collective.documentgenerator.config import get_csv_string_delimiters
+from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
 from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.config import get_column_modifier, get_csv_field_delimiters, get_csv_string_delimiters
-from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.utils import get_site_root_relative_path
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
@@ -206,7 +208,7 @@ class ExistingPODTemplateFactory(object):
         return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
 
 
-class AllPODTemplateWithFileFactory(object):
+class AllPODTemplateWithFileVocabularyFactory(object):
     """
     Vocabulary factory with all existing pod_templates.
     """
@@ -229,7 +231,9 @@ class AllPODTemplateWithFileFactory(object):
         return brains
 
     def _renderTermTitle(self, brain):
-        return u'{} ({})'.format(safe_unicode(get_site_root_relative_path(brain.getObject())), safe_unicode(brain.Title))
+        return u'{} ({})'.format(
+            safe_unicode(get_site_root_relative_path(brain.getObject())),
+            safe_unicode(brain.Title))
 
 
 class CSVFieldDelimiterFactory(object):

@@ -2,8 +2,8 @@
 
 from imio.migrator.migrator import Migrator
 from plone import api
-from plone.registry import Record
 from plone.registry import field
+from plone.registry import Record
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 

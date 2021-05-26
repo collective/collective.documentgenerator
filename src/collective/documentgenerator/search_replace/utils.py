@@ -11,6 +11,7 @@ import sys
 import xml.dom.minidom
 import zipfile
 
+
 CONTENT_XML = "content.xml"
 STYLES_XML = "styles.xml"
 
