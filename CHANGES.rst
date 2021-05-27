@@ -16,6 +16,8 @@ Changelog
   [sdelcourt]
 - Added some documentation about search and replace feature.
   [aduchene]
+- Added `portal` to the default generation context.
+  [gbastien]
 
 3.21 (2021-04-20)
 -----------------

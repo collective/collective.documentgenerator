@@ -302,6 +302,7 @@ class DocumentGenerationView(BrowserView):
         generation_context = self.get_base_generation_context(helper_view, pod_template)
         utils.update_dict_with_validation(generation_context,
                                           {'context': getattr(helper_view, 'context', None),
+                                           'portal': api.portal.get(),
                                            'view': helper_view},
                                           _("Error when merging helper_view in generation context"))
         utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
