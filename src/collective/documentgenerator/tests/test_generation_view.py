@@ -225,10 +225,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         hpv = view.get_generation_context_helper()
         # Check context variables
         self.assertDictEqual(view._get_generation_context(hpv, pod_template),
-                            {'details': '1', 'portal': self.portal, 'context': hpv.context, 'view': hpv})
+                             {'details': '1',
+                              'portal': self.portal,
+                              'context': hpv.context,
+                              'view': hpv})
         # Check configurable pod template
         self.assertDictEqual(view._get_generation_context(hpv, self.test_podtemplate),
-                             {'context': hpv.context, 'portal': self.portal, 'view': hpv})
+                             {'context': hpv.context,
+                              'portal': self.portal,
+                              'view': hpv})
 
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
 
