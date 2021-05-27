@@ -1,7 +1,7 @@
 .. image:: https://github.com/collective/collective.documentgenerator/actions/workflows/python-package.yml/badge.svg?branch=master
     :target: https://github.com/collective/collective.documentgenerator/actions/workflows/python-package.yml
 
-.. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.png?branch=master
+.. image:: https://coveralls.io/repos/collective/collective.documentgenerator/badge.svg?branch=master
    :alt: Coveralls badge
    :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
 
