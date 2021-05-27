@@ -44,6 +44,13 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+    <!-- All POD Template Vocabulary -->
+    <utility
+        factory=".vocabulary.AllPODTemplateWithFileVocabularyFactory"
+        name="collective.documentgenerator.AllPODTemplateWithFile"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
     <!-- columnModifier Vocabulary -->
     <utility
         factory=".vocabulary.PodColumnModifierVocabularyFactory"

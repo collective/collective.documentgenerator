@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_5_1, HAS_PLONE_4
+from collective.documentgenerator.config import HAS_PLONE_4
+from collective.documentgenerator.config import HAS_PLONE_5_1
 from collective.documentgenerator.testing import DexterityIntegrationTests
 from plone import api
 from plone.app.testing import login

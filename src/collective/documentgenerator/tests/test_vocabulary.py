@@ -134,3 +134,12 @@ class TestVocabularies(BaseTest):
 
         voc = vocabulary(self.portal)
         self.assertListEqual([reusable_template_2.UID(), test_podtemplate.UID()], [t.value for t in voc])
+
+    def test_all_pod_templates_vocabulary(self):
+        """
+        Test the AllPODTemplate vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        self.assertEquals(len(voc), 8)

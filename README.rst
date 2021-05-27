@@ -128,6 +128,12 @@ Clicking the template link will call the 'document-generation' view.
   * loop on persisted rendered document and create a file containing all documents
   * parameters: document UID
 
+**Search and replace**
+----------------------
+
+Documentation about the search and replace feature is here :
+`docs/search_replace.rst <https://github.com/collective/collective.documentgenerator/tree/master/docs/search_replace.rst>`_
+
 
 Plone versions
 --------------

@@ -5,8 +5,8 @@ from collective.documentgenerator.config import HAS_PLONE_5_2
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
-from collective.documentgenerator.utils import safe_encode
 from collective.documentgenerator.utils import translate as _
+from collective.documentgenerator.utils import safe_encode
 from DateTime import DateTime
 from plone import api
 from plone.app.textfield import RichText

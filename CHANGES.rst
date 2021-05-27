@@ -4,8 +4,18 @@ Changelog
 3.22 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added a view to search and replace in POD templates pod expressions `@@collective.documentgenerator-controlpanel`.
+  [aduchene]
+- Added an helper class `SearchAndReplacePODTemplates` that can search and replace in POD templates pod expressions.
+  [aduchene]
+- Added tests on search and replace feature.
+  [aduchene]
+- Added utility classes to search and replace pod expressions in ODT files.
+  [sdelcourt]
+- Added a script `bin/search_replace` to search and replace in ODT files via CLI.
+  [sdelcourt]
+- Added some documentation about search and replace feature.
+  [aduchene]
 
 3.21 (2021-04-20)
 -----------------

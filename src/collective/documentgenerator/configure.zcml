@@ -22,6 +22,7 @@
     <include package=".content" />
     <include package=".demo" />
     <include package=".events" />
+    <include package=".search_replace"/>
     <include package=".helper"/>
     <include package=".viewlets" />
 

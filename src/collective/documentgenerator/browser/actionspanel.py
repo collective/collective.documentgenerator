@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.utils import base_hasattr
 
+
 try:
     from imio.actionspanel.browser.views import ActionsPanelView
 

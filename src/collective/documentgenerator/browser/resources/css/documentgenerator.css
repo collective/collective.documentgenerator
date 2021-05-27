@@ -46,6 +46,30 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     width: 24px;
 }
 
+
+/* search and replace controlpanel */
+
+.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .search-cell {
+    margin: 0.5em;
+    font-family: monospace;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    display: block;
+}
+
+.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .search-group {
+    display: flex;
+    justify-content: center;
+    background-color: #fafafa2b;
+    padding: 0.5em 0;
+    border-radius : 2px;
+}
+
+.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .highlight {
+    font-size: 1.2em;
+    color: red;
+}
+
 .check_pod_template_error {
     color:red
 }
@@ -68,4 +92,9 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
 
 .check_pod_template_clean {
     color:green
+}
+
+/* selected_templates field, make it higher */
+div#formfield-form-widgets-selected_templates select {
+    height: 300px;
 }

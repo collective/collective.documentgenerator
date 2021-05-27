@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator import _
-from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
-from collective.documentgenerator.config import get_column_modifier, get_csv_field_delimiters, get_csv_string_delimiters
+from collective.documentgenerator.config import get_column_modifier
+from collective.documentgenerator.config import get_csv_field_delimiters
+from collective.documentgenerator.config import get_csv_string_delimiters
 from collective.documentgenerator.config import POD_FORMATS
+from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.utils import get_site_root_relative_path
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.i18n import MessageFactory as _z3c_form
@@ -202,6 +206,34 @@ class ExistingPODTemplateFactory(object):
 
     def _renderTermTitle(self, brain):
         return u'{} -> {}'.format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
+
+
+class AllPODTemplateWithFileVocabularyFactory(object):
+    """
+    Vocabulary factory with all existing pod_templates.
+    """
+
+    def __call__(self, context):
+        voc_terms = []
+
+        for brain in self._get_all_pod_templates_with_file():
+            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+
+        return SimpleVocabulary(voc_terms)
+
+    def _get_all_pod_templates_with_file(self):
+        brains = []
+        catalog = api.portal.get_tool('portal_catalog')
+        for brain in catalog(object_provides=IPODTemplate.__identifier__):
+            template = brain.getObject()
+            if hasattr(template, "odt_file") and template.odt_file:
+                brains.append(brain)
+        return brains
+
+    def _renderTermTitle(self, brain):
+        return u'{} ({})'.format(
+            safe_unicode(get_site_root_relative_path(brain.getObject())),
+            safe_unicode(brain.Title))
 
 
 class CSVFieldDelimiterFactory(object):

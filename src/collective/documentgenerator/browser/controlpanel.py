@@ -2,8 +2,10 @@
 
 from collective.documentgenerator import _
 from collective.documentgenerator import interfaces
-from collective.documentgenerator.config import DEFAULT_OO_SERVER, DEFAULT_OO_PORT, DEFAULT_PYTHON_UNO, \
-    DEFAULT_COLUMN_MODIFIER
+from collective.documentgenerator.config import DEFAULT_COLUMN_MODIFIER
+from collective.documentgenerator.config import DEFAULT_OO_PORT
+from collective.documentgenerator.config import DEFAULT_OO_SERVER
+from collective.documentgenerator.config import DEFAULT_PYTHON_UNO
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -115,12 +117,22 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
         IStatusMessage(self.request).addStatusMessage(_(u'Changes saved'), 'info')
         self.context.REQUEST.RESPONSE.redirect('@@collective.documentgenerator-controlpanel')
 
+    @button.buttonAndHandler(_('Search & replace'), name='search_and_replace')
+    def handleSearchAndReplace(self, action):
+        self.request.response.redirect(
+            '{context_url}/{view}'.format(
+                context_url=self.context.absolute_url(),
+                view="@@collective.documentgenerator-searchreplacepanel"
+            )
+        )
+
     @button.buttonAndHandler(_('Check Pod Templates'), name='checkPod')
     def handleCheckPod(self, action):
         self.request.response.redirect(
             '{context_url}/{view}'.format(
                 context_url=self.context.absolute_url(),
                 view="@@check-pod-templates"
+
             )
         )
 
