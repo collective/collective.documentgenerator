@@ -76,9 +76,8 @@ def _update_template_styles(pod_template, style_template_filename):
         pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
-    new_template = open(temp_file.name, 'w')
-    new_template.write(pod_template.odt_file.data)
-    new_template.close()
+    with open(temp_file.name, 'w') as new_template:
+        new_template.write(pod_template.odt_file.data)
 
     # merge style from templateStyle in template
     cmd = '{path} {script} {tmp_file} {extension} -e ' \
@@ -110,22 +109,22 @@ def _update_template_styles(pod_template, style_template_filename):
     # read the merged file
     resTempFileName = '.res.'.join(temp_file.name.rsplit('.', 1))
     if os.path.isfile(resTempFileName):
-        resTemplate = open(resTempFileName, 'rb')
-        # update template
-        result = NamedBlobFile(data=resTemplate.read(),
-                               contentType='application/vnd.oasis.opendocument.text',
-                               filename=pod_template.odt_file.filename)
-        pod_template.odt_file = result
+        with open(resTempFileName, 'rb') as resTemplate:
+            # update template
+            result = NamedBlobFile(data=resTemplate.read(),
+                                   contentType='application/vnd.oasis.opendocument.text',
+                                   filename=pod_template.odt_file.filename)
+            pod_template.odt_file = result
+            # if only styles were modified: update the style_modification_md5 attribute
+            if style_changes_only:
+                pod_template.style_modification_md5 = pod_template.current_md5
         remove_tmp_file(resTempFileName)
-        # if only styles were modified: update the style_modification_md5 attribute
-        if style_changes_only:
-            pod_template.style_modification_md5 = pod_template.current_md5
-
     remove_tmp_file(temp_file.name)
 
 
 def create_temporary_file(initial_file=None, base_name=''):
-    tmp_file = tempfile.NamedTemporaryFile(suffix=base_name, delete=False)
+    tmp_dir = os.getenv('CUSTOM_TMP', None)
+    tmp_file = tempfile.NamedTemporaryFile(suffix=base_name, delete=False, dir=tmp_dir)
     if initial_file:
         tmp_file.file.write(initial_file.data)
     tmp_file.close()
