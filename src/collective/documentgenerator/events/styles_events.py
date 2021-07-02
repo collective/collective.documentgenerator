@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 
+import logging
+import os
+
+import appy.pod
 from appy.shared.utils import executeCommand
-from collective.documentgenerator import _
-from collective.documentgenerator import config
-from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
 from zope.i18n import translate
 
-import appy.pod
-import logging
-import os
-import tempfile
-
+from collective.documentgenerator import _, config
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.utils import (remove_tmp_file,
+                                                temporary_file_name)
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
@@ -123,9 +122,9 @@ def _update_template_styles(pod_template, style_template_filename):
 
 
 def create_temporary_file(initial_file=None, base_name=''):
-    tmp_dir = os.getenv('CUSTOM_TMP', None)
-    tmp_file = tempfile.NamedTemporaryFile(suffix=base_name, delete=False, dir=tmp_dir)
-    if initial_file:
-        tmp_file.file.write(initial_file.data)
-    tmp_file.close()
+    tmp_filename = temporary_file_name(suffix=base_name)
+    # create the file in any case
+    with open(tmp_filename, 'w+') as tmp_file:
+        if initial_file:
+            tmp_file.write(initial_file.data)
     return tmp_file

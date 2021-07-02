@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-from collective.documentgenerator import _
+import hashlib
+import logging
+import os
+import re
+import tempfile
+
 from plone import api
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -8,11 +13,7 @@ from zope.component import getMultiAdapter
 from zope.interface import Invalid
 from zope.lifecycleevent import modified
 
-import hashlib
-import logging
-import os
-import re
-
+from collective.documentgenerator import _
 
 logger = logging.getLogger('collective.documentgenerator')
 
@@ -105,8 +106,10 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
         plone = getMultiAdapter((context, request), name=u'plone')
         formatted_date = plone.toLocalizedTime(date, long_format, time_only)
     else:
-        from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr, weekdayname_msgid
-        from Products.CMFPlone.i18nl10n import monthname_msgid_abbr, monthname_msgid
+        from Products.CMFPlone.i18nl10n import (monthname_msgid,
+                                                monthname_msgid_abbr,
+                                                weekdayname_msgid,
+                                                weekdayname_msgid_abbr)
         if request is None:
             portal = api.portal.get()
             request = portal.REQUEST
@@ -157,3 +160,10 @@ def get_site_root_relative_path(obj):
         getToolByName(obj, 'portal_url').getRelativeContentPath(obj)
 
     )
+
+
+def temporary_file_name(suffix=''):
+    tmp_dir = os.getenv('CUSTOM_TMP', None)
+    if tmp_dir and not os.path.exists(tmp_dir):
+        os.mkdir(tmp_dir)
+    return tempfile.mktemp(suffix=suffix, dir=tmp_dir)

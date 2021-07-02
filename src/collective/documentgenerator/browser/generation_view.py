@@ -1,35 +1,29 @@
 # -*- coding: utf-8 -*-
 
-from .. import _
+import mimetypes
+import unicodedata
+
+import pkg_resources
 from AccessControl import Unauthorized
-from appy.pod.renderer import CsvOptions
-from appy.pod.renderer import Renderer
+from appy.pod.renderer import CsvOptions, Renderer
 from appy.pod.styles_manager import TableProperties
-from collective.documentgenerator import config
-from collective.documentgenerator import utils
-from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
-from collective.documentgenerator.interfaces import IDocumentFactory
-from collective.documentgenerator.interfaces import PODTemplateNotFoundError
-from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
-from Products.CMFPlone.utils import base_hasattr
-from Products.CMFPlone.utils import safe_unicode
+from Products.CMFPlone.utils import base_hasattr, safe_unicode
 from Products.Five import BrowserView
 from StringIO import StringIO
 from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter
-from zope.component import queryAdapter
-from zope.component import queryUtility
+from zope.component import getMultiAdapter, queryAdapter, queryUtility
 
-import mimetypes
-import os
-import pkg_resources
-import tempfile
-import unicodedata
+from collective.documentgenerator import config, utils
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.interfaces import (
+    CyclicMergeTemplatesException, IDocumentFactory, PODTemplateNotFoundError)
+from collective.documentgenerator.utils import (remove_tmp_file,
+                                                temporary_file_name)
 
+from .. import _
 
 HAS_FINGERPOINTING = None
 
@@ -74,6 +68,7 @@ class DocumentGenerationView(BrowserView):
             from collective.fingerpointing.config import AUDIT_MESSAGE
             from collective.fingerpointing.logger import log_info
             from collective.fingerpointing.utils import get_request_information
+
             # add logging message to fingerpointing log
             user, ip = get_request_information()
             action = 'generate_document'
@@ -194,8 +189,7 @@ class DocumentGenerationView(BrowserView):
         that will be merged into the current generated document.
         """
         document_template = pod_template.get_file()
-        tmp_dir = os.getenv('CUSTOM_TMP', None)
-        temp_filename = tempfile.mktemp(suffix='.{extension}'.format(extension=output_format), dir=tmp_dir)
+        temp_filename = temporary_file_name('.{extension}'.format(extension=output_format))
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
@@ -261,7 +255,6 @@ class DocumentGenerationView(BrowserView):
         if output_format == "csv":
             csvOptions = CsvOptions(fieldSeparator=pod_template.csv_field_delimiter,
                                     textDelimiter=pod_template.csv_string_delimiter)
-
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,

@@ -20,6 +20,8 @@ Changelog
   [gbastien]
 - Fix style update temporary file directory didn't use CUSTOM_TMP.
   [odelaere]
+- Ensure CUSTOM_TMP directory exists before rendering a document.
+  [odelaere]
 
 3.21 (2021-04-20)
 -----------------

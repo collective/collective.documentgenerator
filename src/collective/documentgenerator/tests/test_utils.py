@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
-from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.utils import compute_md5
-from collective.documentgenerator.utils import update_dict_with_validation
-from collective.documentgenerator.utils import update_templates
+import copy
+import os
+from os import getenv, rmdir
+
 from zope.interface import Invalid
 from zope.lifecycleevent import modified
 
 import collective.documentgenerator as cdg
-import copy
+from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.utils import (compute_md5,
+                                                temporary_file_name,
+                                                update_dict_with_validation,
+                                                update_templates)
 
 
 class TestUtils(PODTemplateIntegrationTest):
@@ -100,3 +104,25 @@ class TestUtils(PODTemplateIntegrationTest):
         expected.update(update_dict)
 
         self.assertDictEqual(res, expected)
+
+    def test_temporary_file_name(self):
+        # setup
+        initial_custom_tmp = getenv('CUSTOM_TMP', None)
+        if 'CUSTOM_TMP' in os.environ:
+            del os.environ["CUSTOM_TMP"]
+        tmp_dir = "/tmp/random-non-existing-directory"
+        if os.path.exists(tmp_dir):
+            rmdir(tmp_dir)
+        # test
+        self.assertRegexpMatches(temporary_file_name(), r"/tmp/tmp.{6}")
+        self.assertRegexpMatches(temporary_file_name('foobarbar'), r"/tmp/tmp.{6}foobarbar")
+
+        self.assertFalse(os.path.exists(tmp_dir))
+        os.environ["CUSTOM_TMP"] = tmp_dir
+        self.assertRegexpMatches(temporary_file_name(), tmp_dir + r"/tmp.{6}")
+        self.assertRegexpMatches(temporary_file_name('foobarbar'), tmp_dir + r"/tmp.{6}foobarbar")
+        # tear down
+        if initial_custom_tmp:
+            os.environ["CUSTOM_TMP"] = initial_custom_tmp
+        else:
+            del os.environ["CUSTOM_TMP"]
