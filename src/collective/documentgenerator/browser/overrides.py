@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.browser.views import ViewConfigurablePodTemplate
-from collective.documentviewer.browser.views import DXDocumentViewerView
+from collective.documentviewer.views import DXDocumentViewerView
 
 
 class DGDXDocumentViewerView(ViewConfigurablePodTemplate, DXDocumentViewerView):
