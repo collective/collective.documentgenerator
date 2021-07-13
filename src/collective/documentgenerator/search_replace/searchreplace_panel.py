@@ -185,6 +185,7 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
     def __call__(self):
         to_replace = self.request.get('selected_templates')
         if to_replace:
+            to_replace = type(to_replace) in (str, unicode) and [to_replace] or to_replace
             last_search_args = ast.literal_eval(self.request.get('last_search_args'))
             self.form_instance.perform_replacements(last_search_args, to_replace)
         return super(DocumentGeneratorSearchReplace, self).__call__()
