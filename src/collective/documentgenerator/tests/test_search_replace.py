@@ -310,7 +310,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         ]
         form_data = {"selected_templates": selected_templates_mock, "replacements": replacements_mock}
 
-        view.form_instance.perform_replacements(form_data)
+        view.form_instance.perform_replacements(form_data, selected_templates_mock)
         view()
 
     def test_search_replace_control_panel_regex_validator(self):
