@@ -9,9 +9,8 @@ py:=2.7
 
 .PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
 bootstrap:
-	if [ -f /usr/bin/virtualenv-2.7 ] ; then virtualenv-2.7 -p python$(py) .;else virtualenv -p python$(py) .;fi
+	virtualenv -p python$(py) .
 	bin/pip install -r requirements.txt
-	./bin/python bootstrap.py --version=2.13.2
 
 buildout:
 	if ! test -f bin/buildout;then make bootstrap;fi
