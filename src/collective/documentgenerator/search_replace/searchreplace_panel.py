@@ -147,7 +147,10 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                 replace_results = replace.replace(search_expr, replace_expr, is_regex=row["is_regex"])
 
                 for template_uid, template_result in replace_results.items():
-                    self.results_table[template_uid] = template_result
+                    if not self.results_table.get(template_uid):
+                        self.results_table[template_uid] = template_result
+                    else:
+                        self.results_table[template_uid].extend(template_result)
 
         if len(self.results_table) == 0:
             self.status = _("Nothing found.")
@@ -168,7 +171,10 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                 search_expr = row["search_expr"]
                 search_results = search_replace.search(search_expr, is_regex=row["is_regex"])
                 for template_uid, template_result in search_results.items():
-                    self.results_table[template_uid] = template_result
+                    if not self.results_table.get(template_uid):
+                        self.results_table[template_uid] = template_result
+                    else:
+                        self.results_table[template_uid].extend(template_result)
             self.is_previewing = True
 
         if len(self.results_table) == 0:
