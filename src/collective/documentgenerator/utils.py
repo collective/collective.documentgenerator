@@ -167,3 +167,13 @@ def temporary_file_name(suffix=''):
     if tmp_dir and not os.path.exists(tmp_dir):
         os.mkdir(tmp_dir)
     return tempfile.mktemp(suffix=suffix, dir=tmp_dir)
+
+
+def get_oo_port_list():
+    """
+    @return the LibreOffice ports numbers to use as a list of int.
+    """
+    oo_port_list = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list'
+    )
+    return [port['oo_port'] for port in oo_port_list]

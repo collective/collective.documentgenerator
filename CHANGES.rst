@@ -4,7 +4,8 @@ Changelog
 3.23 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Use appy to load balance on pultiple LO server.
+  [odelaere]
 
 
 3.22 (2021-07-16)

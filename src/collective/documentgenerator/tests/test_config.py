@@ -15,9 +15,6 @@ class TestConfig(unittest.TestCase):
 
     layer = TEST_INSTALL_INTEGRATION
 
-    def _open_controlpanel(self):
-        self.browser.open('{}/@@collective.documentgenerator-controlpanel'.format(self.portal.absolute_url()))
-
     def test_get_oo_port(self):
         from collective.documentgenerator import config
         unopath = config.get_oo_port()
@@ -70,12 +67,16 @@ class TestConfigView(PODTemplateFunctionalTest):
     def _open_controlpanel(self):
         self.browser.open('{}/@@collective.documentgenerator-controlpanel'.format(self.portal.absolute_url()))
 
-    def test_python_path_validator(self):
+    def setUp(self):
+        super(PODTemplateFunctionalTest, self).setUp()
+        self.browser_login('admin', 'admin')
         self._open_controlpanel()
-        form = self.browser.getForm('form')
-        pythonpath_input = form.getControl(name='form.widgets.uno_path')
+        self.form = self.browser.getForm('form')
+
+    def test_python_path_validator(self):
+        pythonpath_input = self.form.getControl(name='form.widgets.uno_path')
         pythonpath_input.value = 'yolo'
-        form.submit(name='form.buttons.save')
+        self.form.submit(name='form.buttons.save')
         msg = "python path validator should have raised an 'invalid python path' warning"
         self.assertTrue(
             'Le chemin python spécifié semble erroné' in self.browser.contents,
@@ -83,31 +84,17 @@ class TestConfigView(PODTemplateFunctionalTest):
         )
 
     def test_python_with_uno_validator(self):
-        self._open_controlpanel()
-        form = self.browser.getForm('form')
-        pythonpath_input = form.getControl(name='form.widgets.uno_path')
+        pythonpath_input = self.form.getControl(name='form.widgets.uno_path')
         pythonpath_input.value = os.path.abspath('../../bin/python')
-        form.submit(name='form.buttons.save')
+        self.form.submit(name='form.buttons.save')
         msg = "python path validator should have raised an 'python do not have uno library' warning"
         self.assertTrue(
             "L'importation de la librairie UNO dans votre environnement python a échoué" in self.browser.contents,
             msg
         )
 
-    @unittest.skip("Test removed because bad uno package has been removed from Makefile")
-    def test_python_path_with_correct_uno_python(self):
-        self._open_controlpanel()
-        form = self.browser.getForm('form')
-        pythonpath_input = form.getControl(name='form.widgets.uno_path')
-        pythonpath_input.value = os.path.abspath('../../bin/python')
-        form.submit(name='form.buttons.save')
-        msg = 'no warnings should have been raised'
-        self.assertTrue('Changements enregistrés' in self.browser.contents, msg)
-
     def test_cancel_button(self):
-        self._open_controlpanel()
-        form = self.browser.getForm('form')
-        form.submit('Annuler')
+        self.form.submit('Annuler')
         msg = 'We should have gone back on general control panel view'
         control_panel_url = self.browser.getLink('Configuration du site').url
         self.assertTrue(self.browser.url == control_panel_url, msg)
