@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.22 (unreleased)
+3.22 (2021-07-16)
 -----------------
 
 - Added a view to search and replace in POD templates pod expressions `@@collective.documentgenerator-controlpanel`.
