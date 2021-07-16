@@ -9,11 +9,10 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.utils import compute_md5
-from collective.z3cform.datagridfield import DataGridFieldFactory
-from collective.z3cform.datagridfield import DictRow
 from imio.helpers.content import add_to_annotation
 from imio.helpers.content import del_from_annotation
 from imio.helpers.content import get_from_annotation
+from imio.helpers.content import HAS_PLONE5
 from plone import api
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -40,6 +39,12 @@ from zope.interface import provider
 import copy
 import logging
 
+if HAS_PLONE5:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
+else:
+    from collective.z3cform.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield import DictRow
 
 logger = logging.getLogger('collective.documentgenerator: PODTemplate')
 

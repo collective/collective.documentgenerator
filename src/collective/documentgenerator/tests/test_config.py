@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from collective.documentgenerator.testing import PODTemplateFunctionalTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from plone import api
@@ -69,7 +68,6 @@ class TestConfigView(PODTemplateFunctionalTest):
 
     def setUp(self):
         super(PODTemplateFunctionalTest, self).setUp()
-        self.browser_login('admin', 'admin')
         self._open_controlpanel()
         self.form = self.browser.getForm('form')
 
