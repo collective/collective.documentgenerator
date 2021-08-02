@@ -201,7 +201,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = _("Nothing to replace.")
             return
 
-        templates = [uuidToObject(template_uuid) for template_uuid in form_data['selected_templates']]
+        templates = self.get_selected_templates(form_data)
         self.results_table = {}
 
         with SearchAndReplacePODTemplates(templates) as replace:
