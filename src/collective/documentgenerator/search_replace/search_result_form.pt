@@ -10,7 +10,7 @@
             <th class="header" i18n:translate="">
                 Match
             </th>
-            <th class="header" i18n:translate="">
+            <th tal:condition="view/is_previewing" class="header" i18n:translate="">
                 Selected
             </th>
         </tr>
@@ -25,7 +25,7 @@
                         <a tal:attributes="href template_url" tal:content="template_title"/>
                     </div>
                 </td>
-                <td>
+                <td tal:condition="view/is_previewing">
                     <input type="checkbox" tal:attributes="value python: template[0]" name="selected_templates" checked/>
                 </td>
             </tr>

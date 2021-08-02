@@ -139,7 +139,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         self.results_table = OrderedDict()
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
 
-    @button.buttonAndHandler(_("Replace"), name="replace")
+    @button.buttonAndHandler(_("Replace"), name="replace", condition=lambda form: form.can_replace())
     def handle_replace(self, action):  # pragma: no cover
         data, errors = self.extractData()
         if errors:
@@ -165,9 +165,17 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             )
         )
 
+    def can_replace(self):
+        # allow to perform a replace only if we performed a search first or if we are performing the replace
+        search_done = self.request.get('form.buttons.search', False)
+        replacing = self.request.get('selected_templates', False)
+        return search_done or replacing
+
     def updateActions(self):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
         self.actions["search"].addClass("context")  # Make "Search" button primary
+        if self.request.get('selected_templates', False):  # Must do a new new search before replacing again
+            self.actions["replace"].addClass("hidden")
 
     def updateWidgets(self, prefix=None):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateWidgets(prefix)
