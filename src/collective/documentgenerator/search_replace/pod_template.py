@@ -68,7 +68,7 @@ class SearchAndReplacePODTemplates:
                 podtemplate = self.templates_by_filename[filename]["obj"]
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType= podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
+                    contentType=podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result
