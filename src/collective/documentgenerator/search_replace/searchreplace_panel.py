@@ -12,13 +12,17 @@ from plone.autoform.form import AutoExtensibleForm
 from plone.z3cform.widget import SingleCheckBoxFieldWidget
 from z3c.form import button
 from z3c.form import form
+from z3c.form.contentprovider import ContentProviders
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope import component
 from zope import interface
 from zope import schema
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implements
 from zope.interface import Invalid
 from zope.interface import invariant
 
-import ast
 import re
 
 
@@ -67,6 +71,45 @@ class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
                             i + 1, row["search_expr"]))
 
 
+class SearchResultProvider(ContentProviderBase):
+    """
+    Search result and replace form is implemented through a content provider.
+    """
+
+    template = ViewPageTemplateFile('search_result_form.pt')
+
+    def __init__(self, context, request, view):
+        super(SearchResultProvider, self).__init__(context, request, view)
+        self.view = view
+        self.results_table = OrderedDict()
+
+    def render(self):
+        return self.template()
+
+    def is_previewing(self):
+        return self.view.is_previewing
+
+    def get_results_table(self):
+        return self.view.results_table
+
+    def get_template_link(self, uid):
+        template = uuidToObject(uid)
+        return template.absolute_url()
+
+    def get_template_breadcrumb(self, uid):
+        template = uuidToObject(uid)
+        breadcrumb_view = template.restrictedTraverse('breadcrumbs_view')
+        title = ' / '.join([bc['Title'] for bc in breadcrumb_view.breadcrumbs()]) + ' ({})'.format(template.id)
+        return title
+
+    @staticmethod
+    def highlight_pod_expr(pod_expr, start, end):
+        """
+        Add a <strong> HTML tag with class highlight around start and end indices
+        """
+        return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
+
+
 class DocumentGeneratorSearchReplacePanelAdapter(object):
     interface.implements(IDocumentGeneratorSearchReplacePanelSchema)
     component.adapts(interface.Interface)
@@ -79,16 +122,31 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     """
     DocumentGenerator Search & Replace control panel form
     """
+    implements(IFieldsAndContentProvidersForm)
 
     schema = IDocumentGeneratorSearchReplacePanelSchema
     label = _(u"Search & Replace")
     description = _(u"Search & replace among all template directives in this Plone site templates")
 
+    # display the search result and replace form as content provider
+    contentProviders = ContentProviders()
+    contentProviders['search_result_provider'] = SearchResultProvider
+    # defining a contentProvider position is mandatory...
+    contentProviders['search_result_provider'].position = 2
+
     def __init__(self, context, request):
         self.is_previewing = False
         self.results_table = OrderedDict()
-        self.last_search_args = None
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
+
+    @button.buttonAndHandler(_("Replace"), name="replace")
+    def handle_replace(self, action):  # pragma: no cover
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        self.perform_replacements(data)
+        return self.render()
 
     @button.buttonAndHandler(_("Search"), name="search")
     def handle_search(self, action):  # pragma: no cover
@@ -97,7 +155,6 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = self.formErrorsMessage
             return
         self.perform_preview(data)
-        self.last_search_args = data
         return self.render()
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
@@ -128,7 +185,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         templates = [uuidToObject(template_uuid) for template_uuid in uids]
         return templates
 
-    def perform_replacements(self, form_data, template_uids):
+    def perform_replacements(self, form_data):
         """
         Execute replacements action
         """
@@ -136,7 +193,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             self.status = _("Nothing to replace.")
             return
 
-        templates = [uuidToObject(template_uuid) for template_uuid in template_uids]
+        templates = [uuidToObject(template_uuid) for template_uuid in form_data['selected_templates']]
         self.results_table = {}
 
         with SearchAndReplacePODTemplates(templates) as replace:
@@ -187,37 +244,3 @@ class DocumentGeneratorSearchReplace(ControlPanelFormWrapper):
     """
 
     form = DocumentGeneratorSearchReplacePanelForm
-
-    def __call__(self):
-        to_replace = self.request.get('selected_templates')
-        if to_replace:
-            to_replace = type(to_replace) in (str, unicode) and [to_replace] or to_replace
-            last_search_args = ast.literal_eval(self.request.get('last_search_args'))
-            self.form_instance.perform_replacements(last_search_args, to_replace)
-        return super(DocumentGeneratorSearchReplace, self).__call__()
-
-    def is_previewing(self):
-        return self.form_instance.is_previewing
-
-    def get_results_table(self):
-        return self.form_instance.results_table
-
-    def get_template_link(self, uid):
-        template = uuidToObject(uid)
-        return template.absolute_url()
-
-    def get_template_breadcrumb(self, uid):
-        template = uuidToObject(uid)
-        breadcrumb_view = template.restrictedTraverse('breadcrumbs_view')
-        title = ' / '.join([bc['Title'] for bc in breadcrumb_view.breadcrumbs()]) + ' ({})'.format(template.id)
-        return title
-
-    def last_search_args(self):
-        return self.form_instance.last_search_args
-
-    @staticmethod
-    def highlight_pod_expr(pod_expr, start, end):
-        """
-        Add a <strong> HTML tag with class highlight around start and end indices
-        """
-        return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
