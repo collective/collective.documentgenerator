@@ -25,7 +25,7 @@
                         <a tal:attributes="href template_url" tal:content="template_title"/>
                     </div>
                 </td>
-                <td tal:condition="view/is_previewing">
+                <td tal:condition="view/is_previewing" class="search-group">
                     <input type="checkbox" tal:attributes="value python: template[0]" name="selected_templates" checked/>
                 </td>
             </tr>
