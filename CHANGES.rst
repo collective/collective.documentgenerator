@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.23 (unreleased)
+3.23 (2021-08-09)
 -----------------
 
 - Allow templates selection on the search result before applying the replace.
