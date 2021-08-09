@@ -158,7 +158,6 @@ def update_oo_config(key='oo_port'):
 def get_site_root_relative_path(obj):
     return "/" + '/'.join(
         getToolByName(obj, 'portal_url').getRelativeContentPath(obj)
-
     )
 
 

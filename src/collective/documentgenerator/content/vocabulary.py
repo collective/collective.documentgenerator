@@ -214,7 +214,7 @@ class AllPODTemplateWithFileVocabularyFactory(object):
     """
 
     def __call__(self, context):
-        voc_terms = []
+        voc_terms = [SimpleTerm('all', 'all', _('All POD templates'))]
 
         for brain in self._get_all_pod_templates_with_file():
             voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))

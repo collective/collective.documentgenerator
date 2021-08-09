@@ -28,6 +28,8 @@ Changelog
   [odelaere]
 - Ensure CUSTOM_TMP directory exists before rendering a document.
   [odelaere]
+- Allow templates selection on the search result before applying the replace.
+  [sdelcourt]
 
 3.21 (2021-04-20)
 -----------------

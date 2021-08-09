@@ -1,0 +1,50 @@
+
+<div class="portlet" tal:condition="python: bool(view.get_results_table())">
+    <table class="datagridwidget-table-view" style="margin-top: 0.5em"
+           tal:define="templates python:view.get_results_table().items()">
+        <thead>
+        <tr>
+            <th class="header" i18n:translate="">
+                POD expression
+            </th>
+            <th class="header" i18n:translate="">
+                Match
+            </th>
+            <th tal:condition="view/is_previewing" class="header" i18n:translate="">
+                Selected
+            </th>
+        </tr>
+        </thead>
+        <tbody class="datagridwidget-tbody">
+        <tal:block repeat="template templates">
+            <tr class="header">
+                <td colspan="2">
+                    <div class="search-group"
+                         tal:define="template_url python:view.get_template_link(template[0]);
+                                     template_title python:view.get_template_breadcrumb(template[0]);">
+                        <a tal:attributes="href template_url" tal:content="template_title"/>
+                    </div>
+                </td>
+                <td tal:condition="view/is_previewing" class="search-group">
+                    <input type="checkbox" tal:attributes="value python: template[0]" name="selected_templates" checked/>
+                </td>
+            </tr>
+            <tal:block repeat="result python:template[1]">
+                <tr>
+                    <td>
+                        <b tal:condition="not: view/is_previewing"><span i18n:translate="">Before</span> :</b>
+                        <span class="search-cell"
+                            tal:content="structure python:view.highlight_pod_expr(result.pod_expr, result.match_start, result.match_end)"
+                        />
+                        <b tal:condition="not: view/is_previewing"><span i18n:translate="">After</span> :</b>
+                        <span tal:condition="not: view/is_previewing" class="search-cell" tal:content="python:result.new_pod_expr"/>
+                    </td>
+                    <td>
+                        <span class="search-cell" tal:content="python:result.match"/>
+                    </td>
+                </tr>
+            </tal:block>
+        </tal:block>
+        </tbody>
+    </table>
+</div>
