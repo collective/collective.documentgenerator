@@ -4,7 +4,8 @@ Changelog
 3.23 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Allow templates selection on the search result before applying the replace.
+  [sdelcourt]
 
 
 3.22 (2021-07-16)
@@ -28,8 +29,6 @@ Changelog
   [odelaere]
 - Ensure CUSTOM_TMP directory exists before rendering a document.
   [odelaere]
-- Allow templates selection on the search result before applying the replace.
-  [sdelcourt]
 
 3.21 (2021-04-20)
 -----------------
