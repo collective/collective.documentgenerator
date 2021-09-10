@@ -4,7 +4,9 @@ Changelog
 3.24 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Require `beautifulsoup4<4.10` in `setup.py` as starting from 4.10.0,
+  `beautifulsoup4` is no more compatible with `Python2`.
+  [gbastien]
 
 
 3.23 (2021-08-09)
