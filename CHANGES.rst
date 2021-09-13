@@ -7,6 +7,10 @@ Changelog
 - Require `beautifulsoup4<4.10` in `setup.py` as starting from 4.10.0,
   `beautifulsoup4` is no more compatible with `Python2`.
   [gbastien]
+- Pass parameter `html=True` when calling `Renderer` so content is considered
+  as html when using `xhtml` function in POD template, some pre-processing is
+  applied to ensure that given content is valid xhtml.
+  [gbastien]
 
 
 3.23 (2021-08-09)
