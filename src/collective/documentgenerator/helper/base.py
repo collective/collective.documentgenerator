@@ -235,5 +235,11 @@ class DisplayProxyObject(object):
         attr = getattr(self.context, attr_name)
         return attr
 
+    def __str__(self):
+        return self.context.__str__()
+
+    def __repr__(self):
+        return self.context.__repr__()
+
     def is_field(self, attr_name):
         """To Override."""

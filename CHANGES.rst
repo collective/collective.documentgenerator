@@ -11,6 +11,8 @@ Changelog
   as html when using `xhtml` function in POD template, some pre-processing is
   applied to ensure that given content is valid xhtml.
   [gbastien]
+- Use wrapped context of ProxyObject for __repr__ and __str__ methods.
+  [sdelcourt]
 
 
 3.23 (2021-08-09)
