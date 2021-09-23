@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.24 (unreleased)
+3.24 (2021-09-23)
 -----------------
 
 - Require `beautifulsoup4<4.10` in `setup.py` as starting from 4.10.0,
