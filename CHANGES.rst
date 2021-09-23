@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.25 (unreleased)
+3.25 (2021-09-23)
 -----------------
 
 - Use wrapped context of ProxyObject for __unicode__ method.
