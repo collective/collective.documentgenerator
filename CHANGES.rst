@@ -4,7 +4,9 @@ Changelog
 3.25 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Use wrapped context of ProxyObject for __unicode__ method.
+  Revert __repr__ to default implementation.
+  [sdelcourt]
 
 
 3.24 (2021-09-23)

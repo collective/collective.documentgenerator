@@ -238,8 +238,8 @@ class DisplayProxyObject(object):
     def __str__(self):
         return self.context.__str__()
 
-    def __repr__(self):
-        return self.context.__repr__()
+    def __unicode__(self):
+        return unicode(self.context)
 
     def is_field(self, attr_name):
         """To Override."""

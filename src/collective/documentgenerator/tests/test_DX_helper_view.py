@@ -64,8 +64,13 @@ class TestDexterityHelperView(DexterityIntegrationTests):
 
         wrapped = helper_view.real_context
         msg = " __repr__ and __str__ should return the same result as the wrapped object: {} != {}"
-        self.assertEqual(proxy.__repr__(), helper_view.real_context.__repr__(), msg.format(proxy, wrapped))
         self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
+        msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
+        self.assertEqual(
+            unicode(proxy),
+            unicode(helper_view.real_context),
+            msg.format(unicode(proxy), unicode(wrapped))
+        )
 
 
 class TestDexterityHelperViewMethods(DexterityIntegrationTests):
