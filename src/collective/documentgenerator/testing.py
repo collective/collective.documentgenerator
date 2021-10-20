@@ -132,6 +132,7 @@ TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
 class ExamplePODTemplateLayer(DocumentgeneratorLayer):
 
     def setUpPloneSite(self, portal):
+        setLocal('request', portal.REQUEST)
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
         applyProfile(portal, 'collective.documentgenerator:demo')
