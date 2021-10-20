@@ -81,7 +81,7 @@ class TestEvents(PODTemplateIntegrationTest):
         self.assertFalse(cleaned_note in dirty_content_xml)
 
         # create a new pod template it will be cleaned
-        template_to_clean = api.content.create(
+        pod_template = api.content.create(
             type='ConfigurablePODTemplate',
             id='template_to_clean',
             title=u'Template to clean',
@@ -93,17 +93,22 @@ class TestEvents(PODTemplateIntegrationTest):
             pod_formats=['odt'],
             container=self.portal.podtemplates
         )
-        cleaned_content_xml = self.get_odt_content_xml(template_to_clean.odt_file.data)
+        cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)
         self.assertTrue(cleaned_note in cleaned_content_xml)
+        # clean_notes is done before set_initial_md5
+        # so when creating a new pod_template, initial_md5 is correct
+        self.assertEqual(pod_template.current_md5, pod_template.initial_md5)
+        # does not interact with style_modification_md5
+        self.assertEqual(pod_template.current_md5, pod_template.style_modification_md5)
 
         # when updating file, new file is cleaned as well
-        template_to_clean.odt_file = NamedBlobFile(
+        pod_template.odt_file = NamedBlobFile(
             data=dirty_data,
             contentType='application/vnd.oasis.opendocument.text',
             filename=filename,
         )
-        notify(ObjectModifiedEvent(template_to_clean, Attributes(Interface, 'odt_file')))
-        cleaned_content_xml = self.get_odt_content_xml(template_to_clean.odt_file.data)
+        notify(ObjectModifiedEvent(pod_template, Attributes(Interface, 'odt_file')))
+        cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)
         self.assertTrue(cleaned_note in cleaned_content_xml)

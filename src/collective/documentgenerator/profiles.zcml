@@ -150,6 +150,16 @@
             handler="collective.documentgenerator.migrations.migrate_to_12.migrate" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeSteps
+        source="12"
+        destination="13"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeStep
+            title="collective.documentgenerator: upgrade to 13"
+            description="Apply clean_notes on every existing POD templates"
+            handler="collective.documentgenerator.migrations.migrate_to_13.migrate" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

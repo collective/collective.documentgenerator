@@ -7,6 +7,7 @@ from imio.helpers.content import get_modified_attrs
 
 def podtemplate_created(pod_template, event):
     # clean notes, will only update odt_file if any notes cleaned
+    # do it before set_initial_md5 as md5 could change
     clean_notes(pod_template)
     set_initial_md5(pod_template, event)
     pod_template.add_parent_pod_annotation()

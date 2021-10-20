@@ -2,6 +2,7 @@
 
 from appy.bin.odfgrep import Grep
 from collective.documentgenerator import _
+from imio.helpers.security import fplog
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
@@ -185,22 +186,20 @@ def _appy_clean_notes(path):
     term = 'do '
     grep = Grep(term, path, repl=term, zone='pod', silent=True)
     grep.run()
-    if grep.cleaned:
-        print '%d styled text part(s) unstyled.' % grep.cleaned
-    else:
-        print 'No styled text part was found within doc statements.'
-    return grep
+    return grep.cleaned
 
 
 def clean_notes(pod_template):
     """ Use appy.pod Cleaner to clean notes (comments). """
+    was_cleaned = False
     odt_file = pod_template.odt_file
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
         # cleaner = Cleaner(path=tmp_file.name)
-        cleaner = _appy_clean_notes(path=tmp_file.name)
-        if cleaner.cleaned:
+        cleaned = _appy_clean_notes(path=tmp_file.name)
+        if cleaned:
+            was_cleaned = True
             with open(tmp_file.name, 'rb') as res_file:
                 # update template
                 result = NamedBlobFile(
@@ -209,3 +208,8 @@ def clean_notes(pod_template):
                     filename=pod_template.odt_file.filename)
             pod_template.odt_file = result
         remove_tmp_file(tmp_file.name)
+        extras = 'pod_template={0} cleaned_parts={1}'.format(
+            repr(pod_template), cleaned)
+        fplog('clean_notes', extras=extras)
+
+    return was_cleaned

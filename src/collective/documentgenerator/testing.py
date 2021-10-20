@@ -90,6 +90,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
+        setLocal('request', portal.REQUEST)
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
