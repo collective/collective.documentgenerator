@@ -102,8 +102,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
         # Install plone-content for Plone 4 so front-page is available
         if not HAS_PLONE_5:
-            pass
-            #applyProfile(portal, 'Products.CMFPlone:plone-content')
+            applyProfile(portal, 'Products.CMFPlone:plone-content')
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
