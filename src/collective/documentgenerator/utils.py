@@ -207,9 +207,9 @@ def clean_notes(pod_template):
                     contentType=odt_file.contentType,
                     filename=pod_template.odt_file.filename)
             pod_template.odt_file = result
+            extras = 'pod_template={0} cleaned_parts={1}'.format(
+                repr(pod_template), cleaned)
+            fplog('clean_notes', extras=extras)
         remove_tmp_file(tmp_file.name)
-        extras = 'pod_template={0} cleaned_parts={1}'.format(
-            repr(pod_template), cleaned)
-        fplog('clean_notes', extras=extras)
 
     return was_cleaned
