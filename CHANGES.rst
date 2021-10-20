@@ -4,8 +4,13 @@ Changelog
 3.26 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Clean notes when creating/editing a `PODTemplate` this way the `search&replace`
+  functionnality works as expected:
+  - Added `utils.clean_notes`;
+  - Clean notes is only done if odt_file changed and file is updated only if
+    something was cleaned;
+  - Moved function `create_temporary_file` from `events.styles_events` to `utils`.
+  [gbastien]
 
 3.25 (2021-09-23)
 -----------------

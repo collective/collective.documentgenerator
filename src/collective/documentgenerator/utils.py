@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-import hashlib
-import logging
-import os
-import re
-import tempfile
 
+from appy.bin.odfgrep import Grep
+from collective.documentgenerator import _
 from plone import api
+from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
@@ -13,7 +11,12 @@ from zope.component import getMultiAdapter
 from zope.interface import Invalid
 from zope.lifecycleevent import modified
 
-from collective.documentgenerator import _
+import hashlib
+import logging
+import os
+import re
+import tempfile
+
 
 logger = logging.getLogger('collective.documentgenerator')
 
@@ -166,3 +169,43 @@ def temporary_file_name(suffix=''):
     if tmp_dir and not os.path.exists(tmp_dir):
         os.mkdir(tmp_dir)
     return tempfile.mktemp(suffix=suffix, dir=tmp_dir)
+
+
+def create_temporary_file(initial_file=None, base_name=''):
+    tmp_filename = temporary_file_name(suffix=base_name)
+    # create the file in any case
+    with open(tmp_filename, 'w+') as tmp_file:
+        if initial_file:
+            tmp_file.write(initial_file.data)
+    return tmp_file
+
+
+def _appy_clean_notes(path):
+    """XXX borrowed from appy for now, need to be fixed in appy odfclean.Cleaner"""
+    term = 'do '
+    grep = Grep(term, path, repl=term, zone='pod', silent=True)
+    grep.run()
+    if grep.cleaned:
+        print '%d styled text part(s) unstyled.' % grep.cleaned
+    else:
+        print 'No styled text part was found within doc statements.'
+    return grep
+
+
+def clean_notes(pod_template):
+    """ Use appy.pod Cleaner to clean notes (comments). """
+    odt_file = pod_template.odt_file
+    if odt_file:
+        # write file to /tmp to be able to use appy.pod Cleaner
+        tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
+        # cleaner = Cleaner(path=tmp_file.name)
+        cleaner = _appy_clean_notes(path=tmp_file.name)
+        if cleaner.cleaned:
+            with open(tmp_file.name, 'rb') as res_file:
+                # update template
+                result = NamedBlobFile(
+                    data=res_file.read(),
+                    contentType=odt_file.contentType,
+                    filename=pod_template.odt_file.filename)
+            pod_template.odt_file = result
+        remove_tmp_file(tmp_file.name)
