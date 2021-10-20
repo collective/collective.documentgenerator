@@ -6,11 +6,10 @@ from imio.helpers.content import get_modified_attrs
 
 
 def podtemplate_created(pod_template, event):
-    set_initial_md5(pod_template, event)
-    update_PODtemplate_styles(pod_template, event)
-    pod_template.add_parent_pod_annotation()
     # clean notes, will only update odt_file if any notes cleaned
     clean_notes(pod_template)
+    set_initial_md5(pod_template, event)
+    pod_template.add_parent_pod_annotation()
 
 
 def podtemplate_modified(pod_template, event):
@@ -36,3 +35,4 @@ def set_initial_md5(pod_template, event):
     if not pod_template.initial_md5:
         pod_template.initial_md5 = md5
         pod_template.style_modification_md5 = md5
+    update_PODtemplate_styles(pod_template, event)
