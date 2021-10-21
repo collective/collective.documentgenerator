@@ -90,7 +90,6 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
-        setLocal('request', portal.REQUEST)
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
@@ -100,6 +99,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.documentgenerator:testing')
+        setLocal('request', portal.REQUEST)
 
         # Install plone-content for Plone 4 so front-page is available
         if not HAS_PLONE_5:
@@ -132,7 +132,6 @@ TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
 class ExamplePODTemplateLayer(DocumentgeneratorLayer):
 
     def setUpPloneSite(self, portal):
-        setLocal('request', portal.REQUEST)
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
         applyProfile(portal, 'collective.documentgenerator:demo')
