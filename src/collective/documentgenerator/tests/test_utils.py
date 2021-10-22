@@ -3,7 +3,9 @@ import copy
 import os
 from os import getenv, rmdir
 
+from zope.interface import Interface
 from zope.interface import Invalid
+from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import modified
 
 import collective.documentgenerator as cdg
@@ -69,7 +71,7 @@ class TestUtils(PODTemplateIntegrationTest):
         # don't replace file when not same os file but template is modified
         # We change template file
         test_template.odt_file.data = mgodt
-        modified(test_template)
+        modified(test_template, Attributes(Interface, 'odt_file'))
         self.assertEqual(test_template.initial_md5, mcodt_md5)
         self.assertNotEqual(test_template.style_modification_md5, test_template.current_md5)
         self.assertTrue(test_template.has_been_modified())

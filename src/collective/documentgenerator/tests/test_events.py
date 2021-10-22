@@ -96,11 +96,8 @@ class TestEvents(PODTemplateIntegrationTest):
         cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)
         self.assertTrue(cleaned_note in cleaned_content_xml)
-        # clean_notes is done before set_initial_md5
-        # so when creating a new pod_template, initial_md5 is correct
-        self.assertEqual(pod_template.current_md5, pod_template.initial_md5)
-        # does not interact with style_modification_md5
-        self.assertEqual(pod_template.current_md5, pod_template.style_modification_md5)
+        # same behavior than style modification: template is considered unchanged
+        self.assertFalse(pod_template.has_been_modified())
 
         # when updating file, new file is cleaned as well
         pod_template.odt_file = NamedBlobFile(
@@ -108,6 +105,7 @@ class TestEvents(PODTemplateIntegrationTest):
             contentType='application/vnd.oasis.opendocument.text',
             filename=filename,
         )
+        self.assertTrue(pod_template.has_been_modified())  # template is manually changed
         notify(ObjectModifiedEvent(pod_template, Attributes(Interface, 'odt_file')))
         cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)

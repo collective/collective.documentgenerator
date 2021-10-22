@@ -9,7 +9,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
 from zope.component import getMultiAdapter
+from zope.interface import Interface
 from zope.interface import Invalid
+from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import modified
 
 import hashlib
@@ -75,7 +77,7 @@ def update_templates(templates, profile='', force=False):
             obj.initial_md5 = new_md5
             obj.style_modification_md5 = new_md5
             obj.odt_file.data = data
-            modified(obj)
+            modified(obj, Attributes(Interface, 'odt_file'))
             ret.append((ppath, ospath, 'replaced'))
     return ret
 
@@ -200,6 +202,7 @@ def clean_notes(pod_template):
         cleaned = _appy_clean_notes(path=tmp_file.name)
         if cleaned:
             was_cleaned = True
+            manually_modified = pod_template.has_been_modified()
             with open(tmp_file.name, 'rb') as res_file:
                 # update template
                 result = NamedBlobFile(
@@ -207,6 +210,8 @@ def clean_notes(pod_template):
                     contentType=odt_file.contentType,
                     filename=pod_template.odt_file.filename)
             pod_template.odt_file = result
+            if not manually_modified:
+                pod_template.style_modification_md5 = pod_template.current_md5
             extras = 'pod_template={0} cleaned_parts={1}'.format(
                 repr(pod_template), cleaned)
             fplog('clean_notes', extras=extras)
