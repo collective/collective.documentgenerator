@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from appy.bin.odfgrep import Grep
+from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
@@ -183,25 +183,16 @@ def create_temporary_file(initial_file=None, base_name=''):
     return tmp_file
 
 
-def _appy_clean_notes(path):
-    """XXX borrowed from appy for now, need to be fixed in appy odfclean.Cleaner"""
-    term = 'do '
-    grep = Grep(term, path, repl=term, zone='pod', silent=True)
-    grep.run()
-    return grep.cleaned
-
-
 def clean_notes(pod_template):
     """ Use appy.pod Cleaner to clean notes (comments). """
-    was_cleaned = False
+    cleaned = 0
     odt_file = pod_template.odt_file
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
-        # cleaner = Cleaner(path=tmp_file.name)
-        cleaned = _appy_clean_notes(path=tmp_file.name)
+        cleaner = Cleaner(path=tmp_file.name)
+        cleaned = cleaner.run()
         if cleaned:
-            was_cleaned = True
             manually_modified = pod_template.has_been_modified()
             with open(tmp_file.name, 'rb') as res_file:
                 # update template
@@ -217,4 +208,4 @@ def clean_notes(pod_template):
             fplog('clean_notes', extras=extras)
         remove_tmp_file(tmp_file.name)
 
-    return was_cleaned
+    return bool(cleaned)
