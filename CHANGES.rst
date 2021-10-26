@@ -6,6 +6,7 @@ Changelog
 
 - Clean notes when creating/editing a `PODTemplate` this way the `search&replace`
   functionnality works as expected:
+
   - Added `utils.clean_notes`;
   - Clean notes is only done if odt_file changed and file is updated only if
     something was cleaned;
