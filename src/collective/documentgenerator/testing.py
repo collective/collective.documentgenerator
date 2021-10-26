@@ -99,6 +99,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.documentgenerator:testing')
+        setLocal('request', portal.REQUEST)
 
         # Install plone-content for Plone 4 so front-page is available
         if not HAS_PLONE_5:

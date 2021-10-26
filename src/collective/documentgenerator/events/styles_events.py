@@ -13,8 +13,8 @@ from zope.i18n import translate
 
 from collective.documentgenerator import _, config
 from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.utils import (remove_tmp_file,
-                                                temporary_file_name)
+from collective.documentgenerator.utils import create_temporary_file
+from collective.documentgenerator.utils import remove_tmp_file
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
@@ -119,12 +119,3 @@ def _update_template_styles(pod_template, style_template_filename):
                 pod_template.style_modification_md5 = pod_template.current_md5
         remove_tmp_file(resTempFileName)
     remove_tmp_file(temp_file.name)
-
-
-def create_temporary_file(initial_file=None, base_name=''):
-    tmp_filename = temporary_file_name(suffix=base_name)
-    # create the file in any case
-    with open(tmp_filename, 'w+') as tmp_file:
-        if initial_file:
-            tmp_file.write(initial_file.data)
-    return tmp_file
