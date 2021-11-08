@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.26 (unreleased)
+3.26 (2021-11-08)
 -----------------
 
 - Clean notes when creating/editing a `PODTemplate` this way the `search&replace`
