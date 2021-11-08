@@ -768,12 +768,6 @@ Changelog
 
 0.1 (2015-07-17)
 ----------------
-
-- Nothing changed yet.
-
-
-0.1 (2015-07-17)
-----------------
 - Initial release.
   [gbastien]
 
