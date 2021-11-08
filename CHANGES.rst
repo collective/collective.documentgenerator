@@ -8,10 +8,12 @@ Changelog
   functionnality works as expected:
 
   - Added `utils.clean_notes`;
-  - Clean notes is only done if odt_file changed and file is updated only if
+  - Clean notes is only done if `odt_file` changed and file is updated only if
     something was cleaned;
   - Moved function `create_temporary_file` from `events.styles_events` to `utils`.
+
   [gbastien]
+
 
 3.25 (2021-09-23)
 -----------------
