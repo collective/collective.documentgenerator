@@ -4,7 +4,10 @@ Changelog
 3.27 (unreleased)
 -----------------
 
+- Fix py3 ModuleNotFoundError by importing StringIO from io
+  [fngaha]
 - Used py3 appy
+  [fngaha]
 
 
 3.26 (2021-11-08)
