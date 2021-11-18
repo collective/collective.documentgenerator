@@ -4,7 +4,7 @@ Changelog
 3.27 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Used py3 appy
 
 
 3.26 (2021-11-08)
