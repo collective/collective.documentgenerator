@@ -19,7 +19,7 @@ from zope import interface
 from zope import schema
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
-from zope.interface import implements
+from zope.interface import implements, implementer
 from zope.interface import Invalid
 from zope.interface import invariant
 
@@ -110,8 +110,9 @@ class SearchResultProvider(ContentProviderBase):
         return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
 
 
+
+@implementer(IDocumentGeneratorSearchReplacePanelSchema)
 class DocumentGeneratorSearchReplacePanelAdapter(object):
-    interface.implements(IDocumentGeneratorSearchReplacePanelSchema)
     component.adapts(interface.Interface)
 
     def __init__(self, context):

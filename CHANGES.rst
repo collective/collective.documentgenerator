@@ -4,9 +4,11 @@ Changelog
 3.27 (unreleased)
 -----------------
 
-- Fix py3 ModuleNotFoundError by importing StringIO from io
+- Fix TypeError by using the @implementer class decorator.
   [fngaha]
-- Used py3 appy
+- Fix py3 ModuleNotFoundError by importing StringIO from io.
+  [fngaha]
+- Used py3 appy.
   [fngaha]
 
 
