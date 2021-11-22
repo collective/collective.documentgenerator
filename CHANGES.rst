@@ -4,6 +4,8 @@ Changelog
 3.27 (unreleased)
 -----------------
 
+- Removed the override of deprecated documentviewer view.
+  [fngaha]
 - Fix TypeError by using the @implementer class decorator.
   [fngaha]
 - Fix py3 ModuleNotFoundError by importing StringIO from io.
