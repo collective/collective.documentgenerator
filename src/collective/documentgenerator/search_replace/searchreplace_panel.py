@@ -110,7 +110,6 @@ class SearchResultProvider(ContentProviderBase):
         return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
 
 
-
 @implementer(IDocumentGeneratorSearchReplacePanelSchema)
 class DocumentGeneratorSearchReplacePanelAdapter(object):
     component.adapts(interface.Interface)
@@ -119,11 +118,11 @@ class DocumentGeneratorSearchReplacePanelAdapter(object):
         self.context = context
 
 
+@implementer(IFieldsAndContentProvidersForm)
 class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     """
     DocumentGenerator Search & Replace control panel form
     """
-    implements(IFieldsAndContentProvidersForm)
 
     schema = IDocumentGeneratorSearchReplacePanelSchema
     label = _(u"Search & Replace")
