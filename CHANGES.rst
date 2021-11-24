@@ -4,8 +4,8 @@ Changelog
 3.27 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Updated metadata version.
+  [sgeulette]
 
 3.26 (2021-11-08)
 -----------------
