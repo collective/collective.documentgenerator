@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.27 (unreleased)
+3.27 (2021-12-06)
 -----------------
 
 - Updated metadata version.
