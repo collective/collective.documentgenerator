@@ -134,6 +134,11 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertFalse(self.portal.portal_catalog(UID=reusable_template.UID()))
         self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file)
 
+    def test_get_filename(self):
+        self.assertEqual(self.test_podtemplate.get_filename(), u'mod\xe8le_collection.odt')
+        reusable_template = self.portal.podtemplates.get('test_template_reusable')
+        self.assertEqual(reusable_template.get_filename(), u'modele_general.odt')
+
     def test_generation_condition_registration(self):
         from collective.documentgenerator.content.condition import ConfigurablePODTemplateCondition
 

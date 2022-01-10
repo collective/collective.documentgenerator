@@ -397,6 +397,10 @@ class ConfigurablePODTemplate(PODTemplate):
             return pttu.odt_file
         return self.odt_file
 
+    def get_filename(self):
+        """Add accessor for file.filename as it is private by default in plone.namedfile. """
+        return self.get_file().filename
+
     def __setattr__(self, key, value):
         if key == 'pod_template_to_use':
             if hasattr(self, 'pod_template_to_use') and self.pod_template_to_use != value:

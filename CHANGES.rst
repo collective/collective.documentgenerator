@@ -4,8 +4,8 @@ Changelog
 3.28 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added helper `ConfigurablePODTemplate.get_filename` to easily get file filename.
+  [gbastien]
 
 3.27 (2021-12-06)
 -----------------
