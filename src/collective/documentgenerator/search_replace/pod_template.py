@@ -1,12 +1,10 @@
 from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINTING
-from collective.documentgenerator.search_replace.utils import SearchAndReplacePODTemplateFiles
 from collective.documentgenerator.utils import get_site_root_relative_path
 from plone.namedfile import NamedBlobFile
 
 import collections
 import mimetypes
 import os
-import re
 
 
 SearchReplaceResult = collections.namedtuple(
@@ -39,11 +37,11 @@ class SearchAndReplacePODTemplates:
         for podtemplate in podtemplates:
             if not podtemplate.odt_file:
                 continue  # ignore templates referring another pod template.
-            if (podtemplate.odt_file.filename or podtemplate.id).split(".")[-1].lower() != "odt":
+            file_extension = podtemplate.odt_file.filename.split(".")[-1].lower()
+            if file_extension != "odt":
                 continue  # ignore templates that are not odt file.
             template_path = get_site_root_relative_path(podtemplate)
-            extension = mimetypes.guess_extension(podtemplate.odt_file.filename or '') or ''
-            fs_filename = "{}/{}{}".format(self.tmp_dir, template_path.replace("/", "_"), extension)
+            fs_filename = "{}/{}.{}".format(self.tmp_dir, template_path.replace("/", "_"), file_extension)
             self.templates_by_filename[fs_filename] = {"obj": podtemplate, "path": template_path}
 
     def __enter__(self):
@@ -55,10 +53,9 @@ class SearchAndReplacePODTemplates:
             if os.path.isfile(filename):
                 os.remove(filename)
             # copy the pod templates on the file system.
-            template_file = open(filename, "w")
-            plone_template = self.templates_by_filename[filename]["obj"]
-            template_file.write(plone_template.odt_file.data)
-            template_file.close()
+            with open(filename, "w") as template_file:
+                plone_template = self.templates_by_filename[filename]["obj"]
+                template_file.write(plone_template.odt_file.data)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -84,15 +81,10 @@ class SearchAndReplacePODTemplates:
         :param is_regex: use is_regex=False if find_expr is not a regex
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        if not is_regex:
-            find_expr = re.escape(find_expr)
-        regex = re.compile(find_expr)
-
-        search_files_results = SearchAndReplacePODTemplateFiles(
-            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None, silent=True, backup=False
-        ).search(regex, self.templates_by_filename.keys())
-
-        results = self._prepare_results_output(search_files_results, is_replacing=False)
+        from appy.bin.odfgrep import Grep
+        grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, verbose=0)
+        grepper.run()
+        results = self._prepare_results_output(grepper.matches, is_replacing=False)
         return results
 
     def replace(self, find_expr, replace_expr, is_regex=False):
@@ -103,53 +95,23 @@ class SearchAndReplacePODTemplates:
         :param is_regex: use is_regex=False if find_expr is not a regex
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        if not is_regex:
-            find_expr = re.escape(find_expr)
-        regex = re.compile(find_expr)
+        from appy.bin.odfgrep import Grep
+        grepper = Grep(find_expr, self.tmp_dir, repl=replace_expr, asString=not is_regex, verbose=0)
+        grepper.run()
+        results = self._prepare_results_output(grepper.matches, is_replacing=False)
 
-        search_files_results = SearchAndReplacePODTemplateFiles(
-            find_expr="", filenames_expr=self.templates_by_filename.keys(), replace=None, silent=True, backup=False
-        ).search(regex, self.templates_by_filename.keys())
+        for filename in grepper.matches.keys():
+            self.changed_files.add(filename)
 
-        results = self._prepare_results_output(search_files_results, replace_expr)
-
-        new_files = SearchAndReplacePODTemplateFiles(
-            find_expr=regex,
-            filenames_expr=self.templates_by_filename.keys(),
-            replace=replace_expr,
-            silent=True,
-            backup=False,
-        ).replace(regex, replace_expr, search_files_results, target_dir=None)
-
-        for new_file in new_files:
-            self.changed_files.add(new_file.filename)
         return results
 
-    def _prepare_results_output(self, search_files_results, replace_expr="", is_replacing=True):
+    def _prepare_results_output(self, matches, replace_expr="", is_replacing=True):
         """ Prepare results output so we have a nice feedback when searching and replacing """
         results = {}
-        for file_path, file_results in search_files_results.items():
+        for file_path, file_results in matches.items():
             template = self.templates_by_filename[file_path]["obj"]
             template_uid = template.UID()
-            results[template_uid] = []
-            for sub_file, sub_file_results in file_results.items():
-                for file_result in sub_file_results[1]:
-                    pod_expr = file_result["XMLnode"].data
-                    for match in file_result["matches"]:
-                        match_str = pod_expr[match.start(): match.end()]
-                        new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end():]
-                        results[template_uid].append(
-                            SearchReplaceResult(
-                                match=match_str,
-                                pod_expr=pod_expr,
-                                match_start=match.start(),
-                                match_end=match.end(),
-                                node_type=file_result["node_type"],
-                                new_pod_expr=new_pod_expr,
-                            )
-                        )
-                        if is_replacing:
-                            self._log_replace(template, match_str, replace_expr, pod_expr, new_pod_expr)
+            results[template_uid] = file_results
         return results
 
     @staticmethod
