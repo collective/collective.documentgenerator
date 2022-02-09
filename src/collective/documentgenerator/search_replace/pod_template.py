@@ -7,6 +7,8 @@ import collections
 import mimetypes
 import os
 import re
+import shutil
+import uuid
 
 
 SearchReplaceResult = collections.namedtuple(
@@ -29,11 +31,11 @@ class SearchAndReplacePODTemplates:
         """
         self.podtemplates = podtemplates
         self.templates_by_filename = {}
-        self.tmp_dir = "/tmp/docgen"
+        self.tmp_dir = "/tmp/docgen/" + str(uuid.uuid4())
         self.changed_files = set()
 
         if not os.path.isdir(self.tmp_dir):
-            os.mkdir(self.tmp_dir)
+            os.makedirs(self.tmp_dir)
 
         # compute the (future) file system path of the plone pod templates
         for podtemplate in podtemplates:
@@ -72,10 +74,8 @@ class SearchAndReplacePODTemplates:
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result
-        # clean tmp file
-        for filename in self.templates_by_filename.keys():
-            if os.path.isfile(filename):
-                os.remove(filename)
+        # clean tmp directory
+        shutil.rmtree(self.tmp_dir)
 
     def search(self, find_expr, is_regex=False):
         """
