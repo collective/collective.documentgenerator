@@ -68,9 +68,9 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
 
         self.assertEqual(len(header_results[self.template2.UID()]), 1)
         self.assertIn("context.title.upper()", header_results[self.template2.UID()][0].content)
-        # TODO : Uncomment when appy is fixed
-        # self.assertEqual(len(footer_results[self.template2.UID()]), 1)
-        # self.assertEqual("view.display_date", footer_results[self.template2.UID()][0].content)
+
+        self.assertEqual(len(footer_results[self.template2.UID()]), 1)
+        self.assertEqual("view.display_date", footer_results[self.template2.UID()][0].content)
 
     def test_can_search_multiple_times(self):
         with SearchAndReplacePODTemplates((self.template1,)) as search_replace:
@@ -203,7 +203,6 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
             search_replace.replace("Writer", "Écrivain")
             results = search_replace.replace("Écrivain", "Schrijver")
 
-
         template2_results = results[self.template2.UID()]
         self.assertEqual(len(template2_results), 1)
         self.assertIn("Schrijver", template2_results[0].patched)
@@ -238,24 +237,24 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
     def test_replace_can_replace_in_headers_and_footers(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
             header_results = search_replace.replace("context.title.upper()", "context.title.lower()")
-            # footer_results = search_replace.replace("^view.display_date", "view.new_method", is_regex=True)
+            footer_results = search_replace.replace("^view.display_date", "view.new_method", is_regex=True)
 
         self.assertNotIn(self.template1.UID(), header_results.keys())
-        # self.assertNotIn(self.template1.UID(), footer_results.keys())
+        self.assertNotIn(self.template1.UID(), footer_results.keys())
 
         self.assertIn("context.title.lower()", header_results[self.template2.UID()][0].patched)
-        # self.assertIn("view.new_method(", footer_results[self.template2.UID()][0].patched)
+        self.assertIn("view.new_method(", footer_results[self.template2.UID()][0].patched)
 
         # Verification with search
         with SearchAndReplacePODTemplates((self.template2,)) as search_replace:
             header_results = search_replace.search("context.title.lower()")
-            # footer_results = search_replace.search("view.new_method(")
+            footer_results = search_replace.search("view.new_method(")
 
         self.assertGreater(len(header_results), 0)
         self.assertEqual("context.title.lower()", header_results[self.template2.UID()][0].keyword)
 
-        # self.assertGreater(len(footer_results), 0)
-        # self.assertEqual("view.new_method(", footer_results[self.template2.UID()][0].keyword)
+        self.assertGreater(len(footer_results), 0)
+        self.assertEqual("view.new_method(", footer_results[self.template2.UID()][0].keyword)
 
     def test_podtemplate_is_still_functional_after_search_replace(self):
         with SearchAndReplacePODTemplates((self.template2,)) as search_replace:
