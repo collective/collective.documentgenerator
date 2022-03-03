@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from appy.bin.odfclean import Cleaner
+# from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
-from imio.helpers.security import fplog
+# from imio.helpers.security import fplog
 from plone import api
-from plone.namedfile.file import NamedBlobFile
+# from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
@@ -185,27 +185,27 @@ def create_temporary_file(initial_file=None, base_name=''):
 
 def clean_notes(pod_template):
     """ Use appy.pod Cleaner to clean notes (comments). """
-    cleaned = 0
-    odt_file = pod_template.odt_file
-    if odt_file:
-        # write file to /tmp to be able to use appy.pod Cleaner
-        tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
-        cleaner = Cleaner(path=tmp_file.name)
-        cleaned = cleaner.run()
-        if cleaned:
-            manually_modified = pod_template.has_been_modified()
-            with open(tmp_file.name, 'rb') as res_file:
-                # update template
-                result = NamedBlobFile(
-                    data=res_file.read(),
-                    contentType=odt_file.contentType,
-                    filename=pod_template.odt_file.filename)
-            pod_template.odt_file = result
-            if not manually_modified:
-                pod_template.style_modification_md5 = pod_template.current_md5
-            extras = 'pod_template={0} cleaned_parts={1}'.format(
-                repr(pod_template), cleaned)
-            fplog('clean_notes', extras=extras)
-        remove_tmp_file(tmp_file.name)
+#    cleaned = 0
+#    odt_file = pod_template.odt_file
+#    if odt_file:
+#        # write file to /tmp to be able to use appy.pod Cleaner
+#        tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
+#        cleaner = Cleaner(path=tmp_file.name)
+#        cleaned = cleaner.run()
+#        if cleaned:
+#            manually_modified = pod_template.has_been_modified()
+#            with open(tmp_file.name, 'rb') as res_file:
+#                # update template
+#                result = NamedBlobFile(
+#                    data=res_file.read(),
+#                    contentType=odt_file.contentType,
+#                    filename=pod_template.odt_file.filename)
+#            pod_template.odt_file = result
+#            if not manually_modified:
+#                pod_template.style_modification_md5 = pod_template.current_md5
+#            extras = 'pod_template={0} cleaned_parts={1}'.format(
+#                repr(pod_template), cleaned)
+#            fplog('clean_notes', extras=extras)
+#        remove_tmp_file(tmp_file.name)
 
-    return bool(cleaned)
+#    return bool(cleaned)
