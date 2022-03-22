@@ -151,14 +151,16 @@ def remove_tmp_file(filename):
         logger.warn("Could not remove temporary file at {0}".format(filename))
 
 
-def update_oo_config(key='oo_port'):
+def update_oo_config():
     """ Update config following buildout var """
-    var = {'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
-    full_key = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'.format(key)
-    configured_oo_option = api.portal.get_registry_record(full_key)
-    new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
-    if new_oo_option and new_oo_option != configured_oo_option:
-        api.portal.set_registry_record(full_key, new_oo_option)
+    key_template = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'
+    var = {'oo_server': 'OO_SERVER', 'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
+    for key in var.keys():
+        full_key = key_template.format(key)
+        configured_oo_option = api.portal.get_registry_record(full_key)
+        new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
+        if new_oo_option and new_oo_option != configured_oo_option:
+            api.portal.set_registry_record(full_key, new_oo_option)
 
 
 def get_site_root_relative_path(obj):

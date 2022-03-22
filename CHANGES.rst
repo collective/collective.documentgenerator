@@ -4,7 +4,8 @@ Changelog
 3.29 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- update_oo_config updates all the registry entries for libreoffice server.
+  [odelaere]
 
 
 3.28 (2022-01-14)
