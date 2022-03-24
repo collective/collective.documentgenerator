@@ -35,6 +35,6 @@
       factory=".adapters.GenerablePODTemplatesAdapter"/>
 
     <subscriber for="zope.processlifetime.IProcessStarting"
-      handler=".utils.update_oo_config"/>
+      handler=".utils.update_oo_config_startup"/>
 
 </configure>

@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
-
 from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
+from plone.api.exc import InvalidParameterError
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.Portal import PloneSite
 from Products.CMFPlone.utils import safe_unicode
+from Testing.makerequest import makerequest
 from zope import i18n
 from zope.component import getMultiAdapter
+from zope.component.hooks import setSite
+from zope.globalrequest import setRequest
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.lifecycleevent import Attributes
@@ -19,6 +23,8 @@ import logging
 import os
 import re
 import tempfile
+import transaction
+import Zope2
 
 
 logger = logging.getLogger('collective.documentgenerator')
@@ -112,10 +118,10 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
         plone = getMultiAdapter((context, request), name=u'plone')
         formatted_date = plone.toLocalizedTime(date, long_format, time_only)
     else:
-        from Products.CMFPlone.i18nl10n import (monthname_msgid,
-                                                monthname_msgid_abbr,
-                                                weekdayname_msgid,
-                                                weekdayname_msgid_abbr)
+        from Products.CMFPlone.i18nl10n import monthname_msgid
+        from Products.CMFPlone.i18nl10n import monthname_msgid_abbr
+        from Products.CMFPlone.i18nl10n import weekdayname_msgid
+        from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr
         if request is None:
             portal = api.portal.get()
             request = portal.REQUEST
@@ -158,9 +164,30 @@ def update_oo_config():
     for key in var.keys():
         full_key = key_template.format(key)
         configured_oo_option = api.portal.get_registry_record(full_key)
-        new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
-        if new_oo_option and new_oo_option != configured_oo_option:
-            api.portal.set_registry_record(full_key, new_oo_option)
+        env_value = os.getenv(var.get(key, 'NO_ONE'), None)
+        if env_value:
+            new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
+            if new_oo_option and new_oo_option != configured_oo_option:
+                api.portal.set_registry_record(full_key, new_oo_option)
+
+
+def update_oo_config_startup(event):
+    app = Zope2.app()
+    app = makerequest(app)
+    app.REQUEST["PARENTS"] = [app]
+    setRequest(app.REQUEST)
+    container = app.unrestrictedTraverse("/")
+    for item in container.objectValues():
+        if isinstance(item, PloneSite):
+            setSite(item)
+            try:
+                update_oo_config()
+                transaction.commit()
+                logger.info("LibreOffice configuration updated for " + item.getId())
+            except InvalidParameterError:
+                # raised when registry record is not found.
+                # It means documentgenerator is not installed on this site
+                pass
 
 
 def get_site_root_relative_path(obj):
