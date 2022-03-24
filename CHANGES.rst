@@ -4,7 +4,9 @@ Changelog
 3.29 (unreleased)
 -----------------
 
-- update_oo_config updates all the registry entries for libreoffice server.
+- Method update_oo_config updates all the registry entries for libreoffice server.
+  [odelaere]
+- Added subscriber to update oo config on process start.
   [odelaere]
 
 

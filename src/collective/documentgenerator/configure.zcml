@@ -34,5 +34,7 @@
       provides=".interfaces.IGenerablePODTemplates"
       factory=".adapters.GenerablePODTemplatesAdapter"/>
 
+    <subscriber for="zope.processlifetime.IProcessStarting"
+      handler=".utils.update_oo_config"/>
 
 </configure>
