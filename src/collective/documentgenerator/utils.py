@@ -171,6 +171,11 @@ def update_oo_config():
                 api.portal.set_registry_record(full_key, new_oo_option)
 
 
+def update_oo_config_after_bigbang(event):
+    setSite(event.object)
+    update_oo_config()
+
+
 def update_oo_config_startup(event):
     app = Zope2.app()
     app = makerequest(app)
