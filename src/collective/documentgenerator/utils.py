@@ -11,6 +11,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Testing.makerequest import makerequest
 from zope import i18n
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
 from zope.component.hooks import setSite
 from zope.globalrequest import setRequest
 from zope.interface import Interface
@@ -169,6 +170,7 @@ def update_oo_config():
             new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
             if new_oo_option and new_oo_option != configured_oo_option:
                 api.portal.set_registry_record(full_key, new_oo_option)
+    logger.info("LibreOffice configuration updated for " + getSite().getId())
 
 
 def update_oo_config_after_bigbang(event):
@@ -188,7 +190,6 @@ def update_oo_config_startup(event):
             try:
                 update_oo_config()
                 transaction.commit()
-                logger.info("LibreOffice configuration updated for " + item.getId())
             except InvalidParameterError:
                 # raised when registry record is not found.
                 # It means documentgenerator is not installed on this site
