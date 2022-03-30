@@ -7,9 +7,6 @@
             <th class="header" i18n:translate="">
                 POD expression
             </th>
-            <th class="header" i18n:translate="">
-                Match
-            </th>
             <th tal:condition="view/is_previewing" class="header" i18n:translate="">
                 Selected
             </th>
@@ -32,15 +29,14 @@
             <tal:block repeat="result python:template[1]">
                 <tr>
                     <td>
-                        <b tal:condition="not: view/is_previewing"><span i18n:translate="">Before</span> :</b>
                         <span class="search-cell"
-                            tal:content="structure python:view.highlight_pod_expr(result.pod_expr, result.match_start, result.match_end)"
+                            tal:content="structure python:result.content"
                         />
-                        <b tal:condition="not: view/is_previewing"><span i18n:translate="">After</span> :</b>
-                        <span tal:condition="not: view/is_previewing" class="search-cell" tal:content="python:result.new_pod_expr"/>
                     </td>
                     <td>
-                        <span class="search-cell" tal:content="python:result.match"/>
+                        <span class="search-cell"
+                            tal:content="structure python:view.display_diff(result)"
+                        />
                     </td>
                 </tr>
             </tal:block>

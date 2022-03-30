@@ -8,7 +8,8 @@ import os
 
 
 SearchReplaceResult = collections.namedtuple(
-    "SearchReplaceResult", ["pod_expr", "match_start", "match_end", "match", "node_type", "new_pod_expr"]
+    "SearchReplaceResult",
+    ["pod_expr", "match_start", "match_end", "match", "node_type", "new_pod_expr"],
 )
 
 
@@ -38,10 +39,10 @@ class SearchAndReplacePODTemplates:
             if not podtemplate.odt_file:
                 continue  # ignore templates referring another pod template.
             file_extension = podtemplate.odt_file.filename.split(".")[-1].lower()
-            if file_extension != "odt":
-                continue  # ignore templates that are not odt file.
             template_path = get_site_root_relative_path(podtemplate)
-            fs_filename = "{}/{}.{}".format(self.tmp_dir, template_path.replace("/", "_"), file_extension)
+            fs_filename = "{}/{}.{}".format(
+                self.tmp_dir, template_path.replace("/", "_"), file_extension
+            )
             self.templates_by_filename[fs_filename] = {"obj": podtemplate, "path": template_path}
 
     def __enter__(self):
@@ -65,7 +66,8 @@ class SearchAndReplacePODTemplates:
                 podtemplate = self.templates_by_filename[filename]["obj"]
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType=podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
+                    contentType=podtemplate.odt_file.contentType
+                    or mimetypes.guess_type(filename)[0],
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result
@@ -82,21 +84,32 @@ class SearchAndReplacePODTemplates:
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
         from appy.bin.odfgrep import Grep
+
         grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, verbose=0)
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
         return results
 
-    def replace(self, find_expr, replace_expr, is_regex=False):
+    def replace(self, find_expr, replace_expr, is_regex=False, dry_run=False):
         """
         Replace find_expr match with replace_expr in self.podtemplates
         :param find_expr: A regex str or simple str
         :param replace_expr: A str that will replace find_expr match
-        :param is_regex: use is_regex=False if find_expr is not a regex
+        :param is_regex: Use is_regex=False if find_expr is not a regex
+        :param dry_run: Perform a dry run and not the actual replacement(s).
+        This will not modify the template(s) and can be used safely.
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
         from appy.bin.odfgrep import Grep
-        grepper = Grep(find_expr, self.tmp_dir, repl=replace_expr, asString=not is_regex, verbose=0)
+
+        grepper = Grep(
+            find_expr,
+            self.tmp_dir,
+            repl=replace_expr,
+            asString=not is_regex,
+            dryRun=dry_run,
+            verbose=0,
+        )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
 
@@ -126,6 +139,10 @@ class SearchAndReplacePODTemplates:
             user, ip = get_request_information()
             action = "replace_in_template"
             extras = u"podtemplate={0} match={1} replaced_by={2} old_pod_expr={3} new_pod_expr={4}".format(
-                "/".join(template.getPhysicalPath()), match, replaced_by, old_pod_expr, new_pod_expr,
+                "/".join(template.getPhysicalPath()),
+                match,
+                replaced_by,
+                old_pod_expr,
+                new_pod_expr,
             )
             log_info(unicode(AUDIT_MESSAGE).format(user, ip, action, extras))

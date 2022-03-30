@@ -190,7 +190,7 @@ def clean_notes(pod_template):
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
-        cleaner = Cleaner(path=tmp_file.name, silent=True)
+        cleaner = Cleaner(path=tmp_file.name, verbose=1)
         cleaned = cleaner.run()
         if cleaned:
             manually_modified = pod_template.has_been_modified()

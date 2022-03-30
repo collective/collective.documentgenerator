@@ -103,11 +103,14 @@ class SearchResultProvider(ContentProviderBase):
         return title
 
     @staticmethod
-    def highlight_pod_expr(pod_expr, start, end):
+    def display_diff(result):
         """
         Add a <strong> HTML tag with class highlight around start and end indices
         """
-        return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
+        try:
+            return result.getDiff(type="xhtml")
+        except:
+            return "<p>ERROR</p>"
 
 
 class DocumentGeneratorSearchReplacePanelAdapter(object):
@@ -138,6 +141,15 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         self.is_previewing = False
         self.results_table = OrderedDict()
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
+
+    @button.buttonAndHandler(_("Dry-run"), name="dryrun", condition=lambda form: form.can_replace())
+    def handle_dryrun(self, action):  # pragma: no cover
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        self.perform_dryrun(data)
+        return self.render()
 
     @button.buttonAndHandler(_("Replace"), name="replace", condition=lambda form: form.can_replace())
     def handle_replace(self, action):  # pragma: no cover
@@ -192,6 +204,34 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
             uids = [brain.UID for brain in voc._get_all_pod_templates_with_file()]
         templates = [uuidToObject(template_uuid) for template_uuid in uids]
         return templates
+
+    def perform_dryrun(self, form_data):
+        """
+        Execute replacements action
+        """
+        if len(form_data["replacements"]) == 0:
+            self.status = _("Nothing to replace.")
+            return
+
+        templates = self.get_selected_templates(form_data)
+        self.results_table = {}
+
+        with SearchAndReplacePODTemplates(templates) as replace:
+            for row in form_data["replacements"]:
+                row["replace_expr"] = row["replace_expr"] or ""
+                search_expr = row["search_expr"]
+                replace_expr = row["replace_expr"]
+                replace_results = replace.replace(search_expr, replace_expr, is_regex=row["is_regex"], dry_run=True)
+
+                for template_uid, template_result in replace_results.items():
+                    if not self.results_table.get(template_uid):
+                        self.results_table[template_uid] = template_result
+                    else:
+                        self.results_table[template_uid].extend(template_result)
+        import ipdb; ipdb.set_trace() # TODO : remove me
+        if len(self.results_table) == 0:
+            self.status = _("Nothing found.")
+
 
     def perform_replacements(self, form_data):
         """
