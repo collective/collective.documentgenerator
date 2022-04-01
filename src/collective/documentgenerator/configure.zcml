@@ -38,8 +38,4 @@
         <subscriber for="collective.big.bang.interface.IDarwinStartedEvent"
                     handler=".utils.update_oo_config_after_bigbang"/>
     </configure>
-    <configure zcml:condition="not-installed collective.big.bang">
-        <subscriber for="zope.processlifetime.IProcessStarting"
-                    handler=".utils.update_oo_config_startup"/>
-    </configure>
 </configure>

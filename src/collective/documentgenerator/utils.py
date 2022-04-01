@@ -3,17 +3,13 @@ from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
-from plone.api.exc import InvalidParameterError
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.Portal import PloneSite
 from Products.CMFPlone.utils import safe_unicode
-from Testing.makerequest import makerequest
 from zope import i18n
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from zope.component.hooks import setSite
-from zope.globalrequest import setRequest
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.lifecycleevent import Attributes
@@ -24,8 +20,6 @@ import logging
 import os
 import re
 import tempfile
-import transaction
-import Zope2
 
 
 logger = logging.getLogger('collective.documentgenerator')
@@ -176,24 +170,6 @@ def update_oo_config():
 def update_oo_config_after_bigbang(event):
     setSite(event.object)
     update_oo_config()
-
-
-def update_oo_config_startup(event):
-    app = Zope2.app()
-    app = makerequest(app)
-    app.REQUEST["PARENTS"] = [app]
-    setRequest(app.REQUEST)
-    container = app.unrestrictedTraverse("/")
-    for item in container.objectValues():
-        if isinstance(item, PloneSite):
-            setSite(item)
-            try:
-                update_oo_config()
-                transaction.commit()
-            except InvalidParameterError:
-                # raised when registry record is not found.
-                # It means documentgenerator is not installed on this site
-                pass
 
 
 def get_site_root_relative_path(obj):
