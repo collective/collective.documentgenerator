@@ -3,6 +3,8 @@ import copy
 import os
 from os import getenv, rmdir
 
+from collective.documentgenerator.utils import update_oo_config
+from plone.api.portal import get_registry_record
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.lifecycleevent import Attributes
@@ -128,3 +130,24 @@ class TestUtils(PODTemplateIntegrationTest):
             os.environ["CUSTOM_TMP"] = initial_custom_tmp
         else:
             del os.environ["CUSTOM_TMP"]
+
+    def test_update_oo_config(self):
+        lo = "libreofficetest"
+        port = "10422"
+        uno = "/test/fake/python"
+
+        os.environ['OO_SERVER'] = lo
+        os.environ['OO_PORT'] = port
+        os.environ['PYTHON_UNO'] = uno
+
+        update_oo_config()
+
+        oo_server = get_registry_record('collective.documentgenerator.browser.controlpanel.'
+                            'IDocumentGeneratorControlPanelSchema.oo_server')
+        self.assertEqual(oo_server, lo)
+        oo_port = get_registry_record('collective.documentgenerator.browser.controlpanel.'
+                            'IDocumentGeneratorControlPanelSchema.oo_port')
+        self.assertEqual(oo_port, int(port))
+        uno_path = get_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                    'IDocumentGeneratorControlPanelSchema.uno_path')
+        self.assertEqual(uno_path, uno)
