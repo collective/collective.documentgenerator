@@ -132,6 +132,10 @@ class TestUtils(PODTemplateIntegrationTest):
             del os.environ["CUSTOM_TMP"]
 
     def test_update_oo_config(self):
+        original_oo_server = getenv("OO_SERVER")
+        original_oo_port = getenv("OO_PORT")
+        original_uno = getenv("PYTHON_UNO")
+
         lo = "libreofficetest"
         port = "10422"
         uno = "/test/fake/python"
@@ -143,11 +147,18 @@ class TestUtils(PODTemplateIntegrationTest):
         update_oo_config()
 
         oo_server = get_registry_record('collective.documentgenerator.browser.controlpanel.'
-                            'IDocumentGeneratorControlPanelSchema.oo_server')
+                                        'IDocumentGeneratorControlPanelSchema.oo_server')
         self.assertEqual(oo_server, lo)
         oo_port = get_registry_record('collective.documentgenerator.browser.controlpanel.'
-                            'IDocumentGeneratorControlPanelSchema.oo_port')
+                                      'IDocumentGeneratorControlPanelSchema.oo_port')
         self.assertEqual(oo_port, int(port))
         uno_path = get_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                    'IDocumentGeneratorControlPanelSchema.uno_path')
+                                       'IDocumentGeneratorControlPanelSchema.uno_path')
         self.assertEqual(uno_path, uno)
+
+        if original_oo_server:
+            os.environ['OO_SERVER'] = original_oo_server
+        if original_oo_port:
+            os.environ['OO_PORT'] = original_oo_port
+        if original_uno:
+            os.environ['PYTHON_UNO'] = original_uno
