@@ -4,7 +4,10 @@ Changelog
 3.29 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Method update_oo_config updates all the registry entries for libreoffice server.
+  [odelaere]
+- Added subscriber to update oo config on process start.
+  [odelaere]
 
 
 3.28 (2022-01-14)
