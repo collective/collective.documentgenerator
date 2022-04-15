@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.29 (unreleased)
+3.29 (2022-04-15)
 -----------------
 
 - Method update_oo_config updates all the registry entries for libreoffice server.
