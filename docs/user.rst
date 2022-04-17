@@ -25,9 +25,9 @@ If you want, you can organize your templates in one or more folder.
 **How to write the template ?**
 -------------------------------
 
-The `appy framework <http://appyframework.org>`_ is used to interpret the template and render it using the context.
+The `appy framework <https://appyframework.org>`_ is used to interpret the template and render it using the context.
 
-You can find a `documentation <http://appyframework.org/podWritingTemplates.html>`_ explaining the syntax that can be used.
+You can find a `documentation <https://appyframework.org/podWritingTemplates.html>`_ explaining the syntax that can be used.
 
 You can do the following things:
 
