@@ -213,6 +213,7 @@ class DocumentGenerationHelperView(object):
     def iterable_in_columns(self, iterable, cols=1):
         """Transform an iterable in list of list.
 
+        Useful for labels document...
         :param iterable: input iterable
         :param cols: number of columns in the sublists
         :return: list of lists
