@@ -6,6 +6,7 @@ from .base import DisplayProxyObject
 from .base import DocumentGenerationHelperView
 from bs4 import BeautifulSoup as Soup
 from collective.excelexport.exportables.dexterityfields import get_ordered_fields
+from imio.helpers.content import get_relations
 from plone import api
 from plone.app.textfield import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider
@@ -130,6 +131,19 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         """ """
         primary_field_infos = IPrimaryFieldInfo(file_obj)
         return primary_field_infos.value.data
+
+    def get_relations(self, context=None, attribute=None, backrefs=False, as_obj=False):
+        """Get zc.relations or related objects.
+
+        :param context: object's relations (real_context if None)
+        :param attribute: related attribute name relations
+        :param backrefs: get relations where context is the destination (default is where context is the source)
+        :param as_obj: get objects pointed by relations
+        :return: relation's list or objects list
+        """
+        if context is None:
+            context = self.real_context
+        return get_relations(context, attribute=attribute, backrefs=backrefs, as_obj=as_obj)
 
 
 class DXDisplayProxyObject(DisplayProxyObject):

@@ -6,6 +6,8 @@ Changelog
 
 - Added `iterable_in_columns` (for labels document).
   [sgeulette]
+- Added `get_relations` in dexterity
+  [sgeulette]
 
 3.29 (2022-04-15)
 -----------------
