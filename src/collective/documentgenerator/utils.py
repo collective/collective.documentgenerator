@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
@@ -9,6 +8,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
+from zope.component.hooks import setSite
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.lifecycleevent import Attributes
@@ -112,10 +113,10 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
         plone = getMultiAdapter((context, request), name=u'plone')
         formatted_date = plone.toLocalizedTime(date, long_format, time_only)
     else:
-        from Products.CMFPlone.i18nl10n import (monthname_msgid,
-                                                monthname_msgid_abbr,
-                                                weekdayname_msgid,
-                                                weekdayname_msgid_abbr)
+        from Products.CMFPlone.i18nl10n import monthname_msgid
+        from Products.CMFPlone.i18nl10n import monthname_msgid_abbr
+        from Products.CMFPlone.i18nl10n import weekdayname_msgid
+        from Products.CMFPlone.i18nl10n import weekdayname_msgid_abbr
         if request is None:
             portal = api.portal.get()
             request = portal.REQUEST
@@ -151,14 +152,24 @@ def remove_tmp_file(filename):
         logger.warn("Could not remove temporary file at {0}".format(filename))
 
 
-def update_oo_config(key='oo_port'):
+def update_oo_config():
     """ Update config following buildout var """
-    var = {'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
-    full_key = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'.format(key)
-    configured_oo_option = api.portal.get_registry_record(full_key)
-    new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
-    if new_oo_option and new_oo_option != configured_oo_option:
-        api.portal.set_registry_record(full_key, new_oo_option)
+    key_template = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'
+    var = {'oo_server': 'OO_SERVER', 'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
+    for key in var.keys():
+        full_key = key_template.format(key)
+        configured_oo_option = api.portal.get_registry_record(full_key)
+        env_value = os.getenv(var.get(key, 'NO_ONE'), None)
+        if env_value:
+            new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, 'NO_ONE'), ''))
+            if new_oo_option and new_oo_option != configured_oo_option:
+                api.portal.set_registry_record(full_key, new_oo_option)
+    logger.info("LibreOffice configuration updated for " + getSite().getId())
+
+
+def update_oo_config_after_bigbang(event):
+    setSite(event.object)
+    update_oo_config()
 
 
 def get_site_root_relative_path(obj):

@@ -1,11 +1,21 @@
 Changelog
 =========
 
-3.29 (unreleased)
+3.30 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Added `iterable_in_columns` (for labels document).
+  [sgeulette]
+- Added `get_relations` in dexterity
+  [sgeulette]
 
+3.29 (2022-04-15)
+-----------------
+
+- Method update_oo_config updates all the registry entries for libreoffice server.
+  [odelaere]
+- Added subscriber to update oo config on process start.
+  [odelaere]
 
 3.28 (2022-01-14)
 -----------------
@@ -32,14 +42,12 @@ Changelog
 
   [gbastien]
 
-
 3.25 (2021-09-23)
 -----------------
 
 - Use wrapped context of ProxyObject for __unicode__ method.
   Revert __repr__ to default implementation.
   [sdelcourt]
-
 
 3.24 (2021-09-23)
 -----------------
@@ -54,13 +62,11 @@ Changelog
 - Use wrapped context of ProxyObject for __repr__ and __str__ methods.
   [sdelcourt]
 
-
 3.23 (2021-08-09)
 -----------------
 
 - Allow templates selection on the search result before applying the replace.
   [sdelcourt]
-
 
 3.22 (2021-07-16)
 -----------------
@@ -117,7 +123,6 @@ Changelog
 - Use the same default values between controlpanel schema and registry records.
   [odelaere]
 
-
 3.18 (2020-08-18)
 -----------------
 
@@ -159,7 +164,6 @@ Changelog
 
 - Updated the i18n support.
   [macagua]
-
 
 3.14 (2020-04-23)
 -----------------
@@ -315,7 +319,6 @@ Changelog
 - Add hook to provides all helper view to be updated with
   appy renderer
   [sdelcourt]
-
 
 3.0.10 (2018-01-06)
 -------------------
@@ -698,7 +701,6 @@ Changelog
 - Handle case of rendering value of single selection widget.
   [sdelcourt]
 
-
 0.8 (2016-06-03)
 ----------------
 
@@ -706,7 +708,6 @@ Changelog
   to `appy.pod.renderer.Renderer` so private images can be accessed by
   LibreOffice in XHTML fields.
   [gbastien]
-
 
 0.7 (2016-03-22)
 ----------------
@@ -723,7 +724,6 @@ Changelog
   formats are corrects with the kind of file provided.
   [boulch, DieKatze]
 
-
 0.6 (2016-01-21)
 ----------------
 
@@ -734,7 +734,6 @@ Changelog
   The POD template description is now displayed when hovering the POD template title.
   [gbastien]
 
-
 0.5 (2015-12-02)
 ----------------
 
@@ -743,7 +742,6 @@ Changelog
   the `evaluate` method.
   [gbastien]
 
-
 0.4 (2015-12-02)
 ----------------
 
@@ -751,7 +749,6 @@ Changelog
   [gbastien]
 - Take into account the `oo_port` paramater defined in the registry.
   [gbastien]
-
 
 0.3 (2015-09-30)
 ----------------
@@ -765,7 +762,6 @@ Changelog
 - Refactor the generation view to pass the arguments `pod_template` and `output_format`
   directly to the view call or its methods.
   [gbastien, sdelcourt]
-
 
 0.2 (2015-09-22)
 ----------------
@@ -784,7 +780,6 @@ Changelog
   expression is actually evaluated instead of the pod_template and `template`
   is the pod_template
   [gbastien]
-
 
 0.1 (2015-07-17)
 ----------------
