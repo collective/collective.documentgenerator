@@ -12,6 +12,8 @@ Changelog
   [aduchene]
 - .ods POD Templates are now usable with search and replace.
   [aduchene]
+- Make sure tmp directory is unique when searching and replacing.
+  [aduchene]
 
 3.29 (2022-04-15)
 -----------------
