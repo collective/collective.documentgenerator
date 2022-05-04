@@ -169,14 +169,14 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
             self.assertIn(expected_file, odt_subfiles)
 
     def test_replace_dont_change_podtemplate_file_size_too_much(self):
-        template1_filesize = self.template1.odt_file.getSize()
-        template2_filesize = self.template2.odt_file.getSize()
+        before_template1_filesize = self.template1.odt_file.getSize()
+        before_template2_filesize = self.template2.odt_file.getSize()
 
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
             search_replace.replace("view", "View")
 
-        self.assertAlmostEqual(template1_filesize, self.template1.odt_file.getSize(), delta=500)
-        self.assertAlmostEqual(template2_filesize, self.template2.odt_file.getSize(), delta=500)
+        self.assertAlmostEqual(before_template1_filesize, self.template1.odt_file.getSize(), delta=1000)
+        self.assertAlmostEqual(before_template2_filesize, self.template2.odt_file.getSize(), delta=1000)
 
     def test_can_replace_string(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
