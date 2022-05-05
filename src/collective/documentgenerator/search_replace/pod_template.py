@@ -1,12 +1,12 @@
 from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINTING
 from collective.documentgenerator.utils import get_site_root_relative_path
+from collective.documentgenerator.utils import temporary_file_name
 from plone.namedfile import NamedBlobFile
 
 import collections
 import mimetypes
 import os
 import shutil
-import tempfile
 
 
 SearchReplaceResult = collections.namedtuple(
@@ -30,7 +30,7 @@ class SearchAndReplacePODTemplates:
         """
         self.podtemplates = podtemplates
         self.templates_by_filename = {}
-        self.tmp_dir = tempfile.mkdtemp(prefix='docgen/')
+        self.tmp_dir = temporary_file_name(suffix='search_replace')
         self.changed_files = set()
 
         # compute the (future) file system path of the plone pod templates
@@ -48,6 +48,7 @@ class SearchAndReplacePODTemplates:
         """
         copy the plone pod template content on the file system
         """
+        os.mkdir(self.tmp_dir)
         for filename in self.templates_by_filename.keys():
             # clean old files
             if os.path.isfile(filename):

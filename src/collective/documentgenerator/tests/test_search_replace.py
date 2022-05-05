@@ -115,21 +115,22 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         self.assertIn("view.get_localized_field_name", regex_results[template1_uid][0].content)
 
     def test_search_clean_after_itself(self):
-        tmp_files_count = len(os.listdir("/tmp/docgen"))
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+            tmp_dir = search_replace.tmp_dir
             search_replace.search("view")
 
-        self.assertTrue(len(os.listdir("/tmp/docgen")) == tmp_files_count)
+        self.assertFalse(os.path.exists(tmp_dir))
 
         # Test if it clean after itself after an exception is raised
         try:
             with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+                tmp_dir = search_replace.tmp_dir
                 search_replace.search("view")
                 raise OSError
         except OSError:
             pass
 
-        self.assertEqual(len(os.listdir("/tmp/docgen")), tmp_files_count)
+        self.assertFalse(os.path.exists(tmp_dir))
 
     def test_can_replace_in_podtemplate(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
@@ -243,21 +244,21 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         self.assertIn("Schrijver", template2_results[0].content)
 
     def test_replace_clean_after_itself(self):
-        tmp_files_count = len(os.listdir("/tmp/docgen"))
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+            tmp_dir = search_replace.tmp_dir
             search_replace.replace("View", "view")
 
-        self.assertEqual(len(os.listdir("/tmp/docgen")), tmp_files_count)
-
+        self.assertFalse(os.path.exists(tmp_dir))
         # Test if it clean after itself after an exception is raised
         try:
             with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+                tmp_dir = search_replace.tmp_dir
                 search_replace.replace("View", "view")
                 raise OSError
         except OSError:
             pass
 
-        self.assertEqual(len(os.listdir("/tmp/docgen")), tmp_files_count)
+        self.assertFalse(os.path.exists(tmp_dir))
 
     def test_can_replace_in_ods(self):
         with SearchAndReplacePODTemplates((self.ods_template,)) as search_replace:
