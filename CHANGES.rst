@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added `get_relations` in dexterity
   [sgeulette]
+- Updated readme
+  [Arhell]
 
 3.29 (2022-04-15)
 -----------------
