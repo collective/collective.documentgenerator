@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.30 (unreleased)
+3.30 (2022-05-06)
 -----------------
 
 - Added `iterable_in_columns` (for labels document).
