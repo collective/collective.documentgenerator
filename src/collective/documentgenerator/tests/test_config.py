@@ -27,17 +27,17 @@ class TestConfig(unittest.TestCase):
         oo_port_list = config.get_oo_port_list()
         self.assertTrue(oo_port_list == [2002])
 
-    def test_get_oo_port_with_new_value(self):
+    def test_get_oo_port_with_new_values(self):
         from collective.documentgenerator import config
-        newvalue = 4242
+        newvalues = [4242, 6666]
         oo_ports = config.get_oo_port_list()
-        self.assertTrue(newvalue not in oo_ports)
+        self.assertTrue(newvalues != oo_ports)
         api.portal.set_registry_record(
             'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list',
-            unicode(newvalue)
+            u';'.join([unicode(v) for v in newvalues])
         )
         oo_port = config.get_oo_port_list()
-        self.assertTrue(oo_port == [newvalue])
+        self.assertTrue(oo_port == newvalues)
 
     def test_get_uno_path(self):
         from collective.documentgenerator import config
@@ -75,7 +75,7 @@ class TestConfigView(PODTemplateFunctionalTest):
         self.browser.open('{}/@@collective.documentgenerator-controlpanel'.format(self.portal.absolute_url()))
 
     def setUp(self):
-        super(PODTemplateFunctionalTest, self).setUp()
+        super(TestConfigView, self).setUp()
         self._open_controlpanel()
         self.form = self.browser.getForm('form')
 
