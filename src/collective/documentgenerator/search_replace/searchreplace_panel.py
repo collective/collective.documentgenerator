@@ -3,11 +3,7 @@ from collections import OrderedDict
 from collective.documentgenerator import _
 from collective.documentgenerator.content.vocabulary import AllPODTemplateWithFileVocabularyFactory
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
-from collective.documentgenerator.utils import get_site_root_relative_path
-from collective.z3cform.datagridfield import DataGridFieldFactory
-from collective.z3cform.datagridfield import DictRow
 from imio.helpers.content import HAS_PLONE5
-from plone import api
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
 from plone.autoform import directives

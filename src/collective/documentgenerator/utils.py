@@ -184,7 +184,7 @@ def temporary_file_name(suffix=''):
         os.mkdir(tmp_dir)
     return tempfile.mktemp(suffix=suffix, dir=tmp_dir)
 
-  
+
 def get_oo_port_list():
     """
     @return the LibreOffice ports numbers to use as a list of int.
