@@ -142,4 +142,13 @@ class TestVocabularies(BaseTest):
         voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
-        self.assertEquals(len(voc), 8)
+        self.assertEquals(len(voc), 9)
+
+    def test_all_value_in_all_pod_templates_vocabulary(self):
+        """
+        Test the 'all' value is in the AllPODTemplate vocabulary.
+        """
+        voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
+        vocabulary = queryUtility(IVocabularyFactory, voc_name)
+        voc = vocabulary(self.portal)
+        self.assertIn('all', voc)

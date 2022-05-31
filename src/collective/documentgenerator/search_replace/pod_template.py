@@ -39,10 +39,10 @@ class SearchAndReplacePODTemplates:
         for podtemplate in podtemplates:
             if not podtemplate.odt_file:
                 continue  # ignore templates referring another pod template.
-            if podtemplate.odt_file.filename.split(".")[-1].lower() != "odt":
+            if (podtemplate.odt_file.filename or podtemplate.id).split(".")[-1].lower() != "odt":
                 continue  # ignore templates that are not odt file.
             template_path = get_site_root_relative_path(podtemplate)
-            extension = mimetypes.guess_extension(podtemplate.odt_file.contentType)
+            extension = mimetypes.guess_extension(podtemplate.odt_file.filename or '') or ''
             fs_filename = "{}/{}{}".format(self.tmp_dir, template_path.replace("/", "_"), extension)
             self.templates_by_filename[fs_filename] = {"obj": podtemplate, "path": template_path}
 
@@ -68,7 +68,7 @@ class SearchAndReplacePODTemplates:
                 podtemplate = self.templates_by_filename[filename]["obj"]
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType=mimetypes.guess_type(filename)[0],
+                    contentType=podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result
@@ -136,8 +136,8 @@ class SearchAndReplacePODTemplates:
                 for file_result in sub_file_results[1]:
                     pod_expr = file_result["XMLnode"].data
                     for match in file_result["matches"]:
-                        match_str = pod_expr[match.start() : match.end()]
-                        new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end() :]
+                        match_str = pod_expr[match.start(): match.end()]
+                        new_pod_expr = pod_expr[: match.start()] + replace_expr + pod_expr[match.end():]
                         results[template_uid].append(
                             SearchReplaceResult(
                                 match=match_str,

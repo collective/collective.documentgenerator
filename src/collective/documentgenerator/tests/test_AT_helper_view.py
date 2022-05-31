@@ -60,6 +60,16 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
                "stored on the schema's field.")
         self.assertTrue(proxy.Title() != 'yolo', msg)
 
+        wrapped = helper_view.real_context
+        msg = "__str__ should return the same result as the wrapped object: {} != {}"
+        self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
+        msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
+        self.assertEqual(
+            unicode(proxy),
+            unicode(helper_view.real_context),
+            msg.format(unicode(proxy), unicode(wrapped))
+        )
+
 
 @unittest.skipIf(HAS_PLONE_5, "Do not launch AT specific tests on Plone 5")
 class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):

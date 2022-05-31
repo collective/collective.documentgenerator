@@ -62,6 +62,16 @@ class TestDexterityHelperView(DexterityIntegrationTests):
                "stored on the schema's field.")
         self.assertTrue(proxy.Description() != 'foobar', msg)
 
+        wrapped = helper_view.real_context
+        msg = " __repr__ and __str__ should return the same result as the wrapped object: {} != {}"
+        self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
+        msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
+        self.assertEqual(
+            unicode(proxy),
+            unicode(helper_view.real_context),
+            msg.format(unicode(proxy), unicode(wrapped))
+        )
+
 
 class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 

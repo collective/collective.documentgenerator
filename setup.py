@@ -11,8 +11,8 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='3.23.dev0',
-    description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (http://appyframework.org) and OpenOffice/LibreOffice",
+    version='3.31.dev0',
+    description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -22,6 +22,7 @@ setup(
         "Framework :: Plone :: 5.0",
         "Framework :: Plone :: 5.1",
         "Framework :: Plone :: Addon",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
     ],
@@ -37,7 +38,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'appy>=1.0.4',
-        'beautifulsoup4',
+        'beautifulsoup4<4.10',
         'collective.behavior.talcondition',
         'collective.excelexport',
         'collective.z3cform.datagridfield',

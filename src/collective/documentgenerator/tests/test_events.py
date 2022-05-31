@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
+
 from collective.documentgenerator.events.styles_events import _update_template_styles
 from collective.documentgenerator.events.styles_events import update_styles_of_all_PODtemplate
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from plone import api
+from plone.namedfile.file import NamedBlobFile
 from zExceptions import Redirect
+from zope.event import notify
+from zope.interface import Interface
+from zope.lifecycleevent import Attributes
+from zope.lifecycleevent import ObjectModifiedEvent
+
+import os
 
 
 class TestEvents(PODTemplateIntegrationTest):
@@ -58,3 +66,47 @@ class TestEvents(PODTemplateIntegrationTest):
 
         api.content.delete(temp_template)
         self.assertEqual(reusable_template.get_children_pod_template(), {template_reuse})
+
+    def test_clean_notes(self):
+        """When PODTemplate created or modified, the "odt_file" note are cleaned."""
+        # original template_to_clean.odt holds dirty note
+        filename = u'template_to_clean.odt'
+        dirty_note = 'from xhtml(self.getMotivation() + </text:span>' \
+            '<text:span text:style-name="T1">self.getDecision())</text:span>'
+        cleaned_note = 'from xhtml(self.getMotivation() + self.getDecision())'
+        current_path = os.path.dirname(__file__)
+        dirty_data = open(os.path.join(current_path, filename), 'r').read()
+        dirty_content_xml = self.get_odt_content_xml(dirty_data)
+        self.assertTrue(dirty_note in dirty_content_xml)
+        self.assertFalse(cleaned_note in dirty_content_xml)
+
+        # create a new pod template it will be cleaned
+        pod_template = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_to_clean',
+            title=u'Template to clean',
+            odt_file=NamedBlobFile(
+                data=dirty_data,
+                contentType='application/vnd.oasis.opendocument.text',
+                filename=filename,
+            ),
+            pod_formats=['odt'],
+            container=self.portal.podtemplates
+        )
+        cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
+        self.assertFalse(dirty_note in cleaned_content_xml)
+        self.assertTrue(cleaned_note in cleaned_content_xml)
+        # same behavior than style modification: template is considered unchanged
+        self.assertFalse(pod_template.has_been_modified())
+
+        # when updating file, new file is cleaned as well
+        pod_template.odt_file = NamedBlobFile(
+            data=dirty_data,
+            contentType='application/vnd.oasis.opendocument.text',
+            filename=filename,
+        )
+        self.assertTrue(pod_template.has_been_modified())  # template is manually changed
+        notify(ObjectModifiedEvent(pod_template, Attributes(Interface, 'odt_file')))
+        cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
+        self.assertFalse(dirty_note in cleaned_content_xml)
+        self.assertTrue(cleaned_note in cleaned_content_xml)

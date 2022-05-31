@@ -5,7 +5,7 @@
    :alt: Coveralls badge
    :target: https://coveralls.io/r/collective/collective.documentgenerator?branch=master
 
-.. image:: http://img.shields.io/pypi/v/collective.documentgenerator.svg
+.. image:: https://img.shields.io/pypi/v/collective.documentgenerator.svg
    :alt: PyPI badge
    :target: https://pypi.org/project/collective.documentgenerator
 
@@ -24,7 +24,7 @@ New content types are used to store the different templates:
 * **basic templates**
 * **advanced templates**, regarding configuration
 
-Templates are created within `LibreOffice <http://www.libreoffice.org>`_ software.
+Templates are created within `LibreOffice <https://www.libreoffice.org>`_ software.
 
 Output formats are those that can be produced by LibreOffice:
 
@@ -92,9 +92,9 @@ If you want, you can organize your templates in one or more folder.
 **How to write the template ?**
 -------------------------------
 
-The `appy framework <http://appyframework.org>`_ is used to interpret the template and render it using the context.
+The `appy framework <https://appyframe.work/tool/public>`_ is used to interpret the template and render it using the context.
 
-You can find a `documentation <http://appyframework.org/podWritingTemplates.html>`_ explaining the syntax that can be used.
+You can find a `documentation <https://appyframe.work/13>`_ explaining the syntax that can be used.
 
 You can do the following things:
 

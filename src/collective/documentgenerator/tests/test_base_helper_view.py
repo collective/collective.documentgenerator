@@ -117,3 +117,12 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
                          u'+32 81 00 00 00')
         self.assertEqual(self.view.display_phone(phone='081000000', format='int', pattern=[[], [' (0)', ' ']]),
                          u'+32 (0)81 00 00 00')
+
+    def test_iterable_as_columns(self):
+        self.assertListEqual(self.view.iterable_in_columns(None), [])
+        self.assertListEqual(self.view.iterable_in_columns([]), [])
+        self.assertListEqual(self.view.iterable_in_columns([1, 2, 3]), [[1], [2], [3]])
+        self.assertListEqual(self.view.iterable_in_columns([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+        self.assertListEqual(self.view.iterable_in_columns([1, 2, 3, 4, 5], 3), [[1, 2, 3], [4, 5]])
+        self.assertListEqual(self.view.iterable_in_columns([1, 2, 3, 4, 5], 5), [[1, 2, 3, 4, 5]])
+        self.assertListEqual(self.view.iterable_in_columns('12345', 5), [['1', '2', '3', '4', '5']])

@@ -34,5 +34,8 @@
       provides=".interfaces.IGenerablePODTemplates"
       factory=".adapters.GenerablePODTemplatesAdapter"/>
 
-
+    <configure zcml:condition="installed collective.big.bang">
+        <subscriber for="collective.big.bang.interface.IDarwinStartedEvent"
+                    handler=".utils.update_oo_config_after_bigbang"/>
+    </configure>
 </configure>

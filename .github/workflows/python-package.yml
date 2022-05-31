@@ -44,7 +44,7 @@ jobs:
         env:
           cache-name: cache-eggs
         with:
-          path: ./buildout-cache/eggs ./eggs
+          path: ~/buildout-cache/eggs
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
       - name: buildout
@@ -97,9 +97,9 @@ jobs:
         env:
           cache-name: cache-eggs
         with:
-          path: ./buildout-cache/eggs ./eggs
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+          path: ~/buildout-cache/eggs
+          key: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+          restore-keys: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
       - name: buildout
         run: |
           sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" test-ci.cfg

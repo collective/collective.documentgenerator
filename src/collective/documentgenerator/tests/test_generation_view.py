@@ -8,12 +8,12 @@ from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
-from collective.documentgenerator.events.styles_events import create_temporary_file
 from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
+from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import translate as _
 from plone import api
 from plone.app.testing import login

@@ -22,6 +22,7 @@ lib
 lib64
 include
 local
+pyvenv.cfg
 share
 src/appy
 src/collective.excelexport

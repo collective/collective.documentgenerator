@@ -210,6 +210,27 @@ class DocumentGenerationHelperView(object):
         ctx = self.appy_renderer.contentParser.env.context
         return 'mailed_data' in ctx
 
+    def iterable_in_columns(self, iterable, cols=1):
+        """Transform an iterable in list of list.
+
+        Useful for labels document...
+        :param iterable: input iterable
+        :param cols: number of columns in the sublists
+        :return: list of lists
+        """
+        res = []
+        sublist = []
+        for i, item in enumerate(iterable or [], start=1):
+            sublist.append(item)
+            if not i % cols:
+                if sublist:
+                    res.append(sublist)
+                sublist = []
+        # put the last sublist in res
+        if sublist:
+            res.append(sublist)
+        return res
+
 
 @implementer(IDisplayProxyObject)
 class DisplayProxyObject(object):
@@ -234,6 +255,12 @@ class DisplayProxyObject(object):
 
         attr = getattr(self.context, attr_name)
         return attr
+
+    def __str__(self):
+        return self.context.__str__()
+
+    def __unicode__(self):
+        return unicode(self.context)
 
     def is_field(self, attr_name):
         """To Override."""

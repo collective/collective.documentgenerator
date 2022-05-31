@@ -265,6 +265,7 @@ class DocumentGenerationView(BrowserView):
             raiseOnError=raiseOnError,
             imageResolver=api.portal.get(),
             forceOoCall=True,
+            html=True,
             optimalColumnWidths=optimalColumnWidths,
             distributeColumns=distributeColumns,
             stylesMapping=stylesMapping,
