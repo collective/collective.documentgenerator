@@ -7,13 +7,10 @@ from collective.documentgenerator.config import DEFAULT_OO_PORT
 from collective.documentgenerator.config import DEFAULT_OO_SERVER
 from collective.documentgenerator.config import DEFAULT_PYTHON_UNO
 from collective.documentgenerator.interfaces import IDocumentGeneratorSettings
-from collective.z3cform.datagridfield.registry import DictRow
-from imio.helpers.content import HAS_PLONE5
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.autoform import directives
 from z3c.form import button
 from zope import schema
 from zope.interface import implementer
@@ -22,10 +19,6 @@ from zope.interface import Interface
 import inspect
 import os
 
-if HAS_PLONE5:
-    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
-else:
-    from collective.z3cform.datagridfield import DataGridFieldFactory
 
 COLUMN_MODIFIER_DESCR = _(
     u'If enabled, this will allow the "table-layout: fixed|auto|none" '
@@ -52,14 +45,6 @@ def check_for_uno(value):
     return True
 
 
-class IOOPortRowSchema(Interface):
-    oo_port = schema.Int(
-        title=_(u'oo_port'),
-        description=_(u'Port Number of OO.'),
-        required=True,
-    )
-
-
 class IDocumentGeneratorControlPanelSchema(Interface):
     """
     """
@@ -71,12 +56,11 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=safe_unicode(os.getenv('OO_SERVER', DEFAULT_OO_SERVER)),
     )
 
-    directives.widget("oo_port_list", DataGridFieldFactory, allow_reorder=True)
-    oo_port_list = schema.List(
+    oo_port_list = schema.TextLine(
         title=_(u"oo_port_list"),
-        value_type=DictRow(title=u"oo_port_list", schema=IOOPortRowSchema),
+        description=_(u'Port Number(s) of OO.'),
         required=False,
-        default=[{"oo_port": int(os.getenv('OO_PORT', DEFAULT_OO_PORT))}]
+        default=unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     )
 
     uno_path = schema.TextLine(

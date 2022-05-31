@@ -20,9 +20,8 @@ from collective.documentgenerator import config, utils
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.interfaces import (
     CyclicMergeTemplatesException, IDocumentFactory, PODTemplateNotFoundError)
-from collective.documentgenerator.utils import (remove_tmp_file,
-                                                temporary_file_name, get_oo_port_list)
-
+from collective.documentgenerator.utils import remove_tmp_file
+from collective.documentgenerator.utils import temporary_file_name
 from .. import _
 
 HAS_FINGERPOINTING = None
@@ -261,7 +260,7 @@ class DocumentGenerationView(BrowserView):
             temp_filename,
             pythonWithUnoPath=config.get_uno_path(),
             ooServer=config.get_oo_server(),
-            ooPort=get_oo_port_list(),
+            ooPort=config.get_oo_port_list(),
             raiseOnError=raiseOnError,
             imageResolver=api.portal.get(),
             forceOoCall=True,

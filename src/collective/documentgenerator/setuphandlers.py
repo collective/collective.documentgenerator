@@ -41,7 +41,7 @@ def install_demo(context):
     use_stream = os.getenv('USE_STREAM', False) == 'True'
     set_use_stream(use_stream)
 
-    default_oo_port_list = [{"oo_port": int(os.getenv('OO_PORT', DEFAULT_OO_PORT))}]
+    default_oo_port_list = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                    'IDocumentGeneratorControlPanelSchema.oo_port_list',
                                    default_oo_port_list)

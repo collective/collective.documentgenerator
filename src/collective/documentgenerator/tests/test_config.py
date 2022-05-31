@@ -14,22 +14,30 @@ class TestConfig(unittest.TestCase):
 
     layer = TEST_INSTALL_INTEGRATION
 
-    def test_get_oo_port(self):
+    def tearDown(self):
+        # reset oo_port to 2002 after each test
+        os.environ['OO_PORT'] = '2002'
+        api.portal.set_registry_record(
+            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list',
+            u'2002'
+        )
+
+    def test_get_oo_port_list(self):
         from collective.documentgenerator import config
-        unopath = config.get_oo_port()
-        self.assertTrue(unopath == 2002)
+        oo_port_list = config.get_oo_port_list()
+        self.assertTrue(oo_port_list == [2002])
 
     def test_get_oo_port_with_new_value(self):
         from collective.documentgenerator import config
         newvalue = 4242
-        oo_port = config.get_oo_port()
-        self.assertTrue(oo_port != newvalue)
+        oo_ports = config.get_oo_port_list()
+        self.assertTrue(newvalue not in oo_ports)
         api.portal.set_registry_record(
-            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port',
-            newvalue
+            'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list',
+            unicode(newvalue)
         )
-        oo_port = config.get_oo_port()
-        self.assertTrue(oo_port == newvalue)
+        oo_port = config.get_oo_port_list()
+        self.assertTrue(oo_port == [newvalue])
 
     def test_get_uno_path(self):
         from collective.documentgenerator import config
@@ -50,12 +58,12 @@ class TestConfig(unittest.TestCase):
 
     def test_set_oo_port(self):
         from collective.documentgenerator import config
-        self.assertEqual(config.get_oo_port(), 2002)
+        self.assertEqual(config.get_oo_port_list(), [2002])
         config.set_oo_port()
-        self.assertEqual(config.get_oo_port(), 2002)
+        self.assertEqual(config.get_oo_port_list(), [2002])
         os.environ['OO_PORT'] = '6969'
         config.set_oo_port()
-        self.assertEqual(config.get_oo_port(), 6969)
+        self.assertEqual(config.get_oo_port_list(), [6969])
 
 
 class TestConfigView(PODTemplateFunctionalTest):

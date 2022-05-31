@@ -155,7 +155,7 @@ def remove_tmp_file(filename):
 def update_oo_config():
     """ Update config following buildout var """
     key_template = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'
-    var = {'oo_server': 'OO_SERVER', 'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
+    var = {'oo_server': 'OO_SERVER', 'oo_port_list': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
     for key in var.keys():
         full_key = key_template.format(key)
         configured_oo_option = api.portal.get_registry_record(full_key)
@@ -183,16 +183,6 @@ def temporary_file_name(suffix=''):
     if tmp_dir and not os.path.exists(tmp_dir):
         os.mkdir(tmp_dir)
     return tempfile.mktemp(suffix=suffix, dir=tmp_dir)
-
-
-def get_oo_port_list():
-    """
-    @return the LibreOffice ports numbers to use as a list of int.
-    """
-    oo_port_list = api.portal.get_registry_record(
-        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list'
-    )
-    return [port['oo_port'] for port in oo_port_list]
 
 
 def create_temporary_file(initial_file=None, base_name=''):

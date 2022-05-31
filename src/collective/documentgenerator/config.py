@@ -3,6 +3,7 @@ from plone import api
 from Products.CMFPlone.utils import safe_unicode
 
 import os
+import re
 
 
 ODS_FORMATS = (('ods', 'LibreOffice Calc (.ods)'),
@@ -56,6 +57,16 @@ def get_oo_server():
     )
 
 
+def get_oo_port_list():
+    """
+    @return the LibreOffice ports numbers to use as a list of int.
+    """
+    oo_port_list = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list'
+    )
+    return [int(port) for port in re.findall('([0-9]+)', oo_port_list)]
+
+
 def get_column_modifier():
     return api.portal.get_registry_record(
         'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier'
@@ -99,6 +110,14 @@ def set_oo_server():
     if oo_server:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_server', safe_unicode(oo_server))
+
+
+def set_oo_port():
+    """ Get environment value in buildout to define port """
+    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    if oo_port:
+        api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                       'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)
 
 
 def set_uno_path():
