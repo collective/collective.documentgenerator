@@ -7,7 +7,6 @@ from appy.pod import elements
 from zope.i18nmessageid import MessageFactory
 from RestrictedPython import compile_restricted
 
-
 _ = MessageFactory('collective.documentgenerator')
 
 
