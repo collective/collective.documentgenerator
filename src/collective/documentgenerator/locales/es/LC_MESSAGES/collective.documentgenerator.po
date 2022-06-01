@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.documentgenerator 1.0\n"
-"POT-Creation-Date: 2022-06-01 08:00+0000\n"
+"POT-Creation-Date: 2022-06-01 09:06+0000\n"
 "PO-Revision-Date: 2020-05-04 14:23-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgid "Can't import python uno library with the python path"
 msgstr "Falló la importación de la librería UNO en su entorno Python"
 
 #: ../browser/controlpanel.py:139
-#: ../search_replace/searchreplace_panel.py:160
+#: ../search_replace/searchreplace_panel.py:166
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -144,22 +144,23 @@ msgid "Enabled"
 msgstr "Activo"
 
 #: ../browser/views.py:260
+#: ../tests/test_check_podtemplates_view.py:45
 msgid "Error"
 msgstr ""
 
-#: ../browser/generation_view.py:303
+#: ../browser/generation_view.py:302
 msgid "Error when merging context_variables in generation context"
 msgstr "Error cuando mezclaba la variable de contexto context_variables en la generación de contexto"
 
-#: ../browser/generation_view.py:301
+#: ../browser/generation_view.py:300
 msgid "Error when merging helper_view in generation context"
 msgstr "Error cuando mezclaba la variable de contexto helper_view en la generación de contexto"
 
-#: ../browser/generation_view.py:444
+#: ../browser/generation_view.py:443
 msgid "Error when merging mailed_data in generation context"
 msgstr "Error cuando mezclaba la variable de contexto mailed_data en la generación de contexto"
 
-#: ../browser/generation_view.py:510
+#: ../browser/generation_view.py:509
 msgid "Error when merging mailing_list in generation context"
 msgstr "Error cuando mezclaba la variable de contexto mailing_list en la generación de contexto"
 
@@ -167,7 +168,6 @@ msgstr "Error cuando mezclaba la variable de contexto mailing_list en la generac
 msgid "Error when merging merge_templates in generation context"
 msgstr "Error cuando mezclaba la variable de contexto merge_templates en la generación de contexto"
 
-#: ../content/pod_template.py:270
 #: ../tests/test_check_podtemplates_view.py:88
 #: ../tests/test_generation_view.py:265
 msgid "Failing template"
@@ -226,7 +226,7 @@ msgstr "Una vez activado, esto evita que se genere un documento que contiene un 
 msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
 msgstr "Si está habilitado, esto obligará a usar el stream para comunicarse con el servidor OpenOffice/LibreOffice. Esto debe ser cierto si el servidor OpenOffice/LibreOffice no está en localhost o está en un contenedor acoplable."
 
-#: ../search_replace/searchreplace_panel.py:70
+#: ../search_replace/searchreplace_panel.py:76
 msgid "Incorrect regex at row #{0} : \"{1}\""
 msgstr ""
 
@@ -289,15 +289,15 @@ msgstr "Ningún"
 msgid "Nothing"
 msgstr "Activado pero sin procesamiento por defecto"
 
-#: ../search_replace/searchreplace_panel.py:221
+#: ../search_replace/searchreplace_panel.py:227
 msgid "Nothing found."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:228
+#: ../search_replace/searchreplace_panel.py:234
 msgid "Nothing to preview."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:201
+#: ../search_replace/searchreplace_panel.py:207
 msgid "Nothing to replace."
 msgstr ""
 
@@ -322,11 +322,9 @@ msgstr "Plantillas POD"
 msgid "POD context name"
 msgstr "Nombre de variable de contexto de plantilla"
 
-
 #: ../search_replace/search_result_form.pt:8
 msgid "POD expression"
 msgstr ""
-
 
 #: ../profiles/base/types/PODTemplate.xml
 msgid "PODTemplate"
@@ -360,15 +358,15 @@ msgstr "Problema al actualizar de estilos en la plantilla '${tmpl}': ${err}"
 msgid "Raise an error instead generating the document"
 msgstr "En caso de error, produzca un error de Plone en lugar de un error en el documento generado"
 
-#: ../search_replace/searchreplace_panel.py:38
+#: ../search_replace/searchreplace_panel.py:44
 msgid "Regex?"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:35
+#: ../search_replace/searchreplace_panel.py:41
 msgid "Replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:56
+#: ../search_replace/searchreplace_panel.py:62
 msgid "Replacements"
 msgstr ""
 
@@ -388,11 +386,11 @@ msgstr "Plantilla usada en el archivo Open Document de otra plantilla"
 msgid "Save"
 msgstr "Guardar"
 
-#: ../search_replace/searchreplace_panel.py:34
+#: ../search_replace/searchreplace_panel.py:40
 msgid "Search"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:128
+#: ../search_replace/searchreplace_panel.py:134
 msgid "Search & Replace"
 msgstr ""
 
@@ -400,7 +398,7 @@ msgstr ""
 msgid "Search & replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:129
+#: ../search_replace/searchreplace_panel.py:135
 msgid "Search & replace among all template directives in this Plone site templates"
 msgstr ""
 
@@ -428,7 +426,7 @@ msgstr ""
 msgid "Selected"
 msgstr ""
 
-#: ../setuphandlers.py:197
+#: ../setuphandlers.py:203
 msgid "Spreadsheet template"
 msgstr "Plantilla de hoja de cálculo"
 
@@ -477,7 +475,7 @@ msgstr "Plantillas a fusionar."
 msgid "The Document Generator settings control panel"
 msgstr "El panel de control de configuración del Generador de documentos"
 
-#: ../search_replace/searchreplace_panel.py:57
+#: ../search_replace/searchreplace_panel.py:63
 msgid "The replacements that will be made."
 msgstr ""
 
@@ -539,7 +537,7 @@ msgid "comment"
 msgstr "Comentario"
 
 #. Default: "Select which templates."
-#: ../search_replace/searchreplace_panel.py:48
+#: ../search_replace/searchreplace_panel.py:54
 msgid "description_selected_templates"
 msgstr ""
 
@@ -549,7 +547,7 @@ msgid "element_not_valid"
 msgstr "El elemento ${elem} no es valido para la extensión .${extension} de su plantilla \"${template}\""
 
 #. Default: "Selected templates"
-#: ../search_replace/searchreplace_panel.py:47
+#: ../search_replace/searchreplace_panel.py:53
 msgid "heading_selected_templates"
 msgstr ""
 

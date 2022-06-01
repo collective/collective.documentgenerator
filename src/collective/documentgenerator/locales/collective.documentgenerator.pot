@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-06-01 08:00+0000\n"
+"POT-Creation-Date: 2022-06-01 09:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid "Can't import python uno library with the python path"
 msgstr ""
 
 #: ../browser/controlpanel.py:139
-#: ../search_replace/searchreplace_panel.py:160
+#: ../search_replace/searchreplace_panel.py:166
 msgid "Cancel"
 msgstr ""
 
@@ -139,22 +139,23 @@ msgid "Enabled"
 msgstr ""
 
 #: ../browser/views.py:260
+#: ../tests/test_check_podtemplates_view.py:45
 msgid "Error"
 msgstr ""
 
-#: ../browser/generation_view.py:303
+#: ../browser/generation_view.py:302
 msgid "Error when merging context_variables in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:301
+#: ../browser/generation_view.py:300
 msgid "Error when merging helper_view in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:444
+#: ../browser/generation_view.py:443
 msgid "Error when merging mailed_data in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:510
+#: ../browser/generation_view.py:509
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
@@ -162,7 +163,6 @@ msgstr ""
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
-#: ../content/pod_template.py:270
 #: ../tests/test_check_podtemplates_view.py:88
 #: ../tests/test_generation_view.py:265
 msgid "Failing template"
@@ -220,7 +220,7 @@ msgstr ""
 msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:70
+#: ../search_replace/searchreplace_panel.py:76
 msgid "Incorrect regex at row #{0} : \"{1}\""
 msgstr ""
 
@@ -282,15 +282,15 @@ msgstr ""
 msgid "Nothing"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:221
+#: ../search_replace/searchreplace_panel.py:227
 msgid "Nothing found."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:228
+#: ../search_replace/searchreplace_panel.py:234
 msgid "Nothing to preview."
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:201
+#: ../search_replace/searchreplace_panel.py:207
 msgid "Nothing to replace."
 msgstr ""
 
@@ -351,15 +351,15 @@ msgstr ""
 msgid "Raise an error instead generating the document"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:38
+#: ../search_replace/searchreplace_panel.py:44
 msgid "Regex?"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:35
+#: ../search_replace/searchreplace_panel.py:41
 msgid "Replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:56
+#: ../search_replace/searchreplace_panel.py:62
 msgid "Replacements"
 msgstr ""
 
@@ -379,11 +379,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:34
+#: ../search_replace/searchreplace_panel.py:40
 msgid "Search"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:128
+#: ../search_replace/searchreplace_panel.py:134
 msgid "Search & Replace"
 msgstr ""
 
@@ -391,7 +391,7 @@ msgstr ""
 msgid "Search & replace"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:129
+#: ../search_replace/searchreplace_panel.py:135
 msgid "Search & replace among all template directives in this Plone site templates"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgstr ""
 msgid "Selected"
 msgstr ""
 
-#: ../setuphandlers.py:197
+#: ../setuphandlers.py:203
 msgid "Spreadsheet template"
 msgstr ""
 
@@ -468,7 +468,7 @@ msgstr ""
 msgid "The Document Generator settings control panel"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:57
+#: ../search_replace/searchreplace_panel.py:63
 msgid "The replacements that will be made."
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "comment"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:48
+#: ../search_replace/searchreplace_panel.py:54
 msgid "description_selected_templates"
 msgstr ""
 
@@ -539,7 +539,7 @@ msgid "element_not_valid"
 msgstr ""
 
 #. Default: "Selected templates"
-#: ../search_replace/searchreplace_panel.py:47
+#: ../search_replace/searchreplace_panel.py:53
 msgid "heading_selected_templates"
 msgstr ""
 
