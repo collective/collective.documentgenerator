@@ -1,5 +1,6 @@
 
-<div tal:condition="python: bool(view.get_results_table())">
+<div tal:condition="python: bool(view.get_results_table())"
+     i18n:domain="collective.documentgenerator">
     <table class="datagridwidget-table-view search-replace-results" style="margin-top: 0.5em"
            tal:define="templates python:view.get_results_table().items()">
         <thead>
