@@ -86,7 +86,7 @@ def _update_template_styles(pod_template, style_template_filename):
                                                       tmp_file=temp_file.name,
                                                       extension='odt',
                                                       libreoffice_host=config.get_oo_server(),
-                                                      port=config.get_oo_port(),
+                                                      port=config.get_oo_port_list()[-1],  # the last one should be the less busy
                                                       style_template=style_template_filename,
                                                       stream=config.get_use_stream())
     (stdout, stderr) = executeCommand(cmd.split())

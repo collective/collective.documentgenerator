@@ -155,7 +155,7 @@ def remove_tmp_file(filename):
 def update_oo_config():
     """ Update config following buildout var """
     key_template = 'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}'
-    var = {'oo_server': 'OO_SERVER', 'oo_port': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
+    var = {'oo_server': 'OO_SERVER', 'oo_port_list': 'OO_PORT', 'uno_path': 'PYTHON_UNO'}
     for key in var.keys():
         full_key = key_template.format(key)
         configured_oo_option = api.portal.get_registry_record(full_key)

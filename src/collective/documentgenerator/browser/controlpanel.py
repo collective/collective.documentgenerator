@@ -56,11 +56,11 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=safe_unicode(os.getenv('OO_SERVER', DEFAULT_OO_SERVER)),
     )
 
-    oo_port = schema.Int(
-        title=_(u'oo_port'),
-        description=_(u'Port Number of OO.'),
+    oo_port_list = schema.TextLine(
+        title=_(u"oo_port_list"),
+        description=_(u'Port Number(s) of OO.'),
         required=False,
-        default=int(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+        default=unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     )
 
     uno_path = schema.TextLine(
