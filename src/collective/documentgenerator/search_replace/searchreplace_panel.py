@@ -109,11 +109,11 @@ class SearchResultProvider(ContentProviderBase):
         return title
 
     @staticmethod
-    def highlight_pod_expr(pod_expr, start, end):
+    def display_diff(result):
         """
         Add a <strong> HTML tag with class highlight around start and end indices
         """
-        return pod_expr[:start] + "<strong class='highlight'>" + pod_expr[start:end] + "</strong>" + pod_expr[end:]
+        return result.getDiff(type="xhtml")
 
 
 class DocumentGeneratorSearchReplacePanelAdapter(object):

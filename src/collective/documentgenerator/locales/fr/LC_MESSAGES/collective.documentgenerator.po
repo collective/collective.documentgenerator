@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-05-31 14:24+0000\n"
+"POT-Creation-Date: 2022-06-01 08:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid "Can't import python uno library with the python path"
 msgstr "L'importation de la librairie UNO dans votre environnement python a échoué"
 
 #: ../browser/controlpanel.py:139
-#: ../search_replace/searchreplace_panel.py:166
+#: ../search_replace/searchreplace_panel.py:160
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -139,23 +139,22 @@ msgid "Enabled"
 msgstr "Activé"
 
 #: ../browser/views.py:260
-#: ../tests/test_check_podtemplates_view.py:45
 msgid "Error"
 msgstr "Erreur"
 
-#: ../browser/generation_view.py:302
+#: ../browser/generation_view.py:303
 msgid "Error when merging context_variables in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les variables de contexte"
 
-#: ../browser/generation_view.py:300
+#: ../browser/generation_view.py:301
 msgid "Error when merging helper_view in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la vue d'aide"
 
-#: ../browser/generation_view.py:443
+#: ../browser/generation_view.py:444
 msgid "Error when merging mailed_data in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec la donnée à publiposter"
 
-#: ../browser/generation_view.py:509
+#: ../browser/generation_view.py:510
 msgid "Error when merging mailing_list in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les données à publiposter"
 
@@ -163,6 +162,7 @@ msgstr "Erreur lors de la mise à jour du contexte de génération avec les donn
 msgid "Error when merging merge_templates in generation context"
 msgstr "Erreur lors de la mise à jour du contexte de génération avec les sous-modèles"
 
+#: ../content/pod_template.py:270
 #: ../tests/test_check_podtemplates_view.py:88
 #: ../tests/test_generation_view.py:265
 msgid "Failing template"
@@ -221,7 +221,7 @@ msgstr "Une fois activé, ceci évite qu'un document contenant une erreur soit g
 msgid "If enabled, this will force using stream to communicate witth LibreOffice server. This must be true if the LO server is not on localhost or is in a docker container."
 msgstr "Quand activé, la communication avec LibreOffice se fera via flux http."
 
-#: ../search_replace/searchreplace_panel.py:76
+#: ../search_replace/searchreplace_panel.py:70
 msgid "Incorrect regex at row #{0} : \"{1}\""
 msgstr ""
 
@@ -283,15 +283,15 @@ msgstr "Aucun"
 msgid "Nothing"
 msgstr "Activé mais sans traitement par défaut"
 
-#: ../search_replace/searchreplace_panel.py:227
+#: ../search_replace/searchreplace_panel.py:221
 msgid "Nothing found."
 msgstr "Aucun résultat."
 
-#: ../search_replace/searchreplace_panel.py:234
+#: ../search_replace/searchreplace_panel.py:228
 msgid "Nothing to preview."
 msgstr "Rien à prévisualiser."
 
-#: ../search_replace/searchreplace_panel.py:207
+#: ../search_replace/searchreplace_panel.py:201
 msgid "Nothing to replace."
 msgstr "Rien à remplacer."
 
@@ -315,6 +315,10 @@ msgstr "Modèles POD"
 #: ../content/pod_template.py:180
 msgid "POD context name"
 msgstr "Nom de variable du modèle"
+
+#: ../search_replace/search_result_form.pt:8
+msgid "POD expression"
+msgstr "Expression POD"
 
 #: ../profiles/base/types/PODTemplate.xml
 msgid "PODTemplate"
@@ -348,15 +352,15 @@ msgstr "Erreur lors de la mise à jour des styles sur le modèle '${tmpl}': ${er
 msgid "Raise an error instead generating the document"
 msgstr "En cas d'erreur, produire une erreur Plone au lieu d'une erreur dans le document généré"
 
-#: ../search_replace/searchreplace_panel.py:44
+#: ../search_replace/searchreplace_panel.py:38
 msgid "Regex?"
 msgstr "Regex?"
 
-#: ../search_replace/searchreplace_panel.py:41
+#: ../search_replace/searchreplace_panel.py:35
 msgid "Replace"
 msgstr "Remplacer"
 
-#: ../search_replace/searchreplace_panel.py:62
+#: ../search_replace/searchreplace_panel.py:56
 msgid "Replacements"
 msgstr "Remplacements"
 
@@ -376,11 +380,11 @@ msgstr "Modèle utilisant le fichier ODT d'un autre modèle"
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../search_replace/searchreplace_panel.py:40
+#: ../search_replace/searchreplace_panel.py:34
 msgid "Search"
 msgstr "Chercher"
 
-#: ../search_replace/searchreplace_panel.py:134
+#: ../search_replace/searchreplace_panel.py:128
 msgid "Search & Replace"
 msgstr "Chercher & remplacer"
 
@@ -388,7 +392,7 @@ msgstr "Chercher & remplacer"
 msgid "Search & replace"
 msgstr "Chercher & remplacer"
 
-#: ../search_replace/searchreplace_panel.py:135
+#: ../search_replace/searchreplace_panel.py:129
 msgid "Search & replace among all template directives in this Plone site templates"
 msgstr "Chercher & remplacer parmi toutes les directives POD des templates de ce site Plone."
 
@@ -412,7 +416,11 @@ msgstr "Choisissez le caractère à utiliser pour séparer des champs dans les f
 msgid "Select the character to be used to wrap around string values in CSV files"
 msgstr "Choisissez le caractère à utiliser pour englober les chaînes de caractères dans les fichiers CSV"
 
-#: ../setuphandlers.py:203
+#: ../search_replace/search_result_form.pt:11
+msgid "Selected"
+msgstr "Sélection"
+
+#: ../setuphandlers.py:197
 msgid "Spreadsheet template"
 msgstr "Modèle de tableur"
 
@@ -461,7 +469,7 @@ msgstr "Modèles à fusionner."
 msgid "The Document Generator settings control panel"
 msgstr ""
 
-#: ../search_replace/searchreplace_panel.py:63
+#: ../search_replace/searchreplace_panel.py:57
 msgid "The replacements that will be made."
 msgstr "Les remplacements qui vont être effectués."
 
@@ -523,7 +531,7 @@ msgid "comment"
 msgstr "Commentaire"
 
 #. Default: "Select which templates."
-#: ../search_replace/searchreplace_panel.py:54
+#: ../search_replace/searchreplace_panel.py:48
 msgid "description_selected_templates"
 msgstr ""
 
@@ -533,7 +541,7 @@ msgid "element_not_valid"
 msgstr "L'élément ${elem} est invalide pour l'extension .${extension} de votre canevas \"${template}\""
 
 #. Default: "Selected templates"
-#: ../search_replace/searchreplace_panel.py:53
+#: ../search_replace/searchreplace_panel.py:47
 msgid "heading_selected_templates"
 msgstr "Templates sélectionnées"
 

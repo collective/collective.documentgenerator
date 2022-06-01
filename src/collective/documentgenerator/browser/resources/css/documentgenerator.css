@@ -49,7 +49,12 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
 
 /* search and replace controlpanel */
 
-.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .search-cell {
+.search-replace-results {
+    border-left: 0;
+    border-right: 0;
+}
+
+.search-replace-results .search-cell {
     margin: 0.5em;
     font-family: monospace;
     word-break: break-word;
@@ -57,17 +62,15 @@ span.icon-controlpanel-collective_documentgenerator_settings::before {
     display: block;
 }
 
-.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .search-group {
-    display: flex;
-    justify-content: center;
+.search-replace-results .search-group {
+    vertical-align: middle;
+    text-align: center;
     background-color: #fafafa2b;
     padding: 0.5em 0;
-    border-radius : 2px;
 }
 
-.template-collective-documentgenerator-searchreplacepanel .datagridwidget-table-view .highlight {
-    font-size: 1.2em;
-    color: red;
+.selected-header {
+    width: 80px;
 }
 
 .check_pod_template_error {

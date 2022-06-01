@@ -15,6 +15,12 @@ Changelog
   [sgeulette]
 - Added `get_relations` in dexterity
   [sgeulette]
+- Use Appy to search and replace in POD templates pod expressions.
+  [aduchene]
+- .ods POD Templates are now usable with search and replace.
+  [aduchene]
+- Make sure tmp directory is unique when searching and replacing.
+  [aduchene]
 - Updated readme
   [Arhell]
 
