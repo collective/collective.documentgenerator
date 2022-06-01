@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from collective.documentgenerator.config import set_use_stream
+from collective.documentgenerator.config import set_use_stream, DEFAULT_OO_PORT
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 from plone import api
@@ -40,6 +40,12 @@ def install_demo(context):
     portal = api.portal.get()
     use_stream = os.getenv('USE_STREAM', False) == 'True'
     set_use_stream(use_stream)
+
+    default_oo_port_list = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                   'IDocumentGeneratorControlPanelSchema.oo_port_list',
+                                   default_oo_port_list)
+
     if not hasattr(portal, 'podtemplates'):
         templates_folder = api.content.create(
             type='Folder',

@@ -1,7 +1,14 @@
 Changelog
 =========
 
-3.30 (unreleased)
+3.31 (unreleased)
+-----------------
+
+- Use appy to load balance on pultiple LO server.
+  [odelaere]
+
+
+3.30 (2022-05-06)
 -----------------
 
 - Added `iterable_in_columns` (for labels document).
@@ -14,6 +21,8 @@ Changelog
   [aduchene]
 - Make sure tmp directory is unique when searching and replacing.
   [aduchene]
+- Updated readme
+  [Arhell]
 
 3.29 (2022-04-15)
 -----------------

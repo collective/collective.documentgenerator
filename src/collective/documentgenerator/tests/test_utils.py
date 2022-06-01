@@ -149,9 +149,9 @@ class TestUtils(PODTemplateIntegrationTest):
         oo_server = get_registry_record('collective.documentgenerator.browser.controlpanel.'
                                         'IDocumentGeneratorControlPanelSchema.oo_server')
         self.assertEqual(oo_server, lo)
-        oo_port = get_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                      'IDocumentGeneratorControlPanelSchema.oo_port')
-        self.assertEqual(oo_port, int(port))
+        oo_port_list = get_registry_record('collective.documentgenerator.browser.controlpanel.'
+                                           'IDocumentGeneratorControlPanelSchema.oo_port_list')
+        self.assertEqual(oo_port_list, port)
         uno_path = get_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.uno_path')
         self.assertEqual(uno_path, uno)

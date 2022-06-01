@@ -42,7 +42,7 @@ msgstr ""
 msgid "All POD templates"
 msgstr ""
 
-#: ../content/pod_template.py:286
+#: ../content/pod_template.py:291
 msgid "Allowed portal types"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
-#: ../content/pod_template.py:262
+#: ../content/pod_template.py:267
 msgid "Available formats"
 msgstr ""
 
@@ -79,19 +79,19 @@ msgstr ""
 msgid "Check Pod Templates"
 msgstr ""
 
-#: ../content/pod_template.py:247
+#: ../content/pod_template.py:252
 msgid "Check if this POD Template can be reused by other POD Template"
 msgstr ""
 
-#: ../content/pod_template.py:316
+#: ../content/pod_template.py:321
 msgid "Choose the mailing loop template to apply for this template."
 msgstr ""
 
-#: ../content/pod_template.py:75
+#: ../content/pod_template.py:80
 msgid "Choose the style template to apply for this template."
 msgstr ""
 
-#: ../setuphandlers.py:167
+#: ../setuphandlers.py:173
 msgid "Collection template"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "ConfigurablePODTemplate"
 msgstr ""
 
-#: ../content/pod_template.py:305
+#: ../content/pod_template.py:310
 msgid "Context variables."
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Distribute"
 msgstr ""
 
-#: ../content/pod_template.py:181
+#: ../content/pod_template.py:186
 msgid "Do rendering"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgid "Edit cancelled"
 msgstr ""
 
 #: ../browser/table.py:146
-#: ../content/pod_template.py:67
+#: ../content/pod_template.py:72
 msgid "Enabled"
 msgstr ""
 
@@ -158,11 +158,17 @@ msgstr ""
 msgid "Error when merging mailing_list in generation context"
 msgstr ""
 
-#: ../browser/generation_view.py:200
+#: ../browser/generation_view.py:199
 msgid "Error when merging merge_templates in generation context"
 msgstr ""
 
 #: ../content/pod_template.py:270
+#: ../tests/test_check_podtemplates_view.py:88
+#: ../tests/test_generation_view.py:265
+msgid "Failing template"
+msgstr ""
+
+#: ../content/pod_template.py:275
 msgid "Field Delimiter for CSV format"
 msgstr ""
 
@@ -186,7 +192,7 @@ msgstr ""
 msgid "Force optimize"
 msgstr ""
 
-#: ../setuphandlers.py:129
+#: ../setuphandlers.py:135
 msgid "General template"
 msgstr ""
 
@@ -194,7 +200,7 @@ msgstr ""
 msgid "Global value (${global_value})"
 msgstr ""
 
-#: ../setuphandlers.py:97
+#: ../setuphandlers.py:103
 msgid "Header"
 msgstr ""
 
@@ -242,8 +248,8 @@ msgstr ""
 msgid "Linked template deleted !"
 msgstr ""
 
-#: ../content/pod_template.py:315
-#: ../setuphandlers.py:113
+#: ../content/pod_template.py:320
+#: ../setuphandlers.py:119
 msgid "Mailing loop template"
 msgstr ""
 
@@ -256,7 +262,7 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: ../setuphandlers.py:143
+#: ../setuphandlers.py:149
 msgid "Multiple format template"
 msgstr ""
 
@@ -264,7 +270,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: ../content/pod_template.py:217
+#: ../content/pod_template.py:222
 msgid "No format selected"
 msgstr ""
 
@@ -288,7 +294,7 @@ msgstr ""
 msgid "Nothing to replace."
 msgstr ""
 
-#: ../content/pod_template.py:55
+#: ../content/pod_template.py:60
 #: ../content/style_template.py:28
 msgid "ODT File"
 msgstr ""
@@ -301,11 +307,11 @@ msgstr ""
 msgid "Original"
 msgstr ""
 
-#: ../setuphandlers.py:46
+#: ../setuphandlers.py:52
 msgid "POD Templates"
 msgstr ""
 
-#: ../content/pod_template.py:175
+#: ../content/pod_template.py:180
 msgid "POD context name"
 msgstr ""
 
@@ -330,10 +336,10 @@ msgid "Pod formats"
 msgstr ""
 
 #: ../browser/controlpanel.py:61
-msgid "Port Number of OO."
+msgid "Port Number(s) of OO."
 msgstr ""
 
-#: ../setuphandlers.py:214
+#: ../setuphandlers.py:220
 msgid "Possibly mailed template"
 msgstr ""
 
@@ -357,15 +363,15 @@ msgstr ""
 msgid "Replacements"
 msgstr ""
 
-#: ../content/pod_template.py:246
+#: ../content/pod_template.py:251
 msgid "Reusable"
 msgstr ""
 
-#: ../setuphandlers.py:237
+#: ../setuphandlers.py:243
 msgid "Reusable template"
 msgstr ""
 
-#: ../setuphandlers.py:256
+#: ../setuphandlers.py:262
 msgid "Reuse Test Template"
 msgstr ""
 
@@ -389,23 +395,23 @@ msgstr ""
 msgid "Search & replace among all template directives in this Plone site templates"
 msgstr ""
 
-#: ../content/pod_template.py:254
+#: ../content/pod_template.py:259
 msgid "Select Existing POD Template to reuse"
 msgstr ""
 
-#: ../content/pod_template.py:287
+#: ../content/pod_template.py:292
 msgid "Select for which content types the template will be available."
 msgstr ""
 
-#: ../content/pod_template.py:263
+#: ../content/pod_template.py:268
 msgid "Select format in which the template will be generable."
 msgstr ""
 
-#: ../content/pod_template.py:271
+#: ../content/pod_template.py:276
 msgid "Select the character to be used to separate fields into CSV files"
 msgstr ""
 
-#: ../content/pod_template.py:278
+#: ../content/pod_template.py:283
 msgid "Select the character to be used to wrap around string values in CSV files"
 msgstr ""
 
@@ -425,11 +431,11 @@ msgstr ""
 msgid "Steps to ease tests of collective.documentgenerator"
 msgstr ""
 
-#: ../content/pod_template.py:277
+#: ../content/pod_template.py:282
 msgid "String Delimiter for CSV format"
 msgstr ""
 
-#: ../content/pod_template.py:74
+#: ../content/pod_template.py:79
 msgid "Style template"
 msgstr ""
 
@@ -437,8 +443,8 @@ msgstr ""
 msgid "StyleTemplate"
 msgstr ""
 
-#: ../setuphandlers.py:82
-msgid "Styles nÂ°2"
+#: ../setuphandlers.py:88
+msgid "Styles n°2"
 msgstr ""
 
 #: ../profiles/base/types/SubTemplate.xml
@@ -446,15 +452,15 @@ msgid "SubTemplate"
 msgstr ""
 
 #: ../browser/controlpanel.py:75
-#: ../content/pod_template.py:322
+#: ../content/pod_template.py:327
 msgid "Table column modifier"
 msgstr ""
 
-#: ../content/pod_template.py:169
+#: ../content/pod_template.py:174
 msgid "Template"
 msgstr ""
 
-#: ../content/pod_template.py:294
+#: ../content/pod_template.py:299
 msgid "Templates to merge."
 msgstr ""
 
@@ -466,7 +472,7 @@ msgstr ""
 msgid "The replacements that will be made."
 msgstr ""
 
-#: ../content/pod_template.py:306
+#: ../content/pod_template.py:311
 msgid "These context variables are added to the odt_file context."
 msgstr ""
 
@@ -474,11 +480,11 @@ msgstr ""
 msgid "Used object"
 msgstr ""
 
-#: ../content/pod_template.py:195
+#: ../content/pod_template.py:200
 msgid "Value"
 msgstr ""
 
-#: ../content/pod_template.py:190
+#: ../content/pod_template.py:195
 msgid "Variable name"
 msgstr ""
 
@@ -486,19 +492,19 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: ../content/pod_template.py:355
+#: ../content/pod_template.py:360
 msgid "You can't select a POD Template or set this template reusable if you have chosen an existing POD Template."
 msgstr ""
 
-#: ../content/pod_template.py:340
+#: ../content/pod_template.py:345
 msgid "You can't use one of these words: ${list}"
 msgstr ""
 
-#: ../content/pod_template.py:343
+#: ../content/pod_template.py:348
 msgid "You have twice used the same name '${name}'"
 msgstr ""
 
-#: ../content/pod_template.py:350
+#: ../content/pod_template.py:355
 msgid "You must select an odt file or an existing pod template"
 msgstr ""
 
@@ -528,7 +534,7 @@ msgid "description_selected_templates"
 msgstr ""
 
 #. Default: "Element ${elem} is not valid for .${extension} template : \"${template}\""
-#: ../content/pod_template.py:221
+#: ../content/pod_template.py:226
 msgid "element_not_valid"
 msgstr ""
 
@@ -546,7 +552,7 @@ msgid "last_change"
 msgstr ""
 
 #: ../browser/controlpanel.py:60
-msgid "oo_port"
+msgid "oo_port_list"
 msgstr ""
 
 #: ../browser/controlpanel.py:53
