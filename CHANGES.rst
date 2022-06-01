@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.31 (unreleased)
+3.31 (2022-06-01)
 -----------------
 
 - Use appy to load balance on pultiple LO server.
