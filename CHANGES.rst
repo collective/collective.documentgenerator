@@ -4,15 +4,14 @@ Changelog
 3.32 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added upgrade step to `14` that will add the `oo_port_list` parameter to the registry.
+  [gbastien]
 
 3.31 (2022-06-01)
 -----------------
 
 - Use appy to load balance on pultiple LO server.
   [odelaere]
-
 
 3.30 (2022-05-06)
 -----------------

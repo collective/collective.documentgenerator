@@ -160,6 +160,16 @@
             handler="collective.documentgenerator.migrations.migrate_to_13.migrate" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeSteps
+        source="13"
+        destination="14"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeDepends
+            title="Reapply registry.xml"
+            description="This will add new parameter 'oo_port_list'"
+            import_steps="plone.app.registry" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 
