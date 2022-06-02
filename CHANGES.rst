@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.32 (unreleased)
+3.32 (2022-06-02)
 -----------------
 
 - Added upgrade step to `14` that will add the `oo_port_list` parameter to the registry.
