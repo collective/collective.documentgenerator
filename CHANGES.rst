@@ -17,7 +17,7 @@ Changelog
 3.31 (2022-06-01)
 -----------------
 
-- Use appy to load balance on pultiple LO server.
+- Use appy to load balance on multiple LO server.
   [odelaere]
 
 3.30 (2022-05-06)
