@@ -211,6 +211,8 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             FORMATS_DICT = {'ods': ODS_FORMATS + NEUTRAL_FORMATS,
                             'odt': ODT_FORMATS + NEUTRAL_FORMATS}
             extension = current_filename.split('.')[-1]
+            if extension not in FORMATS_DICT.keys():
+                extension = 'odt'
             authorise_element_list = FORMATS_DICT[extension]
             authorise_extension_list = [elem[0] for elem in authorise_element_list]
             if not value:
