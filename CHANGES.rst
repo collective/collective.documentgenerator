@@ -4,8 +4,9 @@ Changelog
 3.33 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `utils.update_oo_config_after_bigbang` make sure `collective.documentgenerator`
+  is upgraded before continuing or it may break because some registry records are still not installed.
+  [gbastien]
 
 3.32 (2022-06-02)
 -----------------
