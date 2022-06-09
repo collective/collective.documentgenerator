@@ -4,8 +4,8 @@ Changelog
 3.33 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added character escaping to avoid xss in `TemplatesTable`
+  [sgeulette]
 
 3.32 (2022-06-02)
 -----------------
@@ -181,13 +181,10 @@ Changelog
 - Improve integration of stream parameter for Appy, this allow to explicitly set the value to `False`.
   The default value remain `auto`.
   [mpeeters]
-
 - Added Transifex.net service integration to manage the translation process.
   [macagua]
-
 - Added Spanish translation.
   [macagua]
-
 - Updated the i18n support.
   [macagua]
 

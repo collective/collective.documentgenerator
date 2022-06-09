@@ -2,6 +2,7 @@
 """Define tables and columns."""
 
 from collective.documentgenerator import _
+from html import escape
 from plone import api
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import base_hasattr
@@ -15,8 +16,21 @@ from zope.component import getUtility
 from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
 
-import html
 import os
+
+
+class NoEscapeLinkColumn(LinkColumn):
+    """Do not escape link content (made in z3c.table >= 2.1.1)"""
+
+    def renderCell(self, item):
+        # setup a tag
+        return '<a href="%s"%s%s%s>%s</a>' % (
+            escape(self.getLinkURL(item)),
+            self.getLinkTarget(item),
+            self.getLinkCSS(item),
+            self.getLinkTitle(item),  # internally escaped
+            self.getLinkContent(item),  # originally escaped
+        )
 
 
 class TemplatesTable(Table):
@@ -61,7 +75,7 @@ except ImportError:
 
 
 class CheckBoxColumn(cbc_base):
-    """ checkbox column used for batch actions """
+    """Checkbox column used for batch actions."""
 
     cssClasses = {'td': 'select-column'}
     weight = 5
@@ -71,8 +85,7 @@ class CheckBoxColumn(cbc_base):
         return item.UID()
 
 
-class TitleColumn(LinkColumn):
-
+class TitleColumn(NoEscapeLinkColumn):
     """Column that displays title."""
 
     header = PMF("Title")
@@ -91,7 +104,8 @@ class TitleColumn(LinkColumn):
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
                 title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
-                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % (safe_unicode(title), purl, contentIcon)
+                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % \
+                            (safe_unicode(escape(title)), purl, contentIcon)
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 
@@ -100,12 +114,11 @@ class TitleColumn(LinkColumn):
 
     def getLinkContent(self, item):
         return u'<span class="pretty_link_icons">%s</span>' \
-            u'<span class="pretty_link_content">%s</span>' % (self._icons(item), safe_unicode(item.title))
+            u'<span class="pretty_link_content">%s</span>' % (self._icons(item), safe_unicode(escape(item.title)))
 
 
 class PathColumn(LinkColumn):
-
-    """Column that displays path."""
+    """Column that displays relative path."""
 
     header = _("Path")
     weight = 20
@@ -140,7 +153,6 @@ class PathColumn(LinkColumn):
 
 
 class EnabledColumn(Column):
-
     """Column that displays enabled status."""
 
     header = _("Enabled")
@@ -183,7 +195,8 @@ class OriginalColumn(Column):
             suffix = u'_use'
             if item.pod_template_to_use in self.templates_voc:
                 info = translate(u', from ${template}', context=self.request, domain='collective.documentgenerator',
-                                 mapping={'template': self.templates_voc.getTerm(item.pod_template_to_use).title})
+                                 mapping={'template':
+                                          escape(self.templates_voc.getTerm(item.pod_template_to_use).title)})
         elif base_hasattr(item, 'is_reusable') and item.is_reusable:
             suffix, info = u'_used', translate(u', is reusable template', context=self.request,
                                                domain='collective.documentgenerator')
@@ -201,7 +214,6 @@ class OriginalColumn(Column):
 
 
 class FormatsColumn(Column):
-
     """Column that displays pod formats."""
 
     header = _("Pod formats")
@@ -252,7 +264,7 @@ class ActionsColumn(Column):
         return view(**self.params)
 
 
-class DownloadColumn(LinkColumn):
+class DownloadColumn(NoEscapeLinkColumn):
 
     """Column that displays download action."""
 
@@ -271,8 +283,7 @@ class DownloadColumn(LinkColumn):
 
     def getLinkTitle(self, item):
         """Setup link title."""
-        return ' title="%s"' % html.escape(safe_unicode(translate(PMF('Download'), context=self.request)),
-                                           quote=True)
+        return ' title="%s"' % escape(safe_unicode(translate(PMF('Download'), context=self.request)))
 
     def getLinkContent(self, item):
         down_img = u"<img class='svg-icon' title='{0}' src='{1}' />".format(
