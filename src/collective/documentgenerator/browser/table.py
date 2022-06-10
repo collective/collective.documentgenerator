@@ -3,6 +3,7 @@
 
 from collective.documentgenerator import _
 from html import escape
+from imio.helpers.adapters import NoEscapeLinkColumn
 from plone import api
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import base_hasattr
@@ -19,22 +20,7 @@ from zope.schema.interfaces import IVocabularyFactory
 import os
 
 
-class NoEscapeLinkColumn(LinkColumn):
-    """Do not escape link content (made in z3c.table >= 2.1.1)"""
-
-    def renderCell(self, item):
-        # setup a tag
-        return '<a href="%s"%s%s%s>%s</a>' % (
-            escape(self.getLinkURL(item)),
-            self.getLinkTarget(item),
-            self.getLinkCSS(item),
-            self.getLinkTitle(item),  # internally escaped
-            self.getLinkContent(item),  # originally escaped
-        )
-
-
 class TemplatesTable(Table):
-
     """Table that displays templates info."""
 
     cssClassEven = u'even'
