@@ -4,9 +4,8 @@ Changelog
 3.33 (unreleased)
 -----------------
 
-- In `utils.update_oo_config_after_bigbang` make sure `collective.documentgenerator`
-  is upgraded before continuing or it may break because some registry records are still not installed.
-  [gbastien]
+- In `utils.update_oo_config_after_bigbang` don't fail instnce start up if update_oo_config raise an exception.
+  [odelaere]
 
 3.32 (2022-06-02)
 -----------------
