@@ -2,6 +2,7 @@
 from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
+from imio.migrator.utils import ensure_upgraded
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
@@ -169,6 +170,8 @@ def update_oo_config():
 
 def update_oo_config_after_bigbang(event):
     setSite(event.object)
+    # make sure package is upgraded before or it break Zope startup
+    ensure_upgraded("collective.documentgenerator")
     update_oo_config()
 
 

@@ -6,6 +6,9 @@ Changelog
 
 - Added character escaping to avoid xss in `TemplatesTable`
   [sgeulette]
+- In `utils.update_oo_config_after_bigbang` make sure `collective.documentgenerator`
+  is upgraded before continuing or it may break because some registry records are still not installed.
+  [gbastien]
 
 3.32 (2022-06-02)
 -----------------
@@ -16,7 +19,7 @@ Changelog
 3.31 (2022-06-01)
 -----------------
 
-- Use appy to load balance on pultiple LO server.
+- Use appy to load balance on multiple LO server.
   [odelaere]
 
 3.30 (2022-05-06)
