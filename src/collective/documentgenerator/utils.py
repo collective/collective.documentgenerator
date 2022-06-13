@@ -171,7 +171,7 @@ def update_oo_config_after_bigbang(event):
     setSite(event.object)
     try:
         update_oo_config()
-    except Exception as err:
+    except Exception:
         logger.error("Update LibreOffice configuration failed", exc_info=1)
 
 
