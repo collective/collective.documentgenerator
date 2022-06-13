@@ -172,7 +172,7 @@ def update_oo_config_after_bigbang(event):
     try:
         update_oo_config()
     except Exception as err:
-        logger.error("Update LibreOffice configuration failed", err)
+        logger.error("Update LibreOffice configuration failed", exc_info=1)
 
 
 def get_site_root_relative_path(obj):
