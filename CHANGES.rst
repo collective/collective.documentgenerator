@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.33 (unreleased)
+3.33 (2022-06-14)
 -----------------
 
 - Added character escaping to avoid xss in `TemplatesTable`
