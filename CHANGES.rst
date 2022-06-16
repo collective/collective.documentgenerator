@@ -1,12 +1,20 @@
 Changelog
 =========
 
-3.33 (unreleased)
+3.34 (unreleased)
 -----------------
 
-- In `utils.update_oo_config_after_bigbang` make sure `collective.documentgenerator`
-  is upgraded before continuing or it may break because some registry records are still not installed.
-  [gbastien]
+- Nothing changed yet.
+
+
+3.33 (2022-06-14)
+-----------------
+
+- Added character escaping to avoid xss in `TemplatesTable`
+  [sgeulette]
+- In `utils.update_oo_config_after_bigbang` don't fail instance start up if
+  `update_oo_config` raises an exception.
+  [odelaere]
 
 3.32 (2022-06-02)
 -----------------
@@ -182,13 +190,10 @@ Changelog
 - Improve integration of stream parameter for Appy, this allow to explicitly set the value to `False`.
   The default value remain `auto`.
   [mpeeters]
-
 - Added Transifex.net service integration to manage the translation process.
   [macagua]
-
 - Added Spanish translation.
   [macagua]
-
 - Updated the i18n support.
   [macagua]
 
