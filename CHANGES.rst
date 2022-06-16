@@ -4,8 +4,8 @@ Changelog
 3.34 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Stored `template_uid` on a persistent generated document to know which template has been used.
+  [sgeulette]
 
 3.33 (2022-06-14)
 -----------------

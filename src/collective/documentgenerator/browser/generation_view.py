@@ -385,7 +385,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         """ store mailing informations on generated doc """
         annot = IAnnotations(doc)
         if 'mailed_data' in gen_context or 'mailing_list' in gen_context:
-            annot['documentgenerator'] = {'need_mailing': False}
+            annot['documentgenerator'] = {'need_mailing': False, 'template_uid': self.pod_template.UID()}
         else:
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
                                           'output_format': self.output_format, 'context_uid': self.context.UID()}

@@ -337,7 +337,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         persistent_doc = folder.get(generated_id)
         annot = IAnnotations(persistent_doc)
         self.assertIn('documentgenerator', annot)
-        self.assertNotIn('template_uid', annot['documentgenerator'])
+        self.assertIn('template_uid', annot['documentgenerator'])
+        self.assertNotIn('context_uid', annot['documentgenerator'])
         self.assertEqual(annot['documentgenerator']['need_mailing'], False)
         if HAS_PLONE_5:
             generated_doc = persistent_doc.file
@@ -389,7 +390,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         persistent_doc = folder.get(generated_id)
         annot = IAnnotations(persistent_doc)
         self.assertIn('documentgenerator', annot)
-        self.assertNotIn('template_uid', annot['documentgenerator'])
+        self.assertIn('template_uid', annot['documentgenerator'])
+        self.assertNotIn('context_uid', annot['documentgenerator'])
         self.assertEqual(annot['documentgenerator']['need_mailing'], False)
         if HAS_PLONE_5:
             generated_doc = persistent_doc.file
