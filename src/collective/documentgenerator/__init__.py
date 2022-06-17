@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """Init and utils."""
 
+from AccessControl.ZopeGuards import guarded_getattr
+from AccessControl.ZopeGuards import guarded_getitem
 from appy.pod import actions
 from appy.pod import elements
-
-from zope.i18nmessageid import MessageFactory
 from RestrictedPython import compile_restricted
+from zope.i18nmessageid import MessageFactory
+
 
 _ = MessageFactory('collective.documentgenerator')
 
@@ -18,7 +20,13 @@ def _restricted_evalExpr(self, expr, context):
     '''Evaluates p_expr with p_context. p_expr can contain an error expr,
         in the form "someExpr|errorExpr". If it is the case, if the "normal"
         expr raises an error, the "error" expr is evaluated instead.'''
-    context['_getattr_'] = getattr
+
+    # XXX for the "view" methods to be accessible, we need to decorate the
+    # methods with @security.protected('View') or security.delcarePublic('View', 'method_name')
+
+    context['_getattr_'] = guarded_getattr
+    context['_getitem_'] = guarded_getitem
+
     if '|' not in expr:
         res = eval(compile_restricted(expr, '<string>', 'eval'), context)
     else:
@@ -33,7 +41,13 @@ def _restricted_evalExpr(self, expr, context):
 def _restricted_eval(self, context):
     '''Evaluates self.expr with p_context. If self.errorExpr is defined,
         evaluate it if self.expr raises an error.'''
-    context['_getattr_'] = getattr
+
+    # XXX for the "view" methods to be accessible, we need to decorate the
+    # methods with @security.protected('View') or security.delcarePublic('View', 'method_name')
+
+    context['_getattr_'] = guarded_getattr
+    context['_getitem_'] = guarded_getitem
+
     if self.errorExpr:
         try:
             res = eval(compile_restricted(self.expr, '<string>', 'eval'), context)
