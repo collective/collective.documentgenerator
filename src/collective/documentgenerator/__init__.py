@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Init and utils."""
 
+from AccessControl.ZopeGuards import get_safe_globals
 from AccessControl.ZopeGuards import guarded_getattr
-from AccessControl.ZopeGuards import guarded_getitem
 from appy.pod import actions
 from appy.pod import elements
 from RestrictedPython import compile_restricted
 from zope.i18nmessageid import MessageFactory
+from appy.pod import Evaluator
 
 
 _ = MessageFactory('collective.documentgenerator')
@@ -24,8 +25,8 @@ def _restricted_evalExpr(self, expr, context):
     # XXX for the "view" methods to be accessible, we need to decorate the
     # methods with @security.protected('View') or security.delcarePublic('View', 'method_name')
 
+    context.update(get_safe_globals())
     context['_getattr_'] = guarded_getattr
-    context['_getitem_'] = guarded_getitem
 
     if '|' not in expr:
         res = eval(compile_restricted(expr, '<string>', 'eval'), context)
@@ -45,8 +46,8 @@ def _restricted_eval(self, context):
     # XXX for the "view" methods to be accessible, we need to decorate the
     # methods with @security.protected('View') or security.delcarePublic('View', 'method_name')
 
+    context.update(get_safe_globals())
     context['_getattr_'] = guarded_getattr
-    context['_getitem_'] = guarded_getitem
 
     if self.errorExpr:
         try:
@@ -58,5 +59,20 @@ def _restricted_eval(self, context):
     return res
 
 
-actions.Action._evalExpr = _restricted_evalExpr
-elements.Expression._eval = _restricted_eval
+_Evaluator_old_run = Evaluator.run
+
+@classmethod
+def run(class_, expression, context):
+    ''' '''
+
+    # XXX for the "view" methods to be accessible, we need to decorate the
+    # methods with @security.protected('View') or security.delcarePublic('View', 'method_name')
+    context.update(get_safe_globals())
+    context['_getattr_'] = guarded_getattr
+    return eval(compile_restricted(expression, '<string>', 'eval'), context)
+
+
+Evaluator.run = run
+
+#actions.Action._evalExpr = _restricted_evalExpr
+#elements.Expression._eval = _restricted_eval
