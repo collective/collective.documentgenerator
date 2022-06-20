@@ -1,6 +1,6 @@
 #!/usr/bin/make
 #
-lo_version=latest
+lo_version="7.3"
 
 args = $(filter-out $@,$(MAKECMDGOALS))
 
@@ -35,13 +35,14 @@ cleanall:
 
 startlibreoffice:
 	make stoplibreoffice
-	docker run -p 2002:8997\
+	docker run -p 2002:2002\
  			   -d \
  			   --rm \
+ 			   --pull always \
  			   --name="oo_server" \
  			   -v /tmp:/tmp \
  			   -v /var/tmp:/var/tmp \
- 			   xcgd/libreoffice:$(lo_version)
+ 			   imiobe/libreoffice:$(lo_version)
 	docker ps
 
 stoplibreoffice:
