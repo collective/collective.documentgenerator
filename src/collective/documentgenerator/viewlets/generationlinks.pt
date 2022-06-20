@@ -13,10 +13,12 @@
               style="margin-left:3px; margin-right:3px;">
             <a target="_blank"
                class="generation-link"
-               tal:attributes="href link/link;">
+               tal:define="descr python: '{} {}'.format(link['title'], link['output_format'].upper());"
+               tal:attributes="href link/link;
+                               title descr;">
               <img src="#" class="svg-icon"
                    tal:attributes="src string:${view/portal_url}/++resource++collective.documentgenerator/${link/output_format}.svg;
-                                   alt python: '{} {}'.format(link['title'], link['output_format'].upper());" />
+                                   alt descr;" />
             </a>
         </span>
         <span>|</span>

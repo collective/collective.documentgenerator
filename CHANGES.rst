@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Group link by template title.
   [odelaere]
+- Added 'title' attribute to generation link.
+  [odelaere]
 
 3.33 (2022-06-14)
 -----------------
