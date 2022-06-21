@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.34 (unreleased)
+3.34 (2022-06-21)
 -----------------
 
 - Stored `template_uid` on a persistent generated document to know which template has been used.
