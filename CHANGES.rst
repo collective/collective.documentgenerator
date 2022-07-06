@@ -4,8 +4,8 @@ Changelog
 3.35 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Aliased import to avoid confusion.
+  [sgeulette]
 
 3.34 (2022-06-21)
 -----------------
