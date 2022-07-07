@@ -12,6 +12,10 @@ Changelog
 
 - Stored `template_uid` on a persistent generated document to know which template has been used.
   [sgeulette]
+- Group link by template title.
+  [odelaere]
+- Added 'title' attribute to generation link.
+  [odelaere]
 
 3.33 (2022-06-14)
 -----------------

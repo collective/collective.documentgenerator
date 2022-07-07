@@ -23,10 +23,12 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     def get_links_info(self):
         base_url = self.context.absolute_url()
-        links = []
+        links = {}
         for template in self.get_generable_templates():
             for output_format in template.get_available_formats():
-                title = template.Title()
+                title = template.Title().strip()
+                if title not in links:
+                    links[title] = []
                 description = template.Description()
                 uid = template.UID()
                 link = '{base_url}/{gen_view_name}?template_uid={uid}&output_format={output_format}'.format(
@@ -42,7 +44,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                          'template_uid': uid,
                          'template': template}
                 infos.update(self.add_extra_links_info(template, infos))
-                links.append(infos)
+                links[title].append(infos)
         return links
 
     def add_extra_links_info(self, template, infos):
