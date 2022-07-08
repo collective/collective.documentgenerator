@@ -119,6 +119,7 @@ span.template-link-title {
     /* default discreetColor; */
     color: #4A494F;
     vertical-align: middle;
+    display: inline-block;
 }
 span.template-link-after-title::before {
 /*    content: '›';
@@ -126,7 +127,12 @@ span.template-link-after-title::before {
     font-size: 1.5em; */
     display: none;
 }
-span.template-link-before-link {
-    margin-left:3px;
-    margin-right:3px;
+span.template-link-before-link img {
+    margin:3px;
+    vertical-align: middle;
+}
+span.template-link-before-link img:hover {
+    width: 24px;
+    height: 24px;
+    margin:-1px;
 }
