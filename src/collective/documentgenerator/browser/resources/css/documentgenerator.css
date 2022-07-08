@@ -2,7 +2,6 @@ div#doc-generation-view ul.pod-template li {
     line-height: 0.5em;
     display: inline-block;
     list-style: none;
-    margin-bottom: 0;
 }
 
 div#doc-generation-view {
@@ -113,14 +112,12 @@ div#formfield-form-widgets-selected_templates select {
     height: 300px;
 }
 
-li.template-link {
-    padding: 0.25em;
-}
-
 span.link-separator::before {
     content: "|";
 }
 span.template-link-title {
+    /* default discreetColor; */
+    color: #4A494F;
     vertical-align: middle;
 }
 span.template-link-after-title::before {
