@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.interfaces import IGenerablePODTemplates
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.view import memoize
@@ -24,6 +25,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
     def get_links_info(self):
         base_url = self.context.absolute_url()
         links = {}
+        pod_formats = {podf[0]: podf[1] for podf in POD_FORMATS}
         for template in self.get_generable_templates():
             for output_format in template.get_available_formats():
                 title = template.Title().strip()
@@ -41,6 +43,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                          'title': title,
                          'description': description,
                          'output_format': output_format,
+                         'output_format_title': pod_formats[output_format],
                          'template_uid': uid,
                          'template': template}
                 infos.update(self.add_extra_links_info(template, infos))
