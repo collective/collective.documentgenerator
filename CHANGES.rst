@@ -6,6 +6,8 @@ Changelog
 
 - Aliased import to avoid confusion.
   [sgeulette]
+- CSS for generationlinks so it may be adapted more easily.
+  [gbastien]
 
 3.34 (2022-06-21)
 -----------------
