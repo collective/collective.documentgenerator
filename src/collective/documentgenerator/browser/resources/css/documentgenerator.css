@@ -131,8 +131,3 @@ span.template-link-before-link img {
     margin:3px;
     vertical-align: middle;
 }
-span.template-link-before-link img:hover {
-    width: 24px;
-    height: 24px;
-    margin:-1px;
-}
