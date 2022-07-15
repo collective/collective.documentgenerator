@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.interfaces import IGenerablePODTemplates
 from plone.app.layout.viewlets import ViewletBase
@@ -24,7 +25,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     def get_links_info(self):
         base_url = self.context.absolute_url()
-        links = {}
+        links = OrderedDict()
         pod_formats = {podf[0]: podf[1] for podf in POD_FORMATS}
         for template in self.get_generable_templates():
             for output_format in template.get_available_formats():
