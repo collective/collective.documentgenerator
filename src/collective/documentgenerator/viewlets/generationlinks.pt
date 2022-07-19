@@ -6,6 +6,7 @@
       tal:define="infos view/get_links_info;
                   titles python:infos.keys();">
     <li tal:repeat="title titles" class="template-link">
+      <span class="template-link-title" tal:content="title">Template title</span>
       <span class="template-link-after-title"></span>
       <span class="template-link-before-link"
             tal:repeat="link python: infos[title]">
@@ -20,7 +21,6 @@
                                title link/output_format_title;" />
         </a>
       </span>
-      <span class="template-link-title" tal:content="title">Template title</span>
       <span class="link-separator"></span>
     </li>
   </ul>
