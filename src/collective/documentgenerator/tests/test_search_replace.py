@@ -18,8 +18,8 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
 
     def setUp(self):
         super(TestSearchReplaceTemplate, self).setUp()
-        self.template1 = self.portal.podtemplates.test_template
-        self.template2 = self.portal.podtemplates.test_template_bis
+        self.template1 = self.portal.podtemplates.test_template  # profiles/demo/templates/modele_general.odt
+        self.template2 = self.portal.podtemplates.test_template_bis  # profiles/demo/templates/modèle_collection.odt
         self.ods_template = self.portal.podtemplates.test_ods_template
 
     def test_podtemplate_is_searchable(self):
@@ -318,6 +318,25 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
 
         self.assertGreater(len(footer_results), 0)
         self.assertEqual("view.new_method(", footer_results[self.template2.UID()][0].keyword)
+
+    def test_replace_in_content(self):
+        with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+            replace_results = search_replace.replace(
+                "Dernière", "Première", in_content=True
+            )
+
+        self.assertNotIn(self.template1.UID(), replace_results.keys())
+        self.assertIn("Dernière", replace_results[self.template2.UID()][0].patched)
+
+        # Verification with search
+        with SearchAndReplacePODTemplates((self.template2,)) as search_replace:
+            last_results = search_replace.search("Dernière")
+            first_results = search_replace.search("Première")
+
+        self.assertNotIn(self.template2.UID(), last_results.keys())
+        self.assertIn(self.template2.UID(), first_results.keys())
+
+        self.assertEqual("Première", first_results[self.template2.UID()][0].keyword)
 
     def test_podtemplate_is_still_functional_after_search_replace(self):
         with SearchAndReplacePODTemplates((self.template2,)) as search_replace:

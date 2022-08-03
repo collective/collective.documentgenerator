@@ -1,3 +1,4 @@
+from appy.bin.odfgrep import Grep
 from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINTING
 from collective.documentgenerator.utils import get_site_root_relative_path
 from collective.documentgenerator.utils import temporary_file_name
@@ -74,37 +75,38 @@ class SearchAndReplacePODTemplates:
         # delete tmp directory
         shutil.rmtree(self.tmp_dir)
 
-    def search(self, find_expr, is_regex=False):
+    def search(self, find_expr, is_regex=False, in_content=False):
         """
         Search find_expr in self.podtemplates
         :param find_expr: A regex str or simple string
         :param is_regex: use is_regex=False if find_expr is not a regex
+        :param in_content: use in_content=True if you want to also search in the podtemplate content. Use False if
+        only inside appy's statements/expressions
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
-
-        grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, verbose=0)
+        grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, inContent=in_content, verbose=0)
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
         return results
 
-    def replace(self, find_expr, replace_expr, is_regex=False, dry_run=False):
+    def replace(self, find_expr, replace_expr, is_regex=False, in_content=False, dry_run=False):
         """
         Replace find_expr match with replace_expr in self.podtemplates
         :param find_expr: A regex str or simple str
         :param replace_expr: A str that will replace find_expr match
         :param is_regex: Use is_regex=False if find_expr is not a regex
+        :param in_content: use in_content=True if you want to also replace in the podtemplate content. Use False if
+        only inside appy's statements/expressions
         :param dry_run: Perform a dry run and not the actual replacement(s).
         This will not modify the template(s) and can be used safely.
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
-
         grepper = Grep(
             find_expr,
             self.tmp_dir,
             repl=replace_expr,
             asString=not is_regex,
+            inContent=in_content,
             dryRun=dry_run,
             verbose=0,
         )
