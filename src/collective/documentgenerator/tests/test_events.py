@@ -110,3 +110,31 @@ class TestEvents(PODTemplateIntegrationTest):
         cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)
         self.assertTrue(cleaned_note in cleaned_content_xml)
+
+    def test_default_page_style_for_mailing(self):
+        """When a mailing PODTemplate created or modified, set a default page style on it."""
+        filename = u'template_without_style_page.odt'
+        current_path = os.path.dirname(__file__)
+        odt_data = open(os.path.join(current_path, filename), 'r').read()
+        # activate the auto page style option
+        api.portal.set_registry_record(
+            'collective.documentgenerator.browser.controlpanel.'
+            'IDocumentGeneratorControlPanelSchema.force_default_page_style_for_mailing',
+            True
+        )
+        pod_template = api.content.create(
+            type='ConfigurablePODTemplate',
+            id='template_to_style',
+            title=u'Template to clean',
+            odt_file=NamedBlobFile(
+                data=odt_data,
+                contentType='application/vnd.oasis.opendocument.text',
+                filename=filename,
+            ),
+            pod_formats=['odt'],
+            container=self.portal.podtemplates,
+            mailing_loop_template=1,
+        )
+        notify(ObjectModifiedEvent(pod_template))
+        # the page style should have been set -> odt contents are different
+        self.assertNotEqual(odt_data, pod_template.odt_file.data)
