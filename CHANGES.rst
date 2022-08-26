@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.35 (unreleased)
+3.35 (2022-08-26)
 -----------------
 
 - Group link by template title.
