@@ -11,7 +11,7 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='3.35.dev0',
+    version='3.36.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
