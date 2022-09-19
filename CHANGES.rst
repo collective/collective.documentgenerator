@@ -4,7 +4,9 @@ Changelog
 3.36 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Add a new parameter `force_default_page_style_for_mailing` to the registry.
+  If set to True, apply automatically a default page style to mailing templates.
+  [sdelcourt]
 
 
 3.35 (2022-08-26)

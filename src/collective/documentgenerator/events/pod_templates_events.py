@@ -8,6 +8,7 @@ from imio.helpers.content import get_modified_attrs
 from plone import api
 
 import os
+import tempfile
 
 
 def podtemplate_created(pod_template, event):
@@ -55,7 +56,7 @@ def apply_default_page_style_for_mailing(pod_template, event):
     if not pod_template.mailing_loop_template:
         return
 
-    tmp_dir = sutils.getOsTempFolder(sub=True)
+    tmp_dir = tempfile.mkdtemp()
     filename = '{}/{}'.format(tmp_dir, pod_template.odt_file.filename)
     if os.path.isfile(filename):
         os.remove(filename)
