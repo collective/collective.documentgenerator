@@ -4,8 +4,8 @@ Changelog
 3.36 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Order templates directories by title in `dg-templates-listing` view.
+  [sgeulette]
 
 3.35 (2022-08-26)
 -----------------
