@@ -330,7 +330,9 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertFalse(self.view.check_permission('description'))
 
     def test_get_value(self):
-        self.view.real_context = self.content
+        # default obj or given one
+        self.assertEqual(self.view.get_value('id'), 'johndoe')
+        self.assertEqual(self.view.get_value('id', obj=self.doc), 'doc')
         # test unknown field name (a behavior field by example, that can be activated or not)
         self.assertEqual(self.view.get_value('unknown', strict=False), None)
         self.assertEqual(self.view.get_value('unknown', default='aa', strict=False), 'aa')
