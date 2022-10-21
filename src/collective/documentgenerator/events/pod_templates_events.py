@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from appy.bin.odfsub import Sub
-from appy.shared import utils as sutils
 from collective.documentgenerator.events.styles_events import update_PODtemplate_styles
 from collective.documentgenerator.utils import clean_notes
+from collective.documentgenerator.utils import create_temporary_file
+from collective.documentgenerator.utils import remove_tmp_file
 from imio.helpers.content import get_modified_attrs
 from plone import api
-
-import os
-import tempfile
 
 
 def podtemplate_created(pod_template, event):
@@ -56,19 +54,15 @@ def apply_default_page_style_for_mailing(pod_template, event):
     if not pod_template.mailing_loop_template:
         return
 
-    tmp_dir = tempfile.mkdtemp()
-    filename = '{}/{}'.format(tmp_dir, pod_template.odt_file.filename)
-    if os.path.isfile(filename):
-        os.remove(filename)
+    filename = pod_template.odt_file.filename
     # copy the pod template on the file system.
-    with open(filename, "w") as template_file:
-        template_file.write(pod_template.odt_file.data)
+    template_file = create_temporary_file(initial_file=pod_template.odt_file, base_name=filename)
 
-    appy_sub = Sub(check=False, path=filename)
+    appy_sub = Sub(check=False, path=template_file.name)
     appy_sub.run()
 
-    with open(filename, "r") as new_template_file:
+    with open(template_file.name, "r") as new_template_file:
         pod_template.odt_file.data = new_template_file.read()
 
     # Delete the temp folder
-    sutils.FolderDeleter.delete(tmp_dir)
+    remove_tmp_file(template_file.name)
