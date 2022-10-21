@@ -23,4 +23,8 @@
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".pod_templates_events.podtemplate_modified" />
 
+  <subscriber for="..content.pod_template.IPODTemplate
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".pod_templates_events.apply_default_page_style_for_mailing" />
+
 </configure>

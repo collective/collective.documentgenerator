@@ -99,6 +99,14 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         default=os.getenv('USE_STREAM', None) is None and 'auto' or _string_to_boolean(os.getenv('USE_STREAM')),
     )
 
+    force_default_page_style_for_mailing = schema.Bool(
+        title=_(u'Apply a default page style on mailing POD templates'),
+        description=_(u'If enabled, this will automatically apply the default page style on the firstparagraph'
+                      u'of a POD template using the "mailing" attribute (if no page style was set).'),
+        required=False,
+        default=False
+    )
+
 
 @implementer(IDocumentGeneratorSettings)
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):

@@ -4,10 +4,14 @@ Changelog
 3.36 (unreleased)
 -----------------
 
+- Add a new parameter `force_default_page_style_for_mailing` to the registry.
+  If set to True, apply automatically a default page style to mailing templates.
+  [sdelcourt]
 - Order templates directories by title in `dg-templates-listing` view.
   [sgeulette]
 - Improved `DXDocumentGenerationHelperView.get_value` by adding optional obj parameter.
   [sgeulette]
+
 
 3.35 (2022-08-26)
 -----------------

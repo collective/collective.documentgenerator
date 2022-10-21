@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from appy.bin.odfsub import Sub
 from collective.documentgenerator.events.styles_events import update_PODtemplate_styles
 from collective.documentgenerator.utils import clean_notes
+from collective.documentgenerator.utils import create_temporary_file
+from collective.documentgenerator.utils import remove_tmp_file
 from imio.helpers.content import get_modified_attrs
+from plone import api
 
 
 def podtemplate_created(pod_template, event):
@@ -36,3 +40,27 @@ def set_initial_md5(pod_template, event):
         pod_template.initial_md5 = md5
         pod_template.style_modification_md5 = md5
     update_PODtemplate_styles(pod_template, event)
+
+
+def apply_default_page_style_for_mailing(pod_template, event):
+    """
+    """
+    force_style = api.portal.get_registry_record(
+        'collective.documentgenerator.browser.controlpanel.'
+        'IDocumentGeneratorControlPanelSchema.force_default_page_style_for_mailing'
+    )
+    if not force_style or not pod_template.mailing_loop_template:
+        return
+
+    filename = pod_template.odt_file.filename
+    # copy the pod template on the file system.
+    template_file = create_temporary_file(initial_file=pod_template.odt_file, base_name=filename)
+
+    appy_sub = Sub(check=False, path=template_file.name)
+    appy_sub.run()
+
+    with open(template_file.name, "r") as new_template_file:
+        pod_template.odt_file.data = new_template_file.read()
+
+    # Delete the temp folder
+    remove_tmp_file(template_file.name)
