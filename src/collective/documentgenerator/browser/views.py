@@ -68,8 +68,8 @@ class TemplatesListing(BrowserView):
             parent = aq_parent(aq_inner(obj))
             ordered = IOrderedContainer(parent, None)
             if ordered is not None:
-                return (level, path, ordered.getObjectPosition(obj.getId()))
-            return (level, path, 0)
+                return (level, parent.Title(), ordered.getObjectPosition(obj.getId()))
+            return (level, parent.Title(), 0)
 
         # sort by parent path and by position
         self.table.results = [tup[0] for tup in sorted(res, key=keys)]
