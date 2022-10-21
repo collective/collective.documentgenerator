@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.36 (unreleased)
+3.36 (2022-10-21)
 -----------------
 
 - Add a new parameter `force_default_page_style_for_mailing` to the registry.
