@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.37 (unreleased)
+3.37 (2022-10-27)
 -----------------
 
 - Bugfix: page style check now handle case of POD template without mailing template
