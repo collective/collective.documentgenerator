@@ -4,7 +4,9 @@ Changelog
 3.37 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Bugfix: page style check now handle case of POD template without mailing template
+  attribute.
+  [sdelcourt]
 
 
 3.36 (2022-10-21)
