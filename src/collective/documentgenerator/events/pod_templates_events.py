@@ -49,7 +49,7 @@ def apply_default_page_style_for_mailing(pod_template, event):
         'collective.documentgenerator.browser.controlpanel.'
         'IDocumentGeneratorControlPanelSchema.force_default_page_style_for_mailing'
     )
-    if not force_style or not pod_template.mailing_loop_template:
+    if not force_style or not getattr(pod_template, 'mailing_loop_template', None):
         return
 
     filename = pod_template.odt_file.filename
