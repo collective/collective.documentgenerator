@@ -4,8 +4,8 @@ Changelog
 3.38 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added missing upgrade step after registry modification (`force_default_page_style_for_mailing`) in 3.36.
+  [sgeulette]
 
 3.37 (2022-10-27)
 -----------------
@@ -13,7 +13,6 @@ Changelog
 - Bugfix: page style check now handle case of POD template without mailing template
   attribute.
   [sdelcourt]
-
 
 3.36 (2022-10-21)
 -----------------
@@ -25,7 +24,6 @@ Changelog
   [sgeulette]
 - Improved `DXDocumentGenerationHelperView.get_value` by adding optional obj parameter.
   [sgeulette]
-
 
 3.35 (2022-08-26)
 -----------------

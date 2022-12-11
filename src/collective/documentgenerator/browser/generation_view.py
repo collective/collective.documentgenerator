@@ -270,6 +270,7 @@ class DocumentGenerationView(BrowserView):
             stylesMapping=stylesMapping,
             stream=config.get_use_stream(),
             csvOptions=csvOptions,
+            # deleteTempFolder=False,
             **kwargs
         )
 
