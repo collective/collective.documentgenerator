@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.38 (unreleased)
+3.38 (2022-12-12)
 -----------------
 
 - Added missing upgrade step after registry modification (`force_default_page_style_for_mailing`) in 3.36.
