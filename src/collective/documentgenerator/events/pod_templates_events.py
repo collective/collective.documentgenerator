@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
-
-from appy.bin.odfsub import Sub
+import six
 from collective.documentgenerator.events.styles_events import update_PODtemplate_styles
 from collective.documentgenerator.utils import clean_notes
 from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import remove_tmp_file
 from imio.helpers.content import get_modified_attrs
 from plone import api
+
+if six.PY2:
+    from appy.bin.odfsub import Sub
+else:
+    from appy.bin.osub import Sub
 
 
 def podtemplate_created(pod_template, event):

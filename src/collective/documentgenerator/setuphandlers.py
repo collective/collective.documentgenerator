@@ -8,7 +8,7 @@ from Products.CMFPlone import interfaces as Plone
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
 from zope.interface import implementer
-
+from six import u
 import logging
 import os
 
@@ -41,7 +41,7 @@ def install_demo(context):
     use_stream = os.getenv('USE_STREAM', False) == 'True'
     set_use_stream(use_stream)
 
-    default_oo_port_list = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    default_oo_port_list = u(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                    'IDocumentGeneratorControlPanelSchema.oo_port_list',
                                    default_oo_port_list)
@@ -60,8 +60,8 @@ def install_demo(context):
     pod_folder = getattr(portal, 'podtemplates')
     constrain_types = IConstrainTypes(pod_folder)
     constrain_types.setConstrainTypesMode(1)
-    constrain_types.setLocallyAllowedTypes(POD_TEMPLATE_TYPES.keys())
-    constrain_types.setImmediatelyAddableTypes(POD_TEMPLATE_TYPES.keys())
+    constrain_types.setLocallyAllowedTypes(list(POD_TEMPLATE_TYPES.keys()))
+    constrain_types.setImmediatelyAddableTypes(list(POD_TEMPLATE_TYPES.keys()))
 
     # Create some test content
     style_template_id = 'test_style_template'

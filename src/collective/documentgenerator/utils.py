@@ -196,7 +196,7 @@ def temporary_file_name(suffix=''):
 def create_temporary_file(initial_file=None, base_name=''):
     tmp_filename = temporary_file_name(suffix=base_name)
     # create the file in any case
-    with open(tmp_filename, 'w+') as tmp_file:
+    with open(tmp_filename, 'wb') as tmp_file:
         if initial_file:
             tmp_file.write(initial_file.data)
     return tmp_file
@@ -209,7 +209,10 @@ def clean_notes(pod_template):
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
-        cleaner = Cleaner(path=tmp_file.name, verbose=1)
+        if six.PY2:
+            cleaner = Cleaner(path=tmp_file.name, verbose=1)
+        else:
+            cleaner = Cleaner(path=tmp_file.name, silent=False)
         cleaned = cleaner.run()
         if cleaned:
             manually_modified = pod_template.has_been_modified()

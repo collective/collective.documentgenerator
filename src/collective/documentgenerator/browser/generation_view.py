@@ -4,6 +4,7 @@ import mimetypes
 import unicodedata
 
 import pkg_resources
+import six
 from AccessControl import Unauthorized
 from appy.pod.renderer import CsvOptions, Renderer
 from appy.pod.styles_manager import TableProperties
@@ -22,6 +23,7 @@ from collective.documentgenerator.interfaces import (
     CyclicMergeTemplatesException, IDocumentFactory, PODTemplateNotFoundError)
 from collective.documentgenerator.utils import remove_tmp_file
 from collective.documentgenerator.utils import temporary_file_name
+import io
 from .. import _
 
 HAS_FINGERPOINTING = None
@@ -133,7 +135,7 @@ class DocumentGenerationView(BrowserView):
         """
         sub_templates = pod_template.get_templates_to_merge()
         sub_documents = {}
-        for context_name, (sub_pod, do_rendering) in sub_templates.iteritems():
+        for context_name, (sub_pod, do_rendering) in iter(sub_templates.items()):
             # Force the subtemplate output_format to 'odt' because appy.pod
             # can only merge documents in this format.
             if do_rendering:
@@ -254,25 +256,46 @@ class DocumentGenerationView(BrowserView):
         if output_format == "csv":
             csvOptions = CsvOptions(fieldSeparator=pod_template.csv_field_delimiter,
                                     textDelimiter=pod_template.csv_string_delimiter)
-        renderer = Renderer(
-            StringIO(document_template.data),
-            generation_context,
-            temp_filename,
-            pythonWithUnoPath=config.get_uno_path(),
-            ooServer=config.get_oo_server(),
-            ooPort=config.get_oo_port_list(),
-            raiseOnError=raiseOnError,
-            imageResolver=api.portal.get(),
-            forceOoCall=True,
-            html=True,
-            optimalColumnWidths=optimalColumnWidths,
-            distributeColumns=distributeColumns,
-            stylesMapping=stylesMapping,
-            stream=config.get_use_stream(),
-            csvOptions=csvOptions,
-            # deleteTempFolder=False,
-            **kwargs
-        )
+        if six.PY2:
+            renderer = Renderer(
+                StringIO(document_template.data),
+                generation_context,
+                temp_filename,
+                pythonWithUnoPath=config.get_uno_path(),
+                ooServer=config.get_oo_server(),
+                ooPort=config.get_oo_port_list(),
+                raiseOnError=raiseOnError,
+                imageResolver=api.portal.get(),
+                forceOoCall=True,
+                html=True,
+                optimalColumnWidths=optimalColumnWidths,
+                distributeColumns=distributeColumns,
+                stylesMapping=stylesMapping,
+                stream=config.get_use_stream(),
+                csvOptions=csvOptions,
+                # deleteTempFolder=False,
+                **kwargs
+            )
+        else:
+            renderer = Renderer(
+                io.BytesIO(document_template.data),
+                generation_context,
+                temp_filename,
+                pythonWithUnoPath=config.get_uno_path(),
+                ooServer=config.get_oo_server(),
+                ooPort=config.get_oo_port_list(),
+                raiseOnError=raiseOnError,
+                findImage=api.portal.get(),
+                forceOoCall=True,
+                html=True,
+                optimalColumnWidths=optimalColumnWidths,
+                distributeColumns=distributeColumns,
+                stylesMapping=stylesMapping,
+                stream=config.get_use_stream(),
+                csvOptions=csvOptions,
+                # deleteTempFolder=False,
+                **kwargs
+            )
 
         # it is only now that we can initialize helper view's appy pod renderer
         all_helper_views = self.get_views_for_appy_renderer(generation_context, helper_view)
@@ -365,7 +388,7 @@ class DocumentGenerationView(BrowserView):
 
             sub_templates = pod_template.get_templates_to_merge()
 
-            for name, (sub_template, do_rendering) in sub_templates.iteritems():
+            for name, (sub_template, do_rendering) in iter(sub_templates.items()):
                 traverse_check(sub_template, new_path)
 
         traverse_check(pod_template, [])
