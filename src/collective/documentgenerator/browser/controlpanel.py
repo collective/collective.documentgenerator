@@ -15,6 +15,7 @@ from z3c.form import button
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Interface
+from six import u
 
 import inspect
 import os
@@ -60,7 +61,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u"oo_port_list"),
         description=_(u'Port Number(s) of OO.'),
         required=False,
-        default=unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+        default=u(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     )
 
     uno_path = schema.TextLine(

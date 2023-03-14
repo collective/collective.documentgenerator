@@ -81,8 +81,7 @@ class SearchAndReplacePODTemplates:
         :param is_regex: use is_regex=False if find_expr is not a regex
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
-
+        from appy.bin.ogrep import Grep
         grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, verbose=0)
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
@@ -98,7 +97,7 @@ class SearchAndReplacePODTemplates:
         This will not modify the template(s) and can be used safely.
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
+        from appy.bin.ogrep import Grep
 
         grepper = Grep(
             find_expr,

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from appy.bin.odfclean import Cleaner
+from appy.bin.oclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api

@@ -12,7 +12,7 @@ from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from Products.CMFPlone.utils import base_hasattr, safe_unicode
 from Products.Five import BrowserView
-from StringIO import StringIO
+from six import StringIO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter, queryAdapter, queryUtility
 
