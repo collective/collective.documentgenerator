@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from appy.bin.oclean import Cleaner
+import six
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
@@ -21,6 +21,11 @@ import os
 import re
 import tempfile
 
+
+if six.PY2:
+    from appy.bin.odfclean import Cleaner
+else:
+    from appy.bin.oclean import Cleaner
 
 logger = logging.getLogger('collective.documentgenerator')
 
