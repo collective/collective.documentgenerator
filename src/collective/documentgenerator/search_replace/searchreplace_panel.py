@@ -115,12 +115,14 @@ class SearchResultProvider(ContentProviderBase):
         """
         return result.getDiff(type="xhtml")
 
+
 @implementer(IDocumentGeneratorSearchReplacePanelSchema)
 class DocumentGeneratorSearchReplacePanelAdapter(object):
     component.adapts(Interface)
 
     def __init__(self, context):
         self.context = context
+
 
 @implementer(IFieldsAndContentProvidersForm)
 class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
