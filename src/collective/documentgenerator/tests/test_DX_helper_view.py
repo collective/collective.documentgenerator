@@ -69,9 +69,9 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
         if six.PY2:
             self.assertEqual(
-                unicode(proxy),
-                unicode(helper_view.real_context),
-                msg.format(unicode(proxy), unicode(wrapped))
+                safe_unicode(proxy),
+                safe_unicode(helper_view.real_context),
+                msg.format(safe_unicode(proxy), safe_unicode(wrapped))
             )
         else:
             self.assertEqual(

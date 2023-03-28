@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import six
 from collective.documentgenerator.helper.base import DisplayProxyObject
 from collective.documentgenerator.helper.base import DocumentGenerationHelperView
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
@@ -36,7 +36,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         value = field.getAccessor(self.real_context)()
         if value is None:
             return default
-        if as_utf8 and isinstance(value, unicode):
+        if six.PY2 and as_utf8 and isinstance(value, unicode):  # noqa: F821
             value = value.encode('utf8')
         return value
 

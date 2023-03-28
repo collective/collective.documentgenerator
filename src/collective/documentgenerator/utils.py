@@ -102,7 +102,7 @@ def safe_encode(value, encoding='utf-8'):
     """
         Converts a value to encoding, only when it is not already encoded.
     """
-    if isinstance(value, six.PY2 and unicode or bytes):
+    if isinstance(value, six.PY2 and unicode or bytes):  # noqa: F821
         return value.encode(encoding)
     return value
 
