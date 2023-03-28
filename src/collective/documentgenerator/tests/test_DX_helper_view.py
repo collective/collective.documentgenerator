@@ -316,10 +316,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         else:
             expected = (b'\n<span id="form-widgets-subscription" class="select-widget choice-field">'
                         b'<span class="selected-option">gold</span></span>\n\n')
-        try:
-            self.assertEqual(result, expected)
-        except:
-            import ipdb; ipdb.set_trace()
+        self.assertEqual(result, expected)
         # call with soup
         result = self.view.display_widget(field_name, soup=True)
         expected = '<span class="selected-option">gold</span>'
