@@ -8,6 +8,7 @@ from zope.interface import Invalid
 
 import io
 import os
+import six
 import zipfile
 
 
@@ -328,7 +329,10 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         view = self.portal.podtemplates.restrictedTraverse("@@document-generation")
         self.assertIn("pdf", self.template2.get_available_formats())
         generated_doc = view(template_uid, "pdf")
-        self.assertEqual("%PDF", generated_doc[:4])
+        if six.PY2:
+            self.assertEqual("%PDF", generated_doc[:4])
+        else:
+            self.assertEqual(b"%PDF", generated_doc[:4])
 
     def test_search_replace_control_panel_anonymous_unauthorized(self):
         app = self.layer["app"]

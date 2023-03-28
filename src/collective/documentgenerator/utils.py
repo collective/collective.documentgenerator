@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import six
 from collective.documentgenerator import _
 from collective.documentgenerator.config import HAS_PLONE_5
 from imio.helpers.security import fplog
@@ -20,6 +19,7 @@ import hashlib
 import logging
 import os
 import re
+import six
 import tempfile
 
 
@@ -102,7 +102,7 @@ def safe_encode(value, encoding='utf-8'):
     """
         Converts a value to encoding, only when it is not already encoded.
     """
-    if isinstance(value, unicode):
+    if isinstance(value, six.PY2 and unicode or bytes):
         return value.encode(encoding)
     return value
 

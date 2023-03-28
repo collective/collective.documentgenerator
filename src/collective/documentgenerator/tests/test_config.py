@@ -33,7 +33,7 @@ class TestConfig(unittest.TestCase):
         newvalues = [4242, 6666]
         oo_ports = config.get_oo_port_list()
         self.assertTrue(newvalues != oo_ports)
-        values = [safe_unicode(v) for v in newvalues]
+        values = [safe_unicode(str(v)) for v in newvalues]
         api.portal.set_registry_record(
             'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list',
             u';'.join(values)
