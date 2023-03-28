@@ -12,6 +12,7 @@ from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import ObjectModifiedEvent
 
 import os
+import six
 
 
 class TestEvents(PODTemplateIntegrationTest):
@@ -71,11 +72,19 @@ class TestEvents(PODTemplateIntegrationTest):
         """When PODTemplate created or modified, the "odt_file" note are cleaned."""
         # original template_to_clean.odt holds dirty note
         filename = u'template_to_clean.odt'
-        dirty_note = 'from xhtml(self.getMotivation() + </text:span>' \
-            '<text:span text:style-name="T1">self.getDecision())</text:span>'
-        cleaned_note = 'from xhtml(self.getMotivation() + self.getDecision())'
+        if six.PY2:
+            dirty_note = 'from xhtml(self.getMotivation() + </text:span>' \
+                '<text:span text:style-name="T1">self.getDecision())</text:span>'
+            cleaned_note = 'from xhtml(self.getMotivation() + self.getDecision())'
+        else:
+            dirty_note = b'from xhtml(self.getMotivation() + </text:span>' \
+                b'<text:span text:style-name="T1">self.getDecision())</text:span>'
+            cleaned_note = b'from xhtml(self.getMotivation() + self.getDecision())'
         current_path = os.path.dirname(__file__)
-        dirty_data = open(os.path.join(current_path, filename), 'r').read()
+        if six.PY2:
+            dirty_data = open(os.path.join(current_path, filename), 'r').read()
+        else:
+            dirty_data = open(os.path.join(current_path, filename), 'rb').read()
         dirty_content_xml = self.get_odt_content_xml(dirty_data)
         self.assertTrue(dirty_note in dirty_content_xml)
         self.assertFalse(cleaned_note in dirty_content_xml)
@@ -115,7 +124,10 @@ class TestEvents(PODTemplateIntegrationTest):
         """When a mailing PODTemplate created or modified, set a default page style on it."""
         filename = u'template_without_style_page.odt'
         current_path = os.path.dirname(__file__)
-        odt_data = open(os.path.join(current_path, filename), 'r').read()
+        if six.PY2:
+            odt_data = open(os.path.join(current_path, filename), 'r').read()
+        else:
+            odt_data = open(os.path.join(current_path, filename), 'rb').read()
         # activate the auto page style option
         api.portal.set_registry_record(
             'collective.documentgenerator.browser.controlpanel.'
@@ -144,7 +156,10 @@ class TestEvents(PODTemplateIntegrationTest):
         only if the setting 'force_default_page_style_for_mailing' is set to True."""
         filename = u'template_without_style_page.odt'
         current_path = os.path.dirname(__file__)
-        odt_data = open(os.path.join(current_path, filename), 'r').read()
+        if six.PY2:
+            odt_data = open(os.path.join(current_path, filename), 'r').read()
+        else:
+            odt_data = open(os.path.join(current_path, filename), 'rb').read()
         # activate the auto page style option
         api.portal.set_registry_record(
             'collective.documentgenerator.browser.controlpanel.'

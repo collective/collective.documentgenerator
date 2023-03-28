@@ -22,6 +22,7 @@ from zope.globalrequest import setLocal
 
 import collective.documentgenerator
 import os
+import six
 import tempfile
 import transaction
 import unittest
@@ -184,7 +185,10 @@ class BaseTest(unittest.TestCase):
     def get_odt_content_xml(self, generated_doc):
         """Return content.xml from a generated doc binary."""
         tmp_dir = tempfile.gettempdir()
-        tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+        if six.PY2:
+            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+        else:
+            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'wb')
         tmp_file.write(generated_doc)
         tmp_file.close()
         zfile = zipfile.ZipFile(tmp_file.name, 'r')

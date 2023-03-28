@@ -63,8 +63,12 @@ def apply_default_page_style_for_mailing(pod_template, event):
     appy_sub = Sub(check=False, path=template_file.name)
     appy_sub.run()
 
-    with open(template_file.name, "r") as new_template_file:
-        pod_template.odt_file.data = new_template_file.read()
+    if six.PY2:
+        with open(template_file.name, "r") as new_template_file:
+            pod_template.odt_file.data = new_template_file.read()
+    else:
+        with open(template_file.name, "rb") as new_template_file:
+            pod_template.odt_file.data = new_template_file.read()
 
     # Delete the temp folder
     remove_tmp_file(template_file.name)
