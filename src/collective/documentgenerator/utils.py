@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import six
 from collective.documentgenerator import _
+from collective.documentgenerator.config import HAS_PLONE_5
 from imio.helpers.security import fplog
 from plone import api
 from plone.namedfile.file import NamedBlobFile
@@ -145,7 +146,10 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
 
         # then format date
         custom_format = custom_format.replace('_p_c_', '%%')
-        formatted_date = date.strftime(custom_format.encode('utf8'))
+        if HAS_PLONE_5:
+            formatted_date = date.strftime(custom_format)
+        else:
+            formatted_date = date.strftime(custom_format.encode('utf8'))
     return safe_unicode(formatted_date)
 
 

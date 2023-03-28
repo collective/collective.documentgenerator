@@ -14,6 +14,7 @@ from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
 
 import datetime
+import six
 
 
 class TestDexterityHelperView(DexterityIntegrationTests):
@@ -66,11 +67,18 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         msg = " __repr__ and __str__ should return the same result as the wrapped object: {} != {}"
         self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
-        self.assertEqual(
-            unicode(proxy),
-            unicode(helper_view.real_context),
-            msg.format(unicode(proxy), unicode(wrapped))
-        )
+        if six.PY2:
+            self.assertEqual(
+                unicode(proxy),
+                unicode(helper_view.real_context),
+                msg.format(unicode(proxy), unicode(wrapped))
+            )
+        else:
+            self.assertEqual(
+                str(proxy),
+                str(helper_view.real_context),
+                msg.format(str(proxy), str(wrapped))
+            )
 
 
 class TestDexterityHelperViewMethods(DexterityIntegrationTests):
@@ -130,7 +138,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         self.assertTrue(displayed == 'yolo', msg)
 
-        self.doc.text = RichTextValue()
+        self.doc.text = RichTextValue('')
         displayed = self.doc_view.display('text', no_value='yolo')
         self.assertEqual('', self.doc_view.real_context.text.output)
         self.assertTrue(displayed == 'yolo', msg)
@@ -302,9 +310,16 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(result, expected)
         # call without cleaning
         result = self.view.display_widget(field_name, clean=False)
-        expected = ('\n<span id="form-widgets-subscription" class="select-widget choice-field">'
-                    '<span class="selected-option">gold</span></span>\n\n')
-        self.assertEqual(result, expected)
+        if six.PY2:
+            expected = ('\n<span id="form-widgets-subscription" class="select-widget choice-field">'
+                        '<span class="selected-option">gold</span></span>\n\n')
+        else:
+            expected = (b'\n<span id="form-widgets-subscription" class="select-widget choice-field">'
+                        b'<span class="selected-option">gold</span></span>\n\n')
+        try:
+            self.assertEqual(result, expected)
+        except:
+            import ipdb; ipdb.set_trace()
         # call with soup
         result = self.view.display_widget(field_name, soup=True)
         expected = '<span class="selected-option">gold</span>'

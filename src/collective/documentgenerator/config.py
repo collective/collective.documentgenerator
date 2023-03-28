@@ -114,7 +114,7 @@ def set_oo_server():
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    oo_port = safe_unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)
