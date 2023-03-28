@@ -9,11 +9,17 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        PLONE_VERSION: [ 4.3, 5.1, 5.2 ]
+        include:
+          - python: "2.7"
+            plone: "4.3"
+          - python: "3.8"
+            plone: "5.2"
+          - python: "3.10"
+            plone: "6.0"
     services:
       libreoffice:
         image: imiobe/libreoffice:7.3
@@ -24,11 +30,11 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Python 2
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 2.7
+          python-version: ${{ matrix.python }}
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -38,7 +44,7 @@ jobs:
           sudo apt-get autoremove -qq -y
           sudo apt-get autoclean -qq -y
           mkdir -p buildout-cache/{eggs,downloads}
-          pip install -r requirements.txt
+          pip install -r requirements-${{ matrix.plone }}.txt
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache eggs
@@ -47,15 +53,13 @@ jobs:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.plone }}
       - name: buildout
         run: |
-          sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" test-ci.cfg
-          pip install -r requirements.txt coverage==5.3.1
+          sed -ie "s#plone-5#plone-${{matrix.plone}}#" test-ci.cfg
           buildout -c test-ci.cfg annotate
           buildout -c test-ci.cfg
-          bin/translation-manage -c
       - name: code-analysis
         run: |
           bin/code-analysis
@@ -64,11 +68,13 @@ jobs:
           docker ps -a
           bin/test --test=\!"robot"
   coverage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        PLONE_VERSION: [5.2]
+       include:
+          - python: "3.10"
+            plone: "6.0"
     services:
       libreoffice:
         image: imiobe/libreoffice:7.3
@@ -80,10 +86,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python 2
-        uses: actions/setup-python@v2
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 2.7
+          python-version: ${{ matrix.python }}
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -93,7 +99,7 @@ jobs:
           sudo apt-get autoremove -qq -y
           sudo apt-get autoclean -qq -y
           mkdir -p buildout-cache/{eggs,downloads}
-          pip install -r requirements.txt
+          pip install -r requirements-${{ matrix.plone }}.txt
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache eggs
@@ -102,11 +108,11 @@ jobs:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-          restore-keys: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
+          key: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.plone }}
       - name: buildout
         run: |
-          sed -ie "s#plone-5#plone-${{matrix.PLONE_VERSION}}#" test-ci.cfg
+          sed -ie "s#plone-5#plone-${{matrix.plone}}#" test-ci.cfg
           pip install -r requirements.txt coverage==5.3.1
           buildout -c test-ci.cfg annotate
           buildout -c test-ci.cfg
@@ -114,14 +120,10 @@ jobs:
       - name: test coverage
         run: |
           bin/coverage run bin/test --test=\!"robot"
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - name: Install Coveralls
         run: |
-          pip3 install -U pip setuptools --no-cache-dir
-          pip3 install -U "coveralls>=3.0.0" coverage==5.3.1 --no-cache-dir
+          pip install -U pip setuptools --no-cache-dir
+          pip install -U "coveralls>=3.0.0" coverage==5.3.1 --no-cache-dir
       - name: Publish to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
