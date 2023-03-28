@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import six
+
 from AccessControl import Unauthorized
-from appy.utils.zip import unzip
+if six.PY2:
+    from appy.shared.zip import unzip
+else:
+    from appy.utils.zip import unzip
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
 from collective.documentgenerator.config import HAS_PLONE_5
