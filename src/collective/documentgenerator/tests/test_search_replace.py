@@ -1,4 +1,5 @@
 # coding=utf-8
+from collective.documentgenerator.config import HAS_PLONE_6
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
@@ -405,7 +406,10 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         errors = form.widgets.validate(data)
         self.assertEqual(len(errors), 1)
         self.assertTrue(isinstance(errors[0], Invalid))
-        self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')
+        if HAS_PLONE_6:
+            self.assertEqual(errors[0].args[0], u'Incorrect regex at row #2 : "get_elements("')
+        else:
+            self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')
         replacements = [
             {"search_expr": "get_elements(", "replace_expr": "", "is_regex": False},
             {"search_expr": "valid_regex?", "replace_expr": "", "is_regex": True},
