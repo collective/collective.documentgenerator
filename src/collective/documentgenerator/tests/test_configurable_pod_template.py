@@ -15,7 +15,6 @@ from zope.i18n import translate
 from zope.interface import Invalid
 
 import unittest
-import six
 
 
 class TestConfigurablePODTemplate(unittest.TestCase):
@@ -209,10 +208,7 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         ]
         to_merge = pod_template.get_templates_to_merge()
         self.assertTrue(len(to_merge) == 1)
-        if six.PY2:
-            self.assertTrue(to_merge['hello'] == (pod_template, False))
-        else:
-            self.assertTrue(to_merge[b'hello'] == (pod_template, False))
+        self.assertTrue(to_merge['hello'] == (pod_template, False))
 
     def test_get_available_formats(self):
         self.assertEqual(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)

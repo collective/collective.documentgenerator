@@ -66,8 +66,8 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
         self.assertEqual(
-            safe_unicode(proxy),
-            safe_unicode(helper_view.real_context),
+            safe_unicode(str(proxy)),
+            safe_unicode(str(helper_view.real_context)),
             msg.format(safe_unicode(proxy), safe_unicode(wrapped))
         )
 

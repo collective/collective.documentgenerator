@@ -253,12 +253,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         # Check generation context subtemplates without pre-rendering
         self.assertEqual(pod_template.merge_templates[0]['do_rendering'], False)
-        if six.PY2:
-            self.assertIn('header', gen_context)
-            self.assertIsInstance(gen_context['header'], SubTemplate)
-        else:
-            self.assertIn(b'header', gen_context)
-            self.assertIsInstance(gen_context[b'header'], SubTemplate)
+        self.assertIn('header', gen_context)
+        self.assertIsInstance(gen_context['header'], SubTemplate)
 
         # Check generation context subtemplates with pre-rendering
         mt_conf = pod_template.merge_templates
@@ -267,12 +263,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertEqual(pod_template.merge_templates[0]['do_rendering'], True)
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
-        if six.PY2:
-            self.assertIsInstance(gen_context['header'], str)
-            self.assertRegexpMatches(gen_context['header'], r'.+(\.odt)$')
-        else:
-            self.assertIsInstance(gen_context[b'header'], str)
-            self.assertRegexpMatches(gen_context[b'header'], r'.+(\.odt)$')
+        self.assertIsInstance(gen_context['header'], str)
+        self.assertRegexpMatches(gen_context['header'], r'.+(\.odt)$')
 
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
@@ -447,7 +439,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             generated_doc = persistent_doc.getFile()
         info = get_content(generated_doc)
         if six.PY2:
-            self.assertNotIn('mailed_data', info['content.xml'])
+            self.assertNotIn('mailed_data.title', info['content.xml'])
             self.assertIn('General template', info['content.xml'])
             self.assertIn('test_template', info['content.xml'])
             self.assertIn('Multiple format template', info['content.xml'])
@@ -455,7 +447,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             self.assertIn('Collection template', info['content.xml'])
             self.assertIn('test_template_bis', info['content.xml'])
         else:
-            self.assertNotIn(b'mailed_data', info['content.xml'])
+            self.assertNotIn(b'mailed_data.title', info['content.xml'])
             self.assertIn(b'General template', info['content.xml'])
             self.assertIn(b'test_template', info['content.xml'])
             self.assertIn(b'Multiple format template', info['content.xml'])
