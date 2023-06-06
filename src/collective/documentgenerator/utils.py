@@ -92,15 +92,6 @@ def update_dict_with_validation(original_dict, update_dict, error_message=_("Dic
         original_dict[key] = update_dict[key]
 
 
-def safe_encode(value, encoding='utf-8'):
-    """
-        Converts a value to encoding, only when it is not already encoded.
-    """
-    if isinstance(value, unicode):
-        return value.encode(encoding)
-    return value
-
-
 def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
                     domain='plonelocales', target_language=None, context=None,
                     request=None, month_lc=True, day_lc=True):

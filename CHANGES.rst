@@ -4,8 +4,8 @@ Changelog
 3.39 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Removed `utils.safe_encode`, imported it from `imio.helpers.content`.
+  [gbastien]
 
 3.38 (2022-12-12)
 -----------------
