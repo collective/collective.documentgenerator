@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.39 (unreleased)
+3.39 (2023-06-26)
 -----------------
 
 - Removed `utils.safe_encode`, imported it from `imio.helpers.content`.
