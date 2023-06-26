@@ -41,8 +41,6 @@ jobs:
           sudo apt-get autoclean -qq -y
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Cache eggs
         uses: actions/cache@v2
         env:
@@ -98,8 +96,6 @@ jobs:
           sudo apt-get autoclean -qq -y
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Cache eggs
         uses: actions/cache@v2
         env:
