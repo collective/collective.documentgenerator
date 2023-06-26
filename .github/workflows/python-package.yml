@@ -25,10 +25,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python 2
-        uses: actions/setup-python@v2
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
         with:
-          python-version: 2.7
+          default: 2.7.18
+          versions: 3.8.16
+          command: pyenv -v
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -80,10 +82,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python 2
-        uses: actions/setup-python@v2
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
         with:
-          python-version: 2.7
+          default: 2.7.18
+          versions: 3.8.16
+          command: pyenv -v
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
