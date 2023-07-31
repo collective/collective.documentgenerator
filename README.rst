@@ -135,6 +135,13 @@ Documentation about the search and replace feature is here :
 `docs/search_replace.rst <https://github.com/collective/collective.documentgenerator/tree/master/docs/search_replace.rst>`_
 
 
+**Logging & Debugging**
+-----------------------
+
+You can specify form request that will be logged using collective.fingerpointing by defining environment variable
+`DOCUMENTGENERATOR_LOG_PARAMETERS)` each parameter must be separated by a comma e.g. `param1,param2`
+
+
 Plone versions
 --------------
 
