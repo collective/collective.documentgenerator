@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.40 (unreleased)
+3.40 (2023-08-01)
 -----------------
 
 - Add `DOCUMENTGENERATOR_LOG_PARAMETERS` environment variable that can be used to log request form parameters with
