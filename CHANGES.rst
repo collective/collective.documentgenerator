@@ -4,7 +4,9 @@ Changelog
 3.40 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Add `DOCUMENTGENERATOR_LOG_PARAMETERS` environment variable that can be used to log request form parameters with
+  collective.fingerpointing.
+  [mpeeters]
 
 
 3.39 (2023-06-26)
