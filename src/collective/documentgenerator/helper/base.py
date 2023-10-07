@@ -52,7 +52,7 @@ class DocumentGenerationHelperView(object):
         if date is None:
             return u''
 
-        if type(date) == datetime.date:
+        if isinstance(date, datetime.date):
             date = datetime.datetime(date.year, date.month, date.day)
 
         return ulocalized_time(date, long_format=long_format, time_only=time_only, custom_format=custom_format,

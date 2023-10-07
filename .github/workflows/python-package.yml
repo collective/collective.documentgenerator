@@ -1,7 +1,8 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python package
+name: Push tests
+# run-name: ${{ github.actor }} push tests
 
 on:
   push:
@@ -14,11 +15,61 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python: "2.7"
-            plone: "4.3"
-          - python: "3.8"
-            plone: "5.2"
-          - python: "3.10"
+          - python: 2.7.18
+            plone: 4.3
+          - python: 3.7.14
+            plone: 5.2
+          - python: 3.10.11
+            plone: "6.0"
+    services:
+      libreoffice:
+        image: imiobe/libreoffice:7.3
+        ports:
+          - 2002:2002
+        volumes:
+          - /tmp:/tmp
+          - /var/tmp:/var/tmp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Env
+        run: |
+          mkdir -p -m 777 /tmp/appy/
+          sudo add-apt-repository ppa:libreoffice/ppa -y
+          sudo apt update -qq -y
+          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
+          mkdir -p buildout-cache/{eggs,downloads}
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
+        with:
+          default: "${{ matrix.python }}"
+      - name: Setup Python env
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-${{ matrix.plone }}.txt
+      - name: Cache eggs
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-eggs
+        with:
+          path: ~/buildout-cache/eggs
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+      - name: buildout
+        run: |
+          sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
+          buildout -c gha.cfg annotate
+          buildout -c gha.cfg
+      - name: test
+        run: |
+          bin/test -t !robot
+  coverage:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: 3.10.11
             plone: "6.0"
     services:
       libreoffice:
@@ -35,93 +86,29 @@ jobs:
         uses: "gabrielfalcao/pyenv-action@v14"
         with:
           default: "${{ matrix.python }}"
-          command: pyenv -v
       - name: Setup Env
         run: |
-          mkdir -p -m 777 /tmp/appy/
-          sudo add-apt-repository ppa:libreoffice/ppa -y
-          sudo apt update -qq -y
-          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
-          sudo apt-get autoremove -qq -y
-          sudo apt-get autoclean -qq -y
-          mkdir -p buildout-cache/{eggs,downloads}
-          pip install -r requirements-${{ matrix.plone }}.txt
-      - name: Checkout
-        uses: actions/checkout@v2
+          pip install --upgrade pip
+          pip install -r requirements-${{matrix.plone}}.txt
+          pip install -U coveralls coverage
       - name: Cache eggs
         uses: actions/cache@v2
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
       - name: buildout
         run: |
-          sed -ie "s#plone-5#plone-${{matrix.plone}}#" test-ci.cfg
-          buildout -c test-ci.cfg annotate
-          buildout -c test-ci.cfg
+          sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
+          buildout -c gha.cfg
       - name: code-analysis
         run: |
           bin/code-analysis
-      - name: test
-        run: |
-          docker ps -a
-          bin/test --test=\!"robot"
-  coverage:
-    runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-       include:
-          - python: "3.10"
-            plone: "6.0"
-    services:
-      libreoffice:
-        image: imiobe/libreoffice:7.3
-        ports:
-          - 2002:2002
-        volumes:
-          - /tmp:/tmp
-          - /var/tmp:/var/tmp
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Env
-        run: |
-          mkdir -p -m 777 /tmp/appy/
-          sudo add-apt-repository ppa:libreoffice/ppa -y
-          sudo apt update -qq -y
-          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
-          sudo apt-get autoremove -qq -y
-          sudo apt-get autoclean -qq -y
-          mkdir -p buildout-cache/{eggs,downloads}
-
-          pip install -r requirements-${{ matrix.plone }}.txt
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cache eggs
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-eggs
-        with:
-          path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-coverage-${{ env.cache-name }}-${{ matrix.plone }}
-      - name: buildout
-        run: |
-          sed -ie "s#plone-5#plone-${{matrix.plone}}#" test-ci.cfg
-          pip install -r requirements.txt coverage==5.3.1
-          buildout -c test-ci.cfg annotate
-          buildout -c test-ci.cfg
-          bin/translation-manage -c
       - name: test coverage
         run: |
-          bin/coverage run bin/test --test=\!"robot"
-      - name: Install Coveralls
-        run: |
-          pip install -U pip setuptools --no-cache-dir
-          pip install -U "coveralls>=3.0.0" coverage==5.3.1 --no-cache-dir
+          coverage run bin/test -t !robot
       - name: Publish to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
