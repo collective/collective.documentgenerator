@@ -25,12 +25,13 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
 HAS_PLONE_4 = api.env.plone_version().startswith('4')
-HAS_PLONE_5 = api.env.plone_version().startswith('5')
+HAS_PLONE_5 = api.env.plone_version() > '5'
 HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
 HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
+HAS_PLONE_6 = api.env.plone_version() > '6'
 
 DEFAULT_OO_SERVER = u'localhost'
-DEFAULT_OO_PORT = 2002
+DEFAULT_OO_PORT = "2002"
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
 
@@ -114,7 +115,7 @@ def set_oo_server():
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    oo_port = safe_unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)

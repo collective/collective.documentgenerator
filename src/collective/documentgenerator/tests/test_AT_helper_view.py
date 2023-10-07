@@ -2,6 +2,7 @@
 
 from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
+from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
 from plone import api
 from plone.app.testing import login
@@ -65,9 +66,9 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
         self.assertEqual(
-            unicode(proxy),
-            unicode(helper_view.real_context),
-            msg.format(unicode(proxy), unicode(wrapped))
+            safe_unicode(str(proxy)),
+            safe_unicode(str(helper_view.real_context)),
+            msg.format(safe_unicode(proxy), safe_unicode(wrapped))
         )
 
 

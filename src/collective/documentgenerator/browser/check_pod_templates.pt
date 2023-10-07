@@ -12,7 +12,7 @@
 
     <h1 class="documentFirstHeading" i18n:translate="check_pod_templates">Check Pod templates</h1>
 
-    <tal:loop repeat="infos python: view.messages.iteritems()">
+    <tal:loop repeat="infos python: iter(view.messages.items())">
       <h2 tal:define="content python: infos[0]"
           tal:attributes="class string:${content}"
           i18n:translate=""

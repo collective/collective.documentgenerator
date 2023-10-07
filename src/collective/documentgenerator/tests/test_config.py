@@ -2,6 +2,7 @@
 from collective.documentgenerator.testing import PODTemplateFunctionalTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from plone import api
+from Products.CMFPlone.utils import safe_unicode
 
 import os
 import unittest
@@ -32,9 +33,10 @@ class TestConfig(unittest.TestCase):
         newvalues = [4242, 6666]
         oo_ports = config.get_oo_port_list()
         self.assertTrue(newvalues != oo_ports)
+        values = [safe_unicode(str(v)) for v in newvalues]
         api.portal.set_registry_record(
             'collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.oo_port_list',
-            u';'.join([unicode(v) for v in newvalues])
+            u';'.join(values)
         )
         oo_port = config.get_oo_port_list()
         self.assertTrue(oo_port == newvalues)

@@ -3,6 +3,7 @@
 from collections import OrderedDict
 from collective.documentgenerator.config import POD_FORMATS
 from collective.documentgenerator.interfaces import IGenerablePODTemplates
+from plone import api
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.view import memoize
 from zope.component import getAdapter
@@ -10,6 +11,10 @@ from zope.component import getAdapter
 
 class DocumentGeneratorLinksViewlet(ViewletBase):
     """This viewlet displays available documents to generate."""
+
+    @property
+    def portal_url(self):
+        return api.portal.get_tool('portal_url')
 
     def available(self):
         return bool(self.get_generable_templates())

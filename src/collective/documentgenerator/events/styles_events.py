@@ -4,7 +4,7 @@ import logging
 import os
 
 import appy.pod
-from appy.shared.utils import executeCommand
+import six
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone.utils import safe_unicode
@@ -19,6 +19,11 @@ from collective.documentgenerator.utils import remove_tmp_file
 logger = logging.getLogger('collective.documentgenerator: styles update')
 
 CONVSCRIPT = '{}/converter.py'.format(os.path.dirname(appy.pod.__file__))
+
+if six.PY2:
+    from appy.shared.utils import executeCommand
+else:
+    from appy.utils import executeCommand
 
 
 def update_styles_of_all_PODtemplate(style_template, event):
@@ -75,7 +80,7 @@ def _update_template_styles(pod_template, style_template_filename):
         pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, 'pod_template.odt')
-    with open(temp_file.name, 'w') as new_template:
+    with open(temp_file.name, 'wb') as new_template:
         new_template.write(pod_template.odt_file.data)
 
     # merge style from templateStyle in template

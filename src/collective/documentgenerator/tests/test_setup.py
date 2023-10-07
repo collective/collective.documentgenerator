@@ -14,7 +14,6 @@ class TestInstallDependencies(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_dexterity_is_dependency_of_documentgenerator(self):
         """

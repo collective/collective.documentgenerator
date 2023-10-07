@@ -5,7 +5,7 @@ lo_version="7.3"
 args = $(filter-out $@,$(MAKECMDGOALS))
 
 all: run
-py:=2.7
+py:=3.9
 
 .PHONY: bootstrap buildout run test cleanall startlibreoffice stoplibreoffice
 bootstrap:
