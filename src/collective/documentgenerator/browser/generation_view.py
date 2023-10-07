@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import mimetypes
+import os
 import unicodedata
 
 import pkg_resources
@@ -77,6 +78,14 @@ class DocumentGenerationView(BrowserView):
                 '/'.join(self.context.getPhysicalPath()),
                 '/'.join(pod_template.getPhysicalPath()),
                 output_format)
+            allowed_parameters = filter(
+                None,
+                os.getenv("DOCUMENTGENERATOR_LOG_PARAMETERS", "").split(",")
+            )
+            if allowed_parameters:
+                for key, value in self.request.form.items():
+                    if key in allowed_parameters:
+                        extras = "{0} {1}={2}".format(extras, key, value)
             log_info(AUDIT_MESSAGE.format(user, ip, action, extras))
 
         doc, doc_name, gen_context = self._generate_doc(pod_template, output_format, **kwargs)

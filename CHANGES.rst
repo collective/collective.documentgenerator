@@ -1,11 +1,25 @@
 Changelog
 =========
 
-3.39 (unreleased)
+3.41 (unreleased)
 -----------------
 
 - Nothing changed yet.
 
+
+3.40 (2023-08-01)
+-----------------
+
+- Add `DOCUMENTGENERATOR_LOG_PARAMETERS` environment variable that can be used to log request form parameters with
+  collective.fingerpointing.
+  [mpeeters]
+
+
+3.39 (2023-06-26)
+-----------------
+
+- Removed `utils.safe_encode`, imported it from `imio.helpers.content`.
+  [gbastien]
 
 3.38 (2022-12-12)
 -----------------
