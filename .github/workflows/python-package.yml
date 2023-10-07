@@ -31,10 +31,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
         with:
-          python-version: ${{ matrix.python }}
+          default: "${{ matrix.python }}"
+          command: pyenv -v
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -86,10 +87,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
