@@ -191,7 +191,7 @@
           name="documentviewer"
           for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
           class="collective.documentgenerator.browser.overrides.DGDXDocumentViewerView"
-          template="templates/documentviewerdx.pt"
+          template="browser/templates/documentviewerdx.pt"
           permission="zope2.View"
           layer=".interfaces.ILayer" />
     </configure>
