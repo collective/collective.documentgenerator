@@ -4,8 +4,8 @@ Changelog
 3.41 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Corrected typo.
+  [sgeulette]
 
 3.40 (2023-08-01)
 -----------------
