@@ -6,6 +6,9 @@ Changelog
 
 - Corrected typo.
   [sgeulette]
+- In `TitleColumn`, use `typeInfo.Title()` instead translating `typeInfo.title`,
+  `Title()` do the same but manages special characters in the `title`.
+  [gbastien]
 
 3.40 (2023-08-01)
 -----------------
@@ -13,7 +16,6 @@ Changelog
 - Add `DOCUMENTGENERATOR_LOG_PARAMETERS` environment variable that can be used to log request form parameters with
   collective.fingerpointing.
   [mpeeters]
-
 
 3.39 (2023-06-26)
 -----------------
