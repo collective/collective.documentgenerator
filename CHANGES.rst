@@ -4,8 +4,8 @@ Changelog
 3.42 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Translated again type icon title.
+  [gbastien]
 
 3.41 (2024-02-12)
 -----------------
