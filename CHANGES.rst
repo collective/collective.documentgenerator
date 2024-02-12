@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.41 (unreleased)
+3.41 (2024-02-12)
 -----------------
 
 - Corrected typo.
