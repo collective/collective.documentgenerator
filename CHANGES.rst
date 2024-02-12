@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.42 (unreleased)
+3.42 (2024-02-12)
 -----------------
 
 - Translated again type icon title.
