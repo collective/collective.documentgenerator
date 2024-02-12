@@ -90,7 +90,7 @@ class TitleColumn(NoEscapeLinkColumn):
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
                 icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % \
-                            (safe_unicode(escape(typeInfo.Title())), purl, contentIcon)
+                            (safe_unicode(escape(translate(typeInfo.Title(), context=self.request))), purl, contentIcon)
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 
