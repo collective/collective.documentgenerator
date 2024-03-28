@@ -24,6 +24,7 @@ from zope.interface import invariant
 
 import re
 
+
 if HAS_PLONE5:
     from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
     from collective.z3cform.datagridfield.row import DictRow
