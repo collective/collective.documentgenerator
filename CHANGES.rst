@@ -4,8 +4,8 @@ Changelog
 3.43 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Import `safe_encode` from `imio.pyutils` instead `imio.helpers`.
+  [gbastien]
 
 3.42 (2024-02-12)
 -----------------

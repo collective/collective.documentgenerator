@@ -7,7 +7,7 @@ from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import translate as _
 from DateTime import DateTime
-from imio.helpers.content import safe_encode
+from imio.pyutils.utils import safe_encode
 from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.events import EditCancelledEvent
