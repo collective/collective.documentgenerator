@@ -7,7 +7,7 @@ Changelog
 - Import `safe_encode` from `imio.pyutils` instead `imio.helpers`.
   [gbastien]
 - Use has Plone versions constants (`HAS_PLONE_4`, `HAS_PLONE_5`, ...)
-  from imio.helpers.
+  from `imio.helpers`.
   [gbastien]
 
 3.42 (2024-02-12)

@@ -13,6 +13,7 @@ from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.utils import remove_tmp_file
 from collective.documentgenerator.utils import temporary_file_name
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
@@ -440,7 +441,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         """
         Redirects to the created document.
         """
-        if config.HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             filename = persisted_doc.file.filename
         else:
             filename = persisted_doc.getFile().filename
