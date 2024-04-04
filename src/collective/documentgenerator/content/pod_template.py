@@ -12,7 +12,7 @@ from collective.documentgenerator.utils import compute_md5
 from imio.helpers.content import add_to_annotation
 from imio.helpers.content import del_from_annotation
 from imio.helpers.content import get_from_annotation
-from imio.helpers.content import HAS_PLONE5
+from imio.helpers.content import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -40,7 +40,7 @@ import copy
 import logging
 
 
-if HAS_PLONE5:
+if HAS_PLONE_5_AND_MORE:
     from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
     from collective.z3cform.datagridfield.row import DictRow
 else:

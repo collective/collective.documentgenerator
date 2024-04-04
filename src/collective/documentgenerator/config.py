@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+from imio.helpers import HAS_PLONE_5_2
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 
@@ -24,17 +26,13 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
-HAS_PLONE_4 = api.env.plone_version().startswith('4')
-HAS_PLONE_5 = api.env.plone_version().startswith('5')
-HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
-HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
-
 DEFAULT_OO_SERVER = u'localhost'
 DEFAULT_OO_PORT = 2002
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
 
-DEFAULT_CSV_FIELD_DELIMITERS = {u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
+DEFAULT_CSV_FIELD_DELIMITERS = {
+    u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
 DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
 
 

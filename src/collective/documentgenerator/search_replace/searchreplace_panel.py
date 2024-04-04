@@ -3,7 +3,7 @@ from collections import OrderedDict
 from collective.documentgenerator import _
 from collective.documentgenerator.content.vocabulary import AllPODTemplateWithFileVocabularyFactory
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
-from imio.helpers.content import HAS_PLONE5
+from imio.helpers.content import HAS_PLONE_5_AND_MORE
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.uuid.utils import uuidToObject
 from plone.autoform import directives
@@ -25,7 +25,7 @@ from zope.interface import invariant
 import re
 
 
-if HAS_PLONE5:
+if HAS_PLONE_5_AND_MORE:
     from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
     from collective.z3cform.datagridfield.row import DictRow
 else:
