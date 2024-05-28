@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
 from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
+from imio.helpers import HAS_PLONE_5
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout

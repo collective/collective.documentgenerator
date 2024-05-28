@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-import copy
-import os
-from os import getenv, rmdir
-
+from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.utils import compute_md5
+from collective.documentgenerator.utils import temporary_file_name
+from collective.documentgenerator.utils import update_dict_with_validation
 from collective.documentgenerator.utils import update_oo_config
+from collective.documentgenerator.utils import update_templates
+from os import getenv
+from os import rmdir
 from plone.api.portal import get_registry_record
 from zope.interface import Interface
 from zope.interface import Invalid
@@ -11,11 +14,8 @@ from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import modified
 
 import collective.documentgenerator as cdg
-from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.utils import (compute_md5,
-                                                temporary_file_name,
-                                                update_dict_with_validation,
-                                                update_templates)
+import copy
+import os
 
 import six
 

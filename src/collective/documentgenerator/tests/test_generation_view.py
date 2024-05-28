@@ -138,10 +138,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # right, ask available format
         self.assertIn('odt', pod_template.get_available_formats())
         generated_doc = view(template_uid, 'odt')
-        if six.PY2:
-            self.assertIn('application/vnd.oasis.opendocument.text', generated_doc)
-        else:
-            self.assertIn(b'application/vnd.oasis.opendocument.text', generated_doc)
+
+        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc)
 
     def test_unauthorized_generation(self):
         """
@@ -191,10 +189,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             generated_doc = persistent_doc.getFile()
             filename = generated_doc.getFilename()
             content_type = generated_doc.getContentType()
-        if six.PY2:
-            self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
-        else:
-            self.assertIn(b'application/vnd.oasis.opendocument.text', generated_doc.data)
+        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
 
         self.assertEqual(
             filename,
@@ -269,10 +264,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
         current_path = os.path.dirname(__file__)
-        if six.PY2:
-            failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'r').read()
-        else:
-            failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'rb').read()
+        failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'r').read()
         failing_template = api.content.create(
             type='ConfigurablePODTemplate',
             id='failing_template',
@@ -290,7 +282,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         api.user.create(
             email='test@test.be',
             username='user',
-            password='secret12345',
+            password='12345',
             roles=['Member'],
             properties={})
 

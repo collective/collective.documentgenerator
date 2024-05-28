@@ -89,9 +89,8 @@ class TitleColumn(NoEscapeLinkColumn):
                 # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.svg
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
-                title = translate(typeInfo.title, domain=typeInfo.i18n_domain, context=self.request)
                 icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % \
-                            (safe_unicode(escape(title)), purl, contentIcon)
+                            (safe_unicode(escape(translate(typeInfo.Title(), context=self.request))), purl, contentIcon)
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 

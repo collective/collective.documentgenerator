@@ -1,11 +1,35 @@
 Changelog
 =========
 
-3.41 (unreleased)
+3.44 (unreleased)
 -----------------
 
 - Nothing changed yet.
 
+
+3.43 (2024-04-10)
+-----------------
+
+- Import `safe_encode` from `imio.pyutils` instead `imio.helpers`.
+  [gbastien]
+- Use has Plone versions constants (`HAS_PLONE_4`, `HAS_PLONE_5`, ...)
+  from `imio.helpers`.
+  [gbastien]
+
+3.42 (2024-02-12)
+-----------------
+
+- Translated again type icon title.
+  [gbastien]
+
+3.41 (2024-02-12)
+-----------------
+
+- Corrected typo.
+  [sgeulette]
+- In `TitleColumn`, use `typeInfo.Title()` instead translating `typeInfo.title`,
+  `Title()` do the same but manages special characters in the `title`.
+  [gbastien]
 
 3.40 (2023-08-01)
 -----------------
@@ -13,7 +37,6 @@ Changelog
 - Add `DOCUMENTGENERATOR_LOG_PARAMETERS` environment variable that can be used to log request form parameters with
   collective.fingerpointing.
   [mpeeters]
-
 
 3.39 (2023-06-26)
 -----------------

@@ -31,11 +31,12 @@ HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
 HAS_PLONE_6 = api.env.plone_version() > '6'
 
 DEFAULT_OO_SERVER = u'localhost'
-DEFAULT_OO_PORT = "2002"
+DEFAULT_OO_PORT = 2002
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
 
-DEFAULT_CSV_FIELD_DELIMITERS = {u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
+DEFAULT_CSV_FIELD_DELIMITERS = {
+    u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
 DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
 
 
@@ -115,7 +116,7 @@ def set_oo_server():
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = safe_unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
                                        'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)

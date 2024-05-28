@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from collective.documentgenerator.config import set_use_stream, DEFAULT_OO_PORT
+from collective.documentgenerator.config import DEFAULT_OO_PORT
+from collective.documentgenerator.config import set_use_stream
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.utils import translate as _
 from plone import api

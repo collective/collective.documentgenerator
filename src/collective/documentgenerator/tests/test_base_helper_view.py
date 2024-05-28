@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.demo.helper import ATDemoHelperView
 from collective.documentgenerator.demo.helper import BaseDemoHelperView
 from collective.documentgenerator.demo.helper import DXDemoHelperView
 from collective.documentgenerator.testing import DexterityIntegrationTests
+from imio.helpers import HAS_PLONE_5
 from plone import api
 from six import StringIO
 

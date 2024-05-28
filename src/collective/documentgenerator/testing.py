@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from collective.documentgenerator.config import HAS_PLONE_5
-from collective.documentgenerator.config import HAS_PLONE_5_2
+from imio.helpers import HAS_PLONE_5
+from imio.helpers import HAS_PLONE_5_2
 from imio.pyutils.system import runCommand
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE

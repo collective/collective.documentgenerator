@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_4
-from collective.documentgenerator.config import HAS_PLONE_5_1
 from collective.documentgenerator.testing import DexterityIntegrationTests
+from imio.helpers import HAS_PLONE_4
+from imio.helpers import HAS_PLONE_5_1
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout

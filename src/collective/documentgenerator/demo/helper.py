@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.config import HAS_PLONE_5
-from collective.documentgenerator.config import HAS_PLONE_5_2
 from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import translate as _
 from DateTime import DateTime
-from imio.helpers.content import safe_encode
+from imio.helpers import HAS_PLONE_5
+from imio.helpers import HAS_PLONE_5_2
+from imio.pyutils.utils import safe_encode
 from plone import api
 from plone.app.textfield import RichText
 from plone.dexterity.events import EditCancelledEvent

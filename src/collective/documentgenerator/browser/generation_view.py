@@ -3,12 +3,20 @@
 import mimetypes
 import os
 import unicodedata
-
 import pkg_resources
 import six
 from AccessControl import Unauthorized
 from appy.pod.renderer import CsvOptions, Renderer
 from appy.pod.styles_manager import TableProperties
+from collective.documentgenerator import config
+from collective.documentgenerator import utils
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.interfaces import CyclicMergeTemplatesException
+from collective.documentgenerator.interfaces import IDocumentFactory
+from collective.documentgenerator.interfaces import PODTemplateNotFoundError
+from collective.documentgenerator.utils import remove_tmp_file
+from collective.documentgenerator.utils import temporary_file_name
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
@@ -17,13 +25,6 @@ from Products.Five import BrowserView
 from six import StringIO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter, queryAdapter, queryUtility
-
-from collective.documentgenerator import config, utils
-from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.interfaces import (
-    CyclicMergeTemplatesException, IDocumentFactory, PODTemplateNotFoundError)
-from collective.documentgenerator.utils import remove_tmp_file
-from collective.documentgenerator.utils import temporary_file_name
 import io
 from .. import _
 
