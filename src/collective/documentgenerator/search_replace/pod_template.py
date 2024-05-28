@@ -93,17 +93,29 @@ class SearchAndReplacePODTemplates:
         :param is_regex: use is_regex=False if find_expr is not a regex
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        grepper = Grep(
-            keyword=find_expr,
-            repl=None,
-            path=self.tmp_dir,
-            asString=not is_regex,
-            inContent=False,
-            dryRun=False,
-            verbose=0,
-            vverbose=0,
-            nice=0
-        )
+
+        if six.PY2:
+            grepper = Grep(
+                find_expr,
+                self.tmp_dir,
+                repl=None,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=False,
+                verbose=0,
+            )
+        else:
+            grepper = Grep(
+                keyword=find_expr,
+                repl=None,
+                path=self.tmp_dir,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=False,
+                verbose=0,
+                vverbose=0,
+                nice=0
+            )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
         return results
@@ -118,17 +130,28 @@ class SearchAndReplacePODTemplates:
         This will not modify the template(s) and can be used safely.
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        grepper = Grep(
-            keyword=find_expr,
-            path=self.tmp_dir,
-            repl=replace_expr,
-            asString=not is_regex,
-            inContent=False,
-            dryRun=dry_run,
-            verbose=0,
-            vverbose=0,
-            nice=0
-        )
+        if six.PY2:
+            grepper = Grep(
+                find_expr,
+                self.tmp_dir,
+                repl=replace_expr,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=dry_run,
+                verbose=0,
+            )
+        else:
+            grepper = Grep(
+                keyword=find_expr,
+                path=self.tmp_dir,
+                repl=replace_expr,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=dry_run,
+                verbose=0,
+                vverbose=0,
+                nice=0
+            )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
 

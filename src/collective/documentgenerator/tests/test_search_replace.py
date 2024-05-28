@@ -1,12 +1,11 @@
 # coding=utf-8
-from collective.documentgenerator.config import HAS_PLONE_6
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone.testing._z2_testbrowser import Browser
 from zExceptions import Unauthorized
 from zope.interface import Invalid
-
 import io
 import os
 import six
@@ -406,7 +405,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         errors = form.widgets.validate(data)
         self.assertEqual(len(errors), 1)
         self.assertTrue(isinstance(errors[0], Invalid))
-        if HAS_PLONE_6:
+        if HAS_PLONE_5_AND_MORE:
             self.assertEqual(errors[0].args[0], u'Incorrect regex at row #2 : "get_elements("')
         else:
             self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')

@@ -12,7 +12,6 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
-
 import datetime
 import six
 
@@ -67,18 +66,11 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         msg = " __repr__ and __str__ should return the same result as the wrapped object: {} != {}"
         self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
-        if six.PY2:
-            self.assertEqual(
-                safe_unicode(proxy),
-                safe_unicode(helper_view.real_context),
-                msg.format(safe_unicode(proxy), safe_unicode(wrapped))
-            )
-        else:
-            self.assertEqual(
-                str(proxy),
-                str(helper_view.real_context),
-                msg.format(str(proxy), str(wrapped))
-            )
+        self.assertEqual(
+            str(proxy),
+            str(helper_view.real_context),
+            msg.format(str(proxy), str(wrapped))
+        )
 
 
 class TestDexterityHelperViewMethods(DexterityIntegrationTests):

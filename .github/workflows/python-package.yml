@@ -82,15 +82,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Env
+        run: |
+          mkdir -p -m 777 /tmp/appy/
+          sudo add-apt-repository ppa:libreoffice/ppa -y
+          sudo apt update -qq -y
+          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
+          mkdir -p buildout-cache/{eggs,downloads}
       - name: Set up pyenv and Python
         uses: "gabrielfalcao/pyenv-action@v14"
         with:
           default: "${{ matrix.python }}"
-      - name: Setup Env
+      - name: Setup Python env
         run: |
           pip install --upgrade pip
-          pip install -r requirements-${{matrix.plone}}.txt
-          pip install -U coveralls coverage
+          pip install -r requirements-${{ matrix.plone }}.txt
+          pip install -U coveralls
       - name: Cache eggs
         uses: actions/cache@v2
         env:
@@ -108,7 +115,7 @@ jobs:
           bin/code-analysis
       - name: test coverage
         run: |
-          coverage run bin/test -t !robot
+          bin/coverage run bin/test -t !robot
       - name: Publish to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
