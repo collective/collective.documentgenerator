@@ -16,7 +16,6 @@ from zope.lifecycleevent import modified
 import collective.documentgenerator as cdg
 import copy
 import os
-
 import six
 
 

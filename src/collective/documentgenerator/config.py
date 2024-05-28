@@ -41,8 +41,9 @@ DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
 
 
 if HAS_PLONE_5_2:
-    import sys
     from zope.deprecation import deprecation
+
+    import sys
     sys.modules['collective.documentgenerator.demo.helper.ATDemoHelperView'] = \
         deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 
@@ -116,10 +117,10 @@ def set_oo_server():
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    oo_port = os.getenv('OO_PORT', DEFAULT_OO_PORT)
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                       'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)
+                                       'IDocumentGeneratorControlPanelSchema.oo_port_list', safe_unicode(oo_port))
 
 
 def set_uno_path():

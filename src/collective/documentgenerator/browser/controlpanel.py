@@ -11,11 +11,11 @@ from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
+from six import u
 from z3c.form import button
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Interface
-from six import u
 
 import inspect
 import os

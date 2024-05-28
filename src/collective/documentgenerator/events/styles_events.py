@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import os
-
-import appy.pod
-import six
+from collective.documentgenerator import _
+from collective.documentgenerator import config
+from collective.documentgenerator.content.pod_template import IPODTemplate
+from collective.documentgenerator.utils import create_temporary_file
+from collective.documentgenerator.utils import remove_tmp_file
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
 from zope.i18n import translate
 
-from collective.documentgenerator import _, config
-from collective.documentgenerator.content.pod_template import IPODTemplate
-from collective.documentgenerator.utils import create_temporary_file
-from collective.documentgenerator.utils import remove_tmp_file
+import appy.pod
+import logging
+import os
+import six
+
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
 

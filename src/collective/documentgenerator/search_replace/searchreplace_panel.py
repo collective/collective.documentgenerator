@@ -17,10 +17,10 @@ from zope import component
 from zope import schema
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implementer
+from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import invariant
-from zope.interface import Interface
-from zope.interface import implementer
 
 import re
 

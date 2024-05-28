@@ -8,8 +8,9 @@ from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone import interfaces as Plone
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
-from zope.interface import implementer
 from six import u
+from zope.interface import implementer
+
 import logging
 import os
 

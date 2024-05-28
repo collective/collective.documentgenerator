@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from AccessControl import Unauthorized
+
 import six
 
-from AccessControl import Unauthorized
+
 if six.PY2:
     from appy.shared.zip import unzip
 else:
     from appy.utils.zip import unzip
+
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
-from collective.documentgenerator.config import HAS_PLONE_5
 from collective.documentgenerator.config import HAS_PLONE_6
 from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
@@ -21,6 +23,7 @@ from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import translate as _
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
@@ -138,8 +141,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # right, ask available format
         self.assertIn('odt', pod_template.get_available_formats())
         generated_doc = view(template_uid, 'odt')
-
-        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc)
+        self.assertIn('application/vnd.oasis.opendocument.text', str(generated_doc))
 
     def test_unauthorized_generation(self):
         """
@@ -181,7 +183,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertTrue(generated_id in generation_context.objectIds(), msg)
 
         persistent_doc = generation_context.get(generated_id)
-        if HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             generated_doc = persistent_doc.file
             filename = persistent_doc.file.filename
             content_type = persistent_doc.file.contentType
@@ -189,7 +191,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             generated_doc = persistent_doc.getFile()
             filename = generated_doc.getFilename()
             content_type = generated_doc.getContentType()
-        self.assertIn('application/vnd.oasis.opendocument.text', generated_doc.data)
+        self.assertIn('application/vnd.oasis.opendocument.text', str(generated_doc.data))
 
         self.assertEqual(
             filename,
@@ -264,7 +266,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
         current_path = os.path.dirname(__file__)
-        failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'r').read()
+        failing_template_data = open(os.path.join(current_path, 'failing_template.odt'), 'rb').read()
         failing_template = api.content.create(
             type='ConfigurablePODTemplate',
             id='failing_template',
@@ -282,7 +284,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         api.user.create(
             email='test@test.be',
             username='user',
-            password='12345',
+            password='12345678910',
             roles=['Member'],
             properties={})
 
@@ -361,7 +363,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('template_uid', annot['documentgenerator'])
         self.assertNotIn('context_uid', annot['documentgenerator'])
         self.assertEqual(annot['documentgenerator']['need_mailing'], False)
-        if HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             generated_doc = persistent_doc.file
         else:
             generated_doc = persistent_doc.getFile()
@@ -388,7 +390,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('template_uid', annot['documentgenerator'])
         self.assertIn('context_uid', annot['documentgenerator'])
         self.assertEqual(annot['documentgenerator']['need_mailing'], True)
-        if HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             generated_doc = persistent_doc.file
         else:
             generated_doc = persistent_doc.getFile()
@@ -425,7 +427,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn('template_uid', annot['documentgenerator'])
         self.assertNotIn('context_uid', annot['documentgenerator'])
         self.assertEqual(annot['documentgenerator']['need_mailing'], False)
-        if HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             generated_doc = persistent_doc.file
         else:
             generated_doc = persistent_doc.getFile()

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import six
 from collective.documentgenerator.helper.base import DisplayProxyObject
 from collective.documentgenerator.helper.base import DocumentGenerationHelperView
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
 from zope.component import getMultiAdapter
+
+import six
 
 
 class ATDocumentGenerationHelperView(DocumentGenerationHelperView):

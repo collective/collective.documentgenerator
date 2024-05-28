@@ -1,4 +1,3 @@
-import six
 from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINTING
 from collective.documentgenerator.utils import get_site_root_relative_path
 from collective.documentgenerator.utils import temporary_file_name
@@ -9,6 +8,8 @@ import collections
 import mimetypes
 import os
 import shutil
+import six
+
 
 if six.PY2:
     from appy.bin.odfgrep import Grep

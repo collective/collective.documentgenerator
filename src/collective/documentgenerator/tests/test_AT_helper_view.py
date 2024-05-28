@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import ArchetypesIntegrationTests
-from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
-from imio.helpers import HAS_PLONE_5
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
+from Products.CMFPlone.utils import safe_unicode
 
 import unittest
 
 
-@unittest.skipIf(HAS_PLONE_5, "Do not launch AT specific tests on Plone 5")
+@unittest.skipIf(HAS_PLONE_5_AND_MORE, "Do not launch AT specific tests on Plone >= 5")
 class TestArchetypesHelperView(ArchetypesIntegrationTests):
     """
     Test Archetypes helper view.
@@ -72,7 +72,7 @@ class TestArchetypesHelperView(ArchetypesIntegrationTests):
         )
 
 
-@unittest.skipIf(HAS_PLONE_5, "Do not launch AT specific tests on Plone 5")
+@unittest.skipIf(HAS_PLONE_5_AND_MORE, "Do not launch AT specific tests on Plone >= 5")
 class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
     """
     Test Archetypes implementation of helper view's methods.

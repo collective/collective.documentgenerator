@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-import six
 from collective.documentgenerator.events.styles_events import update_PODtemplate_styles
 from collective.documentgenerator.utils import clean_notes
 from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import remove_tmp_file
 from imio.helpers.content import get_modified_attrs
 from plone import api
+
+import six
+
 
 if six.PY2:
     from appy.bin.odfsub import Sub

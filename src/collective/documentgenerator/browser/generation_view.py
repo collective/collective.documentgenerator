@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import mimetypes
-import os
-import unicodedata
-import pkg_resources
-import six
+from .. import _
 from AccessControl import Unauthorized
-from appy.pod.renderer import CsvOptions, Renderer
+from appy.pod.renderer import CsvOptions
+from appy.pod.renderer import Renderer
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
@@ -20,13 +17,22 @@ from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
-from Products.CMFPlone.utils import base_hasattr, safe_unicode
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from six import StringIO
 from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter, queryAdapter, queryUtility
+from zope.component import getMultiAdapter
+from zope.component import queryAdapter
+from zope.component import queryUtility
+
 import io
-from .. import _
+import mimetypes
+import os
+import pkg_resources
+import six
+import unicodedata
+
 
 HAS_FINGERPOINTING = None
 
@@ -458,7 +464,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         """
         Redirects to the created document.
         """
-        if config.HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             filename = persisted_doc.file.filename
         else:
             filename = persisted_doc.getFile().filename
