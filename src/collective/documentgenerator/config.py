@@ -24,12 +24,6 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
-HAS_PLONE_4 = api.env.plone_version().startswith('4')
-HAS_PLONE_5 = api.env.plone_version() > '5'
-HAS_PLONE_5_1 = api.env.plone_version() > '5.1'
-HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
-HAS_PLONE_6 = api.env.plone_version() > '6'
-
 DEFAULT_OO_SERVER = u'localhost'
 DEFAULT_OO_PORT = u"2002"
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
@@ -38,14 +32,6 @@ DEFAULT_COLUMN_MODIFIER = u'nothing'
 DEFAULT_CSV_FIELD_DELIMITERS = {
     u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
 DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
-
-
-if HAS_PLONE_5_2:
-    from zope.deprecation import deprecation
-
-    import sys
-    sys.modules['collective.documentgenerator.demo.helper.ATDemoHelperView'] = \
-        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 
 
 def get_uno_path():

@@ -5,8 +5,7 @@ from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import translate as _
 from DateTime import DateTime
-from imio.helpers import HAS_PLONE_5
-from imio.helpers import HAS_PLONE_5_2
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from imio.pyutils.utils import safe_encode
 from plone import api
 from plone.app.textfield import RichText
@@ -41,7 +40,7 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def get_localized_field_name(self, field_name):
         translation_domain = getUtility(ITranslationDomain, 'plone')
-        if not HAS_PLONE_5:
+        if not HAS_PLONE_5_AND_MORE:
             properties = api.portal.get_tool('portal_properties')
             target_language = properties.site_properties.default_language
         else:
@@ -124,7 +123,7 @@ class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):
 
     def is_folderish(self):
 
-        if HAS_PLONE_5_2:
+        if HAS_PLONE_5_AND_MORE:
             raise NotImplementedError("Archetypes was removed from Plone 5.2")
         else:
             from Products.Archetypes.interfaces.base import IBaseFolder

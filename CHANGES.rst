@@ -1,10 +1,11 @@
 Changelog
 =========
 
-3.44 (unreleased)
------------------
+4.0 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Python 3, Plone 5.2 and Plone 6.0 compatible.
+  [aduchene]
 
 
 3.43 (2024-04-10)

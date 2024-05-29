@@ -12,7 +12,7 @@ else:
 
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
-from collective.documentgenerator.config import HAS_PLONE_6
+from imio.helpers import HAS_PLONE_6
 from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
