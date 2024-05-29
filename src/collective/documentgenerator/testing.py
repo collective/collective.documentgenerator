@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from imio.helpers import HAS_PLONE_5
+from imio.helpers import HAS_PLONE_4
 from imio.helpers import HAS_PLONE_5_2
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from imio.pyutils.system import runCommand
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -22,6 +23,7 @@ from zope.globalrequest import setLocal
 
 import collective.documentgenerator
 import os
+import six
 import tempfile
 import transaction
 import unittest
@@ -29,8 +31,9 @@ import zipfile
 
 
 if HAS_PLONE_5_2:
-    import sys
     from zope.deprecation import deprecation
+
+    import sys
     sys.modules['collective.documentgenerator.tests.ArchetypesIntegrationTests'] = \
         deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
     sys.modules['collective.documentgenerator.tests.ArchetypesFunctionnalTests'] = \
@@ -93,7 +96,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
-        if HAS_PLONE_5:
+        if HAS_PLONE_5_AND_MORE:
             api.portal.set_registry_record('plone.available_languages', ['en', 'fr'])
             api.portal.set_registry_record('plone.default_language', 'fr')
 
@@ -102,7 +105,7 @@ class DocumentgeneratorLayer(NakedPloneLayer):
         setLocal('request', portal.REQUEST)
 
         # Install plone-content for Plone 4 so front-page is available
-        if not HAS_PLONE_5:
+        if HAS_PLONE_4:
             applyProfile(portal, 'Products.CMFPlone:plone-content')
 
         # Login and create some test content
@@ -173,7 +176,7 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        if not HAS_PLONE_5:
+        if HAS_PLONE_4:
             ltool = self.portal.portal_languages
             defaultLanguage = 'fr'
             supportedLanguages = ['en', 'fr']
@@ -184,7 +187,10 @@ class BaseTest(unittest.TestCase):
     def get_odt_content_xml(self, generated_doc):
         """Return content.xml from a generated doc binary."""
         tmp_dir = tempfile.gettempdir()
-        tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+        if six.PY2:
+            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+        else:
+            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'wb')
         tmp_file.write(generated_doc)
         tmp_file.close()
         zfile = zipfile.ZipFile(tmp_file.name, 'r')

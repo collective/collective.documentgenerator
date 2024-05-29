@@ -80,7 +80,7 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
     def add_failing_template(self):
         current_path = os.path.dirname(__file__)
         failing_template_data = open(
-            os.path.join(current_path, "failing_template.odt"), "r"
+            os.path.join(current_path, "failing_template.odt"), "rb"
         ).read()
         self.failing_template = api.content.create(
             type="ConfigurablePODTemplate",

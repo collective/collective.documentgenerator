@@ -2,12 +2,14 @@
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone.testing._z2_testbrowser import Browser
 from zExceptions import Unauthorized
 from zope.interface import Invalid
 
 import io
 import os
+import six
 import zipfile
 
 
@@ -328,7 +330,10 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         view = self.portal.podtemplates.restrictedTraverse("@@document-generation")
         self.assertIn("pdf", self.template2.get_available_formats())
         generated_doc = view(template_uid, "pdf")
-        self.assertEqual("%PDF", generated_doc[:4])
+        if six.PY2:
+            self.assertEqual("%PDF", generated_doc[:4])
+        else:
+            self.assertEqual(b"%PDF", generated_doc[:4])
 
     def test_search_replace_control_panel_anonymous_unauthorized(self):
         app = self.layer["app"]
@@ -401,7 +406,10 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         errors = form.widgets.validate(data)
         self.assertEqual(len(errors), 1)
         self.assertTrue(isinstance(errors[0], Invalid))
-        self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')
+        if HAS_PLONE_5_AND_MORE:
+            self.assertEqual(errors[0].args[0], u'Incorrect regex at row #2 : "get_elements("')
+        else:
+            self.assertEqual(errors[0].message, u'Incorrect regex at row #2 : "get_elements("')
         replacements = [
             {"search_expr": "get_elements(", "replace_expr": "", "is_regex": False},
             {"search_expr": "valid_regex?", "replace_expr": "", "is_regex": True},

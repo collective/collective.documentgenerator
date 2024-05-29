@@ -52,7 +52,7 @@ class DocumentGenerationHelperView(object):
         if date is None:
             return u''
 
-        if type(date) == datetime.date:
+        if type(date) is datetime.date:
             date = datetime.datetime(date.year, date.month, date.day)
 
         return ulocalized_time(date, long_format=long_format, time_only=time_only, custom_format=custom_format,
@@ -260,7 +260,7 @@ class DisplayProxyObject(object):
         return self.context.__str__()
 
     def __unicode__(self):
-        return unicode(self.context)
+        return safe_unicode(self.context)
 
     def is_field(self, attr_name):
         """To Override."""

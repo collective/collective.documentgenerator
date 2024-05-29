@@ -35,7 +35,7 @@ class DexterityDateExportableAdapter(DexterityExportableAdapter):
         """Format the date."""
         value = self.exportable.render_value(self.context)
         plone = getMultiAdapter((self.context, self.request), name=u'plone')
-        if type(value) == datetime.date:
+        if isinstance(value, datetime.date):
             value = datetime.datetime(value.year, value.month, value.day)
         return plone.toLocalizedTime(value)
 

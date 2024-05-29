@@ -2,12 +2,19 @@ from collective.documentgenerator.browser.generation_view import HAS_FINGERPOINT
 from collective.documentgenerator.utils import get_site_root_relative_path
 from collective.documentgenerator.utils import temporary_file_name
 from plone.namedfile import NamedBlobFile
+from Products.CMFPlone.utils import safe_unicode
 
 import collections
 import mimetypes
 import os
 import shutil
+import six
 
+
+if six.PY2:
+    from appy.bin.odfgrep import Grep
+else:
+    from appy.bin.ogrep import Grep
 
 SearchReplaceResult = collections.namedtuple(
     "SearchReplaceResult",
@@ -54,9 +61,14 @@ class SearchAndReplacePODTemplates:
             if os.path.isfile(filename):
                 os.remove(filename)
             # copy the pod templates on the file system.
-            with open(filename, "w") as template_file:
-                plone_template = self.templates_by_filename[filename]["obj"]
-                template_file.write(plone_template.odt_file.data)
+            if six.PY2:
+                with open(filename, "w") as template_file:
+                    plone_template = self.templates_by_filename[filename]["obj"]
+                    template_file.write(plone_template.odt_file.data)
+            else:
+                with open(filename, "wb") as template_file:
+                    plone_template = self.templates_by_filename[filename]["obj"]
+                    template_file.write(plone_template.odt_file.data)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -81,9 +93,29 @@ class SearchAndReplacePODTemplates:
         :param is_regex: use is_regex=False if find_expr is not a regex
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
 
-        grepper = Grep(find_expr, self.tmp_dir, asString=not is_regex, verbose=0)
+        if six.PY2:
+            grepper = Grep(
+                find_expr,
+                self.tmp_dir,
+                repl=None,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=False,
+                verbose=0,
+            )
+        else:
+            grepper = Grep(
+                keyword=find_expr,
+                repl=None,
+                path=self.tmp_dir,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=False,
+                verbose=0,
+                vverbose=0,
+                nice=0
+            )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
         return results
@@ -98,16 +130,28 @@ class SearchAndReplacePODTemplates:
         This will not modify the template(s) and can be used safely.
         :return: a dict with podtemplate uid as key and list of SearchReplaceResult as value
         """
-        from appy.bin.odfgrep import Grep
-
-        grepper = Grep(
-            find_expr,
-            self.tmp_dir,
-            repl=replace_expr,
-            asString=not is_regex,
-            dryRun=dry_run,
-            verbose=0,
-        )
+        if six.PY2:
+            grepper = Grep(
+                find_expr,
+                self.tmp_dir,
+                repl=replace_expr,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=dry_run,
+                verbose=0,
+            )
+        else:
+            grepper = Grep(
+                keyword=find_expr,
+                path=self.tmp_dir,
+                repl=replace_expr,
+                asString=not is_regex,
+                inContent=False,
+                dryRun=dry_run,
+                verbose=0,
+                vverbose=0,
+                nice=0
+            )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
 
@@ -143,4 +187,4 @@ class SearchAndReplacePODTemplates:
                 old_pod_expr,
                 new_pod_expr,
             )
-            log_info(unicode(AUDIT_MESSAGE).format(user, ip, action, extras))
+            log_info(safe_unicode(AUDIT_MESSAGE).format(user, ip, action, extras))

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
@@ -19,8 +18,14 @@ import hashlib
 import logging
 import os
 import re
+import six
 import tempfile
 
+
+if six.PY2:
+    from appy.bin.odfclean import Cleaner
+else:
+    from appy.bin.oclean import Cleaner
 
 logger = logging.getLogger('collective.documentgenerator')
 
@@ -92,6 +97,15 @@ def update_dict_with_validation(original_dict, update_dict, error_message=_("Dic
         original_dict[key] = update_dict[key]
 
 
+def safe_encode(value, encoding='utf-8'):
+    """
+        Converts a value to encoding, only when it is not already encoded.
+    """
+    if isinstance(value, six.PY2 and unicode or bytes):  # noqa: F821
+        return value.encode(encoding)
+    return value
+
+
 def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
                     domain='plonelocales', target_language=None, context=None,
                     request=None, month_lc=True, day_lc=True):
@@ -131,7 +145,10 @@ def ulocalized_time(date, long_format=None, time_only=None, custom_format=None,
 
         # then format date
         custom_format = custom_format.replace('_p_c_', '%%')
-        formatted_date = date.strftime(custom_format.encode('utf8'))
+        if six.PY3:
+            formatted_date = date.strftime(custom_format)
+        else:
+            formatted_date = date.strftime(custom_format.encode('utf8'))
     return safe_unicode(formatted_date)
 
 
@@ -182,7 +199,7 @@ def temporary_file_name(suffix=''):
 def create_temporary_file(initial_file=None, base_name=''):
     tmp_filename = temporary_file_name(suffix=base_name)
     # create the file in any case
-    with open(tmp_filename, 'w+') as tmp_file:
+    with open(tmp_filename, 'wb') as tmp_file:
         if initial_file:
             tmp_file.write(initial_file.data)
     return tmp_file
@@ -195,7 +212,10 @@ def clean_notes(pod_template):
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, '-to-clean.odt')
-        cleaner = Cleaner(path=tmp_file.name, verbose=1)
+        if six.PY2:
+            cleaner = Cleaner(path=tmp_file.name, verbose=1)
+        else:
+            cleaner = Cleaner(path=tmp_file.name, silent=False)
         cleaned = cleaner.run()
         if cleaned:
             manually_modified = pod_template.has_been_modified()

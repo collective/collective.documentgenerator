@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-from imio.helpers import HAS_PLONE_5_2
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 
@@ -26,21 +24,16 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
+HAS_PLONE_6 = int(api.env.plone_version()[0]) >= 6
+
 DEFAULT_OO_SERVER = u'localhost'
-DEFAULT_OO_PORT = 2002
+DEFAULT_OO_PORT = u"2002"
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
 
 DEFAULT_CSV_FIELD_DELIMITERS = {
     u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
 DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
-
-
-if HAS_PLONE_5_2:
-    import sys
-    from zope.deprecation import deprecation
-    sys.modules['collective.documentgenerator.demo.helper.ATDemoHelperView'] = \
-        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 
 
 def get_uno_path():
@@ -112,10 +105,10 @@ def set_oo_server():
 
 def set_oo_port():
     """ Get environment value in buildout to define port """
-    oo_port = unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+    oo_port = os.getenv('OO_PORT', DEFAULT_OO_PORT)
     if oo_port:
         api.portal.set_registry_record('collective.documentgenerator.browser.controlpanel.'
-                                       'IDocumentGeneratorControlPanelSchema.oo_port_list', oo_port)
+                                       'IDocumentGeneratorControlPanelSchema.oo_port_list', safe_unicode(oo_port))
 
 
 def set_uno_path():

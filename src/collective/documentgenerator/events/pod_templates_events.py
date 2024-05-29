@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
-
-from appy.bin.odfsub import Sub
 from collective.documentgenerator.events.styles_events import update_PODtemplate_styles
 from collective.documentgenerator.utils import clean_notes
 from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import remove_tmp_file
 from imio.helpers.content import get_modified_attrs
 from plone import api
+
+import six
+
+
+if six.PY2:
+    from appy.bin.odfsub import Sub
+else:
+    from appy.bin.osub import Sub
 
 
 def podtemplate_created(pod_template, event):
@@ -59,8 +65,12 @@ def apply_default_page_style_for_mailing(pod_template, event):
     appy_sub = Sub(check=False, path=template_file.name)
     appy_sub.run()
 
-    with open(template_file.name, "r") as new_template_file:
-        pod_template.odt_file.data = new_template_file.read()
+    if six.PY2:
+        with open(template_file.name, "r") as new_template_file:
+            pod_template.odt_file.data = new_template_file.read()
+    else:
+        with open(template_file.name, "rb") as new_template_file:
+            pod_template.odt_file.data = new_template_file.read()
 
     # Delete the temp folder
     remove_tmp_file(template_file.name)

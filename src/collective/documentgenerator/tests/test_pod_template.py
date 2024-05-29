@@ -160,7 +160,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         setup_tool = api.portal.get_tool('portal_setup')
         demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
         template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
-        template_file = file(template_path, 'rb').read()
+        template_file = open(template_path, 'rb').read()
         blob_file = NamedBlobFile(data=template_file, contentType='application/vnd.oasis.opendocument.text')
 
         pod_template.odt_file = blob_file

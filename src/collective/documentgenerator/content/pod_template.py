@@ -38,6 +38,7 @@ from zope.interface import provider
 
 import copy
 import logging
+import six
 
 
 if HAS_PLONE_5_AND_MORE:
@@ -442,7 +443,10 @@ class ConfigurablePODTemplate(PODTemplate):
         if self.merge_templates:
             for line in self.merge_templates:
                 pod_template = catalog(UID=line['template'])[0].getObject()
-                pod_context[line['pod_context_name'].encode('utf-8')] = (pod_template, line['do_rendering'])
+                if six.PY2:
+                    pod_context[line['pod_context_name'].encode('utf-8')] = (pod_template, line['do_rendering'])
+                else:
+                    pod_context[line['pod_context_name']] = (pod_template, line['do_rendering'])
 
         return pod_context
 

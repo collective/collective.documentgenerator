@@ -14,11 +14,11 @@ from z3c.form import form
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope import component
-from zope import interface
 from zope import schema
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.contentprovider.provider import ContentProviderBase
-from zope.interface import implements
+from zope.interface import implementer
+from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import invariant
 
@@ -33,7 +33,7 @@ else:
     from collective.z3cform.datagridfield import DictRow
 
 
-class IReplacementRowSchema(interface.Interface):
+class IReplacementRowSchema(Interface):
     """
     Schema for DataGridField widget's row of field 'replacements'
     """
@@ -45,7 +45,7 @@ class IReplacementRowSchema(interface.Interface):
     is_regex = schema.Bool(title=_(u"Regex?"),)
 
 
-class IDocumentGeneratorSearchReplacePanelSchema(interface.Interface):
+class IDocumentGeneratorSearchReplacePanelSchema(Interface):
     """
     Schema for DocumentGeneratorSearchReplacePanel
     """
@@ -117,19 +117,19 @@ class SearchResultProvider(ContentProviderBase):
         return result.getDiff(type="xhtml")
 
 
+@implementer(IDocumentGeneratorSearchReplacePanelSchema)
 class DocumentGeneratorSearchReplacePanelAdapter(object):
-    interface.implements(IDocumentGeneratorSearchReplacePanelSchema)
-    component.adapts(interface.Interface)
+    component.adapts(Interface)
 
     def __init__(self, context):
         self.context = context
 
 
+@implementer(IFieldsAndContentProvidersForm)
 class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     """
     DocumentGenerator Search & Replace control panel form
     """
-    implements(IFieldsAndContentProvidersForm)
 
     schema = IDocumentGeneratorSearchReplacePanelSchema
     label = _(u"Search & Replace")
