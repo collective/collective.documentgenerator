@@ -6,6 +6,7 @@ from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone.testing._z2_testbrowser import Browser
 from zExceptions import Unauthorized
 from zope.interface import Invalid
+
 import io
 import os
 import six

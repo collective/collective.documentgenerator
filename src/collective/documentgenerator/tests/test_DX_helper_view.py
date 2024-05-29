@@ -12,6 +12,7 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
+
 import datetime
 import six
 

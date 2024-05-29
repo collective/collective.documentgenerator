@@ -24,6 +24,8 @@ DEFAULT_PYTHON_UNO_PATH = u'/usr/bin/python'
 
 VIEWLET_TYPES = ['PODTemplate', 'ConfigurablePODTemplate']
 
+HAS_PLONE_6 = int(api.env.plone_version()[0]) >= 6
+
 DEFAULT_OO_SERVER = u'localhost'
 DEFAULT_OO_PORT = u"2002"
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
