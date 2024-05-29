@@ -31,7 +31,7 @@ HAS_PLONE_5_2 = api.env.plone_version() > '5.2'
 HAS_PLONE_6 = api.env.plone_version() > '6'
 
 DEFAULT_OO_SERVER = u'localhost'
-DEFAULT_OO_PORT = 2002
+DEFAULT_OO_PORT = u"2002"
 DEFAULT_PYTHON_UNO = u'/usr/bin/python3'
 DEFAULT_COLUMN_MODIFIER = u'nothing'
 
