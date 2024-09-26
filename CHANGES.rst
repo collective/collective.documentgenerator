@@ -6,7 +6,8 @@ Changelog
 
 - Python 3, Plone 5.2 and Plone 6.0 compatible.
   [aduchene]
-
+- Fixed an issue when odt_file.filename could be None when searching and replacing.
+  [aduchene]
 
 3.43 (2024-04-10)
 -----------------
