@@ -42,7 +42,7 @@ class SearchAndReplacePODTemplates:
 
         # compute the (future) file system path of the plone pod templates
         for podtemplate in podtemplates:
-            if not podtemplate.odt_file:
+            if not podtemplate.odt_file or not podtemplate.odt_file.filename:
                 continue  # ignore templates referring another pod template.
             file_extension = podtemplate.odt_file.filename.split(".")[-1].lower()
             template_path = get_site_root_relative_path(podtemplate)
