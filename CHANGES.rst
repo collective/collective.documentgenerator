@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.44 (unreleased)
+3.44 (2024-10-15)
 -----------------
 
 - Fixed an issue when odt_file.filename could be None when searching and replacing - backport from 4.x.
