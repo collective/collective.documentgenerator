@@ -409,3 +409,11 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         data = {"replacements": replacements}
         errors = form.widgets.validate(data)
         self.assertFalse(errors)
+
+    def test_no_odt_file_or_no_filename(self):
+        self.template1.odt_file = None
+        self.template2.odt_file.filename = None
+        with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
+            results = search_replace.search("view")
+
+        self.assertEqual(len(results.keys()), 0)
