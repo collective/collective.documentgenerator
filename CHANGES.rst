@@ -4,8 +4,8 @@ Changelog
 3.44 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fixed an issue when odt_file.filename could be None when searching and replacing - backport from 4.x.
+  [aduchene]
 
 3.43 (2024-04-10)
 -----------------
