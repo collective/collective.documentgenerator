@@ -8,6 +8,8 @@ Changelog
   [aduchene]
 - Fixed an issue when odt_file.filename could be None when searching and replacing.
   [aduchene]
+- Fixed an issue with `helper.dexterity.DXDocumentGenerationHelperView.check_permission` raising when it should not.
+  [aduchene]
 
 3.43 (2024-04-10)
 -----------------
