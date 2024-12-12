@@ -42,7 +42,7 @@ startlibreoffice:
  			   --name="oo_server" \
  			   -v /tmp:/tmp \
  			   -v /var/tmp:/var/tmp \
- 			   imiobe/libreoffice:$(lo_version)
+ 			   harbor.imio.be/library/libreoffice:$(lo_version)
 	docker ps
 
 stoplibreoffice:
