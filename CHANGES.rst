@@ -10,6 +10,8 @@ Changelog
   [aduchene]
 - Fixed an issue with `helper.dexterity.DXDocumentGenerationHelperView.check_permission` raising when it should not.
   [aduchene]
+- Replaced `six.u()` by safe_unicode() to handle unicode strings.
+  [sgeulette]
 
 3.43 (2024-04-10)
 -----------------

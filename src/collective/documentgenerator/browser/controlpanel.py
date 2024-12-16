@@ -11,7 +11,6 @@ from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
-from six import u
 from z3c.form import button
 from zope import schema
 from zope.interface import implementer
@@ -61,7 +60,7 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         title=_(u"oo_port_list"),
         description=_(u'Port Number(s) of OO.'),
         required=False,
-        default=u(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+        default=safe_unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
     )
 
     uno_path = schema.TextLine(
