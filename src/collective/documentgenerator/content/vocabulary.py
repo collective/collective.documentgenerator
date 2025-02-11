@@ -23,6 +23,21 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
+class PageBreakTypeVocabularyFactory(object):
+    """
+    Vocabulary factory for 'page_break_type' field.
+    """
+
+    def __call__(self, context):
+        vocabulary = SimpleVocabulary(
+            [
+                SimpleTerm("simplex", "simplex", "simplex"),
+                SimpleTerm("duplex", "duplex", "duplex"),
+            ]
+        )
+        return vocabulary
+
+
 class FormatsVocabularyFactory(object):
     """
     Vocabulary factory for 'pod_formats' field.

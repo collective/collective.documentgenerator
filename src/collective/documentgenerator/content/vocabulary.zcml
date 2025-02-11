@@ -2,6 +2,13 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="collective.documentgenerator">
 
+    <!-- Page Break Vocabulary -->
+    <utility
+        factory=".vocabulary.PageBreakTypeVocabularyFactory"
+        name="collective.documentgenerator.PageBreakType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
     <!-- Formats Vocabulary -->
     <utility
         factory=".vocabulary.FormatsVocabularyFactory"

@@ -157,6 +157,13 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             context = self.real_context
         return ih_get_relations(context, attribute=attribute, backrefs=backrefs, as_obj=as_obj)
 
+    @property
+    def page_break_type(self):
+        registry = api.portal.get_tool(name="portal_registry")
+        return registry[
+            "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.page_break_type"
+        ]
+
 
 class DXDisplayProxyObject(DisplayProxyObject):
 
