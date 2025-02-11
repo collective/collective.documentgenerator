@@ -4,8 +4,8 @@
 
     <!-- Page Break Vocabulary -->
     <utility
-        factory=".vocabulary.PageBreakVocabularyFactory"
-        name="collective.documentgenerator.PageBreak"
+        factory=".vocabulary.PageBreakTypeVocabularyFactory"
+        name="collective.documentgenerator.PageBreakType"
         provides="zope.schema.interfaces.IVocabularyFactory"
     />
 

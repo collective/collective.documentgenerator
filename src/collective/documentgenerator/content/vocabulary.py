@@ -23,7 +23,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
-class PageBreakVocabularyFactory(object):
+class PageBreakTypeVocabularyFactory(object):
     """
     Vocabulary factory for 'page_break_type' field.
     """

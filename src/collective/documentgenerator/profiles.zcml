@@ -180,6 +180,16 @@
             import_steps="plone.app.registry" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeSteps
+        source="15"
+        destination="16"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeDepends
+            title="Reapply registry.xml"
+            description="This will add new parameter 'page_break_type'"
+            import_steps="plone.app.registry" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 
