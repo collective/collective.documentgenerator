@@ -104,7 +104,17 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         description=_(u'If enabled, this will automatically apply the default page style on the firstparagraph'
                       u'of a POD template using the "mailing" attribute (if no page style was set).'),
         required=False,
-        default=False
+        default=False,
+    )
+
+    page_break_type = schema.Choice(
+        title=_(u"Page break type"),
+        description=_(
+            u"Type of page break to use in the document. 'duplex' for recto/verso printing, 'simplex' otherwise."
+        ),
+        vocabulary="collective.documentgenerator.PageBreakType",
+        required=True,
+        default="duplex",
     )
 
 
