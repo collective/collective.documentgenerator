@@ -21,6 +21,8 @@ jobs:
             plone: 5.2
           - python: 3.10.11
             plone: "6.0"
+          - python: 3.13.3
+            plone: "6.1"
     services:
       libreoffice:
         image: imiobe/libreoffice:7.3
@@ -31,7 +33,7 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -40,7 +42,7 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
           mkdir -p buildout-cache/{eggs,downloads}
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: "${{ matrix.python }}"
       - name: Setup Python env
@@ -48,13 +50,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-${{ matrix.plone }}.txt
       - name: Cache eggs
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.python }}-${{ matrix.plone }}
       - name: buildout
         run: |
           sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
@@ -71,6 +72,8 @@ jobs:
         include:
           - python: 3.10.11
             plone: "6.0"
+          - python: 3.13.3
+            plone: "6.1"
     services:
       libreoffice:
         image: imiobe/libreoffice:7.3
@@ -81,7 +84,7 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -90,7 +93,7 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
           mkdir -p buildout-cache/{eggs,downloads}
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: "${{ matrix.python }}"
       - name: Setup Python env
@@ -99,13 +102,12 @@ jobs:
           pip install -r requirements-${{ matrix.plone }}.txt
           pip install -U coveralls
       - name: Cache eggs
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.python }}-${{ matrix.plone }}
       - name: buildout
         run: |
           sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg

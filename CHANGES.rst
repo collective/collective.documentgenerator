@@ -6,6 +6,8 @@ Changelog
 
 - Python 3, Plone 5.2 and Plone 6.0 compatible.
   [aduchene]
+- Added Plone 6.1 version in buildout.
+  [chris-adam]
 
 
 3.43 (2024-04-10)
