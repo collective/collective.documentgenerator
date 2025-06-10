@@ -11,7 +11,7 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='3.44.dev0',
+    version='4.0.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
@@ -57,7 +57,7 @@ setup(
         'z3c.table',
         # fix about orderedselect
         'z3c.form>=3.2.4',
-        'imio.helpers>=0.57',
+        'imio.helpers>=1.0',
         'imio.migrator>=1.11'
     ],
     extras_require={

@@ -8,7 +8,12 @@ Changelog
   [aduchene]
 - Added Plone 6.1 version in buildout.
   [chris-adam]
-
+- Fixed an issue when odt_file.filename could be None when searching and replacing.
+  [aduchene]
+- Fixed an issue with `helper.dexterity.DXDocumentGenerationHelperView.check_permission` raising when it should not.
+  [aduchene]
+- Replaced `six.u()` by safe_unicode() to handle unicode strings.
+  [sgeulette]
 
 3.43 (2024-04-10)
 -----------------
