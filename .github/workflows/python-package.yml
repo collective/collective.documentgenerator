@@ -70,8 +70,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python: 3.10.11
-            plone: "6.0"
           - python: 3.13.2
             plone: "6.1"
     services:
