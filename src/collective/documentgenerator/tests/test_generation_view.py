@@ -246,7 +246,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
 
         # The gotten helper view (hpv) is not the used one at generation
-        self.assertNotEquals(hpv, gen_context['view'])
+        self.assertNotEqual(hpv, gen_context['view'])
 
         # Check generation context subtemplates without pre-rendering
         self.assertEqual(pod_template.merge_templates[0]['do_rendering'], False)
@@ -261,7 +261,10 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, 'odt')
         self.assertIsInstance(gen_context['header'], str)
-        self.assertRegexpMatches(gen_context['header'], r'.+(\.odt)$')
+        if six.PY2:
+            self.assertRegexpMatches(gen_context['header'], r'.+(\.odt)$')
+        else:
+            self.assertRegex(gen_context['header'], r'.+(\.odt)$')
 
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
@@ -488,16 +491,16 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             generated_doc = generation_view(template_uid, 'odt')
             content_xml = self.get_odt_content_xml(generated_doc)
             if six.PY2:
-                self.assertEquals(ocw_in_xml, 'OCW' in content_xml, 'OCW not in content_xml')
-                self.assertEquals(dc_in_xml, 'DC' in content_xml, 'DC not in content_xml')
+                self.assertEqual(ocw_in_xml, 'OCW' in content_xml, 'OCW not in content_xml')
+                self.assertEqual(dc_in_xml, 'DC' in content_xml, 'DC not in content_xml')
             else:
-                self.assertEquals(ocw_in_xml, b'OCW' in content_xml, 'OCW not in content_xml')
-                self.assertEquals(dc_in_xml, b'DC' in content_xml, 'DC not in content_xml')
+                self.assertEqual(ocw_in_xml, b'OCW' in content_xml, 'OCW not in content_xml')
+                self.assertEqual(dc_in_xml, b'DC' in content_xml, 'DC not in content_xml')
 
         # By default : column_modifier disabled globally, CSS override enabled globally
         # and pod_template using global parameter
-        self.assertEquals(get_column_modifier(), 'nothing')
-        self.assertEquals(pod_template.get_column_modifier(), -1)
+        self.assertEqual(get_column_modifier(), 'nothing')
+        self.assertEqual(pod_template.get_column_modifier(), -1)
 
         set_text(text)
         assert_result(False, False)

@@ -147,8 +147,8 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
             search_replace.replace("view", "View")
 
-        self.assertNotEquals(compute_md5(self.template1.odt_file.data), template1_md5)
-        self.assertNotEquals(compute_md5(self.template2.odt_file.data), template2_md5)
+        self.assertNotEqual(compute_md5(self.template1.odt_file.data), template1_md5)
+        self.assertNotEqual(compute_md5(self.template2.odt_file.data), template2_md5)
 
     def test_replace_dont_alter_pod_template_odt_file_structure(self):
         with SearchAndReplacePODTemplates((self.template1,)) as search_replace:

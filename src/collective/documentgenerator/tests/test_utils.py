@@ -49,17 +49,17 @@ class TestUtils(PODTemplateIntegrationTest):
 
         # bad plone obj path => no change
         ret = update_templates([('/podtemplates/test_template_bad', path('modele_general.odt'))])
-        self.assertEquals(ret[0][2], 'plone path error')
+        self.assertEqual(ret[0][2], 'plone path error')
 
         # bad file path => no change
         ret = update_templates([('/podtemplates/test_template_multiple', path('modele_general.bad'))])
         self.assertEqual(modif_date, test_template.modification_date)
-        self.assertEquals(ret[0][2], 'os path error')
+        self.assertEqual(ret[0][2], 'os path error')
 
         # same os file => unchanged status
         ret = update_templates([('/podtemplates/test_template_multiple', path('modele_general.odt'))])
         self.assertEqual(modif_date, test_template.modification_date)
-        self.assertEquals(ret[0][2], 'unchanged')
+        self.assertEqual(ret[0][2], 'unchanged')
 
         # replace file when not same os file and template not modified
         ret = update_templates([('/podtemplates/test_template_multiple', path('modèle_collection.odt'))])
@@ -67,8 +67,8 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertNotEqual(test_template.initial_md5, test_template.current_md5)
         self.assertEqual(test_template.style_modification_md5, test_template.current_md5)
         self.assertFalse(test_template.has_been_modified())
-        self.assertEquals(ret[0][2], 'replaced')
-        self.assertNotEquals(modif_date, test_template.modification_date)
+        self.assertEqual(ret[0][2], 'replaced')
+        self.assertNotEqual(modif_date, test_template.modification_date)
         modif_date = test_template.modification_date
 
         # don't replace file when not same os file but template is modified
@@ -80,12 +80,12 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertTrue(test_template.has_been_modified())
         modif_date = test_template.modification_date
         ret = update_templates([('/podtemplates/test_template_multiple', path('modele_general.odt'))])
-        self.assertEquals(ret[0][2], 'kept')
-        self.assertEquals(modif_date, test_template.modification_date)
+        self.assertEqual(ret[0][2], 'kept')
+        self.assertEqual(modif_date, test_template.modification_date)
         # we force replacement
         ret = update_templates([('/podtemplates/test_template_multiple', path('modele_general.odt'))], force=True)
-        self.assertEquals(ret[0][2], 'replaced')
-        self.assertNotEquals(modif_date, test_template.modification_date)
+        self.assertEqual(ret[0][2], 'replaced')
+        self.assertNotEqual(modif_date, test_template.modification_date)
 
     def test_update_dict_with_validation(self):
         # if dict have no common keys, nothing is returned
@@ -123,8 +123,8 @@ class TestUtils(PODTemplateIntegrationTest):
             self.assertRegexpMatches(temporary_file_name(), r"/tmp/tmp.{6}")
             self.assertRegexpMatches(temporary_file_name('foobarbar'), r"/tmp/tmp.{6}foobarbar")
         else:
-            self.assertRegexpMatches(temporary_file_name(), r"/tmp/tmp.{8}")
-            self.assertRegexpMatches(temporary_file_name('foobarbar'), r"/tmp/tmp.{8}foobarbar")
+            self.assertRegex(temporary_file_name(), r"/tmp/tmp.{8}")
+            self.assertRegex(temporary_file_name('foobarbar'), r"/tmp/tmp.{8}foobarbar")
 
         self.assertFalse(os.path.exists(tmp_dir))
         os.environ["CUSTOM_TMP"] = tmp_dir
@@ -132,8 +132,8 @@ class TestUtils(PODTemplateIntegrationTest):
             self.assertRegexpMatches(temporary_file_name(), tmp_dir + r"/tmp.{6}")
             self.assertRegexpMatches(temporary_file_name('foobarbar'), tmp_dir + r"/tmp.{6}foobarbar")
         else:
-            self.assertRegexpMatches(temporary_file_name(), tmp_dir + r"/tmp.{8}")
-            self.assertRegexpMatches(temporary_file_name('foobarbar'), tmp_dir + r"/tmp.{8}foobarbar")
+            self.assertRegex(temporary_file_name(), tmp_dir + r"/tmp.{8}")
+            self.assertRegex(temporary_file_name('foobarbar'), tmp_dir + r"/tmp.{8}foobarbar")
         # tear down
         if initial_custom_tmp:
             os.environ["CUSTOM_TMP"] = initial_custom_tmp
