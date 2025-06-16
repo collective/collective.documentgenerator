@@ -49,3 +49,5 @@ nosetests.xml
 # Pycharm
 /.idea/
 /pip-selfcheck.json
+
+CACHEDIR.TAG

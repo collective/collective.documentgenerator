@@ -65,8 +65,8 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
     def test_TitleColumn(self):
         column = TitleColumn(self.view.context, self.view.request, self.view.table)
         item = self.test_podtemplate
-        self.assertEquals(column.renderHeadCell(), u'Titre')
-        self.assertEquals(column.renderCell(item),
+        self.assertEqual(column.renderHeadCell(), u'Titre')
+        self.assertEqual(column.renderCell(item),
                           u'<a href="http://nohost/plone/podtemplates/test_template" class="pretty_link state-private">'
                           u'<span class="pretty_link_icons"><img class="svg-icon" '
                           u'title="Modèle de document POD restreint" '
@@ -75,7 +75,7 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
 
     def test_PathColumn(self):
         column = PathColumn(self.view.context, self.view.request, self.view.table)
-        self.assertEquals(column.renderHeadCell(), u'Chemin relatif')
+        self.assertEqual(column.renderHeadCell(), u'Chemin relatif')
         # test rel_path_title
         column.rel_path_title('../other_template')
         self.assertEqual(self.view.table.paths['../other_template'], u'../Other template')
@@ -85,7 +85,7 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         self.assertEqual(self.view.table.paths['sub_folder/sub_folder_template'], u'Subfolder/Sub folder template')
         # test rendering
         item = self.test_podtemplate
-        self.assertEquals(column.renderCell(item), u'<a href="http://nohost/plone/podtemplates" target="_blank">-</a>')
-        self.assertEquals(column.renderCell(self.ot), u'<a href="http://nohost/plone" target="_blank">..</a>')
-        self.assertEquals(column.renderCell(self.sft), u'<a href="http://nohost/plone/podtemplates/sub_folder" '
+        self.assertEqual(column.renderCell(item), u'<a href="http://nohost/plone/podtemplates" target="_blank">-</a>')
+        self.assertEqual(column.renderCell(self.ot), u'<a href="http://nohost/plone" target="_blank">..</a>')
+        self.assertEqual(column.renderCell(self.sft), u'<a href="http://nohost/plone/podtemplates/sub_folder" '
                                                        u'target="_blank">Subfolder</a>')

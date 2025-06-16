@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Helper view for dexterity content types."""
-
 from ..interfaces import IFieldRendererForDocument
 from .base import DisplayProxyObject
 from .base import DocumentGenerationHelperView
+from AccessControl import getSecurityManager
 from bs4 import BeautifulSoup as Soup
 from collective.excelexport.exportables.dexterityfields import get_ordered_fields
 from imio.helpers.content import get_relations as ih_get_relations
@@ -81,8 +81,10 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         if permission is None:
             return True
 
-        user = api.user.get_current()
-        return api.user.has_permission(permission, user=user, obj=self.real_context)
+        # We can't use plone.api.user.has_permission anymore since
+        # https://github.com/plone/plone.api/pull/526 as we pass a permission id and if
+        # we don't have the perm, it raises now
+        return bool(getSecurityManager().checkPermission(permission, self.real_context))
 
     def get_value(self, field_name, obj=None, default=None, as_utf8=False, strict=True):
         """Get value of field_name for obj
