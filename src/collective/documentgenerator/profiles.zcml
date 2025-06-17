@@ -15,7 +15,16 @@
         />
 
     <genericsetup:registerProfile
-        zcml:condition="have plone-5"
+        zcml:condition="have plone-60"
+        name="default"
+        title="collective.documentgenerator"
+        directory="profiles/plone6"
+        description="Installs the collective.documentgenerator add-on."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
+        zcml:condition="not-have plone-60"
         name="default"
         title="collective.documentgenerator"
         directory="profiles/plone5"

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<metadata>
+   <dependencies>
+    <dependency>profile-collective.documentgenerator:install-base</dependency>
+   </dependencies>
+  <version>15</version>
+</metadata>

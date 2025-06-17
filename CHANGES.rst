@@ -16,6 +16,8 @@ Changelog
   [sgeulette]
 - Blacked code
   [sgeulette]
+- Added Plone 6 control panel icon.
+  [sgeulette]
 
 3.43 (2024-04-10)
 -----------------

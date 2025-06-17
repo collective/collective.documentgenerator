@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records prefix="plone.bundles/collective.documentgenerator"
+            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="enabled">True</value>
+    <value key="csscompilation">++resource++collective.documentgenerator.css/documentgenerator.css</value>
+    <value key="last_compilation">2016-01-01 00:00:00</value>
+    <value key="compile">False</value>
+    <value key="depends">plone</value>
+  </records>
+
+  <records interface="collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema" />
+
+</registry>
