@@ -42,7 +42,9 @@ class IReplacementRowSchema(Interface):
     replace_expr = schema.TextLine(title=_(u"Replace"), required=False, default=u"")
 
     directives.widget("is_regex", SingleCheckBoxFieldWidget)
-    is_regex = schema.Bool(title=_(u"Regex?"),)
+    is_regex = schema.Bool(
+        title=_(u"Regex?"),
+    )
 
 
 class IDocumentGeneratorSearchReplacePanelSchema(Interface):
@@ -68,14 +70,13 @@ class IDocumentGeneratorSearchReplacePanelSchema(Interface):
 
     @invariant
     def has_valid_regexes(data):
-        if hasattr(data, 'replacements'):
+        if hasattr(data, "replacements"):
             for i, row in enumerate(data.replacements):
                 if row["is_regex"]:
                     try:
                         re.compile(row["search_expr"])
                     except re.error:
-                        raise Invalid(_(u"Incorrect regex at row #{0} : \"{1}\"").format(
-                            i + 1, row["search_expr"]))
+                        raise Invalid(_(u'Incorrect regex at row #{0} : "{1}"').format(i + 1, row["search_expr"]))
 
 
 class SearchResultProvider(ContentProviderBase):
@@ -83,7 +84,7 @@ class SearchResultProvider(ContentProviderBase):
     Search result and replace form is implemented through a content provider.
     """
 
-    template = ViewPageTemplateFile('search_result_form.pt')
+    template = ViewPageTemplateFile("search_result_form.pt")
 
     def __init__(self, context, request, view):
         super(SearchResultProvider, self).__init__(context, request, view)
@@ -105,8 +106,8 @@ class SearchResultProvider(ContentProviderBase):
 
     def get_template_breadcrumb(self, uid):
         template = uuidToObject(uid)
-        breadcrumb_view = template.restrictedTraverse('breadcrumbs_view')
-        title = ' / '.join([bc['Title'] for bc in breadcrumb_view.breadcrumbs()]) + ' ({})'.format(template.id)
+        breadcrumb_view = template.restrictedTraverse("breadcrumbs_view")
+        title = " / ".join([bc["Title"] for bc in breadcrumb_view.breadcrumbs()]) + " ({})".format(template.id)
         return title
 
     @staticmethod
@@ -137,9 +138,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     # display the search result and replace form as content provider
     contentProviders = ContentProviders()
-    contentProviders['search_result_provider'] = SearchResultProvider
+    contentProviders["search_result_provider"] = SearchResultProvider
     # defining a contentProvider position is mandatory...
-    contentProviders['search_result_provider'].position = 2
+    contentProviders["search_result_provider"].position = 2
 
     def __init__(self, context, request):
         self.is_previewing = False
@@ -174,14 +175,14 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     def can_replace(self):
         # allow to perform a replace only if we performed a search first or if we are performing the replace
-        search_done = self.request.get('form.buttons.search', False)
-        replacing = self.request.get('selected_templates', False)
+        search_done = self.request.get("form.buttons.search", False)
+        replacing = self.request.get("selected_templates", False)
         return search_done or replacing
 
     def updateActions(self):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
         self.actions["search"].addClass("context")  # Make "Search" button primary
-        if self.request.get('selected_templates', False):  # Must do a new new search before replacing again
+        if self.request.get("selected_templates", False):  # Must do a new new search before replacing again
             self.actions["replace"].addClass("hidden")
 
     def updateWidgets(self, prefix=None):  # pragma: no cover
@@ -194,7 +195,7 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         Get selected templates from form_data
         """
         uids = form_data["selected_templates"]
-        if 'all' in uids:
+        if "all" in uids:
             voc = AllPODTemplateWithFileVocabularyFactory()
             uids = [brain.UID for brain in voc._get_all_pod_templates_with_file()]
         templates = [uuidToObject(template_uuid) for template_uuid in uids]

@@ -25,7 +25,7 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def _get_default_CT_fields_filtered_fields(self):
         """ """
-        return ['id', 'title']
+        return ["id", "title"]
 
     def is_default_field(self, field_name):
         if not self.is_rich_text_field(field_name) and not self.is_line_field(field_name):
@@ -39,19 +39,17 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
         raise NotImplementedError
 
     def get_localized_field_name(self, field_name):
-        translation_domain = getUtility(ITranslationDomain, 'plone')
+        translation_domain = getUtility(ITranslationDomain, "plone")
         if not HAS_PLONE_5_AND_MORE:
-            properties = api.portal.get_tool('portal_properties')
+            properties = api.portal.get_tool("portal_properties")
             target_language = properties.site_properties.default_language
         else:
-            target_language = api.portal.get_registry_record('plone.default_language')
+            target_language = api.portal.get_registry_record("plone.default_language")
 
         unlocalized_field_label = self._get_unlocalized_field_label(field_name)
 
         translation = translation_domain.translate(
-            unlocalized_field_label,
-            target_language=target_language,
-            default=field_name
+            unlocalized_field_label, target_language=target_language, default=field_name
         )
         return translation
 
@@ -60,23 +58,27 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def get_slash_separated_date(self, date):
         date = DateTime(date)
-        formatted_date = date.strftime('%d/%m/%Y %H:%M')
+        formatted_date = date.strftime("%d/%m/%Y %H:%M")
         return formatted_date
 
     def display_code(self, field_name):
         code = []
         if self.is_default_field(field_name):
-            code.append('%s : context.%s' % (_(u'input_field'), field_name))
+            code.append("%s : context.%s" % (_(u"input_field"), field_name))
         elif self.is_rich_text_field(field_name):
-            code.append("%s : do text from view.render_xhtml('%s')" % (_(u'comment'), field_name))
+            code.append("%s : do text from view.render_xhtml('%s')" % (_(u"comment"), field_name))
         elif self.is_line_field(field_name):
-            code.append('%s : line' % _(u'input_field'))
-            code.append("%s : do text for line in view.list('%s')" % (_(u'comment'), field_name))
+            code.append("%s : line" % _(u"input_field"))
+            code.append("%s : do text for line in view.list('%s')" % (_(u"comment"), field_name))
         return code
 
     def summary(self, obj):
-        summary = '%s - %s - %s %s' % \
-            (obj.Title(), obj.creators[0], _(u'last_change'), obj.modification_date.strftime('%d/%m/%Y %H:%M'))
+        summary = "%s - %s - %s %s" % (
+            obj.Title(),
+            obj.creators[0],
+            _(u"last_change"),
+            obj.modification_date.strftime("%d/%m/%Y %H:%M"),
+        )
         return summary
 
     def get_collection_CT_fields(self):
@@ -84,13 +86,13 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def _get_collection_CT_fields_filtered_fields(self):
         """ """
-        return ['id', 'title', 'text', 'sort_on', 'sort_reversed', 'b_size', 'limit', 'customViewFields']
+        return ["id", "title", "text", "sort_on", "sort_reversed", "b_size", "limit", "customViewFields"]
 
     def is_folderish(self):
         raise NotImplementedError
 
     def mailing_list(self, gen_context=None):
-        paths = api.portal.get_registry_record('collective.documentgenerator.mailing_list')
+        paths = api.portal.get_registry_record("collective.documentgenerator.mailing_list")
         ret = []
         for path in paths:
             obj = self.portal.unrestrictedTraverse(safe_encode(path))
@@ -106,17 +108,17 @@ class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):
     def get_default_CT_fields(self):
         field_list = []
         filtered_fields = self._get_default_CT_fields_filtered_fields()
-        default_field_list = self.real_context.schema.getSchemataFields('default')
+        default_field_list = self.real_context.schema.getSchemataFields("default")
         for field in default_field_list:
             if field.getName() not in filtered_fields:
                 field_list.append(field.getName())
         return field_list
 
     def is_rich_text_field(self, field_name):
-        return self.real_context.schema.get(field_name).getWidgetName() == 'RichWidget'
+        return self.real_context.schema.get(field_name).getWidgetName() == "RichWidget"
 
     def is_line_field(self, field_name):
-        return self.real_context.schema.get(field_name).getWidgetName() == 'LinesWidget'
+        return self.real_context.schema.get(field_name).getWidgetName() == "LinesWidget"
 
     def _get_unlocalized_field_label(self, field_name):
         return self.real_context.getField(field_name).widget.Label(self)
@@ -127,12 +129,13 @@ class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):
             raise NotImplementedError("Archetypes was removed from Plone 5.2")
         else:
             from Products.Archetypes.interfaces.base import IBaseFolder
+
             return IBaseFolder.providedBy(self.real_context)
 
     def get_collection_CT_fields(self):
         field_list = []
         filtered_fields = self._get_collection_CT_fields_filtered_fields()
-        default_field_list = self.real_context.schema.getSchemataFields('default')
+        default_field_list = self.real_context.schema.getSchemataFields("default")
         for field in default_field_list:
             if field.getName() not in filtered_fields:
                 field_list.append(field.getName())
@@ -153,9 +156,9 @@ class DXDemoHelperView(DXDocumentGenerationHelperView, BaseDemoHelperView):
                 field_list.append(field.__name__)
         return field_list
 
-    def _get_fields(self, fieldsets=['default']):
-        with api.env.adopt_roles(['Manager']):
-            edit_form = self.real_context.unrestrictedTraverse('@@edit').form_instance
+    def _get_fields(self, fieldsets=["default"]):
+        with api.env.adopt_roles(["Manager"]):
+            edit_form = self.real_context.unrestrictedTraverse("@@edit").form_instance
             edit_form.update()
             notify(EditCancelledEvent(self.real_context))
 

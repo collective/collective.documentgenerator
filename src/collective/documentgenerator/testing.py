@@ -34,10 +34,13 @@ if HAS_PLONE_5_2:
     from zope.deprecation import deprecation
 
     import sys
-    sys.modules['collective.documentgenerator.tests.ArchetypesIntegrationTests'] = \
-        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
-    sys.modules['collective.documentgenerator.tests.ArchetypesFunctionnalTests'] = \
-        deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
+
+    sys.modules["collective.documentgenerator.tests.ArchetypesIntegrationTests"] = deprecation.deprecated(
+        deprecation, "Archetypes was removed from Plone 5.2."
+    )
+    sys.modules["collective.documentgenerator.tests.ArchetypesFunctionnalTests"] = deprecation.deprecated(
+        deprecation, "Archetypes was removed from Plone 5.2."
+    )
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -47,21 +50,19 @@ class NakedPloneLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
-        self.loadZCML(package=collective.documentgenerator,
-                      name='testing.zcml')
-        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh restart' % os.getenv('PWD'))
+        self.loadZCML(package=collective.documentgenerator, name="testing.zcml")
+        (stdout, stderr, st) = runCommand("%s/bin/soffice.sh restart" % os.getenv("PWD"))
 
     def setUpPloneSite(self, portal):
-        """ Setup Plone
-        """
+        """Setup Plone"""
 
         # Default workflow
-        wftool = portal['portal_workflow']
-        wftool.setDefaultChain('simple_publication_workflow')
+        wftool = portal["portal_workflow"]
+        wftool.setDefaultChain("simple_publication_workflow")
 
         # Add default Plone content
         try:
-            applyProfile(portal, 'plone.app.contenttypes:plone-content')
+            applyProfile(portal, "plone.app.contenttypes:plone-content")
             # portal.portal_workflow.setDefaultChain(
             #     'simple_publication_workflow')
         except KeyError:
@@ -73,99 +74,72 @@ class NakedPloneLayer(PloneSandboxLayer):
         """Tear down Zope."""
         if HAS_PLONE_5_2:
             from plone.testing import zope
-            zope.uninstallProduct(app, 'collective.documentgenerator')
+
+            zope.uninstallProduct(app, "collective.documentgenerator")
         else:
-            z2.uninstallProduct(app, 'collective.documentgenerator')
-        (stdout, stderr, st) = runCommand('%s/bin/soffice.sh stop' % os.getenv('PWD'))
+            z2.uninstallProduct(app, "collective.documentgenerator")
+        (stdout, stderr, st) = runCommand("%s/bin/soffice.sh stop" % os.getenv("PWD"))
 
 
-NAKED_PLONE_FIXTURE = NakedPloneLayer(
-    name='NAKED_PLONE_FIXTURE'
-)
+NAKED_PLONE_FIXTURE = NakedPloneLayer(name="NAKED_PLONE_FIXTURE")
 
-NAKED_PLONE_INTEGRATION = IntegrationTesting(
-    bases=(NAKED_PLONE_FIXTURE,),
-    name='NAKED_PLONE_INTEGRATION'
-)
+NAKED_PLONE_INTEGRATION = IntegrationTesting(bases=(NAKED_PLONE_FIXTURE,), name="NAKED_PLONE_INTEGRATION")
 
 
 class DocumentgeneratorLayer(NakedPloneLayer):
-
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
         if HAS_PLONE_5_AND_MORE:
-            api.portal.set_registry_record('plone.available_languages', ['en', 'fr'])
-            api.portal.set_registry_record('plone.default_language', 'fr')
+            api.portal.set_registry_record("plone.available_languages", ["en", "fr"])
+            api.portal.set_registry_record("plone.default_language", "fr")
 
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'collective.documentgenerator:testing')
-        setLocal('request', portal.REQUEST)
+        applyProfile(portal, "collective.documentgenerator:testing")
+        setLocal("request", portal.REQUEST)
 
         # Install plone-content for Plone 4 so front-page is available
         if HAS_PLONE_4:
-            applyProfile(portal, 'Products.CMFPlone:plone-content')
+            applyProfile(portal, "Products.CMFPlone:plone-content")
 
         # Login and create some test content
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
 
         # Commit so that the test browser sees these objects
         transaction.commit()
 
 
-TEST_INSTALL_FIXTURE = DocumentgeneratorLayer(
-    name='TEST_INSTALL_FIXTURE'
-)
+TEST_INSTALL_FIXTURE = DocumentgeneratorLayer(name="TEST_INSTALL_FIXTURE")
 
-TEST_INSTALL_INTEGRATION = IntegrationTesting(
-    bases=(TEST_INSTALL_FIXTURE,),
-    name='TEST_INSTALL_INTEGRATION'
-)
+TEST_INSTALL_INTEGRATION = IntegrationTesting(bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_INTEGRATION")
 
 
-TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
-    bases=(TEST_INSTALL_FIXTURE,),
-    name='TEST_INSTALL_FUNCTIONAL'
-)
+TEST_INSTALL_FUNCTIONAL = FunctionalTesting(bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_FUNCTIONAL")
 
 
 class ExamplePODTemplateLayer(DocumentgeneratorLayer):
-
     def setUpPloneSite(self, portal):
         super(ExamplePODTemplateLayer, self).setUpPloneSite(portal)
 
-        applyProfile(portal, 'collective.documentgenerator:demo')
-        applyProfile(portal, 'collective.documentgenerator:testing')
+        applyProfile(portal, "collective.documentgenerator:demo")
+        applyProfile(portal, "collective.documentgenerator:testing")
 
         # Commit so that the test browser sees these objects
         transaction.commit()
 
 
-POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(
-    name='POD_TEMPLATE_FIXTURE'
-)
+POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(name="POD_TEMPLATE_FIXTURE")
 
-POD_TEMPLATE_INTEGRATION = IntegrationTesting(
-    bases=(POD_TEMPLATE_FIXTURE,),
-    name='POD_TEMPLATE_INTEGRATION'
-)
+POD_TEMPLATE_INTEGRATION = IntegrationTesting(bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_INTEGRATION")
 
-POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
-    bases=(POD_TEMPLATE_FIXTURE,),
-    name='POD_TEMPLATE_FUNCTIONAL'
-)
+POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_FUNCTIONAL")
 
 
 ACCEPTANCE = FunctionalTesting(
-    bases=(
-        POD_TEMPLATE_FIXTURE,
-        REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE
-    ),
-    name='ACCEPTANCE'
+    bases=(POD_TEMPLATE_FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE), name="ACCEPTANCE"
 )
 
 
@@ -175,26 +149,25 @@ class BaseTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
         if HAS_PLONE_4:
             ltool = self.portal.portal_languages
-            defaultLanguage = 'fr'
-            supportedLanguages = ['en', 'fr']
-            ltool.manage_setLanguageSettings(defaultLanguage, supportedLanguages,
-                                             setUseCombinedLanguageCodes=False)
+            defaultLanguage = "fr"
+            supportedLanguages = ["en", "fr"]
+            ltool.manage_setLanguageSettings(defaultLanguage, supportedLanguages, setUseCombinedLanguageCodes=False)
             self.portal.portal_languages.setLanguageBindings()
 
     def get_odt_content_xml(self, generated_doc):
         """Return content.xml from a generated doc binary."""
         tmp_dir = tempfile.gettempdir()
         if six.PY2:
-            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'w')
+            tmp_file = open(os.path.join(tmp_dir, "tmp_file.zip"), "w")
         else:
-            tmp_file = open(os.path.join(tmp_dir, 'tmp_file.zip'), 'wb')
+            tmp_file = open(os.path.join(tmp_dir, "tmp_file.zip"), "wb")
         tmp_file.write(generated_doc)
         tmp_file.close()
-        zfile = zipfile.ZipFile(tmp_file.name, 'r')
-        content_xml = zfile.read('content.xml')
+        zfile = zipfile.ZipFile(tmp_file.name, "r")
+        content_xml = zfile.read("content.xml")
         zfile.close()
         os.remove(tmp_file.name)
         return content_xml
@@ -209,6 +182,7 @@ class BrowserTest(BaseTest):
         super(BrowserTest, self).setUp()
         if HAS_PLONE_5_2:
             from plone.testing import zope
+
             self.browser = zope.Browser(self.portal)
         else:
             self.browser = z2.Browser(self.portal)
@@ -216,18 +190,18 @@ class BrowserTest(BaseTest):
 
     def browser_login(self, user, password):
         login(self.portal, user)
-        self.browser.open(self.portal.absolute_url() + '/logout')
-        self.browser.open(self.portal.absolute_url() + '/login_form')
-        self.browser.getControl(name='__ac_name').value = user
-        self.browser.getControl(name='__ac_password').value = password
+        self.browser.open(self.portal.absolute_url() + "/logout")
+        self.browser.open(self.portal.absolute_url() + "/login_form")
+        self.browser.getControl(name="__ac_name").value = user
+        self.browser.getControl(name="__ac_password").value = password
         if HAS_PLONE_5_2:
-            self.browser.getControl(name='buttons.login').click()
+            self.browser.getControl(name="buttons.login").click()
         else:
-            self.browser.getControl(name='submit').click()
+            self.browser.getControl(name="submit").click()
 
     def _edit_object(self, obj):
         token = createToken()
-        self.browser.open('{}/?_authenticator={}'.format(obj.absolute_url(), token))
+        self.browser.open("{}/?_authenticator={}".format(obj.absolute_url(), token))
         contents = self.browser.contents
         return contents
 
@@ -239,9 +213,9 @@ class PODTemplateIntegrationTest(BrowserTest):
 
     def setUp(self):
         super(PODTemplateIntegrationTest, self).setUp()
-        self.test_podtemplate = self.portal.podtemplates.get('test_template')
+        self.test_podtemplate = self.portal.podtemplates.get("test_template")
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
-        setLocal('request', self.portal.REQUEST)
+        setLocal("request", self.portal.REQUEST)
 
 
 class PODTemplateFunctionalTest(BrowserTest):
@@ -251,9 +225,9 @@ class PODTemplateFunctionalTest(BrowserTest):
 
     def setUp(self):
         super(PODTemplateFunctionalTest, self).setUp()
-        self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
+        self.test_podtemplate = self.portal.podtemplates.get("test_template_bis")
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
-        setLocal('request', self.portal.REQUEST)
+        setLocal("request", self.portal.REQUEST)
 
 
 class ConfigurablePODTemplateIntegrationTest(BrowserTest):
@@ -263,9 +237,9 @@ class ConfigurablePODTemplateIntegrationTest(BrowserTest):
 
     def setUp(self):
         super(ConfigurablePODTemplateIntegrationTest, self).setUp()
-        self.test_podtemplate = self.portal.podtemplates.get('test_template_bis')
+        self.test_podtemplate = self.portal.podtemplates.get("test_template_bis")
         self.browser_login(TEST_USER_NAME, TEST_USER_PASSWORD)
-        setLocal('request', self.portal.REQUEST)
+        setLocal("request", self.portal.REQUEST)
 
 
 class ArchetypesIntegrationTests(BaseTest):
@@ -277,24 +251,16 @@ class ArchetypesIntegrationTests(BaseTest):
         super(ArchetypesIntegrationTests, self).setUp()
 
         # allow AT Topic creation anywhere on the site
-        portal_types = api.portal.get_tool('portal_types')
+        portal_types = api.portal.get_tool("portal_types")
         portal_types.Topic.global_allow = True
 
         # create our AT test object: a Topic
-        AT_topic = api.content.create(
-            type='Topic',
-            id='AT_topic',
-            container=self.portal
-        )
+        AT_topic = api.content.create(type="Topic", id="AT_topic", container=self.portal)
         self.AT_topic = AT_topic
 
-        AT_doc = api.content.create(
-            type='Document',
-            id='AT_doc',
-            container=self.portal
-        )
+        AT_doc = api.content.create(type="Document", id="AT_doc", container=self.portal)
         self.AT_doc = AT_doc
-        setLocal('request', self.portal.REQUEST)
+        setLocal("request", self.portal.REQUEST)
 
 
 class ArchetypesFunctionnalTests(ArchetypesIntegrationTests):
@@ -313,14 +279,9 @@ class DexterityIntegrationTests(BaseTest):
         super(DexterityIntegrationTests, self).setUp()
 
         # create a test content type
-        self.content = api.content.create(
-            container=self.portal, id='johndoe', type='member')
+        self.content = api.content.create(container=self.portal, id="johndoe", type="member")
 
-        doc = api.content.create(
-            type='Document',
-            id='doc',
-            container=self.portal
-        )
+        doc = api.content.create(type="Document", id="doc", container=self.portal)
         self.doc = doc
 
 

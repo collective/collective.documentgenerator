@@ -12,17 +12,17 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
     Archetypes implementation of document generation helper methods.
     """
 
-    def display(self, field_name, no_value='', bypass_check_permission=False):
+    def display(self, field_name, no_value="", bypass_check_permission=False):
         if bypass_check_permission or self.check_permission(field_name):
             field_renderer = self.get_AT_field_renderer(field_name)
             display_value = field_renderer.render(no_value=no_value)
         else:
-            display_value = u''
+            display_value = u""
 
         return display_value
 
     def check_permission(self, field_name):
-        return bool(self.real_context.getField(field_name).checkPermission('r', self.real_context))
+        return bool(self.real_context.getField(field_name).checkPermission("r", self.real_context))
 
     def get_AT_field_renderer(self, field_name):
         field = self.real_context.getField(field_name)
@@ -38,11 +38,11 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         if value is None:
             return default
         if six.PY2 and as_utf8 and isinstance(value, unicode):  # noqa: F821
-            value = value.encode('utf8')
+            value = value.encode("utf8")
         return value
 
-    def display_voc(self, field_name, separator=', '):
-        display_value = self.real_context.restrictedTraverse('@@at_utils').translate
+    def display_voc(self, field_name, separator=", "):
+        display_value = self.real_context.restrictedTraverse("@@at_utils").translate
 
         field = self.real_context.getField(field_name)
         raw_values = field.getAccessor(self.real_context)()

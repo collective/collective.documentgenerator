@@ -48,6 +48,5 @@ class Migrate_To_11(Migrator):  # pragma: no cover
 
 
 def migrate(context):
-    """
-    """
+    """ """
     Migrate_To_11(context).run()

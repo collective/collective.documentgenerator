@@ -13,7 +13,6 @@ import tempfile
 
 
 class PrimaryFileBase(object):
-
     @memoize
     def _get_primary_field(self):
         for schema in iterSchemata(self.context):
@@ -24,7 +23,6 @@ class PrimaryFileBase(object):
 
 
 class ReadFile(ReadFileBase, PrimaryFileBase):
-
     @property
     def mimeType(self):
         primary_field = self._get_primary_field()
@@ -34,7 +32,7 @@ class ReadFile(ReadFileBase, PrimaryFileBase):
 
     @property
     def encoding(self):
-        return 'utf-8'
+        return "utf-8"
 
     @property
     def name(self):
@@ -54,7 +52,7 @@ class ReadFile(ReadFileBase, PrimaryFileBase):
         primary_field = self._get_primary_field()
         if not primary_field:
             return None
-        out = tempfile.TemporaryFile(mode='w+b')
+        out = tempfile.TemporaryFile(mode="w+b")
         out.write(primary_field.data)
         out.seek(0)
         return out
@@ -62,12 +60,11 @@ class ReadFile(ReadFileBase, PrimaryFileBase):
 
 @implementer(IRawWriteFile)
 class WriteFile(DefaultWriteFile, PrimaryFileBase):
-
     def close(self):
         self._message = self._parser.close()
         self._closed = True
         primary_field = self._get_primary_field()
         data = self._message.get_payload()
-        if self._message.get('Content-Transfer-Encoding', 'not') == 'base64':
+        if self._message.get("Content-Transfer-Encoding", "not") == "base64":
             data = base64.b64decode(data)
         primary_field.data = data

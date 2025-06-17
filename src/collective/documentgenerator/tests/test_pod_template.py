@@ -26,9 +26,9 @@ class TestPODTemplate(unittest.TestCase):
     layer = TEST_INSTALL_INTEGRATION
 
     def test_PODTemplate_portal_type_is_registered(self):
-        portal_types = api.portal.get_tool('portal_types')
+        portal_types = api.portal.get_tool("portal_types")
         registered_types = portal_types.listContentTypes()
-        self.assertTrue('PODTemplate' in registered_types)
+        self.assertTrue("PODTemplate" in registered_types)
 
 
 class TestPODTemplateFields(PODTemplateIntegrationTest):
@@ -38,16 +38,17 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
 
     def test_class_registration(self):
         from collective.documentgenerator.content.pod_template import PODTemplate
+
         self.assertTrue(self.test_podtemplate.__class__ == PODTemplate)
 
     def test_schema_registration(self):
-        portal_types = api.portal.get_tool('portal_types')
+        portal_types = api.portal.get_tool("portal_types")
         podtemplate_type = portal_types.get(self.test_podtemplate.portal_type)
-        self.assertTrue('IPODTemplate' in podtemplate_type.schema)
+        self.assertTrue("IPODTemplate" in podtemplate_type.schema)
 
     def test_odt_file_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'odt_file'))
+        self.assertTrue(hasattr(test_podtemplate, "odt_file"))
 
     def test_odt_file_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
@@ -55,16 +56,16 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         msg = "field 'odt_file' is not displayed"
         self.assertTrue('id="form-widgets-odt_file"' in contents, msg)
         msg = "field 'odt_file' is not translated"
-        self.assertTrue('Canevas' in contents, msg)
+        self.assertTrue("Canevas" in contents, msg)
 
     def test_odt_file_field_edit(self):
         contents = self._edit_object(self.test_podtemplate)
         msg = "field 'odt_file' is not editable"
-        self.assertTrue('Canevas' in contents, msg)
+        self.assertTrue("Canevas" in contents, msg)
 
     def test_initial_md5_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'initial_md5'))
+        self.assertTrue(hasattr(test_podtemplate, "initial_md5"))
 
     def test_initial_md5_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
@@ -75,11 +76,11 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
     def test_initial_md5_field_edit(self):
         contents = self._edit_object(self.test_podtemplate)
         msg = "field 'initial_md5' is editable"
-        self.assertTrue('md5' not in contents, msg)
+        self.assertTrue("md5" not in contents, msg)
 
     def test_enabled_attribute(self):
         test_podtemplate = aq_base(self.test_podtemplate)
-        self.assertTrue(hasattr(test_podtemplate, 'enabled'))
+        self.assertTrue(hasattr(test_podtemplate, "enabled"))
 
     def test_enabled_field_display(self):
         self.browser.open(self.test_podtemplate.absolute_url())
@@ -87,12 +88,12 @@ class TestPODTemplateFields(PODTemplateIntegrationTest):
         msg = "field 'enabled' is not displayed"
         self.assertTrue('id="form-widgets-enabled"' in contents, msg)
         msg = "field 'enabled' is not translated"
-        self.assertTrue('Activé' in contents, msg)
+        self.assertTrue("Activé" in contents, msg)
 
     def test_enabled_field_edit(self):
         contents = self._edit_object(self.test_podtemplate)
         msg = "field 'enabled' is not editable"
-        self.assertTrue('Activé' in contents, msg)
+        self.assertTrue("Activé" in contents, msg)
 
 
 class TestPODTemplateIntegration(PODTemplateIntegrationTest):
@@ -122,7 +123,7 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
 
         # Disable the template.
         self.test_podtemplate.enabled = False
-        msg = 'disabled template should not be generated'
+        msg = "disabled template should not be generated"
         self.assertTrue(not self.test_podtemplate.can_be_generated(self.portal), msg)
 
     def test_custom_generation_condition(self):
@@ -135,13 +136,13 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
 
         class CustomCondition(PODTemplateCondition):
             def evaluate(self):
-                return 'yolo'
+                return "yolo"
 
         gsm = getGlobalSiteManager()
         gsm.registerAdapter(CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition)
 
         can_be_generated = pod_template.can_be_generated(self.portal)
-        self.assertTrue(can_be_generated == 'yolo')
+        self.assertTrue(can_be_generated == "yolo")
 
         # finally, unregister our adapter...
         gsm.registerAdapter(PODTemplateCondition, (IPODTemplate, Interface), IPODTemplateCondition)
@@ -157,22 +158,27 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
     def test_template_has_been_modified_method(self):
         pod_template = self.test_podtemplate
 
-        setup_tool = api.portal.get_tool('portal_setup')
-        demo_profile = setup_tool.getProfileInfo('collective.documentgenerator:demo')
-        template_path = '{}/templates/styles.odt'.format(demo_profile.get('path'))
-        template_file = open(template_path, 'rb').read()
-        blob_file = NamedBlobFile(data=template_file, contentType='application/vnd.oasis.opendocument.text')
+        setup_tool = api.portal.get_tool("portal_setup")
+        demo_profile = setup_tool.getProfileInfo("collective.documentgenerator:demo")
+        template_path = "{}/templates/styles.odt".format(demo_profile.get("path"))
+        template_file = open(template_path, "rb").read()
+        blob_file = NamedBlobFile(data=template_file, contentType="application/vnd.oasis.opendocument.text")
 
         pod_template.odt_file = blob_file
 
         self.assertTrue(pod_template.has_been_modified())
 
     def test_get_available_formats(self):
-        self.assertEqual(self.test_podtemplate.get_available_formats(), ['odt', ])
+        self.assertEqual(
+            self.test_podtemplate.get_available_formats(),
+            [
+                "odt",
+            ],
+        )
 
 
 class TestPODTemplateValidator(PODTemplateIntegrationTest):
     def test_file_extension_is_odt(self):
         pod_template = self.test_podtemplate
-        extension = pod_template.odt_file.filename.split('.')[-1]
-        self.assertEqual(extension, 'odt')
+        extension = pod_template.odt_file.filename.split(".")[-1]
+        self.assertEqual(extension, "odt")

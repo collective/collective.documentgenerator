@@ -22,8 +22,9 @@ import os
 
 COLUMN_MODIFIER_DESCR = _(
     u'If enabled, this will allow the "table-layout: fixed|auto|none" '
-    u'CSS style handling while generating document. If no such style is defined on the table, '
-    u'the chosen column modifier of LibreOffice will be applied.')
+    u"CSS style handling while generating document. If no such style is defined on the table, "
+    u"the chosen column modifier of LibreOffice will be applied."
+)
 
 
 def _string_to_boolean(value):
@@ -31,14 +32,13 @@ def _string_to_boolean(value):
 
 
 def check_for_uno(value):
-    """
-    """
+    """ """
 
     try:
         inspect.isabstract(IDocumentGeneratorControlPanelSchema)
     except Exception:
         return True
-    if 'python' not in value and os.system(value + ' -V') != 0:
+    if "python" not in value and os.system(value + " -V") != 0:
         raise interfaces.InvalidPythonPath()
     if os.system(value + ' -c "import unohelper"') != 0:
         raise interfaces.InvalidUnoPath()
@@ -46,75 +46,80 @@ def check_for_uno(value):
 
 
 class IDocumentGeneratorControlPanelSchema(Interface):
-    """
-    """
+    """ """
 
     oo_server = schema.TextLine(
-        title=_(u'oo_server'),
-        description=_(u'IP address or hostname of OO.'),
+        title=_(u"oo_server"),
+        description=_(u"IP address or hostname of OO."),
         required=False,
-        default=safe_unicode(os.getenv('OO_SERVER', DEFAULT_OO_SERVER)),
+        default=safe_unicode(os.getenv("OO_SERVER", DEFAULT_OO_SERVER)),
     )
 
     oo_port_list = schema.TextLine(
         title=_(u"oo_port_list"),
-        description=_(u'Port Number(s) of OO.'),
+        description=_(u"Port Number(s) of OO."),
         required=False,
-        default=safe_unicode(os.getenv('OO_PORT', DEFAULT_OO_PORT))
+        default=safe_unicode(os.getenv("OO_PORT", DEFAULT_OO_PORT)),
     )
 
     uno_path = schema.TextLine(
-        title=_(u'uno path'),
-        description=_(u'Path of python with uno.'),
+        title=_(u"uno path"),
+        description=_(u"Path of python with uno."),
         required=False,
-        default=safe_unicode(os.getenv('PYTHON_UNO', DEFAULT_PYTHON_UNO)),
-        constraint=check_for_uno
+        default=safe_unicode(os.getenv("PYTHON_UNO", DEFAULT_PYTHON_UNO)),
+        constraint=check_for_uno,
     )
 
     column_modifier = schema.Choice(
-        title=_(u'Table column modifier'),
+        title=_(u"Table column modifier"),
         description=_(COLUMN_MODIFIER_DESCR),
-        vocabulary='collective.documentgenerator.ConfigColumnModifier',
+        vocabulary="collective.documentgenerator.ConfigColumnModifier",
         required=True,
-        default=DEFAULT_COLUMN_MODIFIER
+        default=DEFAULT_COLUMN_MODIFIER,
     )
 
     raiseOnError_for_non_managers = schema.Bool(
-        title=_(u'Raise an error instead generating the document'),
-        description=_(u'If enabled, this will avoid generating a document '
-                      u'containing an error, instead a common Plone error will '
-                      u'be raised.  Nevertheless to ease debugging, Managers '
-                      u'will continue to get errors in the generated document '
-                      u'if it uses .odt format.'),
+        title=_(u"Raise an error instead generating the document"),
+        description=_(
+            u"If enabled, this will avoid generating a document "
+            u"containing an error, instead a common Plone error will "
+            u"be raised.  Nevertheless to ease debugging, Managers "
+            u"will continue to get errors in the generated document "
+            u"if it uses .odt format."
+        ),
         required=False,
-        default=False
+        default=False,
     )
 
     use_stream = schema.Choice(
-        title=_(u'Force communication via in/out stream with LibreOffice.'),
-        description=_(u'If enabled, this will force using stream to communicate witth LibreOffice server. '
-                      u'This must be true if the LO server is not on localhost or is in a docker container.'),
+        title=_(u"Force communication via in/out stream with LibreOffice."),
+        description=_(
+            u"If enabled, this will force using stream to communicate witth LibreOffice server. "
+            u"This must be true if the LO server is not on localhost or is in a docker container."
+        ),
         required=True,
-        vocabulary='collective.documentgenerator.ConfigStream',
-        default=os.getenv('USE_STREAM', None) is None and 'auto' or _string_to_boolean(os.getenv('USE_STREAM')),
+        vocabulary="collective.documentgenerator.ConfigStream",
+        default=os.getenv("USE_STREAM", None) is None and "auto" or _string_to_boolean(os.getenv("USE_STREAM")),
     )
 
     force_default_page_style_for_mailing = schema.Bool(
-        title=_(u'Apply a default page style on mailing POD templates'),
-        description=_(u'If enabled, this will automatically apply the default page style on the firstparagraph'
-                      u'of a POD template using the "mailing" attribute (if no page style was set).'),
+        title=_(u"Apply a default page style on mailing POD templates"),
+        description=_(
+            u"If enabled, this will automatically apply the default page style on the firstparagraph"
+            u'of a POD template using the "mailing" attribute (if no page style was set).'
+        ),
         required=False,
-        default=False
+        default=False,
     )
 
 
 @implementer(IDocumentGeneratorSettings)
 class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
     schema = IDocumentGeneratorControlPanelSchema
-    label = _(u'Document Generator settings')
-    description = _(u'The Document Generator settings control panel')
+    label = _(u"Document Generator settings")
+    description = _(u"The Document Generator settings control panel")
 
-    @button.buttonAndHandler(_('Save'), name=None)
+    @button.buttonAndHandler(_("Save"), name=None)
     def handle_save(self, action):
         data, errors = self.extractData()
         if errors:
@@ -122,36 +127,28 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
             return
 
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u'Changes saved'), 'info')
-        self.context.REQUEST.RESPONSE.redirect('@@collective.documentgenerator-controlpanel')
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
+        self.context.REQUEST.RESPONSE.redirect("@@collective.documentgenerator-controlpanel")
 
-    @button.buttonAndHandler(_('Search & replace'), name='search_and_replace')
+    @button.buttonAndHandler(_("Search & replace"), name="search_and_replace")
     def handleSearchAndReplace(self, action):
         self.request.response.redirect(
-            '{context_url}/{view}'.format(
-                context_url=self.context.absolute_url(),
-                view="@@collective.documentgenerator-searchreplacepanel"
+            "{context_url}/{view}".format(
+                context_url=self.context.absolute_url(), view="@@collective.documentgenerator-searchreplacepanel"
             )
         )
 
-    @button.buttonAndHandler(_('Check Pod Templates'), name='checkPod')
+    @button.buttonAndHandler(_("Check Pod Templates"), name="checkPod")
     def handleCheckPod(self, action):
         self.request.response.redirect(
-            '{context_url}/{view}'.format(
-                context_url=self.context.absolute_url(),
-                view="@@check-pod-templates"
-
-            )
+            "{context_url}/{view}".format(context_url=self.context.absolute_url(), view="@@check-pod-templates")
         )
 
-    @button.buttonAndHandler(_('Cancel'), name='cancel')
+    @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u'Edit cancelled'), 'info')
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), "info")
         self.request.response.redirect(
-            '{context_url}/{view}'.format(
-                context_url=self.context.absolute_url(),
-                view="@@overview-controlpanel"
-            )
+            "{context_url}/{view}".format(context_url=self.context.absolute_url(), view="@@overview-controlpanel")
         )
 
 

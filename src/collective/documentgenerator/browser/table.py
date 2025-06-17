@@ -23,9 +23,9 @@ import os
 class TemplatesTable(Table):
     """Table that displays templates info."""
 
-    cssClassEven = u'even'
-    cssClassOdd = u'odd'
-    cssClasses = {'table': 'listing nosort templates-listing icons-on'}
+    cssClassEven = u"even"
+    cssClassOdd = u"odd"
+    cssClasses = {"table": "listing nosort templates-listing icons-on"}
 
     # ?table-batchSize=10&table-batchStart=30
     batchSize = 200
@@ -37,12 +37,12 @@ class TemplatesTable(Table):
         super(TemplatesTable, self).__init__(context, request)
         self.portal = api.portal.getSite()
         self.context_path = self.context.absolute_url_path()
-        self.context_path_level = len(self.context_path.split('/'))
-        self.paths = {'.': '-'}
+        self.context_path_level = len(self.context_path.split("/"))
+        self.paths = {".": "-"}
 
     @CachedProperty
     def wtool(self):
-        return api.portal.get_tool('portal_workflow')
+        return api.portal.get_tool("portal_workflow")
 
     @CachedProperty
     def portal_url(self):
@@ -55,6 +55,7 @@ class TemplatesTable(Table):
 
 try:
     from collective.eeafaceted.z3ctable.columns import CheckBoxColumn as cbc
+
     cbc_base = cbc
 except ImportError:
     cbc_base = Column
@@ -63,7 +64,7 @@ except ImportError:
 class CheckBoxColumn(cbc_base):
     """Checkbox column used for batch actions."""
 
-    cssClasses = {'td': 'select-column'}
+    cssClasses = {"td": "select-column"}
     weight = 5
     checked_by_default = False
 
@@ -76,21 +77,24 @@ class TitleColumn(NoEscapeLinkColumn):
 
     header = PMF("Title")
     weight = 10
-    cssClasses = {'td': 'title-column'}
+    cssClasses = {"td": "title-column"}
     i_cache = {}
 
     def _icons(self, item):
         """See docstring in interfaces.py."""
         if item.portal_type not in self.i_cache:
-            icon_link = ''
-            purl = api.portal.get_tool('portal_url')()
-            typeInfo = api.portal.get_tool('portal_types')[item.portal_type]
+            icon_link = ""
+            purl = api.portal.get_tool("portal_url")()
+            typeInfo = api.portal.get_tool("portal_types")[item.portal_type]
             if typeInfo.icon_expr:
                 # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.svg
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
-                contentIcon = '/'.join(typeInfo.icon_expr.split('/')[1:])
-                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % \
-                            (safe_unicode(escape(translate(typeInfo.Title(), context=self.request))), purl, contentIcon)
+                contentIcon = "/".join(typeInfo.icon_expr.split("/")[1:])
+                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % (
+                    safe_unicode(escape(translate(typeInfo.Title(), context=self.request))),
+                    purl,
+                    contentIcon,
+                )
             self.i_cache[item.portal_type] = icon_link
         return self.i_cache[item.portal_type]
 
@@ -98,8 +102,10 @@ class TitleColumn(NoEscapeLinkColumn):
         return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))
 
     def getLinkContent(self, item):
-        return u'<span class="pretty_link_icons">%s</span>' \
-            u'<span class="pretty_link_content">%s</span>' % (self._icons(item), safe_unicode(escape(item.title)))
+        return u'<span class="pretty_link_icons">%s</span>' u'<span class="pretty_link_content">%s</span>' % (
+            self._icons(item),
+            safe_unicode(escape(item.title)),
+        )
 
 
 class PathColumn(LinkColumn):
@@ -107,27 +113,28 @@ class PathColumn(LinkColumn):
 
     header = _("Path")
     weight = 20
-    cssClasses = {'td': 'path-column'}
-    linkTarget = '_blank'
+    cssClasses = {"td": "path-column"}
+    linkTarget = "_blank"
 
     def getLinkURL(self, item):
         """Setup link url."""
         return item.__parent__.absolute_url()
 
     def rel_path_title(self, rel_path):
-        parts = rel_path.split('/')
+        parts = rel_path.split("/")
         context = self.table.context
         for i, part in enumerate(parts):
-            current_path = '/'.join(parts[:i + 1])
-            parent_path = '/'.join(parts[:i])
-            if part == '..':
-                current_title = u'..'
+            current_path = "/".join(parts[: i + 1])
+            parent_path = "/".join(parts[:i])
+            if part == "..":
+                current_title = u".."
                 context = context.__parent__
             else:
                 context = context[part]
                 current_title = context.title
-            self.table.paths[current_path] = (parent_path and u'%s/%s' % (self.table.paths[parent_path],
-                                              current_title) or current_title)
+            self.table.paths[current_path] = (
+                parent_path and u"%s/%s" % (self.table.paths[parent_path], current_title) or current_title
+            )
 
     def getLinkContent(self, item):
         path = os.path.dirname(item.absolute_url_path())
@@ -142,20 +149,18 @@ class EnabledColumn(Column):
 
     header = _("Enabled")
     weight = 30
-    cssClasses = {'td': 'enabled-column'}
+    cssClasses = {"td": "enabled-column"}
 
     def renderCell(self, item):
-        if not base_hasattr(item, 'enabled'):
-            return u'-'
+        if not base_hasattr(item, "enabled"):
+            return u"-"
         if item.enabled:
-            icon = ('++resource++collective.documentgenerator/ok.svg',
-                    translate(_('Enabled'), context=self.request))
+            icon = ("++resource++collective.documentgenerator/ok.svg", translate(_("Enabled"), context=self.request))
         else:
-            icon = ('++resource++collective.documentgenerator/nok.svg',
-                    translate(_('Disabled'), context=self.request))
+            icon = ("++resource++collective.documentgenerator/nok.svg", translate(_("Disabled"), context=self.request))
         return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-            safe_unicode(icon[1]).replace("'", "&#39;"),
-            u"{0}/{1}".format(self.table.portal_url, icon[0]))
+            safe_unicode(icon[1]).replace("'", "&#39;"), u"{0}/{1}".format(self.table.portal_url, icon[0])
+        )
 
 
 class OriginalColumn(Column):
@@ -164,38 +169,44 @@ class OriginalColumn(Column):
 
     header = _("Status")
     weight = 40
-    cssClasses = {'td': 'original-column'}
+    cssClasses = {"td": "original-column"}
 
     def __init__(self, context, request, table):
         super(OriginalColumn, self).__init__(context, request, table)
-        voc_name = 'collective.documentgenerator.ExistingPODTemplate'
+        voc_name = "collective.documentgenerator.ExistingPODTemplate"
         vocabulary = getUtility(IVocabularyFactory, voc_name)
         self.templates_voc = vocabulary(context)
 
     def renderCell(self, item):
-        img = suffix = msg = info = u''
+        img = suffix = msg = info = u""
         real_template = item
-        if base_hasattr(item, 'pod_template_to_use') and item.pod_template_to_use is not None:
+        if base_hasattr(item, "pod_template_to_use") and item.pod_template_to_use is not None:
             real_template = item.get_pod_template_to_use()
-            suffix = u'_use'
+            suffix = u"_use"
             if item.pod_template_to_use in self.templates_voc:
-                info = translate(u', from ${template}', context=self.request, domain='collective.documentgenerator',
-                                 mapping={'template':
-                                          escape(self.templates_voc.getTerm(item.pod_template_to_use).title)})
-        elif base_hasattr(item, 'is_reusable') and item.is_reusable:
-            suffix, info = u'_used', translate(u', is reusable template', context=self.request,
-                                               domain='collective.documentgenerator')
+                info = translate(
+                    u", from ${template}",
+                    context=self.request,
+                    domain="collective.documentgenerator",
+                    mapping={"template": escape(self.templates_voc.getTerm(item.pod_template_to_use).title)},
+                )
+        elif base_hasattr(item, "is_reusable") and item.is_reusable:
+            suffix, info = u"_used", translate(
+                u", is reusable template", context=self.request, domain="collective.documentgenerator"
+            )
         if real_template is None:
-            img, msg = u'missing', u'Linked template deleted !'
+            img, msg = u"missing", u"Linked template deleted !"
         elif real_template.has_been_modified():
-            img, msg = u'nok', u'Modified'
+            img, msg = u"nok", u"Modified"
         else:
-            img, msg = u'ok', u'Original'
-        icon = ('++resource++collective.documentgenerator/{}{}.svg'.format(img, suffix),
-                u'{}{}'.format(translate(msg, context=self.request, domain='collective.documentgenerator'), info))
+            img, msg = u"ok", u"Original"
+        icon = (
+            "++resource++collective.documentgenerator/{}{}.svg".format(img, suffix),
+            u"{}{}".format(translate(msg, context=self.request, domain="collective.documentgenerator"), info),
+        )
         return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-            safe_unicode(icon[1]).replace("'", "&#39;"),
-            u"{0}/{1}".format(self.table.portal_url, icon[0]))
+            safe_unicode(icon[1]).replace("'", "&#39;"), u"{0}/{1}".format(self.table.portal_url, icon[0])
+        )
 
 
 class FormatsColumn(Column):
@@ -203,16 +214,19 @@ class FormatsColumn(Column):
 
     header = _("Pod formats")
     weight = 50
-    cssClasses = {'td': 'formats-column'}
+    cssClasses = {"td": "formats-column"}
 
     def renderCell(self, item):
-        if not base_hasattr(item, 'pod_formats'):
-            return ''
+        if not base_hasattr(item, "pod_formats"):
+            return ""
         ret = []
         for fmt in item.pod_formats or []:
-            ret.append(u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-                fmt, '%s/++resource++collective.documentgenerator/%s.svg' % (self.table.portal_url, fmt)))
-        return '\n'.join(ret)
+            ret.append(
+                u"<img class='svg-icon' title='{0}' src='{1}' />".format(
+                    fmt, "%s/++resource++collective.documentgenerator/%s.svg" % (self.table.portal_url, fmt)
+                )
+            )
+        return "\n".join(ret)
 
 
 class ReviewStateColumn(Column):
@@ -221,14 +235,14 @@ class ReviewStateColumn(Column):
 
     header = PMF("Review state")
     weight = 60
-    cssClasses = {'td': 'state-column'}
+    cssClasses = {"td": "state-column"}
 
     def renderCell(self, item):
         state = api.content.get_state(item)
         if state:
             state_title = self.table.wtool.getTitleForStateOnType(state, item.portal_type)
             return translate(PMF(state_title), context=self.request)
-        return ''
+        return ""
 
 
 class ActionsColumn(Column):
@@ -239,13 +253,21 @@ class ActionsColumn(Column):
 
     header = _("Actions")
     weight = 70
-    params = {'useIcons': True, 'showHistory': False, 'showActions': True, 'showOwnDelete': False,
-              'showArrows': True, 'showTransitions': False, 'showExtEdit': True, 'edit_action_class': 'dg_edit_action',
-              'edit_action_target': '_blank'}
-    cssClasses = {'td': 'actions-column'}
+    params = {
+        "useIcons": True,
+        "showHistory": False,
+        "showActions": True,
+        "showOwnDelete": False,
+        "showArrows": True,
+        "showTransitions": False,
+        "showExtEdit": True,
+        "edit_action_class": "dg_edit_action",
+        "edit_action_target": "_blank",
+    }
+    cssClasses = {"td": "actions-column"}
 
     def renderCell(self, item):
-        view = getMultiAdapter((item, self.request), name='actions_panel')
+        view = getMultiAdapter((item, self.request), name="actions_panel")
         return view(**self.params)
 
 
@@ -253,9 +275,9 @@ class DownloadColumn(NoEscapeLinkColumn):
 
     """Column that displays download action."""
 
-    header = u''
+    header = u""
     weight = 80
-    cssClasses = {'td': 'download-column'}
+    cssClasses = {"td": "download-column"}
 
     # def renderHeadCell(self):
     #     return u"<img title='{0}' src='{1}' />".format(
@@ -264,14 +286,15 @@ class DownloadColumn(NoEscapeLinkColumn):
 
     def getLinkURL(self, item):
         """Setup link url."""
-        return '%s/@@download' % item.absolute_url()
+        return "%s/@@download" % item.absolute_url()
 
     def getLinkTitle(self, item):
         """Setup link title."""
-        return ' title="%s"' % escape(safe_unicode(translate(PMF('Download'), context=self.request)))
+        return ' title="%s"' % escape(safe_unicode(translate(PMF("Download"), context=self.request)))
 
     def getLinkContent(self, item):
         down_img = u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-            safe_unicode(translate(PMF('Download'), context=self.request)),
-            u'%s/++resource++collective.documentgenerator/download_icon.svg' % self.table.portal_url)
+            safe_unicode(translate(PMF("Download"), context=self.request)),
+            u"%s/++resource++collective.documentgenerator/download_icon.svg" % self.table.portal_url,
+        )
         return down_img

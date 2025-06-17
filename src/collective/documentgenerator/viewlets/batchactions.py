@@ -7,8 +7,8 @@ except ImportError:
 
 
 class DGBatchActionsViewlet(BatchActionsViewlet):
-    ''' '''
+    """ """
 
     def available(self):
         """Global availability of the viewlet."""
-        return self.view.__name__ == 'dg-templates-listing'
+        return self.view.__name__ == "dg-templates-listing"

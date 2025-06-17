@@ -14,7 +14,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
 
     @property
     def portal_url(self):
-        return api.portal.get_tool('portal_url')
+        return api.portal.get_tool("portal_url")
 
     def available(self):
         return bool(self.get_generable_templates())
@@ -26,7 +26,7 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
         return generable_templates
 
     def get_generation_view_name(self, template, output_format):
-        return 'document-generation'
+        return "document-generation"
 
     def get_links_info(self):
         base_url = self.context.absolute_url()
@@ -39,25 +39,27 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                     links[title] = []
                 description = template.Description()
                 uid = template.UID()
-                link = '{base_url}/{gen_view_name}?template_uid={uid}&output_format={output_format}'.format(
+                link = "{base_url}/{gen_view_name}?template_uid={uid}&output_format={output_format}".format(
                     base_url=base_url,
                     uid=uid,
                     output_format=output_format,
-                    gen_view_name=self.get_generation_view_name(template, output_format)
+                    gen_view_name=self.get_generation_view_name(template, output_format),
                 )
-                infos = {'link': link,
-                         'title': title,
-                         'description': description,
-                         'output_format': output_format,
-                         'output_format_title': pod_formats[output_format],
-                         'template_uid': uid,
-                         'template': template}
+                infos = {
+                    "link": link,
+                    "title": title,
+                    "description": description,
+                    "output_format": output_format,
+                    "output_format_title": pod_formats[output_format],
+                    "template_uid": uid,
+                    "template": template,
+                }
                 infos.update(self.add_extra_links_info(template, infos))
                 links[title].append(infos)
         return links
 
     def add_extra_links_info(self, template, infos):
         """This method is made to be overrided and ease adding extra infos
-           to the list of dicts returned by self.get_links_info.
-           It needs to returns a dict that will update data stored in infos."""
+        to the list of dicts returned by self.get_links_info.
+        It needs to returns a dict that will update data stored in infos."""
         return {}

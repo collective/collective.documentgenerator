@@ -14,6 +14,6 @@ class TestStyleTemplate(unittest.TestCase):
     layer = TEST_INSTALL_INTEGRATION
 
     def test_StyleTemplate_portal_type_is_registered(self):
-        portal_types = api.portal.get_tool('portal_types')
+        portal_types = api.portal.get_tool("portal_types")
         registered_types = portal_types.listContentTypes()
-        self.assertTrue('StyleTemplate' in registered_types)
+        self.assertTrue("StyleTemplate" in registered_types)

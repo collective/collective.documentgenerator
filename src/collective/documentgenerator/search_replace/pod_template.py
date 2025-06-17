@@ -37,7 +37,7 @@ class SearchAndReplacePODTemplates:
         """
         self.podtemplates = podtemplates
         self.templates_by_filename = {}
-        self.tmp_dir = temporary_file_name(suffix='search_replace')
+        self.tmp_dir = temporary_file_name(suffix="search_replace")
         self.changed_files = set()
 
         # compute the (future) file system path of the plone pod templates
@@ -46,9 +46,7 @@ class SearchAndReplacePODTemplates:
                 continue  # ignore templates referring another pod template.
             file_extension = podtemplate.odt_file.filename.split(".")[-1].lower()
             template_path = get_site_root_relative_path(podtemplate)
-            fs_filename = "{}/{}.{}".format(
-                self.tmp_dir, template_path.replace("/", "_"), file_extension
-            )
+            fs_filename = "{}/{}.{}".format(self.tmp_dir, template_path.replace("/", "_"), file_extension)
             self.templates_by_filename[fs_filename] = {"obj": podtemplate, "path": template_path}
 
     def __enter__(self):
@@ -78,8 +76,7 @@ class SearchAndReplacePODTemplates:
                 podtemplate = self.templates_by_filename[filename]["obj"]
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType=podtemplate.odt_file.contentType
-                    or mimetypes.guess_type(filename)[0],
+                    contentType=podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result
@@ -114,7 +111,7 @@ class SearchAndReplacePODTemplates:
                 dryRun=False,
                 verbose=0,
                 vverbose=0,
-                nice=0
+                nice=0,
             )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
@@ -150,7 +147,7 @@ class SearchAndReplacePODTemplates:
                 dryRun=dry_run,
                 verbose=0,
                 vverbose=0,
-                nice=0
+                nice=0,
             )
         grepper.run()
         results = self._prepare_results_output(grepper.matches, is_replacing=False)
@@ -161,7 +158,7 @@ class SearchAndReplacePODTemplates:
         return results
 
     def _prepare_results_output(self, matches, replace_expr="", is_replacing=True):
-        """ Prepare results output so we have a nice feedback when searching and replacing """
+        """Prepare results output so we have a nice feedback when searching and replacing"""
         results = {}
         for file_path, file_results in matches.items():
             template = self.templates_by_filename[file_path]["obj"]
@@ -171,7 +168,7 @@ class SearchAndReplacePODTemplates:
 
     @staticmethod
     def _log_replace(template, match, replaced_by, old_pod_expr, new_pod_expr):
-        """ Log replacements if fingerpointing installed """
+        """Log replacements if fingerpointing installed"""
         if HAS_FINGERPOINTING:
             from collective.fingerpointing.config import AUDIT_MESSAGE
             from collective.fingerpointing.logger import log_info

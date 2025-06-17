@@ -13,21 +13,21 @@ class TestInstallDependencies(unittest.TestCase):
     layer = NAKED_PLONE_INTEGRATION
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
 
     def test_dexterity_is_dependency_of_documentgenerator(self):
         """
         dexterity should be installed when we install documentgenerator
         """
-        dependencies = self.portal.portal_setup.getProfileDependencyChain('collective.documentgenerator:default')
-        self.assertTrue(u'profile-plone.app.dexterity:default' in dependencies)
+        dependencies = self.portal.portal_setup.getProfileDependencyChain("collective.documentgenerator:default")
+        self.assertTrue(u"profile-plone.app.dexterity:default" in dependencies)
 
     def test_z3cformdatagridfield_is_dependency_of_documentgenerator(self):
         """
         z3cform.datagridfield should be installed when we install documentgenerator
         """
-        dependencies = self.portal.portal_setup.getProfileDependencyChain('collective.documentgenerator:default')
-        self.assertTrue(u'profile-collective.z3cform.datagridfield:default' in dependencies)
+        dependencies = self.portal.portal_setup.getProfileDependencyChain("collective.documentgenerator:default")
+        self.assertTrue(u"profile-collective.z3cform.datagridfield:default" in dependencies)
 
 
 class TestSetup(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestSetup(unittest.TestCase):
 
         allowed_types = [fti.__name__ for fti in pod_folder.allowedContentTypes()]
 
-        msg = 'pod folder allowed content types should only be the ones from documentgenerator'
+        msg = "pod folder allowed content types should only be the ones from documentgenerator"
         self.assertTrue(len(allowed_types) == len(POD_TEMPLATE_TYPES), msg)
         for portal_type in POD_TEMPLATE_TYPES:
             msg = "type '{}' should be in pod folder allowed types".format(portal_type)

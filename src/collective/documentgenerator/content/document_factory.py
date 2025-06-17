@@ -19,7 +19,7 @@ class ATCTFileDocumentFactory(object):
     def __init__(self, context):
         self.context = context
 
-    def create(self, doc_file, title='document', extension='odt'):
+    def create(self, doc_file, title="document", extension="odt"):
 
         if not IFolderish.providedBy(self.context):
             raise isNotFolderishError
@@ -27,13 +27,13 @@ class ATCTFileDocumentFactory(object):
         container = self.context
 
         document = api.content.create(
-            type='File',
+            type="File",
             title=title,
             file=doc_file,
             container=container,
         )
 
-        filename = u'{}.{}'.format(title, extension)
+        filename = u"{}.{}".format(title, extension)
 
         document.getFile().setFilename(filename)
         document.getFile().setContentType(mimetypes.guess_type(filename)[0])
@@ -50,13 +50,13 @@ class PACTFileDocumentFactory(object):
     def __init__(self, context):
         self.context = context
 
-    def create(self, doc_file, title='document', extension='odt'):
+    def create(self, doc_file, title="document", extension="odt"):
 
         if not IFolderish.providedBy(self.context):
             raise isNotFolderishError
 
         container = self.context
-        filename = u'{}.{}'.format(title, extension)
+        filename = u"{}.{}".format(title, extension)
         content_type = mimetypes.guess_type(filename)[0]
         file_content = NamedBlobFile(
             data=doc_file,
@@ -65,7 +65,7 @@ class PACTFileDocumentFactory(object):
         )
 
         document = api.content.create(
-            type='File',
+            type="File",
             title=title,
             file=file_content,
             container=container,

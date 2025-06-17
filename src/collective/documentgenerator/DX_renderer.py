@@ -18,8 +18,7 @@ class DexterityExportableAdapter(object):
         self.field = field
         self.context = context
         self.request = request
-        self.exportable = getMultiAdapter(
-            (field, context, request), IExportable)
+        self.exportable = getMultiAdapter((field, context, request), IExportable)
 
     def render_value(self):
         """Just delegate the rendering to the exportable."""
@@ -34,7 +33,7 @@ class DexterityDateExportableAdapter(DexterityExportableAdapter):
     def render_value(self):
         """Format the date."""
         value = self.exportable.render_value(self.context)
-        plone = getMultiAdapter((self.context, self.request), name=u'plone')
+        plone = getMultiAdapter((self.context, self.request), name=u"plone")
         if isinstance(value, datetime.date):
             value = datetime.datetime(value.year, value.month, value.day)
         return plone.toLocalizedTime(value)
@@ -48,5 +47,5 @@ class DexterityDatetimeExportableAdapter(DexterityExportableAdapter):
     def render_value(self):
         """Format the date."""
         value = self.exportable.render_value(self.context)
-        plone = getMultiAdapter((self.context, self.request), name=u'plone')
+        plone = getMultiAdapter((self.context, self.request), name=u"plone")
         return plone.toLocalizedTime(value, long_format=True)

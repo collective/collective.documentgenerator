@@ -14,7 +14,7 @@ from zope.interface import implementer
 import logging
 
 
-logger = logging.getLogger('collective.documentgenerator: StyleTemplate')
+logger = logging.getLogger("collective.documentgenerator: StyleTemplate")
 
 
 class IStyleTemplate(model.Schema):
@@ -22,14 +22,14 @@ class IStyleTemplate(model.Schema):
     StyleTemplate dexterity schema.
     """
 
-    model.primary('odt_file')
-    form.widget('odt_file', NamedFileWidget)
+    model.primary("odt_file")
+    form.widget("odt_file", NamedFileWidget)
     odt_file = NamedBlobFile(
-        title=_(u'ODT File'),
+        title=_(u"ODT File"),
     )
 
-    form.omitted('initial_md5')
-    initial_md5 = schema.TextLine(description=u'Initially loaded file md5. Will be compared with os file md5.')
+    form.omitted("initial_md5")
+    initial_md5 = schema.TextLine(description=u"Initially loaded file md5. Will be compared with os file md5.")
 
 
 @implementer(IStyleTemplate)
@@ -40,13 +40,13 @@ class StyleTemplate(Item):
 
     @property
     def current_md5(self):
-        md5 = u''
+        md5 = u""
         if self.odt_file:
             md5 = safe_unicode(compute_md5(self.odt_file.data))
         return md5
 
     def has_been_modified(self):
         """
-            Current md5 will be different from initial_md5 if user modification.
+        Current md5 will be different from initial_md5 if user modification.
         """
         return self.current_md5 != self.initial_md5

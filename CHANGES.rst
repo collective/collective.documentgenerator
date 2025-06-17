@@ -14,6 +14,8 @@ Changelog
   [sgeulette]
 - Updated imio.helpers imports
   [sgeulette]
+- Blacked code
+  [sgeulette]
 
 3.43 (2024-04-10)
 -----------------

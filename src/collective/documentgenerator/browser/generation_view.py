@@ -37,7 +37,7 @@ import unicodedata
 HAS_FINGERPOINTING = None
 
 try:
-    pkg_resources.get_distribution('collective.fingerpointing')
+    pkg_resources.get_distribution("collective.fingerpointing")
 except pkg_resources.DistributionNotFound:
     HAS_FINGERPOINTING = False
 else:
@@ -55,7 +55,7 @@ class DocumentGenerationView(BrowserView):
         self.pod_template = None
         self.output_format = None
 
-    def __call__(self, template_uid='', output_format='', **kwargs):
+    def __call__(self, template_uid="", output_format="", **kwargs):
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
         return self.generate_and_download_doc(self.pod_template, self.output_format, **kwargs)
 
@@ -80,15 +80,11 @@ class DocumentGenerationView(BrowserView):
 
             # add logging message to fingerpointing log
             user, ip = get_request_information()
-            action = 'generate_document'
-            extras = 'context={0} pod_template={1} output_format={2}'.format(
-                '/'.join(self.context.getPhysicalPath()),
-                '/'.join(pod_template.getPhysicalPath()),
-                output_format)
-            allowed_parameters = filter(
-                None,
-                os.getenv("DOCUMENTGENERATOR_LOG_PARAMETERS", "").split(",")
+            action = "generate_document"
+            extras = "context={0} pod_template={1} output_format={2}".format(
+                "/".join(self.context.getPhysicalPath()), "/".join(pod_template.getPhysicalPath()), output_format
             )
+            allowed_parameters = filter(None, os.getenv("DOCUMENTGENERATOR_LOG_PARAMETERS", "").split(","))
             if allowed_parameters:
                 for key, value in self.request.form.items():
                     if key in allowed_parameters:
@@ -105,15 +101,12 @@ class DocumentGenerationView(BrowserView):
         'pod_template'.
         """
         if not pod_template.can_be_generated(self.context):
-            raise Unauthorized('You are not allowed to generate this document.')
+            raise Unauthorized("You are not allowed to generate this document.")
 
         if output_format not in pod_template.get_available_formats():
             raise Exception(
                 "Asked output format '{0}' "
-                "is not available for template '{1}'!".format(
-                    output_format,
-                    pod_template.getId()
-                )
+                "is not available for template '{1}'!".format(output_format, pod_template.getId())
             )
 
         # subtemplates should not refer to each other in a cyclic way.
@@ -122,7 +115,7 @@ class DocumentGenerationView(BrowserView):
         # Recursive generation of the document and all its subtemplates.
         document_path, gen_context = self._recursive_generate_doc(pod_template, output_format, **kwargs)
 
-        rendered_document = open(document_path, 'rb')
+        rendered_document = open(document_path, "rb")
         rendered = rendered_document.read()
         rendered_document.close()
         remove_tmp_file(document_path)
@@ -132,15 +125,15 @@ class DocumentGenerationView(BrowserView):
     def _get_filename(self):
         """ """
         # we limit filename to 120 characters
-        first_part = u'{0} {1}'.format(self.pod_template.title, safe_unicode(self.context.Title()))
+        first_part = u"{0} {1}".format(self.pod_template.title, safe_unicode(self.context.Title()))
         # replace unicode special characters with ascii equivalent value
-        first_part = unicodedata.normalize('NFKD', first_part).encode('ascii', 'ignore')
+        first_part = unicodedata.normalize("NFKD", first_part).encode("ascii", "ignore")
         util = queryUtility(IFileNameNormalizer)
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'
         # moreover avoid more than one blank space at a time
-        first_part = u' '.join(util.normalize(first_part).replace(u'-', u' ').split()).strip()
-        filename = '{0}.{1}'.format(util.normalize(first_part, max_length=120), self.output_format)
+        first_part = u" ".join(util.normalize(first_part).replace(u"-", u" ").split()).strip()
+        filename = "{0}.{1}".format(util.normalize(first_part, max_length=120), self.output_format)
         return filename
 
     def _recursive_generate_doc(self, pod_template, output_format, **kwargs):
@@ -155,10 +148,7 @@ class DocumentGenerationView(BrowserView):
             # Force the subtemplate output_format to 'odt' because appy.pod
             # can only merge documents in this format.
             if do_rendering:
-                sub_documents[context_name] = self._recursive_generate_doc(
-                    pod_template=sub_pod,
-                    output_format='odt'
-                )[0]
+                sub_documents[context_name] = self._recursive_generate_doc(pod_template=sub_pod, output_format="odt")[0]
             else:
                 sub_documents[context_name] = sub_pod
 
@@ -171,23 +161,20 @@ class DocumentGenerationView(BrowserView):
         Return the default PODTemplate that will be used when calling
         this view.
         """
-        catalog = api.portal.get_tool('portal_catalog')
+        catalog = api.portal.get_tool("portal_catalog")
 
         template_brains = catalog.unrestrictedSearchResults(
-            object_provides=IPODTemplate.__identifier__,
-            UID=template_uid
+            object_provides=IPODTemplate.__identifier__, UID=template_uid
         )
         if not template_brains:
-            raise PODTemplateNotFoundError(
-                "Couldn't find POD template with UID '{0}'".format(template_uid)
-            )
+            raise PODTemplateNotFoundError("Couldn't find POD template with UID '{0}'".format(template_uid))
 
         template_path = template_brains[0].getPath()
         pod_template = self.context.unrestrictedTraverse(template_path)
         return pod_template
 
     def get_pod_template_uid(self):
-        template_uid = self.request.get('template_uid', '')
+        template_uid = self.request.get("template_uid", "")
         return template_uid
 
     def get_generation_format(self):
@@ -195,7 +182,7 @@ class DocumentGenerationView(BrowserView):
         Return the default document output format that will be used
         when calling this view.
         """
-        output_format = self.request.get('output_format')
+        output_format = self.request.get("output_format")
         return output_format
 
     def _render_document(self, pod_template, output_format, sub_documents, raiseOnError=False, **kwargs):
@@ -206,15 +193,16 @@ class DocumentGenerationView(BrowserView):
         that will be merged into the current generated document.
         """
         document_template = pod_template.get_file()
-        temp_filename = temporary_file_name('.{extension}'.format(extension=output_format))
+        temp_filename = temporary_file_name(".{extension}".format(extension=output_format))
 
         # Prepare rendering context
         helper_view = self.get_generation_context_helper()
         generation_context = self._get_generation_context(helper_view, pod_template=pod_template)
 
         # enrich the generation context with previously generated documents
-        utils.update_dict_with_validation(generation_context, sub_documents,
-                                          _("Error when merging merge_templates in generation context"))
+        utils.update_dict_with_validation(
+            generation_context, sub_documents, _("Error when merging merge_templates in generation context")
+        )
 
         # enable optimalColumnWidths if enabled in the config and/or on ConfigurablePodTemplate
         stylesMapping = {}
@@ -225,19 +213,20 @@ class DocumentGenerationView(BrowserView):
         if column_modifier == -1:
             column_modifier = config.get_column_modifier()
 
-        if column_modifier == 'disabled':
+        if column_modifier == "disabled":
             optimalColumnWidths = False
             distributeColumns = False
         else:
             stylesMapping = {
-                'table': TableProperties(columnModifier=column_modifier != 'nothing' and column_modifier or None)}
+                "table": TableProperties(columnModifier=column_modifier != "nothing" and column_modifier or None)
+            }
 
         # if raiseOnError is not enabled, enabled it in the config excepted if user is a Manager
         # and currently generated document use odt format
         if not raiseOnError:
             if config.get_raiseOnError_for_non_managers():
                 raiseOnError = True
-                if 'Manager' in api.user.get_roles() and output_format == 'odt':
+                if "Manager" in api.user.get_roles() and output_format == "odt":
                     raiseOnError = False
 
         # stylesMapping.update({'para[class=None, parent != cell]': 'texte_delibe',
@@ -270,8 +259,9 @@ class DocumentGenerationView(BrowserView):
         csvOptions = None
 
         if output_format == "csv":
-            csvOptions = CsvOptions(fieldSeparator=pod_template.csv_field_delimiter,
-                                    textDelimiter=pod_template.csv_string_delimiter)
+            csvOptions = CsvOptions(
+                fieldSeparator=pod_template.csv_field_delimiter, textDelimiter=pod_template.csv_string_delimiter
+            )
         if six.PY2:
             renderer = Renderer(
                 StringIO(document_template.data),
@@ -324,7 +314,7 @@ class DocumentGenerationView(BrowserView):
         return temp_filename, generation_context
 
     def _get_context_variables(self, pod_template):
-        if base_hasattr(pod_template, 'get_context_variables'):
+        if base_hasattr(pod_template, "get_context_variables"):
             return pod_template.get_context_variables()
         return {}
 
@@ -333,13 +323,16 @@ class DocumentGenerationView(BrowserView):
         Return the generation context for the current document.
         """
         generation_context = self.get_base_generation_context(helper_view, pod_template)
-        utils.update_dict_with_validation(generation_context,
-                                          {'context': getattr(helper_view, 'context', None),
-                                           'portal': api.portal.get(),
-                                           'view': helper_view},
-                                          _("Error when merging helper_view in generation context"))
-        utils.update_dict_with_validation(generation_context, self._get_context_variables(pod_template),
-                                          _("Error when merging context_variables in generation context"))
+        utils.update_dict_with_validation(
+            generation_context,
+            {"context": getattr(helper_view, "context", None), "portal": api.portal.get(), "view": helper_view},
+            _("Error when merging helper_view in generation context"),
+        )
+        utils.update_dict_with_validation(
+            generation_context,
+            self._get_context_variables(pod_template),
+            _("Error when merging context_variables in generation context"),
+        )
         return generation_context
 
     def get_base_generation_context(self, helper_view, pod_template):
@@ -352,16 +345,16 @@ class DocumentGenerationView(BrowserView):
         """
         Return the default helper view used for document generation.
         """
-        helper_view = getMultiAdapter((self.context, self.request), name='document_generation_helper_view')
+        helper_view = getMultiAdapter((self.context, self.request), name="document_generation_helper_view")
         helper_view.pod_template = self.pod_template
         helper_view.output_format = self.output_format
         return helper_view
 
     def get_views_for_appy_renderer(self, generation_context, helper_view):
         views = []
-        if 'view' in generation_context:
+        if "view" in generation_context:
             # helper_view has maybe changed in generation context getter
-            views.append(generation_context['view'])
+            views.append(generation_context["view"])
         else:
             views.append(helper_view)
 
@@ -373,11 +366,8 @@ class DocumentGenerationView(BrowserView):
         """
         response = self.request.RESPONSE
         mimetype = mimetypes.guess_type(filename)[0]
-        response.setHeader('Content-type', mimetype)
-        response.setHeader(
-            'Content-disposition',
-            u'inline;filename="{}"'.format(filename).encode('utf-8')
-        )
+        response.setHeader("Content-type", mimetype)
+        response.setHeader("Content-disposition", u'inline;filename="{}"'.format(filename).encode("utf-8"))
 
     def _check_cyclic_merges(self, pod_template):
         """
@@ -390,13 +380,13 @@ class DocumentGenerationView(BrowserView):
             if pod_template in path:
                 path.append(pod_template)
                 start_cycle = path.index(pod_template)
-                start_msg = ' --> '.join(
-                    ['"{}" {}'.format(t.Title(), '/'.join(t.getPhysicalPath())) for t in path[:start_cycle]]
+                start_msg = " --> ".join(
+                    ['"{}" {}'.format(t.Title(), "/".join(t.getPhysicalPath())) for t in path[:start_cycle]]
                 )
-                cycle_msg = ' <--> '.join(
-                    ['"{}" {}'.format(t.Title(), '/'.join(t.getPhysicalPath())) for t in path[start_cycle:]]
+                cycle_msg = " <--> ".join(
+                    ['"{}" {}'.format(t.Title(), "/".join(t.getPhysicalPath())) for t in path[start_cycle:]]
                 )
-                msg = '{} -> CYCLE:\n{}'.format(start_msg, cycle_msg)
+                msg = "{} -> CYCLE:\n{}".format(start_msg, cycle_msg)
                 raise CyclicMergeTemplatesException(msg)
 
             new_path = list(path)
@@ -415,23 +405,27 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     Persistent document generation view.
     """
 
-    def __call__(self, template_uid='', output_format='', generated_doc_title=''):
+    def __call__(self, template_uid="", output_format="", generated_doc_title=""):
         self.generated_doc_title = generated_doc_title
         self.pod_template, self.output_format = self._get_base_args(template_uid, output_format)
         persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
 
     def add_mailing_infos(self, doc, gen_context):
-        """ store mailing informations on generated doc """
+        """store mailing informations on generated doc"""
         annot = IAnnotations(doc)
-        if 'mailed_data' in gen_context or 'mailing_list' in gen_context:
-            annot['documentgenerator'] = {'need_mailing': False, 'template_uid': self.pod_template.UID()}
+        if "mailed_data" in gen_context or "mailing_list" in gen_context:
+            annot["documentgenerator"] = {"need_mailing": False, "template_uid": self.pod_template.UID()}
         else:
-            annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
-                                          'output_format': self.output_format, 'context_uid': self.context.UID()}
+            annot["documentgenerator"] = {
+                "need_mailing": True,
+                "template_uid": self.pod_template.UID(),
+                "output_format": self.output_format,
+                "context_uid": self.context.UID(),
+            }
 
     def _get_title(self, doc_name, gen_context):
-        splitted_name = doc_name.split('.')
+        splitted_name = doc_name.split(".")
         title = self.generated_doc_title or self.pod_template.title
         extension = splitted_name[-1]
         return safe_unicode(title), extension
@@ -452,7 +446,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         #  Bypass any File creation permission of the user. If the user isnt
         #  supposed to save generated document on the site, then its the permission
         #  to call the generation view that should be changed.
-        with api.env.adopt_roles(['Manager']):
+        with api.env.adopt_roles(["Manager"]):
             persisted_doc = factory.create(doc_file=doc, title=title, extension=extension)
 
         # store informations on persisted doc
@@ -470,20 +464,22 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
             filename = persisted_doc.getFile().filename
         self._set_header_response(filename)
         response = self.request.response
-        return response.redirect(persisted_doc.absolute_url() + '/external_edit')
+        return response.redirect(persisted_doc.absolute_url() + "/external_edit")
 
     def mailing_related_generation_context(self, helper_view, gen_context):
         """
-            Add mailing related information in generation context
+        Add mailing related information in generation context
         """
         # We add mailed_data if we have only one element in mailing list
         mailing_list = helper_view.mailing_list(gen_context)
         if len(mailing_list) == 0:
-            utils.update_dict_with_validation(gen_context, {'mailed_data': None},
-                                              _("Error when merging mailed_data in generation context"))
+            utils.update_dict_with_validation(
+                gen_context, {"mailed_data": None}, _("Error when merging mailed_data in generation context")
+            )
         elif len(mailing_list) == 1:
-            utils.update_dict_with_validation(gen_context, {'mailed_data': mailing_list[0]},
-                                              _("Error when merging mailed_data in generation context"))
+            utils.update_dict_with_validation(
+                gen_context, {"mailed_data": mailing_list[0]}, _("Error when merging mailed_data in generation context")
+            )
 
     def _get_generation_context(self, helper_view, pod_template):
         """ """
@@ -494,14 +490,14 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
 
 class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationView):
     """
-        Mailing persistent document generation view.
-        This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
+    Mailing persistent document generation view.
+    This view use a MailingLoopTemplate to loop on a document when replacing some variables in.
     """
 
-    def __call__(self, document_uid='', document_url_path='', generated_doc_title=''):
+    def __call__(self, document_uid="", document_url_path="", generated_doc_title=""):
         self.generated_doc_title = generated_doc_title
-        document_uid = document_uid or self.request.get('document_uid', '')
-        document_url_path = document_url_path or self.request.get('document_url_path', '')
+        document_uid = document_uid or self.request.get("document_uid", "")
+        document_url_path = document_url_path or self.request.get("document_url_path", "")
         if not document_uid and not document_url_path:
             raise Exception("No 'document_uid' or 'url_path' found to generate this document")
         elif document_url_path:
@@ -511,40 +507,46 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
             self.document = uuidToObject(document_uid)
         if not self.document:
             raise Exception("Cannot find document with UID '{0}'".format(document_uid))
-        self.pod_template, self.output_format = self._get_base_args('', '')
+        self.pod_template, self.output_format = self._get_base_args("", "")
         persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
 
     def _get_base_args(self, template_uid, output_format):
-        annot = IAnnotations(self.document).get('documentgenerator', '')
-        if not annot or 'template_uid' not in annot:
+        annot = IAnnotations(self.document).get("documentgenerator", "")
+        if not annot or "template_uid" not in annot:
             raise Exception("Cannot find 'template_uid' on document '{0}'".format(self.document.absolute_url()))
-        self.orig_template = self.get_pod_template(annot['template_uid'])
-        if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
-                not self.orig_template.mailing_loop_template):
-            raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
-                self.orig_template.absolute_url()))
+        self.orig_template = self.get_pod_template(annot["template_uid"])
+        if (
+            not base_hasattr(self.orig_template, "mailing_loop_template")
+            or not self.orig_template.mailing_loop_template
+        ):
+            raise Exception(
+                "Cannot find 'mailing_loop_template' on template '{0}'".format(self.orig_template.absolute_url())
+            )
         loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)
 
-        if 'output_format' not in annot:
+        if "output_format" not in annot:
             raise Exception("No 'output_format' found to generate this document")
-        return loop_template, annot['output_format']
+        return loop_template, annot["output_format"]
 
     def mailing_related_generation_context(self, helper_view, gen_context):
         """
-            Add mailing related information in generation context
+        Add mailing related information in generation context
         """
         # We do nothing here because we have to call mailing_list after original template context variable inclusion
 
     def _get_generation_context(self, helper_view, pod_template):
         """ """
-        gen_context = super(MailingLoopPersistentDocumentGenerationView, self). \
-            _get_generation_context(helper_view, pod_template)
+        gen_context = super(MailingLoopPersistentDocumentGenerationView, self)._get_generation_context(
+            helper_view, pod_template
+        )
         # add variable context from original template
-        utils.update_dict_with_validation(gen_context, self._get_context_variables(self.orig_template),
-                                          _("Error when merging context_variables in generation context"))
+        utils.update_dict_with_validation(
+            gen_context,
+            self._get_context_variables(self.orig_template),
+            _("Error when merging context_variables in generation context"),
+        )
         # add mailing list in generation context
-        dic = {'mailing_list': helper_view.mailing_list(gen_context), 'mailed_doc': self.document}
-        utils.update_dict_with_validation(gen_context, dic,
-                                          _("Error when merging mailing_list in generation context"))
+        dic = {"mailing_list": helper_view.mailing_list(gen_context), "mailed_doc": self.document}
+        utils.update_dict_with_validation(gen_context, dic, _("Error when merging mailing_list in generation context"))
         return gen_context

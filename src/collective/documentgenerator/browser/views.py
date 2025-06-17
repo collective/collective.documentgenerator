@@ -57,12 +57,10 @@ class TemplatesListing(BrowserView):
         self.table.__name__ = u"dg-templates-listing"
         catalog = api.portal.get_tool("portal_catalog")
         brains = catalog.searchResults(**self.query_dict())
-        res = [
-            (brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains
-        ]
+        res = [(brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains]
 
         def keys(param):
-            """ Goal: order by level of folder, parent folder, position in folder,"""
+            """Goal: order by level of folder, parent folder, position in folder,"""
             (obj, path) = param
             level = len(path.split("/"))
             parent = aq_parent(aq_inner(obj))
@@ -77,8 +75,8 @@ class TemplatesListing(BrowserView):
 
     def __call__(self, local_search=None, search_depth=None):
         """
-            search_depth = int value (0)
-            local_search = bool value
+        search_depth = int value (0)
+        local_search = bool value
         """
         if search_depth is not None:
             self.depth = search_depth
@@ -139,7 +137,7 @@ class EditConfigurablePodTemplate(DefaultEditForm):
 
 class CheckPodTemplatesView(BrowserView):
     """
-      Check existing pod templates to try to find one out that is generating errors.
+    Check existing pod templates to try to find one out that is generating errors.
     """
 
     def __init__(self, context, request):
@@ -199,10 +197,7 @@ class CheckPodTemplatesView(BrowserView):
                 self.sub_templates[pod_template.UID()] = pod_template
                 continue
 
-            if (
-                hasattr(pod_template, "pod_portal_types")
-                and not pod_template.pod_portal_types
-            ):
+            if hasattr(pod_template, "pod_portal_types") and not pod_template.pod_portal_types:
                 self._add_by_path(pod_template, self.no_pod_portal_types)
                 self.left_to_verify.remove(pod_template)
                 continue
@@ -223,37 +218,23 @@ class CheckPodTemplatesView(BrowserView):
 
                 self.check_pod_template(pod_template, obj, output_format)
 
-                if (
-                    hasattr(pod_template, "merge_templates")
-                    and pod_template.merge_templates
-                ):
+                if hasattr(pod_template, "merge_templates") and pod_template.merge_templates:
                     for merged_template in pod_template.merge_templates:
                         sub_template_uid = merged_template["template"]
                         if sub_template_uid not in self.sub_templates:
-                            self.sub_templates[sub_template_uid] = uuidToObject(
-                                sub_template_uid
-                            )
-                        self._add_by_path(
-                            self.sub_templates[sub_template_uid], self.clean, obj
-                        )
+                            self.sub_templates[sub_template_uid] = uuidToObject(sub_template_uid)
+                        self._add_by_path(self.sub_templates[sub_template_uid], self.clean, obj)
                         if self.sub_templates[sub_template_uid] in self.left_to_verify:
-                            self.left_to_verify.remove(
-                                self.sub_templates[sub_template_uid]
-                            )
+                            self.left_to_verify.remove(self.sub_templates[sub_template_uid])
 
-                if (
-                    hasattr(pod_template, "mailing_loop_template")
-                    and pod_template.mailing_loop_template
-                ):
+                if hasattr(pod_template, "mailing_loop_template") and pod_template.mailing_loop_template:
                     self.check_mailing_loop(pod_template, obj, output_format)
 
     def check_pod_template(self, pod_template, obj, output_format):
         try:
             view = obj.restrictedTraverse("@@document-generation")
             view()
-            view._generate_doc(
-                pod_template, output_format=output_format, raiseOnError=True
-            )
+            view._generate_doc(pod_template, output_format=output_format, raiseOnError=True)
             self._add_by_path(pod_template, self.clean, obj)
 
         except Exception as exc:
@@ -261,9 +242,7 @@ class CheckPodTemplatesView(BrowserView):
         self.left_to_verify.remove(pod_template)
 
     def check_mailing_loop(self, mailed_template, obj, output_format):
-        folder = api.content.create(
-            type="Folder", title=u"Folder", id="temp_folder", container=self.context
-        )
+        folder = api.content.create(type="Folder", title=u"Folder", id="temp_folder", container=self.context)
 
         def do_nothing(ignored_param):
             pass
@@ -272,18 +251,12 @@ class CheckPodTemplatesView(BrowserView):
         try:
             if mailing_loop_template_uid not in self.mailing_loop_templates.keys():
                 mailing_loop_template = uuidToObject(mailing_loop_template_uid)
-                self.mailing_loop_templates[
-                    mailing_loop_template_uid
-                ] = mailing_loop_template
-            generation_view = folder.restrictedTraverse(
-                "@@persistent-document-generation"
-            )
+                self.mailing_loop_templates[mailing_loop_template_uid] = mailing_loop_template
+            generation_view = folder.restrictedTraverse("@@persistent-document-generation")
             generation_view.redirects = do_nothing
             generation_view(mailed_template.UID(), "odt")
             persistant_doc = folder.listFolderContents()[0]
-            view = folder.restrictedTraverse(
-                "@@mailing-loop-persistent-document-generation"
-            )
+            view = folder.restrictedTraverse("@@mailing-loop-persistent-document-generation")
             view.redirects = do_nothing
             view(document_uid=persistant_doc.UID())
             # double check anyway just in case there is an error inside the result file
@@ -293,9 +266,7 @@ class CheckPodTemplatesView(BrowserView):
                 raiseOnError=True,
             )
 
-            self._add_by_path(
-                self.mailing_loop_templates[mailing_loop_template_uid], self.clean, obj
-            )
+            self._add_by_path(self.mailing_loop_templates[mailing_loop_template_uid], self.clean, obj)
         except Exception as exc:
             self._add_by_path(
                 self.mailing_loop_templates[mailing_loop_template_uid],
@@ -305,16 +276,13 @@ class CheckPodTemplatesView(BrowserView):
             )
         finally:
             api.content.delete(obj=folder)
-        self.left_to_verify.remove(
-            self.mailing_loop_templates[mailing_loop_template_uid]
-        )
+        self.left_to_verify.remove(self.mailing_loop_templates[mailing_loop_template_uid])
 
     def find_pod_templates(self):
         """
         This will find all potamplates in this site.
         """
-        brains = api.content.find(context=self.context,
-                                  object_provides=IPODTemplate.__identifier__)
+        brains = api.content.find(context=self.context, object_provides=IPODTemplate.__identifier__)
         res = []
         for brain in brains:
             pod_template = brain.getObject()
@@ -353,9 +321,7 @@ class CheckPodTemplatesView(BrowserView):
     def manage_messages(self):
         messages = OrderedDict()
         for left_over in self.left_to_verify:
-            self._add_by_path(
-                left_over, self.error, None, (_("Error"), _("Could not check"))
-            )
+            self._add_by_path(left_over, self.error, None, (_("Error"), _("Could not check")))
         messages["check_pod_template_error"] = self.error
         messages["check_pod_template_no_obj_found"] = self.no_obj_found
         messages["check_pod_template_no_pod_portal_types"] = self.no_pod_portal_types

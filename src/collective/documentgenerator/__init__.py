@@ -4,7 +4,7 @@
 from zope.i18nmessageid import MessageFactory
 
 
-_ = MessageFactory('collective.documentgenerator')
+_ = MessageFactory("collective.documentgenerator")
 
 
 def initialize(context):

@@ -15,31 +15,31 @@ class TestVocabularies(BaseTest):
         """
         Portal type voc factory should be registered as a named utility.
         """
-        factory_name = 'collective.documentgenerator.PortalTypes'
+        factory_name = "collective.documentgenerator.PortalTypes"
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
 
     def test_portal_type_vocabulary_values(self):
         """
         Test some Portal_type values.
         """
-        voc_name = 'collective.documentgenerator.PortalTypes'
+        voc_name = "collective.documentgenerator.PortalTypes"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         permissions_voc = vocabulary(self.portal)
-        self.assertTrue('Plone Site' in permissions_voc)
-        self.assertTrue('Event' in permissions_voc)
+        self.assertTrue("Plone Site" in permissions_voc)
+        self.assertTrue("Event" in permissions_voc)
 
     def test_style_vocabulary_factory_registration(self):
         """
         Styles voc factory should be registered as a named utility.
         """
-        factory_name = 'collective.documentgenerator.StyleTemplates'
+        factory_name = "collective.documentgenerator.StyleTemplates"
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
 
     def test_style_vocabulary_values(self):
         """
         Test some style values.
         """
-        voc_name = 'collective.documentgenerator.StyleTemplates'
+        voc_name = "collective.documentgenerator.StyleTemplates"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         style_voc = vocabulary(self.portal)
         style_template = self.portal.podtemplates.test_style_template
@@ -49,14 +49,14 @@ class TestVocabularies(BaseTest):
         """
         Merge templates voc factory should be registered as a named utility.
         """
-        factory_name = 'collective.documentgenerator.MergeTemplates'
+        factory_name = "collective.documentgenerator.MergeTemplates"
         self.assertTrue(queryUtility(IVocabularyFactory, factory_name))
 
     def test_merge_templates_vocabulary_values(self):
         """
         Test some merge template values.
         """
-        voc_name = 'collective.documentgenerator.MergeTemplates'
+        voc_name = "collective.documentgenerator.MergeTemplates"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         merge_templates_voc = vocabulary(self.portal)
         pod_template = self.portal.podtemplates.test_template
@@ -66,7 +66,7 @@ class TestVocabularies(BaseTest):
         """
         Test the pod_formats vocabulary.
         """
-        voc_name = 'collective.documentgenerator.Formats'
+        voc_name = "collective.documentgenerator.Formats"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
         for pod_format, label in POD_FORMATS:
@@ -76,10 +76,10 @@ class TestVocabularies(BaseTest):
         """
         Test the EnabledMailingLoopTemplates vocabulary.
         """
-        voc_name = 'collective.documentgenerator.EnabledMailingLoopTemplates'
+        voc_name = "collective.documentgenerator.EnabledMailingLoopTemplates"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
-        loop_template = self.portal.podtemplates.get('loop_template')
+        loop_template = self.portal.podtemplates.get("loop_template")
         self.assertListEqual([loop_template.UID()], [t.value for t in voc])
         loop_template.enabled = False
         voc = vocabulary(self.portal)
@@ -89,47 +89,47 @@ class TestVocabularies(BaseTest):
         """
         Test the AllMailingLoopTemplates vocabulary.
         """
-        voc_name = 'collective.documentgenerator.AllMailingLoopTemplates'
+        voc_name = "collective.documentgenerator.AllMailingLoopTemplates"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal.podtemplates)
-        loop_template = self.portal.podtemplates.get('loop_template')
+        loop_template = self.portal.podtemplates.get("loop_template")
         self.assertListEqual([loop_template.UID()], [t.value for t in voc])
         loop_template.enabled = False
         voc = vocabulary(self.portal)
         self.assertListEqual([loop_template.UID()], [t.value for t in voc])
 
     def test_PTMCTV(self):
-        pod_template = self.portal.podtemplates.get('test_template_possibly_mailed')
-        view = pod_template.restrictedTraverse('@@view')
+        pod_template = self.portal.podtemplates.get("test_template_possibly_mailed")
+        view = pod_template.restrictedTraverse("@@view")
         view.update()
         # the title from the vocabulary is well rendered
-        self.assertIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
+        self.assertIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
         # We deactivate the loop template, the missing value is managed
-        loop_template = self.portal.podtemplates.get('loop_template')
+        loop_template = self.portal.podtemplates.get("loop_template")
         loop_template_uid = loop_template.UID()
         loop_template.enabled = False
-        voc_inst = queryUtility(IVocabularyFactory, 'collective.documentgenerator.EnabledMailingLoopTemplates')
+        voc_inst = queryUtility(IVocabularyFactory, "collective.documentgenerator.EnabledMailingLoopTemplates")
         self.assertListEqual([], [t.value for t in voc_inst(pod_template)])
         view.updateWidgets()
-        self.assertIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
+        self.assertIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
         # We remove the loop template, the missing value cannot be managed anymore
         api.content.delete(obj=loop_template)
         view.updateWidgets()
-        self.assertNotIn('Mailing loop template', view.widgets['mailing_loop_template'].render())
-        self.assertIn('Valeur manquante', view.widgets['mailing_loop_template'].render())
-        self.assertIn(loop_template_uid, view.widgets['mailing_loop_template'].render())
+        self.assertNotIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
+        self.assertIn("Valeur manquante", view.widgets["mailing_loop_template"].render())
+        self.assertIn(loop_template_uid, view.widgets["mailing_loop_template"].render())
 
     def test_existing_pod_template_vocabulary(self):
         """
         Test the ExistingPODTemplate vocabulary.
         """
-        voc_name = 'collective.documentgenerator.ExistingPODTemplate'
+        voc_name = "collective.documentgenerator.ExistingPODTemplate"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
-        test_podtemplate = self.portal.podtemplates.get('test_template_reusable')
+        test_podtemplate = self.portal.podtemplates.get("test_template_reusable")
         self.assertListEqual([test_podtemplate.UID()], [t.value for t in voc])
 
-        reusable_template_2 = self.portal.podtemplates.get('test_template_possibly_mailed')
+        reusable_template_2 = self.portal.podtemplates.get("test_template_possibly_mailed")
         reusable_template_2.is_reusable = True
 
         voc = vocabulary(self.portal)
@@ -139,7 +139,7 @@ class TestVocabularies(BaseTest):
         """
         Test the AllPODTemplate vocabulary.
         """
-        voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
+        voc_name = "collective.documentgenerator.AllPODTemplateWithFile"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
         self.assertEqual(len(voc), 9)
@@ -148,7 +148,7 @@ class TestVocabularies(BaseTest):
         """
         Test the 'all' value is in the AllPODTemplate vocabulary.
         """
-        voc_name = 'collective.documentgenerator.AllPODTemplateWithFile'
+        voc_name = "collective.documentgenerator.AllPODTemplateWithFile"
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
-        self.assertIn('all', voc)
+        self.assertIn("all", voc)

@@ -99,9 +99,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         with SearchAndReplacePODTemplates((self.template1,)) as search_replace:
             not_found_results = search_replace.search("Nowhere to be found")
             view_results = search_replace.search("view")
-            regex_results = search_replace.search(
-                "view(?=.get_localized_field_name)", is_regex=True
-            )
+            regex_results = search_replace.search("view(?=.get_localized_field_name)", is_regex=True)
 
         template1_uid = self.template1.UID()
 
@@ -207,9 +205,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
     def test_can_replace_regex(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
             # We want only the `view` before the `get_localized_field_name` method
-            results = search_replace.replace(
-                "view(?=.get_localized_field_name)", "NewView", is_regex=True
-            )
+            results = search_replace.replace("view(?=.get_localized_field_name)", "NewView", is_regex=True)
 
         template1_results = results[self.template1.UID()]
         self.assertEqual(len(template1_results), 1)
@@ -266,9 +262,7 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         with SearchAndReplacePODTemplates((self.ods_template,)) as search_replace:
             brain_results = search_replace.replace("brain", "cell")
             not_found_results = search_replace.replace("Nowhere to be found", "xxx")
-            regex_results = search_replace.replace(
-                "view\\..*\\.results\\(\\)", "regex are evil", is_regex=True
-            )
+            regex_results = search_replace.replace("view\\..*\\.results\\(\\)", "regex are evil", is_regex=True)
             # At the regex start, '^' was failing before
             regex_start_results = search_replace.replace("^do row", "do this", is_regex=True)
 
@@ -297,12 +291,8 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
 
     def test_replace_can_replace_in_headers_and_footers(self):
         with SearchAndReplacePODTemplates((self.template1, self.template2)) as search_replace:
-            header_results = search_replace.replace(
-                "context.title.upper()", "context.title.lower()"
-            )
-            footer_results = search_replace.replace(
-                "^view.display_date", "view.new_method", is_regex=True
-            )
+            header_results = search_replace.replace("context.title.upper()", "context.title.lower()")
+            footer_results = search_replace.replace("^view.display_date", "view.new_method", is_regex=True)
 
         self.assertNotIn(self.template1.UID(), header_results.keys())
         self.assertNotIn(self.template1.UID(), footer_results.keys())
@@ -340,20 +330,12 @@ class TestSearchReplaceTemplate(PODTemplateIntegrationTest):
         browser = Browser(app)
         browser.handleErrors = False
         with self.assertRaises(Unauthorized):  # Anonymous cannot access this page
-            browser.open(
-                "{}/@@collective.documentgenerator-searchreplacepanel".format(
-                    self.portal.absolute_url()
-                )
-            )
+            browser.open("{}/@@collective.documentgenerator-searchreplacepanel".format(self.portal.absolute_url()))
 
     def test_search_replace_control_panel_doesnt_fail(self):
         # self.browser is logged in as admin
         self.browser.handleErrors = False
-        self.browser.open(
-            "{}/@@collective.documentgenerator-searchreplacepanel".format(
-                self.portal.absolute_url()
-            )
-        )
+        self.browser.open("{}/@@collective.documentgenerator-searchreplacepanel".format(self.portal.absolute_url()))
 
     def test_search_replace_control_panel_can_preview(self):
         view = self.portal.restrictedTraverse("@@collective.documentgenerator-searchreplacepanel")

@@ -9,11 +9,12 @@ import pkg_resources
 
 
 try:
-    pkg_resources.get_distribution('collective.eeafaceted.batchactions')
+    pkg_resources.get_distribution("collective.eeafaceted.batchactions")
     from collective.eeafaceted.batchactions.interfaces import IBatchActionsMarker
 
     class IBelowContentBodyBatchActionsMarker(IBatchActionsMarker):
         """Interface to display batch actions in the BelowContentBody viewlet."""
+
 except pkg_resources.DistributionNotFound:
     pass
 
@@ -41,9 +42,9 @@ class IDocumentGenerationHelper(Interface):
 
     def get_value(field_name, default=None, as_utf8=False):
         """
-            Return the content stored in the object field_name attribute.
-            If content is None, a default can be used.
-            If content is unicode and flag as_utf8 is True, it will be encoded.
+        Return the content stored in the object field_name attribute.
+        If content is None, a default can be used.
+        If content is unicode and flag as_utf8 is True, it will be encoded.
         """
 
     def display(field_name):
@@ -58,7 +59,7 @@ class IDocumentGenerationHelper(Interface):
         a datetime strftime compatible like '%d/%m/%Y %H:%M'.
         """
 
-    def display_voc(field_name, separator=','):
+    def display_voc(field_name, separator=","):
         """
         Return a join of display values of context's field 'field_name'.
         """
@@ -86,7 +87,7 @@ class IDocumentGenerationHelper(Interface):
         soup parameter: returns a soup object.
         """
 
-    def list_voc(field_name, get='value'):
+    def list_voc(field_name, get="value"):
         """
         Return all display values of the context's field 'field_name' vocabulary.
         """
@@ -154,7 +155,7 @@ class CyclicMergeTemplatesException(Exception):
 
 
 class InvalidPythonPath(ValidationError):
-    __doc__ = _(u'Invalid Python path')
+    __doc__ = _(u"Invalid Python path")
 
 
 class InvalidUnoPath(ValidationError):
