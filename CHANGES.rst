@@ -14,6 +14,8 @@ Changelog
   [aduchene]
 - Replaced `six.u()` by safe_unicode() to handle unicode strings.
   [sgeulette]
+- Updated imio.helpers imports
+  [sgeulette]
 
 3.43 (2024-04-10)
 -----------------
