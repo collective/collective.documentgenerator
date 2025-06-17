@@ -4,10 +4,8 @@ Changelog
 4.0 (unreleased)
 ----------------
 
-- Python 3, Plone 5.2 and Plone 6.0 compatible.
-  [aduchene]
-- Added Plone 6.1 version in buildout.
-  [chris-adam]
+- Python 3, Plone 5.2, 6.0 and 6.1 compatible.
+  [aduchene, chris-adam]
 - Fixed an issue when odt_file.filename could be None when searching and replacing.
   [aduchene]
 - Fixed an issue with `helper.dexterity.DXDocumentGenerationHelperView.check_permission` raising when it should not.
