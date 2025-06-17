@@ -186,14 +186,14 @@
         permission="zope2.View" />
 
     <!-- Override the documentviewer for IConfigurablePODTemplate so it uses ViewConfigurablePodTemplate too -->
-    <configure package="collective.documentviewer" zcml:condition="installed collective.documentviewer">
+    <configure package="collective.documentviewer.browser" zcml:condition="installed collective.documentviewer">
         <browser:page
           name="documentviewer"
           for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
           class="collective.documentgenerator.browser.overrides.DGDXDocumentViewerView"
-          template="templates/documentviewerdx.pt"
+          template="templates/documentviewer.pt"
           permission="zope2.View"
-          layer=".interfaces.ILayer" />
+          layer="..interfaces.ILayer" />
     </configure>
 
     <browser:page

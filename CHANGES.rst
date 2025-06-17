@@ -4,13 +4,15 @@ Changelog
 4.0 (unreleased)
 ----------------
 
-- Python 3, Plone 5.2 and Plone 6.0 compatible.
-  [aduchene]
+- Python 3, Plone 5.2, 6.0 and 6.1 compatible.
+  [aduchene, chris-adam]
 - Fixed an issue when odt_file.filename could be None when searching and replacing.
   [aduchene]
 - Fixed an issue with `helper.dexterity.DXDocumentGenerationHelperView.check_permission` raising when it should not.
   [aduchene]
 - Replaced `six.u()` by safe_unicode() to handle unicode strings.
+  [sgeulette]
+- Updated imio.helpers imports
   [sgeulette]
 
 3.43 (2024-04-10)

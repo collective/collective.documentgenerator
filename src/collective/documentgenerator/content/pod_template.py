@@ -9,10 +9,10 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.utils import compute_md5
+from imio.helpers import HAS_PLONE_5_AND_MORE
 from imio.helpers.content import add_to_annotation
 from imio.helpers.content import del_from_annotation
 from imio.helpers.content import get_from_annotation
-from imio.helpers.content import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider

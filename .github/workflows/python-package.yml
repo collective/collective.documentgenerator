@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -21,6 +21,8 @@ jobs:
             plone: 5.2
           - python: 3.10.11
             plone: "6.0"
+          - python: 3.12.7
+            plone: "6.1"
     services:
       libreoffice:
         image: harbor.imio.be/library/libreoffice:7.3
@@ -31,16 +33,16 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
           sudo add-apt-repository ppa:libreoffice/ppa -y
           sudo apt update -qq -y
-          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
+          sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python libjpeg62 libjpeg62-dev libbz2-dev
           mkdir -p buildout-cache/{eggs,downloads}
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: "${{ matrix.python }}"
       - name: Setup Python env
@@ -48,13 +50,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-${{ matrix.plone }}.txt
       - name: Cache eggs
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.python }}-${{ matrix.plone }}
       - name: buildout
         run: |
           sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
@@ -64,13 +65,13 @@ jobs:
         run: |
           bin/test -t !robot
   coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         include:
-          - python: 3.10.11
-            plone: "6.0"
+          - python: 3.13.1
+            plone: "6.1"
     services:
       libreoffice:
         image: harbor.imio.be/library/libreoffice:7.3
@@ -81,7 +82,7 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -90,7 +91,7 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python
           mkdir -p buildout-cache/{eggs,downloads}
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: "${{ matrix.python }}"
       - name: Setup Python env
@@ -99,13 +100,12 @@ jobs:
           pip install -r requirements-${{ matrix.plone }}.txt
           pip install -U coveralls
       - name: Cache eggs
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.python }}-${{ matrix.plone }}
       - name: buildout
         run: |
           sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
