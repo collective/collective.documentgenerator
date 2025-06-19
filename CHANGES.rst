@@ -4,8 +4,9 @@ Changelog
 3.45 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fixed import of `HAS_PLONE_5_AND_MORE` moved from
+  `imio.helpers.content` to `imio.helpers`.
+  [gbastien]
 
 3.44 (2024-10-15)
 -----------------
