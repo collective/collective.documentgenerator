@@ -3,7 +3,7 @@
 from collective.documentgenerator.content.pod_template import POD_TEMPLATE_TYPES
 from collective.documentgenerator.testing import NAKED_PLONE_INTEGRATION
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
-from plone import api
+from Products.CMFPlone.utils import get_installer
 
 import unittest
 
@@ -34,10 +34,14 @@ class TestSetup(unittest.TestCase):
 
     layer = POD_TEMPLATE_INTEGRATION
 
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer["portal"]
+        self.installer = get_installer(self.portal)
+
     def test_pod_templates_folder_allowed_types(self):
 
-        portal = api.portal.get()
-        pod_folder = portal.podtemplates
+        pod_folder = self.portal.podtemplates
 
         allowed_types = [fti.__name__ for fti in pod_folder.allowedContentTypes()]
 
@@ -46,3 +50,12 @@ class TestSetup(unittest.TestCase):
         for portal_type in POD_TEMPLATE_TYPES:
             msg = "type '{}' should be in pod folder allowed types".format(portal_type)
             self.assertTrue(portal_type in allowed_types, msg)
+
+    def test_product_installed(self):
+        """Test if collective.documentgenerator is installed with portal_quickinstaller."""
+        self.assertTrue(self.installer.is_product_installed("collective.documentgenerator"))
+
+    def test_uninstall(self):
+        """Test if collective.documentgenerator is cleanly uninstalled."""
+        self.installer.uninstall_product("collective.documentgenerator")
+        self.assertFalse(self.installer.is_product_installed("collective.documentgenerator"))
