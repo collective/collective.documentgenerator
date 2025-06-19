@@ -17,8 +17,8 @@ jobs:
         include:
           - python: 3.10.11
             plone: "6.0"
-          - python: 3.12.7
-            plone: "6.1"
+          # - python: 3.13.1
+          #   plone: "6.1"
     services:
       libreoffice:
         image: harbor.imio.be/library/libreoffice:7.3

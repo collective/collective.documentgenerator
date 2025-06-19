@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records prefix="plone.bundles/collective.documentgenerator"
+    interface='Products.CMFPlone.interfaces.IBundleRegistry'
+    remove="True">
+  </records>
+
+  <records
+    interface="collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema"
+    remove="True" />
+
+</registry>
