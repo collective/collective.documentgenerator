@@ -15,10 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python: 2.7.18
-            plone: 4.3
-          - python: 3.7.14
-            plone: 5.2
           - python: 3.10.11
             plone: "6.0"
           - python: 3.12.7

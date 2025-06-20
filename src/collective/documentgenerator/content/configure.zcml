@@ -9,14 +9,6 @@
     <include file="vocabulary.zcml" />
 
     <adapter
-      zcml:condition="not-have plone-5"
-      for="zope.interface.Interface"
-      factory=".document_factory.ATCTFileDocumentFactory"
-      provides="collective.documentgenerator.interfaces.IDocumentFactory"
-    />
-
-    <adapter
-      zcml:condition="have plone-5"
       for="zope.interface.Interface"
       factory=".document_factory.PACTFileDocumentFactory"
       provides="collective.documentgenerator.interfaces.IDocumentFactory"

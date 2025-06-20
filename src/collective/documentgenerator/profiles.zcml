@@ -7,38 +7,9 @@
     i18n_domain="collective.documentgenerator">
 
     <genericsetup:registerProfile
-        name="install-base"
+        name="default"
         title="collective.documentgenerator"
         directory="profiles/base"
-        description="Installs the collective.documentgenerator add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:registerProfile
-        zcml:condition="have plone-60"
-        name="default"
-        title="collective.documentgenerator"
-        directory="profiles/plone6"
-        description="Installs the collective.documentgenerator add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <configure zcml:condition="not-have plone-60">
-        <genericsetup:registerProfile
-            zcml:condition="have plone-5"
-            name="default"
-            title="collective.documentgenerator"
-            directory="profiles/plone5"
-            description="Installs the collective.documentgenerator add-on."
-            provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-    </configure>
-
-    <genericsetup:registerProfile
-        zcml:condition="not-have plone-5"
-        name="default"
-        title="collective.documentgenerator"
-        directory="profiles/plone4"
         description="Installs the collective.documentgenerator add-on."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />

@@ -6,8 +6,6 @@
     i18n_domain="collective.documentgenerator">
 
     <!-- helper view for demo profile -->
-    <include zcml:condition="not-have plone-52" file="archetypes.zcml" />
-
     <browser:page
         for="plone.dexterity.interfaces.IDexterityContent"
         class="collective.documentgenerator.demo.helper.DXDemoHelperView"

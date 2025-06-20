@@ -11,22 +11,19 @@ long_description = open("README.rst").read() + "\n\n" + open("CHANGES.rst").read
 setup(
     name="collective.documentgenerator",
     version="4.0.dev0",
-    description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
+    description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework "
+    "(https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: 6.1",
         "Framework :: Plone :: Addon",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.13",
     ],

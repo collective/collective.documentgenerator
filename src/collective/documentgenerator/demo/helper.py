@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from collective.documentgenerator.helper import ATDocumentGenerationHelperView
 from collective.documentgenerator.helper import DocumentGenerationHelperView
 from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 from collective.documentgenerator.utils import translate as _
 from DateTime import DateTime
-from imio.helpers import HAS_PLONE_5_AND_MORE
 from imio.pyutils.utils import safe_encode
 from plone import api
 from plone.app.textfield import RichText
@@ -40,11 +38,7 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def get_localized_field_name(self, field_name):
         translation_domain = getUtility(ITranslationDomain, "plone")
-        if not HAS_PLONE_5_AND_MORE:
-            properties = api.portal.get_tool("portal_properties")
-            target_language = properties.site_properties.default_language
-        else:
-            target_language = api.portal.get_registry_record("plone.default_language")
+        target_language = api.portal.get_registry_record("plone.default_language")
 
         unlocalized_field_label = self._get_unlocalized_field_label(field_name)
 
@@ -98,48 +92,6 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
             obj = self.portal.unrestrictedTraverse(safe_encode(path))
             ret.append(obj)
         return ret
-
-
-class ATDemoHelperView(ATDocumentGenerationHelperView, BaseDemoHelperView):
-    """
-    Archetypes implementation of demo document generation helper methods.
-    """
-
-    def get_default_CT_fields(self):
-        field_list = []
-        filtered_fields = self._get_default_CT_fields_filtered_fields()
-        default_field_list = self.real_context.schema.getSchemataFields("default")
-        for field in default_field_list:
-            if field.getName() not in filtered_fields:
-                field_list.append(field.getName())
-        return field_list
-
-    def is_rich_text_field(self, field_name):
-        return self.real_context.schema.get(field_name).getWidgetName() == "RichWidget"
-
-    def is_line_field(self, field_name):
-        return self.real_context.schema.get(field_name).getWidgetName() == "LinesWidget"
-
-    def _get_unlocalized_field_label(self, field_name):
-        return self.real_context.getField(field_name).widget.Label(self)
-
-    def is_folderish(self):
-
-        if HAS_PLONE_5_AND_MORE:
-            raise NotImplementedError("Archetypes was removed from Plone 5.2")
-        else:
-            from Products.Archetypes.interfaces.base import IBaseFolder
-
-            return IBaseFolder.providedBy(self.real_context)
-
-    def get_collection_CT_fields(self):
-        field_list = []
-        filtered_fields = self._get_collection_CT_fields_filtered_fields()
-        default_field_list = self.real_context.schema.getSchemataFields("default")
-        for field in default_field_list:
-            if field.getName() not in filtered_fields:
-                field_list.append(field.getName())
-        return field_list
 
 
 class DXDemoHelperView(DXDocumentGenerationHelperView, BaseDemoHelperView):
