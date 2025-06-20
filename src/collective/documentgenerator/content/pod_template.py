@@ -9,7 +9,8 @@ from collective.documentgenerator.content.style_template import StyleTemplate
 from collective.documentgenerator.interfaces import IPODTemplateCondition
 from collective.documentgenerator.interfaces import ITemplatesToMerge
 from collective.documentgenerator.utils import compute_md5
-from imio.helpers import HAS_PLONE_5_AND_MORE
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.row import DictRow
 from imio.helpers.content import add_to_annotation
 from imio.helpers.content import del_from_annotation
 from imio.helpers.content import get_from_annotation
@@ -38,15 +39,7 @@ from zope.interface import provider
 
 import copy
 import logging
-import six
 
-
-if HAS_PLONE_5_AND_MORE:
-    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
-    from collective.z3cform.datagridfield.row import DictRow
-else:
-    from collective.z3cform.datagridfield import DataGridFieldFactory
-    from collective.z3cform.datagridfield import DictRow
 
 logger = logging.getLogger("collective.documentgenerator: PODTemplate")
 
@@ -446,10 +439,7 @@ class ConfigurablePODTemplate(PODTemplate):
         if self.merge_templates:
             for line in self.merge_templates:
                 pod_template = catalog(UID=line["template"])[0].getObject()
-                if six.PY2:
-                    pod_context[line["pod_context_name"].encode("utf-8")] = (pod_template, line["do_rendering"])
-                else:
-                    pod_context[line["pod_context_name"]] = (pod_template, line["do_rendering"])
+                pod_context[line["pod_context_name"]] = (pod_template, line["do_rendering"])
 
         return pod_context
 

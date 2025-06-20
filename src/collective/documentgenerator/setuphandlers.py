@@ -8,7 +8,6 @@ from plone.namedfile.file import NamedBlobFile
 from Products.CMFPlone import interfaces as Plone
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFQuickInstallerTool import interfaces as QuickInstaller
-from six import u
 from zope.interface import implementer
 
 import logging
@@ -43,7 +42,7 @@ def install_demo(context):
     use_stream = os.getenv("USE_STREAM", False) == "True"
     set_use_stream(use_stream)
 
-    default_oo_port_list = u(os.getenv("OO_PORT", DEFAULT_OO_PORT))
+    default_oo_port_list = os.getenv("OO_PORT", DEFAULT_OO_PORT)
     api.portal.set_registry_record(
         "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_port_list",
         default_oo_port_list,

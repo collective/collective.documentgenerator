@@ -13,14 +13,12 @@ from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.utils import remove_tmp_file
 from collective.documentgenerator.utils import temporary_file_name
-from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from six import StringIO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryAdapter
@@ -30,7 +28,6 @@ import io
 import mimetypes
 import os
 import pkg_resources
-import six
 import unicodedata
 
 
@@ -262,46 +259,25 @@ class DocumentGenerationView(BrowserView):
             csvOptions = CsvOptions(
                 fieldSeparator=pod_template.csv_field_delimiter, textDelimiter=pod_template.csv_string_delimiter
             )
-        if six.PY2:
-            renderer = Renderer(
-                StringIO(document_template.data),
-                generation_context,
-                temp_filename,
-                pythonWithUnoPath=config.get_uno_path(),
-                ooServer=config.get_oo_server(),
-                ooPort=config.get_oo_port_list(),
-                raiseOnError=raiseOnError,
-                imageResolver=api.portal.get(),
-                forceOoCall=True,
-                html=True,
-                optimalColumnWidths=optimalColumnWidths,
-                distributeColumns=distributeColumns,
-                stylesMapping=stylesMapping,
-                stream=config.get_use_stream(),
-                csvOptions=csvOptions,
-                # deleteTempFolder=False,
-                **kwargs
-            )
-        else:
-            renderer = Renderer(
-                io.BytesIO(document_template.data),
-                generation_context,
-                temp_filename,
-                pythonWithUnoPath=config.get_uno_path(),
-                ooServer=config.get_oo_server(),
-                ooPort=config.get_oo_port_list(),
-                raiseOnError=raiseOnError,
-                findImage=api.portal.get(),
-                forceOoCall=True,
-                html=True,
-                optimalColumnWidths=optimalColumnWidths,
-                distributeColumns=distributeColumns,
-                stylesMapping=stylesMapping,
-                stream=config.get_use_stream(),
-                csvOptions=csvOptions,
-                # deleteTempFolder=False,
-                **kwargs
-            )
+        renderer = Renderer(
+            io.BytesIO(document_template.data),
+            generation_context,
+            temp_filename,
+            pythonWithUnoPath=config.get_uno_path(),
+            ooServer=config.get_oo_server(),
+            ooPort=config.get_oo_port_list(),
+            raiseOnError=raiseOnError,
+            findImage=api.portal.get(),
+            forceOoCall=True,
+            html=True,
+            optimalColumnWidths=optimalColumnWidths,
+            distributeColumns=distributeColumns,
+            stylesMapping=stylesMapping,
+            stream=config.get_use_stream(),
+            csvOptions=csvOptions,
+            # deleteTempFolder=False,
+            **kwargs
+        )
 
         # it is only now that we can initialize helper view's appy pod renderer
         all_helper_views = self.get_views_for_appy_renderer(generation_context, helper_view)
@@ -458,10 +434,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
         """
         Redirects to the created document.
         """
-        if HAS_PLONE_5_AND_MORE:
-            filename = persisted_doc.file.filename
-        else:
-            filename = persisted_doc.getFile().filename
+        filename = persisted_doc.file.filename
         self._set_header_response(filename)
         response = self.request.response
         return response.redirect(persisted_doc.absolute_url() + "/external_edit")

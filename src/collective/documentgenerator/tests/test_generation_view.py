@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from AccessControl import Unauthorized
-
-import six
-
-
-if six.PY2:
-    from appy.shared.zip import unzip
-else:
-    from appy.utils.zip import unzip
-
+from appy.utils.zip import unzip
 from collective.documentgenerator.config import get_column_modifier
 from collective.documentgenerator.config import get_raiseOnError_for_non_managers
-from collective.documentgenerator.config import HAS_PLONE_6
 from collective.documentgenerator.config import set_column_modifier
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
@@ -23,7 +14,6 @@ from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.testing import TEST_INSTALL_INTEGRATION
 from collective.documentgenerator.utils import create_temporary_file
 from collective.documentgenerator.utils import translate as _
-from imio.helpers import HAS_PLONE_5_AND_MORE
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
@@ -177,14 +167,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertTrue(generated_id in generation_context.objectIds(), msg)
 
         persistent_doc = generation_context.get(generated_id)
-        if HAS_PLONE_5_AND_MORE:
-            generated_doc = persistent_doc.file
-            filename = persistent_doc.file.filename
-            content_type = persistent_doc.file.contentType
-        else:
-            generated_doc = persistent_doc.getFile()
-            filename = generated_doc.getFilename()
-            content_type = generated_doc.getContentType()
+        generated_doc = persistent_doc.file
+        filename = persistent_doc.file.filename
+        content_type = persistent_doc.file.contentType
         self.assertIn("application/vnd.oasis.opendocument.text", str(generated_doc.data))
 
         self.assertEqual(filename, u"General template.odt")
@@ -252,10 +237,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # We call rendering to get new gen_context
         rendered, filename, gen_context = view._generate_doc(pod_template, "odt")
         self.assertIsInstance(gen_context["header"], str)
-        if six.PY2:
-            self.assertRegexpMatches(gen_context["header"], r".+(\.odt)$")
-        else:
-            self.assertRegex(gen_context["header"], r".+(\.odt)$")
+        self.assertRegex(gen_context["header"], r".+(\.odt)$")
 
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
@@ -284,29 +266,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         template_UID = failing_template.UID()
         # generated for 'Manager'
         self.assertTrue("Manager" in api.user.get_current().getRoles())
-        if six.PY2:
-            self.assertTrue(
-                "mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
-        else:
-            self.assertTrue(
-                b"mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
+        self.assertTrue(
+            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+        )
         # generated for non 'Manager'
         login(self.portal, "user")
         self.assertFalse("Manager" in api.user.get_current().getRoles())
-        if six.PY2:
-            self.assertTrue(
-                "mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
-        else:
-            self.assertTrue(
-                b"mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
+        self.assertTrue(
+            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+        )
 
         # enable raiseOnError_for_non_managers and test again
         login(self.portal, TEST_USER_NAME)
@@ -315,16 +283,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             "IDocumentGeneratorControlPanelSchema.raiseOnError_for_non_managers",
             True,
         )
-        if six.PY2:
-            self.assertTrue(
-                "mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
-        else:
-            self.assertTrue(
-                b"mimetypeapplication/vnd.oasis.opendocument.text"
-                in view(template_uid=template_UID, output_format="odt")
-            )
+        self.assertTrue(
+            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+        )
         login(self.portal, "user")
         # raises an error instead generating the document
         with self.assertRaises(Exception) as cm:
@@ -358,19 +319,11 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn("template_uid", annot["documentgenerator"])
         self.assertNotIn("context_uid", annot["documentgenerator"])
         self.assertEqual(annot["documentgenerator"]["need_mailing"], False)
-        if HAS_PLONE_5_AND_MORE:
-            generated_doc = persistent_doc.file
-        else:
-            generated_doc = persistent_doc.getFile()
+        generated_doc = persistent_doc.file
         info = get_content(generated_doc)
-        if six.PY2:
-            self.assertNotIn("mailed_data", info["content.xml"])
-            self.assertIn("General template", info["content.xml"])
-            self.assertIn("test_template", info["content.xml"])
-        else:
-            self.assertNotIn(b"mailed_data", info["content.xml"])
-            self.assertIn(b"General template", info["content.xml"])
-            self.assertIn(b"test_template", info["content.xml"])
+        self.assertNotIn(b"mailed_data", info["content.xml"])
+        self.assertIn(b"General template", info["content.xml"])
+        self.assertIn(b"test_template", info["content.xml"])
 
         # Secondly we generate a persistent document with multiple element in mailing list
         api.portal.set_registry_record("collective.documentgenerator.mailing_list", orig_registry)
@@ -385,21 +338,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn("template_uid", annot["documentgenerator"])
         self.assertIn("context_uid", annot["documentgenerator"])
         self.assertEqual(annot["documentgenerator"]["need_mailing"], True)
-        if HAS_PLONE_5_AND_MORE:
-            generated_doc = persistent_doc.file
-        else:
-            generated_doc = persistent_doc.getFile()
+        generated_doc = persistent_doc.file
         info = get_content(generated_doc)
-        if six.PY2:
-            self.assertNotIn("General template", info["content.xml"])
-            self.assertNotIn("test_template", info["content.xml"])
-            self.assertIn("mailed_data.title", info["content.xml"])
-            self.assertIn("mailed_data.id", info["content.xml"])
-        else:
-            self.assertNotIn(b"General template", info["content.xml"])
-            self.assertNotIn(b"test_template", info["content.xml"])
-            self.assertIn(b"mailed_data.title", info["content.xml"])
-            self.assertIn(b"mailed_data.id", info["content.xml"])
+        self.assertNotIn(b"General template", info["content.xml"])
+        self.assertNotIn(b"test_template", info["content.xml"])
+        self.assertIn(b"mailed_data.title", info["content.xml"])
+        self.assertIn(b"mailed_data.id", info["content.xml"])
         # check context variables
         gen_context = generation_view._get_generation_context(
             generation_view.get_generation_context_helper(), pod_template
@@ -423,27 +367,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn("template_uid", annot["documentgenerator"])
         self.assertNotIn("context_uid", annot["documentgenerator"])
         self.assertEqual(annot["documentgenerator"]["need_mailing"], False)
-        if HAS_PLONE_5_AND_MORE:
-            generated_doc = persistent_doc.file
-        else:
-            generated_doc = persistent_doc.getFile()
+        generated_doc = persistent_doc.file
         info = get_content(generated_doc)
-        if six.PY2:
-            self.assertNotIn("mailed_data.title", info["content.xml"])
-            self.assertIn("General template", info["content.xml"])
-            self.assertIn("test_template", info["content.xml"])
-            self.assertIn("Multiple format template", info["content.xml"])
-            self.assertIn("test_template_multiple", info["content.xml"])
-            self.assertIn("Collection template", info["content.xml"])
-            self.assertIn("test_template_bis", info["content.xml"])
-        else:
-            self.assertNotIn(b"mailed_data.title", info["content.xml"])
-            self.assertIn(b"General template", info["content.xml"])
-            self.assertIn(b"test_template", info["content.xml"])
-            self.assertIn(b"Multiple format template", info["content.xml"])
-            self.assertIn(b"test_template_multiple", info["content.xml"])
-            self.assertIn(b"Collection template", info["content.xml"])
-            self.assertIn(b"test_template_bis", info["content.xml"])
+        self.assertNotIn(b"mailed_data.title", info["content.xml"])
+        self.assertIn(b"General template", info["content.xml"])
+        self.assertIn(b"test_template", info["content.xml"])
+        self.assertIn(b"Multiple format template", info["content.xml"])
+        self.assertIn(b"test_template_multiple", info["content.xml"])
+        self.assertIn(b"Collection template", info["content.xml"])
+        self.assertIn(b"test_template_bis", info["content.xml"])
         # check that context variables from original template are also in mailing generation context
         self.assertTrue(isinstance(generation_view.pod_template, MailingLoopTemplate))
         gen_context = generation_view._get_generation_context(
@@ -458,10 +390,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # do not limit portal_type the POD template is generatable on
         pod_template.pod_portal_types = []
         template_uid = pod_template.UID()
-        if HAS_PLONE_6:
-            doc = self.portal
-        else:
-            doc = self.portal.get("front-page")
+        doc = self.portal
         # add a table to check if it is optimized or not
         text = u"<table><tr><td>Text1</td><td>Text2</td></tr><tr><td>Text3</td><td>Text4</td></tr></table>"
         textNone = (
@@ -490,12 +419,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         def assert_result(ocw_in_xml, dc_in_xml):
             generated_doc = generation_view(template_uid, "odt")
             content_xml = self.get_odt_content_xml(generated_doc)
-            if six.PY2:
-                self.assertEqual(ocw_in_xml, "OCW" in content_xml, "OCW not in content_xml")
-                self.assertEqual(dc_in_xml, "DC" in content_xml, "DC not in content_xml")
-            else:
-                self.assertEqual(ocw_in_xml, b"OCW" in content_xml, "OCW not in content_xml")
-                self.assertEqual(dc_in_xml, b"DC" in content_xml, "DC not in content_xml")
+            self.assertEqual(ocw_in_xml, b"OCW" in content_xml, "OCW not in content_xml")
+            self.assertEqual(dc_in_xml, b"DC" in content_xml, "DC not in content_xml")
 
         # By default : column_modifier disabled globally, CSS override enabled globally
         # and pod_template using global parameter

@@ -19,8 +19,6 @@ from z3c.form.interfaces import NO_VALUE
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 
-import six
-
 
 class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
 
@@ -105,7 +103,7 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
             return default
         if isinstance(value, RichTextValue):
             value = value.output
-        if as_utf8 and isinstance(value, six.PY2 and unicode or bytes):  # noqa: F821
+        if as_utf8 and isinstance(value, bytes):  # noqa: F821
             value = value.encode("utf8")
         return value
 

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.testing import DexterityIntegrationTests
-from imio.helpers import HAS_PLONE_4
-from imio.helpers import HAS_PLONE_5_1
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -14,7 +12,6 @@ from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
 
 import datetime
-import six
 
 
 class TestDexterityHelperView(DexterityIntegrationTests):
@@ -119,11 +116,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
         displayed = self.doc_view.display("text", no_value="yolo")
 
-        # in plone 4 DX, the attr doesn't exist before manually set but it's None with plone > 5.0
-        if HAS_PLONE_4:
-            self.assertFalse(hasattr(self.doc, "text"))
-        else:
-            self.assertIsNone(self.doc.text)
+        self.assertIsNone(self.doc.text)
 
         self.assertTrue(displayed == "yolo", msg)
 
@@ -173,11 +166,7 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(expected_date, result)
 
         # translation format has changed in Plone5.1+
-        if HAS_PLONE_5_1:
-            expected_date = u"jeu. 18 sept. 1986"
-        else:
-            # Plone4
-            expected_date = u"jeu 18 sep 1986"
+        expected_date = u"jeu. 18 sept. 1986"
         result = self.view.display_date(
             field_name=effective_field_name, custom_format="%a %d %b %Y", target_language="fr"
         )
@@ -299,16 +288,10 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(result, expected)
         # call without cleaning
         result = self.view.display_widget(field_name, clean=False)
-        if six.PY2:
-            expected = (
-                '\n<span id="form-widgets-subscription" class="select-widget choice-field">'
-                '<span class="selected-option">gold</span></span>\n\n'
-            )
-        else:
-            expected = (
-                b'\n<span id="form-widgets-subscription" class="select-widget choice-field">'
-                b'<span class="selected-option">gold</span></span>\n\n'
-            )
+        expected = (
+            b'\n<span id="form-widgets-subscription" class="select-widget choice-field">'
+            b'<span class="selected-option">gold</span></span>\n\n'
+        )
         self.assertEqual(result, expected)
         # call with soup
         result = self.view.display_widget(field_name, soup=True)

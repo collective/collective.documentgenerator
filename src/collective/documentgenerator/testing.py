@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-from imio.helpers import HAS_PLONE_4
-from imio.helpers import HAS_PLONE_5_2
-from imio.helpers import HAS_PLONE_5_AND_MORE
 from imio.pyutils.system import runCommand
 from plone import api
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -19,28 +16,24 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.protect.authenticator import createToken
 from plone.testing import z2
+from zope.deprecation import deprecation
 from zope.globalrequest import setLocal
 
 import collective.documentgenerator
 import os
-import six
+import sys
 import tempfile
 import transaction
 import unittest
 import zipfile
 
 
-if HAS_PLONE_5_2:
-    from zope.deprecation import deprecation
-
-    import sys
-
-    sys.modules["collective.documentgenerator.tests.ArchetypesIntegrationTests"] = deprecation.deprecated(
-        deprecation, "Archetypes was removed from Plone 5.2."
-    )
-    sys.modules["collective.documentgenerator.tests.ArchetypesFunctionnalTests"] = deprecation.deprecated(
-        deprecation, "Archetypes was removed from Plone 5.2."
-    )
+sys.modules["collective.documentgenerator.tests.ArchetypesIntegrationTests"] = deprecation.deprecated(
+    deprecation, "Archetypes was removed from Plone 5.2."
+)
+sys.modules["collective.documentgenerator.tests.ArchetypesFunctionnalTests"] = deprecation.deprecated(
+    deprecation, "Archetypes was removed from Plone 5.2."
+)
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -72,12 +65,9 @@ class NakedPloneLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        if HAS_PLONE_5_2:
-            from plone.testing import zope
+        from plone.testing import zope
 
-            zope.uninstallProduct(app, "collective.documentgenerator")
-        else:
-            z2.uninstallProduct(app, "collective.documentgenerator")
+        zope.uninstallProduct(app, "collective.documentgenerator")
         (stdout, stderr, st) = runCommand("%s/bin/soffice.sh stop" % os.getenv("PWD"))
 
 
@@ -92,17 +82,12 @@ class DocumentgeneratorLayer(NakedPloneLayer):
         super(DocumentgeneratorLayer, self).setUpPloneSite(portal)
 
         # Set tests in 'fr'
-        if HAS_PLONE_5_AND_MORE:
-            api.portal.set_registry_record("plone.available_languages", ["en", "fr"])
-            api.portal.set_registry_record("plone.default_language", "fr")
+        api.portal.set_registry_record("plone.available_languages", ["en", "fr"])
+        api.portal.set_registry_record("plone.default_language", "fr")
 
         # Install into Plone site using portal_setup
         applyProfile(portal, "collective.documentgenerator:testing")
         setLocal("request", portal.REQUEST)
-
-        # Install plone-content for Plone 4 so front-page is available
-        if HAS_PLONE_4:
-            applyProfile(portal, "Products.CMFPlone:plone-content")
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ["Manager"])
@@ -150,20 +135,11 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer["portal"]
-        if HAS_PLONE_4:
-            ltool = self.portal.portal_languages
-            defaultLanguage = "fr"
-            supportedLanguages = ["en", "fr"]
-            ltool.manage_setLanguageSettings(defaultLanguage, supportedLanguages, setUseCombinedLanguageCodes=False)
-            self.portal.portal_languages.setLanguageBindings()
 
     def get_odt_content_xml(self, generated_doc):
         """Return content.xml from a generated doc binary."""
         tmp_dir = tempfile.gettempdir()
-        if six.PY2:
-            tmp_file = open(os.path.join(tmp_dir, "tmp_file.zip"), "w")
-        else:
-            tmp_file = open(os.path.join(tmp_dir, "tmp_file.zip"), "wb")
+        tmp_file = open(os.path.join(tmp_dir, "tmp_file.zip"), "wb")
         tmp_file.write(generated_doc)
         tmp_file.close()
         zfile = zipfile.ZipFile(tmp_file.name, "r")
@@ -180,12 +156,9 @@ class BrowserTest(BaseTest):
 
     def setUp(self):
         super(BrowserTest, self).setUp()
-        if HAS_PLONE_5_2:
-            from plone.testing import zope
+        from plone.testing import zope
 
-            self.browser = zope.Browser(self.portal)
-        else:
-            self.browser = z2.Browser(self.portal)
+        self.browser = zope.Browser(self.portal)
         self.browser.handleErrors = False
 
     def browser_login(self, user, password):
@@ -194,10 +167,7 @@ class BrowserTest(BaseTest):
         self.browser.open(self.portal.absolute_url() + "/login_form")
         self.browser.getControl(name="__ac_name").value = user
         self.browser.getControl(name="__ac_password").value = password
-        if HAS_PLONE_5_2:
-            self.browser.getControl(name="buttons.login").click()
-        else:
-            self.browser.getControl(name="submit").click()
+        self.browser.getControl(name="buttons.login").click()
 
     def _edit_object(self, obj):
         token = createToken()

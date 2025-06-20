@@ -4,11 +4,9 @@ from collective.documentgenerator.demo.helper import BaseDemoHelperView
 from collective.documentgenerator.demo.helper import DXDemoHelperView
 from collective.documentgenerator.testing import DexterityIntegrationTests
 from plone import api
-from six import StringIO
 
 import appy
 import io
-import six
 
 
 class TestBaseHelperViewMethods(DexterityIntegrationTests):
@@ -48,10 +46,7 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
         helper_view = view.get_generation_context_helper()
 
         generation_context = view._get_generation_context(helper_view, pod_template=pod_template)
-        if six.PY2:
-            template_data = StringIO(document_template.data)
-        else:
-            template_data = io.BytesIO(document_template.data)
+        template_data = io.BytesIO(document_template.data)
         renderer = appy.pod.renderer.Renderer(template_data, generation_context, "dummy.odt")
         helper_view._set_appy_renderer(renderer)
 

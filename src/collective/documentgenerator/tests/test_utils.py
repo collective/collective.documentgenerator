@@ -16,7 +16,6 @@ from zope.lifecycleevent import modified
 import collective.documentgenerator as cdg
 import copy
 import os
-import six
 
 
 class TestUtils(PODTemplateIntegrationTest):
@@ -119,21 +118,13 @@ class TestUtils(PODTemplateIntegrationTest):
         if os.path.exists(tmp_dir):
             rmdir(tmp_dir)
         # test
-        if six.PY2:
-            self.assertRegexpMatches(temporary_file_name(), r"/tmp/tmp.{6}")
-            self.assertRegexpMatches(temporary_file_name("foobarbar"), r"/tmp/tmp.{6}foobarbar")
-        else:
-            self.assertRegex(temporary_file_name(), r"/tmp/tmp.{8}")
-            self.assertRegex(temporary_file_name("foobarbar"), r"/tmp/tmp.{8}foobarbar")
+        self.assertRegex(temporary_file_name(), r"/tmp/tmp.{8}")
+        self.assertRegex(temporary_file_name("foobarbar"), r"/tmp/tmp.{8}foobarbar")
 
         self.assertFalse(os.path.exists(tmp_dir))
         os.environ["CUSTOM_TMP"] = tmp_dir
-        if six.PY2:
-            self.assertRegexpMatches(temporary_file_name(), tmp_dir + r"/tmp.{6}")
-            self.assertRegexpMatches(temporary_file_name("foobarbar"), tmp_dir + r"/tmp.{6}foobarbar")
-        else:
-            self.assertRegex(temporary_file_name(), tmp_dir + r"/tmp.{8}")
-            self.assertRegex(temporary_file_name("foobarbar"), tmp_dir + r"/tmp.{8}foobarbar")
+        self.assertRegex(temporary_file_name(), tmp_dir + r"/tmp.{8}")
+        self.assertRegex(temporary_file_name("foobarbar"), tmp_dir + r"/tmp.{8}foobarbar")
         # tear down
         if initial_custom_tmp:
             os.environ["CUSTOM_TMP"] = initial_custom_tmp

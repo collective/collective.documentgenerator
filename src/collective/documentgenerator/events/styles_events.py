@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from appy.utils import executeCommand
 from collective.documentgenerator import _
 from collective.documentgenerator import config
 from collective.documentgenerator.content.pod_template import IPODTemplate
@@ -14,17 +15,11 @@ from zope.i18n import translate
 import appy.pod
 import logging
 import os
-import six
 
 
 logger = logging.getLogger("collective.documentgenerator: styles update")
 
 CONVSCRIPT = "{}/converter.py".format(os.path.dirname(appy.pod.__file__))
-
-if six.PY2:
-    from appy.shared.utils import executeCommand
-else:
-    from appy.utils import executeCommand
 
 
 def update_styles_of_all_PODtemplate(style_template, event):

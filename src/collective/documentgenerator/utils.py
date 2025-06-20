@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from appy.bin.oclean import Cleaner
 from collective.documentgenerator import _
 from imio.helpers.security import fplog
 from plone import api
@@ -18,14 +19,8 @@ import hashlib
 import logging
 import os
 import re
-import six
 import tempfile
 
-
-if six.PY2:
-    from appy.bin.odfclean import Cleaner
-else:
-    from appy.bin.oclean import Cleaner
 
 logger = logging.getLogger("collective.documentgenerator")
 
@@ -98,7 +93,7 @@ def safe_encode(value, encoding="utf-8"):
     """
     Converts a value to encoding, only when it is not already encoded.
     """
-    if isinstance(value, six.PY2 and unicode or bytes):  # noqa: F821
+    if isinstance(value, bytes):  # noqa: F821
         return value.encode(encoding)
     return value
 
@@ -152,10 +147,7 @@ def ulocalized_time(
 
         # then format date
         custom_format = custom_format.replace("_p_c_", "%%")
-        if six.PY3:
-            formatted_date = date.strftime(custom_format)
-        else:
-            formatted_date = date.strftime(custom_format.encode("utf8"))
+        formatted_date = date.strftime(custom_format)
     return safe_unicode(formatted_date)
 
 
@@ -217,10 +209,7 @@ def clean_notes(pod_template):
     if odt_file:
         # write file to /tmp to be able to use appy.pod Cleaner
         tmp_file = create_temporary_file(odt_file, "-to-clean.odt")
-        if six.PY2:
-            cleaner = Cleaner(path=tmp_file.name, verbose=1)
-        else:
-            cleaner = Cleaner(path=tmp_file.name, silent=False)
+        cleaner = Cleaner(path=tmp_file.name, silent=False)
         cleaned = cleaner.run()
         if cleaned:
             manually_modified = pod_template.has_been_modified()
