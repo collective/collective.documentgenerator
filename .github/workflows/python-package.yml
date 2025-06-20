@@ -24,7 +24,7 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up pyenv and Python
         uses: "gabrielfalcao/pyenv-action@v14"
         with:
@@ -77,7 +77,7 @@ jobs:
           - /var/tmp:/var/tmp
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up pyenv and Python
         uses: "gabrielfalcao/pyenv-action@v14"
         with:
