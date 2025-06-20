@@ -25,12 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
-        with:
-          default: 2.7.18
-          versions: 3.8.16
-          command: pyenv -v
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -39,6 +33,12 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python libjpeg62 libjpeg62-dev libbz2-dev
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
+        with:
+          default: 2.7.18
+          versions: 3.8.16
+          command: pyenv -v
       - name: Cache eggs
         uses: actions/cache@v4
         env:
@@ -78,12 +78,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
-        with:
-          default: 2.7.18
-          versions: 3.8.16
-          command: pyenv -v
       - name: Setup Env
         run: |
           mkdir -p -m 777 /tmp/appy/
@@ -92,6 +86,12 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python libjpeg62 libjpeg62-dev libbz2-dev
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
+        with:
+          default: 2.7.18
+          versions: 3.8.16
+          command: pyenv -v
       - name: Cache eggs
         uses: actions/cache@v4
         env:
