@@ -44,7 +44,7 @@ setup(
         "collective.excelexport",
         "collective.z3cform.datagridfield",
         "future>=0.14.0",
-        "imio.migrator",
+        "imio.migrator>=1.11",
         "phonenumbers",
         "plone.api>=1.3.3",
         "plone.app.dexterity",
@@ -54,7 +54,6 @@ setup(
         # fix about orderedselect
         "z3c.form>=3.2.4",
         "imio.helpers>=1.0",
-        "imio.migrator>=1.11",
     ],
     extras_require={
         "test": ["plone.app.robotframework", "plone.app.testing", "imio.pyutils"],
