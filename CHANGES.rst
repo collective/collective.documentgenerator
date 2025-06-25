@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.45 (unreleased)
+3.45 (2025-06-25)
 -----------------
 
 - Fixed import of `HAS_PLONE_5_AND_MORE` moved from
