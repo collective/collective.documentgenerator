@@ -15,6 +15,14 @@
         />
 
     <genericsetup:registerProfile
+        name="uninstall"
+        title="collective.documentgenerator uninstall"
+        description="Uninstalls the collective.documentgenerator add-on."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        directory="profiles/uninstall"
+        />
+
+    <genericsetup:registerProfile
         name="demo"
         title="collective.documentgenerator demo"
         directory="profiles/demo"

@@ -18,6 +18,8 @@ Changelog
   [sgeulette]
 - Added Plone 6 control panel icon.
   [sgeulette]
+- Added uninstall profile.
+  [chris-adam, sgeulette]
 
 3.43 (2024-04-10)
 -----------------
