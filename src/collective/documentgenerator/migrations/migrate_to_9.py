@@ -19,22 +19,22 @@ class Migrate_To_9(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 9 ...")
-        for brain in self.catalog(object_provides=IConfigurablePODTemplate.__identifier__):
+        for brain in self.catalog(
+            object_provides=IConfigurablePODTemplate.__identifier__
+        ):
             obj = brain.getObject()
             if hasattr(obj, "optimize_tables"):
                 if obj.optimize_tables:
                     obj.column_modifier = "optimize"
                 delattr(obj, "optimize_tables")
 
-        optimize_tables_registry_key = (
-            "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables"
-        )
-        column_modifier_registry_key = (
-            "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier"
-        )
+        optimize_tables_registry_key = "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.optimize_tables"
+        column_modifier_registry_key = "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier"
 
         registry = getUtility(IRegistry)
-        optimize_tables = api.portal.get_registry_record(optimize_tables_registry_key, default=None)
+        optimize_tables = api.portal.get_registry_record(
+            optimize_tables_registry_key, default=None
+        )
 
         if optimize_tables:
             api.portal.set_registry_record(column_modifier_registry_key, "optimize")

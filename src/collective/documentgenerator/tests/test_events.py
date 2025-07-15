@@ -31,7 +31,9 @@ class TestEvents(PODTemplateIntegrationTest):
         template = self.portal.podtemplates.get("test_template_multiple")
         self.assertRaises(Redirect, _update_template_styles, template, None)
 
-    def _get_new_template_reusing_another(self, id="test_template_reuse_temp", reuse_other=True):
+    def _get_new_template_reusing_another(
+        self, id="test_template_reuse_temp", reuse_other=True
+    ):
         uid = None
         if reuse_other:
             uid = self.portal.podtemplates.get("test_template_reusable").UID()
@@ -53,19 +55,31 @@ class TestEvents(PODTemplateIntegrationTest):
     def test_crud_configurable_template_reusing_another(self):
         reusable_template = self.portal.podtemplates.get("test_template_reusable")
         template_reuse = self.portal.podtemplates.get("test_template_reuse")
-        self.assertSetEqual(reusable_template.get_children_pod_template(), {template_reuse})
+        self.assertSetEqual(
+            reusable_template.get_children_pod_template(), {template_reuse}
+        )
 
         temp_template = self._get_new_template_reusing_another()
-        self.assertSetEqual(reusable_template.get_children_pod_template(), {temp_template, template_reuse})
+        self.assertSetEqual(
+            reusable_template.get_children_pod_template(),
+            {temp_template, template_reuse},
+        )
 
         temp_template.pod_template_to_use = None
-        self.assertSetEqual(reusable_template.get_children_pod_template(), {template_reuse})
+        self.assertSetEqual(
+            reusable_template.get_children_pod_template(), {template_reuse}
+        )
 
         temp_template.pod_template_to_use = reusable_template.UID()
-        self.assertSetEqual(reusable_template.get_children_pod_template(), {temp_template, template_reuse})
+        self.assertSetEqual(
+            reusable_template.get_children_pod_template(),
+            {temp_template, template_reuse},
+        )
 
         api.content.delete(temp_template)
-        self.assertEqual(reusable_template.get_children_pod_template(), {template_reuse})
+        self.assertEqual(
+            reusable_template.get_children_pod_template(), {template_reuse}
+        )
 
     def test_clean_notes(self):
         """When PODTemplate created or modified, the "odt_file" note are cleaned."""
@@ -107,7 +121,9 @@ class TestEvents(PODTemplateIntegrationTest):
             contentType="application/vnd.oasis.opendocument.text",
             filename=filename,
         )
-        self.assertTrue(pod_template.has_been_modified())  # template is manually changed
+        self.assertTrue(
+            pod_template.has_been_modified()
+        )  # template is manually changed
         notify(ObjectModifiedEvent(pod_template, Attributes(Interface, "odt_file")))
         cleaned_content_xml = self.get_odt_content_xml(pod_template.odt_file.data)
         self.assertFalse(dirty_note in cleaned_content_xml)

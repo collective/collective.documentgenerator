@@ -1,21 +1,21 @@
-<?xml version="1.0"?>
-<object name="portal_controlpanel"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="collective.documentgenerator"
-    purge="False">
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        purge="False"
+        i18n:domain="collective.documentgenerator"
+>
 
-    <configlet
-        title="Document Generator settings"
-        action_id="collective.documentgenerator.settings"
-        appId="collective.documentgenerator"
-        category="Products"
-        condition_expr=""
-        url_expr="string:${portal_url}/@@collective.documentgenerator-controlpanel"
-        icon_expr="string:${portal_url}/++resource++collective.documentgenerator/configurable.svg"
-        visible="True"
-        i18n:attributes="title"
-        remove="True"
-    >
-    </configlet>
+  <configlet action_id="collective.documentgenerator.settings"
+             appId="collective.documentgenerator"
+             category="Products"
+             condition_expr=""
+             icon_expr="string:${portal_url}/++resource++collective.documentgenerator/configurable.svg"
+             remove="True"
+             title="Document Generator settings"
+             url_expr="string:${portal_url}/@@collective.documentgenerator-controlpanel"
+             visible="True"
+             i18n:attributes="title"
+  >
+</configlet>
 
 </object>

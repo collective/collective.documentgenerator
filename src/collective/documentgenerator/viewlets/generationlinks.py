@@ -43,7 +43,9 @@ class DocumentGeneratorLinksViewlet(ViewletBase):
                     base_url=base_url,
                     uid=uid,
                     output_format=output_format,
-                    gen_view_name=self.get_generation_view_name(template, output_format),
+                    gen_view_name=self.get_generation_view_name(
+                        template, output_format
+                    ),
                 )
                 infos = {
                     "link": link,

@@ -21,14 +21,18 @@ class TestInstallDependencies(unittest.TestCase):
         """
         dexterity should be installed when we install documentgenerator
         """
-        dependencies = self.portal.portal_setup.getProfileDependencyChain("collective.documentgenerator:default")
+        dependencies = self.portal.portal_setup.getProfileDependencyChain(
+            "collective.documentgenerator:default"
+        )
         self.assertIn(u"profile-plone.app.dexterity:default", dependencies)
 
     def test_z3cformdatagridfield_is_dependency_of_documentgenerator(self):
         """
         z3cform.datagridfield should be installed when we install documentgenerator
         """
-        dependencies = self.portal.portal_setup.getProfileDependencyChain("collective.documentgenerator:default")
+        dependencies = self.portal.portal_setup.getProfileDependencyChain(
+            "collective.documentgenerator:default"
+        )
         self.assertIn(u"profile-collective.z3cform.datagridfield:default", dependencies)
 
 
@@ -55,12 +59,16 @@ class TestSetup(unittest.TestCase):
 
     def test_product_installed(self):
         """Test if collective.documentgenerator is installed with portal_quickinstaller."""
-        self.assertTrue(self.installer.is_product_installed("collective.documentgenerator"))
+        self.assertTrue(
+            self.installer.is_product_installed("collective.documentgenerator")
+        )
 
     def test_uninstall(self):
         """Test if collective.documentgenerator is cleanly uninstalled."""
         self.installer.uninstall_product("collective.documentgenerator")
-        self.assertFalse(self.installer.is_product_installed("collective.documentgenerator"))
+        self.assertFalse(
+            self.installer.is_product_installed("collective.documentgenerator")
+        )
 
     def test_browserlayer(self):
         """Test that ICollectiveDocumentGeneratorLayer is registered."""

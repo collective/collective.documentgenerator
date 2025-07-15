@@ -31,7 +31,9 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
                 self.assertEqual(
                     len(true_lst),
                     length,
-                    "{} should have {} element, not {}".format(var_name, length, len(true_lst)),
+                    "{} should have {} element, not {}".format(
+                        var_name, length, len(true_lst)
+                    ),
                 )
                 for element in true_lst:
                     self.assertGreaterEqual(len(element), 2)
@@ -49,13 +51,19 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
         self.assertEqual(len(messages), 6)
         self.assertEqual(len(check_view.left_to_verify), 0)
         self.assertDictEqual(messages["check_pod_template_error"], check_view.error)
-        self.assertDictEqual(messages["check_pod_template_no_obj_found"], check_view.no_obj_found)
+        self.assertDictEqual(
+            messages["check_pod_template_no_obj_found"], check_view.no_obj_found
+        )
         self.assertDictEqual(
             messages["check_pod_template_no_pod_portal_types"],
             check_view.no_pod_portal_types,
         )
-        self.assertDictEqual(messages["check_pod_template_not_enabled"], check_view.not_enabled)
-        self.assertDictEqual(messages["check_pod_template_not_managed"], check_view.not_managed)
+        self.assertDictEqual(
+            messages["check_pod_template_not_enabled"], check_view.not_enabled
+        )
+        self.assertDictEqual(
+            messages["check_pod_template_not_managed"], check_view.not_managed
+        )
         self.assertDictEqual(messages["check_pod_template_clean"], check_view.clean)
 
         _assert_fmt(check_view.clean, nb_clean, "clean")
@@ -71,7 +79,9 @@ class TestCheckPodTemplatesView(PODTemplateIntegrationTest):
 
     def add_failing_template(self):
         current_path = os.path.dirname(__file__)
-        failing_template_data = open(os.path.join(current_path, "failing_template.odt"), "rb").read()
+        failing_template_data = open(
+            os.path.join(current_path, "failing_template.odt"), "rb"
+        ).read()
         self.failing_template = api.content.create(
             type="ConfigurablePODTemplate",
             id="failing_template",

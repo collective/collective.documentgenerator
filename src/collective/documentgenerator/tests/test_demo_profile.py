@@ -54,7 +54,9 @@ class TestDemoProfile(unittest.TestCase):
 
         msg = "The second podtemplate doesn't exist"
         self.assertTrue(hasattr(site.podtemplates, "test_template_bis"), msg)
-        self.assertTrue(site.podtemplates.test_template_bis.portal_type == "ConfigurablePODTemplate")
+        self.assertTrue(
+            site.podtemplates.test_template_bis.portal_type == "ConfigurablePODTemplate"
+        )
 
         applyProfile(site, "collective.documentgenerator:demo")
 
@@ -77,7 +79,9 @@ class TestDemoProfile(unittest.TestCase):
 
         msg = "Test style template doesn't exist"
         self.assertTrue(hasattr(site.podtemplates, "test_style_template"), msg)
-        self.assertTrue(site.podtemplates.test_style_template.portal_type == "StyleTemplate")
+        self.assertTrue(
+            site.podtemplates.test_style_template.portal_type == "StyleTemplate"
+        )
 
         applyProfile(site, "collective.documentgenerator:demo")
 
@@ -99,7 +103,9 @@ class TestDemoProfile(unittest.TestCase):
 
         msg = "Ods test podtemplate doesn't exist"
         self.assertTrue(hasattr(site.podtemplates, "test_ods_template"), msg)
-        self.assertEqual(site.podtemplates.test_ods_template.portal_type, "ConfigurablePODTemplate")
+        self.assertEqual(
+            site.podtemplates.test_ods_template.portal_type, "ConfigurablePODTemplate"
+        )
 
         applyProfile(site, "collective.documentgenerator:demo")
 

@@ -54,7 +54,9 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
     def get_field_renderer(self, field_name):
         """Get the dexterity field renderer for this field."""
         field = self.get_field(field_name)
-        renderer = getMultiAdapter((field, self.real_context, self.request), IFieldRendererForDocument)
+        renderer = getMultiAdapter(
+            (field, self.real_context, self.request), IFieldRendererForDocument
+        )
         return renderer
 
     def display(self, field_name, no_value="", bypass_check_permission=False):
@@ -151,7 +153,9 @@ class DXDocumentGenerationHelperView(DocumentGenerationHelperView):
         """
         if context is None:
             context = self.real_context
-        return ih_get_relations(context, attribute=attribute, backrefs=backrefs, as_obj=as_obj)
+        return ih_get_relations(
+            context, attribute=attribute, backrefs=backrefs, as_obj=as_obj
+        )
 
 
 class DXDisplayProxyObject(DisplayProxyObject):

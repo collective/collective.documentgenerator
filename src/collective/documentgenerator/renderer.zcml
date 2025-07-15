@@ -2,34 +2,35 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <!-- Dexterity -->
-    <adapter
-        for="zope.schema.interfaces.IField
-             zope.interface.Interface
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
-        factory="collective.documentgenerator.DX_renderer.DexterityExportableAdapter"
-        permission="zope2.View"
-        />
+  <!-- Dexterity -->
+  <adapter
+      factory="collective.documentgenerator.DX_renderer.DexterityExportableAdapter"
+      provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+      for="zope.schema.interfaces.IField
+           zope.interface.Interface
+           zope.interface.Interface"
+      permission="zope2.View"
+      />
 
-    <adapter
-        for="zope.schema.interfaces.IDate
-             zope.interface.Interface
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
-        factory="collective.documentgenerator.DX_renderer.DexterityDateExportableAdapter"
-        permission="zope2.View"
-        />
+  <adapter
+      factory="collective.documentgenerator.DX_renderer.DexterityDateExportableAdapter"
+      provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+      for="zope.schema.interfaces.IDate
+           zope.interface.Interface
+           zope.interface.Interface"
+      permission="zope2.View"
+      />
 
-    <adapter
-        for="zope.schema.interfaces.IDatetime
-             zope.interface.Interface
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
-        factory="collective.documentgenerator.DX_renderer.DexterityDatetimeExportableAdapter"
-        permission="zope2.View"
-        />
+  <adapter
+      factory="collective.documentgenerator.DX_renderer.DexterityDatetimeExportableAdapter"
+      provides="collective.documentgenerator.interfaces.IFieldRendererForDocument"
+      for="zope.schema.interfaces.IDatetime
+           zope.interface.Interface
+           zope.interface.Interface"
+      permission="zope2.View"
+      />
 
 </configure>

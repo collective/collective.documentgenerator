@@ -1,176 +1,209 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <genericsetup:registerProfile
-        name="default"
-        title="collective.documentgenerator"
-        directory="profiles/base"
-        description="Installs the collective.documentgenerator add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
+  <genericsetup:registerProfile
+      name="default"
+      title="collective.documentgenerator"
+      description="Installs the collective.documentgenerator add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/base"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="collective.documentgenerator uninstall"
+      description="Uninstalls the collective.documentgenerator add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      />
+
+  <genericsetup:registerProfile
+      name="demo"
+      title="collective.documentgenerator demo"
+      description="Installs the collective.documentgenerator demo profile."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/demo"
+      />
+
+  <genericsetup:importStep
+      name="collectivedocumentgenerator-postInstall"
+      title="collective.documentgenerator post_install import step"
+      description="Post install import step from collective.documentgenerator"
+      handler=".setuphandlers.post_install"
+      >
+</genericsetup:importStep>
+
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="1"
+      destination="2"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'optimize_tables'"
+        import_steps="plone.app.registry"
         />
-
-    <genericsetup:registerProfile
-        name="uninstall"
-        title="collective.documentgenerator uninstall"
-        description="Uninstalls the collective.documentgenerator add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        directory="profiles/uninstall"
+    <genericsetup:upgradeDepends
+        title="Reapply controlpanel"
+        description="This will update title and icon that changed"
+        import_steps="controlpanel"
         />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:registerProfile
-        name="demo"
-        title="collective.documentgenerator demo"
-        directory="profiles/demo"
-        description="Installs the collective.documentgenerator demo profile."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
+  <genericsetup:upgradeStep
+      title="collective.documentgenerator: upgrade to 3"
+      profile="collective.documentgenerator:default"
+      source="2"
+      destination="3"
+      handler="collective.documentgenerator.migrations.migrate_to_3.migrate"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="3"
+      destination="4"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'enable_raiseOnError_for_non_managers'"
+        import_steps="plone.app.registry"
         />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:importStep
-        name="collectivedocumentgenerator-postInstall"
-        title="collective.documentgenerator post_install import step"
-        description="Post install import step from collective.documentgenerator"
-        handler=".setuphandlers.post_install">
-    </genericsetup:importStep>
+  <genericsetup:upgradeStep
+      title="collective.documentgenerator: upgrade to 5"
+      profile="collective.documentgenerator:default"
+      source="4"
+      destination="5"
+      handler="collective.documentgenerator.migrations.migrate_to_5.migrate"
+      />
 
-    <genericsetup:upgradeSteps
-        source="1"
-        destination="2"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'optimize_tables'"
-            import_steps="plone.app.registry" />
-        <genericsetup:upgradeDepends
-            title="Reapply controlpanel"
-            description="This will update title and icon that changed"
-            import_steps="controlpanel" />
-    </genericsetup:upgradeSteps>
+  <genericsetup:upgradeStep
+      title="collective.documentgenerator: upgrade to 6"
+      profile="collective.documentgenerator:default"
+      source="5"
+      destination="6"
+      handler="collective.documentgenerator.migrations.migrate_to_6.migrate"
+      />
 
+  <genericsetup:upgradeStep
+      title="collective.documentgenerator: upgrade to 7"
+      profile="collective.documentgenerator:default"
+      source="6"
+      destination="7"
+      handler="collective.documentgenerator.migrations.migrate_to_7.migrate"
+      />
+
+  <genericsetup:upgradeStep
+      title="collective.documentgenerator: upgrade to 8"
+      profile="collective.documentgenerator:default"
+      source="7"
+      destination="8"
+      handler="collective.documentgenerator.migrations.migrate_to_8.migrate"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="8"
+      destination="9"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'column_modifier'"
+        import_steps="plone.app.registry"
+        />
     <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 3"
-        source="2"
-        destination="3"
-        handler="collective.documentgenerator.migrations.migrate_to_3.migrate"
-        profile="collective.documentgenerator:default" />
+        title="collective.documentgenerator: upgrade to 9"
+        description="This will migrate old parameter 'optimize_tables' to new parameter 'column_modifier'"
+        handler="collective.documentgenerator.migrations.migrate_to_9.migrate"
+        />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:upgradeSteps
-        source="3"
-        destination="4"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'enable_raiseOnError_for_non_managers'"
-            import_steps="plone.app.registry" />
-    </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="9"
+      destination="10"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'oo_server' and 'use_stream'"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="10"
+      destination="11"
+      >
     <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 5"
-        source="4"
-        destination="5"
-        handler="collective.documentgenerator.migrations.migrate_to_5.migrate"
-        profile="collective.documentgenerator:default" />
+        title="collective.documentgenerator: upgrade to 11"
+        description="This will migrate the use_stream parameter"
+        handler="collective.documentgenerator.migrations.migrate_to_11.migrate"
+        />
+  </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="11"
+      destination="12"
+      >
     <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 6"
-        source="5"
-        destination="6"
-        handler="collective.documentgenerator.migrations.migrate_to_6.migrate"
-        profile="collective.documentgenerator:default" />
+        title="collective.documentgenerator: upgrade to 12"
+        description="This apply new svg icons"
+        handler="collective.documentgenerator.migrations.migrate_to_12.migrate"
+        />
+  </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="12"
+      destination="13"
+      >
     <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 7"
-        source="6"
-        destination="7"
-        handler="collective.documentgenerator.migrations.migrate_to_7.migrate"
-        profile="collective.documentgenerator:default" />
+        title="collective.documentgenerator: upgrade to 13"
+        description="Apply clean_notes on every existing POD templates"
+        handler="collective.documentgenerator.migrations.migrate_to_13.migrate"
+        />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:upgradeStep
-        title="collective.documentgenerator: upgrade to 8"
-        source="7"
-        destination="8"
-        handler="collective.documentgenerator.migrations.migrate_to_8.migrate"
-        profile="collective.documentgenerator:default" />
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="13"
+      destination="14"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'oo_port_list'"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:upgradeSteps
-        source="8"
-        destination="9"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'column_modifier'"
-            import_steps="plone.app.registry" />
-        <genericsetup:upgradeStep
-            title="collective.documentgenerator: upgrade to 9"
-            description="This will migrate old parameter 'optimize_tables' to new parameter 'column_modifier'"
-            handler="collective.documentgenerator.migrations.migrate_to_9.migrate" />
-    </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      profile="collective.documentgenerator:default"
+      source="14"
+      destination="15"
+      >
+    <genericsetup:upgradeDepends
+        title="Reapply registry.xml"
+        description="This will add new parameter 'force_default_page_style_for_mailing'"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
 
-    <genericsetup:upgradeSteps
-        source="9"
-        destination="10"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'oo_server' and 'use_stream'"
-            import_steps="plone.app.registry" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeSteps
-        source="10"
-        destination="11"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeStep
-            title="collective.documentgenerator: upgrade to 11"
-            description="This will migrate the use_stream parameter"
-            handler="collective.documentgenerator.migrations.migrate_to_11.migrate" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeSteps
-        source="11"
-        destination="12"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeStep
-            title="collective.documentgenerator: upgrade to 12"
-            description="This apply new svg icons"
-            handler="collective.documentgenerator.migrations.migrate_to_12.migrate" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeSteps
-        source="12"
-        destination="13"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeStep
-            title="collective.documentgenerator: upgrade to 13"
-            description="Apply clean_notes on every existing POD templates"
-            handler="collective.documentgenerator.migrations.migrate_to_13.migrate" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeSteps
-        source="13"
-        destination="14"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'oo_port_list'"
-            import_steps="plone.app.registry" />
-    </genericsetup:upgradeSteps>
-
-    <genericsetup:upgradeSteps
-        source="14"
-        destination="15"
-        profile="collective.documentgenerator:default">
-        <genericsetup:upgradeDepends
-            title="Reapply registry.xml"
-            description="This will add new parameter 'force_default_page_style_for_mailing'"
-            import_steps="plone.app.registry" />
-    </genericsetup:upgradeSteps>
-
-  <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
-  <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="collective.documentgenerator"
+      />
+  <utility
+      factory=".setuphandlers.HiddenProducts"
+      name="collective.documentgenerator"
+      />
 
 </configure>

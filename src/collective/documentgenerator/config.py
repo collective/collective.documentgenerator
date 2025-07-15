@@ -109,7 +109,8 @@ def set_oo_server():
     oo_server = os.getenv("OO_SERVER", DEFAULT_OO_SERVER)
     if oo_server:
         api.portal.set_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_server",
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.oo_server",
             safe_unicode(oo_server),
         )
 
@@ -119,7 +120,8 @@ def set_oo_port():
     oo_port = os.getenv("OO_PORT", DEFAULT_OO_PORT)
     if oo_port:
         api.portal.set_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_port_list",
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.oo_port_list",
             safe_unicode(oo_port),
         )
 
@@ -129,14 +131,16 @@ def set_uno_path():
     python_uno = os.getenv("PYTHON_UNO", DEFAULT_PYTHON_UNO)
     if python_uno:
         api.portal.set_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.uno_path",
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.uno_path",
             safe_unicode(python_uno),
         )
 
 
 def set_column_modifier(value):
     api.portal.set_registry_record(
-        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier", value
+        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.column_modifier",
+        value,
     )
 
 
@@ -150,7 +154,8 @@ def set_raiseOnError_for_non_managers(value):
 
 def set_use_stream(value):
     api.portal.set_registry_record(
-        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream", value
+        "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.use_stream",
+        value,
     )
 
 

@@ -18,10 +18,14 @@ class Migrate_To_8(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 8 ...")
-        for brain in self.catalog(object_provides=IRenamePageStylesSchema.__identifier__):
+        for brain in self.catalog(
+            object_provides=IRenamePageStylesSchema.__identifier__
+        ):
             obj = brain.getObject()
             if base_hasattr(obj, "rename_page_styles"):
-                logger.info("Removing rename_page_styles attribute on %s" % brain.getPath())
+                logger.info(
+                    "Removing rename_page_styles attribute on %s" % brain.getPath()
+                )
                 delattr(obj, "rename_page_styles")
             obj.reindexObject(idxs=["object_provides"])
         self.finish()

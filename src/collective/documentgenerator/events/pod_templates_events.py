@@ -52,7 +52,9 @@ def apply_default_page_style_for_mailing(pod_template, event):
 
     filename = pod_template.odt_file.filename
     # copy the pod template on the file system.
-    template_file = create_temporary_file(initial_file=pod_template.odt_file, base_name=filename)
+    template_file = create_temporary_file(
+        initial_file=pod_template.odt_file, base_name=filename
+    )
 
     appy_sub = Sub(check=False, path=template_file.name)
     appy_sub.run()

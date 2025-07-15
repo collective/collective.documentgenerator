@@ -51,7 +51,9 @@ class IDocumentGeneratorSearchReplacePanelSchema(Interface):
         required=False,
         default=[],
         missing_value=[],
-        value_type=schema.Choice(source="collective.documentgenerator.AllPODTemplateWithFile"),
+        value_type=schema.Choice(
+            source="collective.documentgenerator.AllPODTemplateWithFile"
+        ),
     )
     directives.widget("replacements", DataGridFieldFactory)
     replacements = schema.List(
@@ -69,7 +71,11 @@ class IDocumentGeneratorSearchReplacePanelSchema(Interface):
                     try:
                         re.compile(row["search_expr"])
                     except re.error:
-                        raise Invalid(_(u'Incorrect regex at row #{0} : "{1}"').format(i + 1, row["search_expr"]))
+                        raise Invalid(
+                            _(u'Incorrect regex at row #{0} : "{1}"').format(
+                                i + 1, row["search_expr"]
+                            )
+                        )
 
 
 class SearchResultProvider(ContentProviderBase):
@@ -100,7 +106,9 @@ class SearchResultProvider(ContentProviderBase):
     def get_template_breadcrumb(self, uid):
         template = uuidToObject(uid)
         breadcrumb_view = template.restrictedTraverse("breadcrumbs_view")
-        title = " / ".join([bc["Title"] for bc in breadcrumb_view.breadcrumbs()]) + " ({})".format(template.id)
+        title = " / ".join(
+            [bc["Title"] for bc in breadcrumb_view.breadcrumbs()]
+        ) + " ({})".format(template.id)
         return title
 
     @staticmethod
@@ -127,7 +135,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
 
     schema = IDocumentGeneratorSearchReplacePanelSchema
     label = _(u"Search & Replace")
-    description = _(u"Search & replace among all template directives in this Plone site templates")
+    description = _(
+        u"Search & replace among all template directives in this Plone site templates"
+    )
 
     # display the search result and replace form as content provider
     contentProviders = ContentProviders()
@@ -140,7 +150,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         self.results_table = OrderedDict()
         super(DocumentGeneratorSearchReplacePanelForm, self).__init__(context, request)
 
-    @button.buttonAndHandler(_("Replace"), name="replace", condition=lambda form: form.can_replace())
+    @button.buttonAndHandler(
+        _("Replace"), name="replace", condition=lambda form: form.can_replace()
+    )
     def handle_replace(self, action):  # pragma: no cover
         data, errors = self.extractData()
         if errors:
@@ -162,7 +174,8 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     def handle_cancel(self, action):  # pragma: no cover
         self.request.response.redirect(
             "{context_url}/{view}".format(
-                context_url=self.context.absolute_url(), view="@@collective.documentgenerator-controlpanel"
+                context_url=self.context.absolute_url(),
+                view="@@collective.documentgenerator-controlpanel",
             )
         )
 
@@ -175,7 +188,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
     def updateActions(self):  # pragma: no cover
         super(DocumentGeneratorSearchReplacePanelForm, self).updateActions()
         self.actions["search"].addClass("context")  # Make "Search" button primary
-        if self.request.get("selected_templates", False):  # Must do a new new search before replacing again
+        if self.request.get(
+            "selected_templates", False
+        ):  # Must do a new new search before replacing again
             self.actions["replace"].addClass("hidden")
 
     def updateWidgets(self, prefix=None):  # pragma: no cover
@@ -210,7 +225,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
                 row["replace_expr"] = row["replace_expr"] or ""
                 search_expr = row["search_expr"]
                 replace_expr = row["replace_expr"]
-                replace_results = replace.replace(search_expr, replace_expr, is_regex=row["is_regex"])
+                replace_results = replace.replace(
+                    search_expr, replace_expr, is_regex=row["is_regex"]
+                )
 
                 for template_uid, template_result in replace_results.items():
                     if not self.results_table.get(template_uid):
@@ -235,7 +252,9 @@ class DocumentGeneratorSearchReplacePanelForm(AutoExtensibleForm, form.Form):
         with SearchAndReplacePODTemplates(templates) as search_replace:
             for row in form_data["replacements"]:
                 search_expr = row["search_expr"]
-                search_results = search_replace.search(search_expr, is_regex=row["is_regex"])
+                search_results = search_replace.search(
+                    search_expr, is_regex=row["is_regex"]
+                )
                 for template_uid, template_result in search_results.items():
                     if not self.results_table.get(template_uid):
                         self.results_table[template_uid] = template_result

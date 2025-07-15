@@ -36,7 +36,8 @@ def update_styles_of_all_PODtemplate(style_template, event):
             pod_template = brain.getObject()
             if (
                 pod_template.has_linked_template()
-                or pod_template.odt_file.contentType != "application/vnd.oasis.opendocument.text"
+                or pod_template.odt_file.contentType
+                != "application/vnd.oasis.opendocument.text"
             ):
                 continue
             if pod_template.get_style_template() == style_template:
@@ -61,7 +62,11 @@ def update_PODtemplate_styles(pod_template, event):
     """
     if not pod_template.has_linked_template():
         style_template = pod_template.get_style_template()
-        if not style_template or pod_template.odt_file.contentType != "application/vnd.oasis.opendocument.text":
+        if (
+            not style_template
+            or pod_template.odt_file.contentType
+            != "application/vnd.oasis.opendocument.text"
+        ):
             return
         style_odt = style_template.odt_file
         style_template_file = create_temporary_file(style_odt, "style_template.odt")
@@ -75,7 +80,8 @@ def _update_template_styles(pod_template, style_template_filename):
     """
     # we check if the pod_template has been modified except by style only
     style_changes_only = (
-        pod_template.style_modification_md5 and pod_template.current_md5 == pod_template.style_modification_md5
+        pod_template.style_modification_md5
+        and pod_template.current_md5 == pod_template.style_modification_md5
     )
     # save in temporary file, the template
     temp_file = create_temporary_file(pod_template.odt_file, "pod_template.odt")
@@ -106,7 +112,10 @@ def _update_template_styles(pod_template, style_template_filename):
         api.portal.show_message(
             message=_(
                 u"Problem during styles update on template '${tmpl}': ${err}",
-                mapping={"tmpl": safe_unicode(pod_template.absolute_url_path()), "err": safe_unicode(stderr)},
+                mapping={
+                    "tmpl": safe_unicode(pod_template.absolute_url_path()),
+                    "err": safe_unicode(stderr),
+                },
             ),
             request=request,
             type="error",
@@ -116,7 +125,10 @@ def _update_template_styles(pod_template, style_template_filename):
             translate(
                 _(
                     u"Problem during styles update on template '${tmpl}': ${err}",
-                    mapping={"tmpl": safe_unicode(pod_template.absolute_url_path()), "err": safe_unicode(stderr)},
+                    mapping={
+                        "tmpl": safe_unicode(pod_template.absolute_url_path()),
+                        "err": safe_unicode(stderr),
+                    },
                 )
             ),
         )

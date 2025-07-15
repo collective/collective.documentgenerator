@@ -139,13 +139,17 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
                 return "yolo"
 
         gsm = getGlobalSiteManager()
-        gsm.registerAdapter(CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition)
+        gsm.registerAdapter(
+            CustomCondition, (IPODTemplate, Interface), IPODTemplateCondition
+        )
 
         can_be_generated = pod_template.can_be_generated(self.portal)
         self.assertTrue(can_be_generated == "yolo")
 
         # finally, unregister our adapter...
-        gsm.registerAdapter(PODTemplateCondition, (IPODTemplate, Interface), IPODTemplateCondition)
+        gsm.registerAdapter(
+            PODTemplateCondition, (IPODTemplate, Interface), IPODTemplateCondition
+        )
 
     def test_get_style_template(self):
         pod_template = self.test_podtemplate
@@ -162,7 +166,9 @@ class TestPODTemplateIntegration(PODTemplateIntegrationTest):
         demo_profile = setup_tool.getProfileInfo("collective.documentgenerator:demo")
         template_path = "{}/templates/styles.odt".format(demo_profile.get("path"))
         template_file = open(template_path, "rb").read()
-        blob_file = NamedBlobFile(data=template_file, contentType="application/vnd.oasis.opendocument.text")
+        blob_file = NamedBlobFile(
+            data=template_file, contentType="application/vnd.oasis.opendocument.text"
+        )
 
         pod_template.odt_file = blob_file
 

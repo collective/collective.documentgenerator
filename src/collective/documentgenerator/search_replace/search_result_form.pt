@@ -1,48 +1,76 @@
 
 <div tal:condition="python: bool(view.get_results_table())"
-     i18n:domain="collective.documentgenerator">
-    <table class="datagridwidget-table-view search-replace-results" style="margin-top: 0.5em"
-           tal:define="templates python:view.get_results_table().items()">
-        <thead>
-        <tr>
-            <th class="header" i18n:translate="">
+     i18n:domain="collective.documentgenerator"
+>
+  <table class="datagridwidget-table-view search-replace-results"
+         style="margin-top: 0.5em"
+         tal:define="
+           templates python:view.get_results_table().items();
+         "
+  >
+    <thead>
+      <tr>
+        <th class="header"
+            i18n:translate=""
+        >
                 POD expression
-            </th>
-            <th tal:condition="view/is_previewing" class="header selected-header" i18n:translate="">
+        </th>
+        <th class="header selected-header"
+            tal:condition="view/is_previewing"
+            i18n:translate=""
+        >
                 Selected
-            </th>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="datagridwidget-tbody">
+      <tal:block repeat="template templates">
+        <tr class="header">
+          <td>
+            <div class="search-group"
+                 tal:define="
+                   template_url python:view.get_template_link(template[0]);
+                   template_title python:view.get_template_breadcrumb(template[0]);
+                 "
+            >
+              <a tal:content="template_title"
+                 tal:attributes="
+                   href template_url;
+                 "
+              ></a>
+            </div>
+          </td>
+          <td class="search-group"
+              tal:condition="view/is_previewing"
+          >
+            <input checked
+                   name="selected_templates"
+                   type="checkbox"
+                   tal:attributes="
+                     value python: template[0];
+                   "
+            />
+          </td>
         </tr>
-        </thead>
-        <tbody class="datagridwidget-tbody">
-        <tal:block repeat="template templates">
-            <tr class="header">
-                <td>
-                    <div class="search-group"
-                         tal:define="template_url python:view.get_template_link(template[0]);
-                                     template_title python:view.get_template_breadcrumb(template[0]);">
-                        <a tal:attributes="href template_url" tal:content="template_title"/>
-                    </div>
-                </td>
-                <td tal:condition="view/is_previewing" class="search-group">
-                    <input type="checkbox" tal:attributes="value python: template[0]"
-                           name="selected_templates" checked/>
-                </td>
-            </tr>
-            <tal:block repeat="result python:template[1]">
-                <tr>
-                    <td colspan="2" tal:condition="python:view.is_previewing()">
-                        <span class="search-cell"
-                            tal:content="structure python:result.content"
-                        />
-                    </td>
-                    <td colspan="2" tal:condition="python:not view.is_previewing()">
-                        <span class="search-cell"
-                            tal:content="structure python:view.display_diff(result)"
-                        />
-                    </td>
-                </tr>
-            </tal:block>
+        <tal:block repeat="result python:template[1]">
+          <tr>
+            <td colspan="2"
+                tal:condition="python:view.is_previewing()"
+            >
+              <span class="search-cell"
+                    tal:content="structure python:result.content"
+              ></span>
+            </td>
+            <td colspan="2"
+                tal:condition="python:not view.is_previewing()"
+            >
+              <span class="search-cell"
+                    tal:content="structure python:view.display_diff(result)"
+              ></span>
+            </td>
+          </tr>
         </tal:block>
-        </tbody>
-    </table>
+      </tal:block>
+    </tbody>
+  </table>
 </div>

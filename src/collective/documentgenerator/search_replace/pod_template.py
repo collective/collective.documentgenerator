@@ -41,8 +41,13 @@ class SearchAndReplacePODTemplates:
                 continue  # ignore templates referring another pod template.
             file_extension = podtemplate.odt_file.filename.split(".")[-1].lower()
             template_path = get_site_root_relative_path(podtemplate)
-            fs_filename = "{}/{}.{}".format(self.tmp_dir, template_path.replace("/", "_"), file_extension)
-            self.templates_by_filename[fs_filename] = {"obj": podtemplate, "path": template_path}
+            fs_filename = "{}/{}.{}".format(
+                self.tmp_dir, template_path.replace("/", "_"), file_extension
+            )
+            self.templates_by_filename[fs_filename] = {
+                "obj": podtemplate,
+                "path": template_path,
+            }
 
     def __enter__(self):
         """
@@ -66,7 +71,8 @@ class SearchAndReplacePODTemplates:
                 podtemplate = self.templates_by_filename[filename]["obj"]
                 result = NamedBlobFile(
                     data=replaced_file.read(),
-                    contentType=podtemplate.odt_file.contentType or mimetypes.guess_type(filename)[0],
+                    contentType=podtemplate.odt_file.contentType
+                    or mimetypes.guess_type(filename)[0],
                     filename=podtemplate.odt_file.filename,
                 )
                 podtemplate.odt_file = result

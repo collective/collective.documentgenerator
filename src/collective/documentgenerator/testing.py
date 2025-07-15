@@ -28,12 +28,12 @@ import unittest
 import zipfile
 
 
-sys.modules["collective.documentgenerator.tests.ArchetypesIntegrationTests"] = deprecation.deprecated(
-    deprecation, "Archetypes was removed from Plone 5.2."
-)
-sys.modules["collective.documentgenerator.tests.ArchetypesFunctionnalTests"] = deprecation.deprecated(
-    deprecation, "Archetypes was removed from Plone 5.2."
-)
+sys.modules[
+    "collective.documentgenerator.tests.ArchetypesIntegrationTests"
+] = deprecation.deprecated(deprecation, "Archetypes was removed from Plone 5.2.")
+sys.modules[
+    "collective.documentgenerator.tests.ArchetypesFunctionnalTests"
+] = deprecation.deprecated(deprecation, "Archetypes was removed from Plone 5.2.")
 
 
 class NakedPloneLayer(PloneSandboxLayer):
@@ -44,7 +44,9 @@ class NakedPloneLayer(PloneSandboxLayer):
         """Set up Zope."""
         # Load ZCML
         self.loadZCML(package=collective.documentgenerator, name="testing.zcml")
-        (stdout, stderr, st) = runCommand("%s/bin/soffice.sh restart" % os.getenv("PWD"))
+        (stdout, stderr, st) = runCommand(
+            "%s/bin/soffice.sh restart" % os.getenv("PWD")
+        )
 
     def setUpPloneSite(self, portal):
         """Setup Plone"""
@@ -73,7 +75,9 @@ class NakedPloneLayer(PloneSandboxLayer):
 
 NAKED_PLONE_FIXTURE = NakedPloneLayer(name="NAKED_PLONE_FIXTURE")
 
-NAKED_PLONE_INTEGRATION = IntegrationTesting(bases=(NAKED_PLONE_FIXTURE,), name="NAKED_PLONE_INTEGRATION")
+NAKED_PLONE_INTEGRATION = IntegrationTesting(
+    bases=(NAKED_PLONE_FIXTURE,), name="NAKED_PLONE_INTEGRATION"
+)
 
 
 class DocumentgeneratorLayer(NakedPloneLayer):
@@ -99,10 +103,14 @@ class DocumentgeneratorLayer(NakedPloneLayer):
 
 TEST_INSTALL_FIXTURE = DocumentgeneratorLayer(name="TEST_INSTALL_FIXTURE")
 
-TEST_INSTALL_INTEGRATION = IntegrationTesting(bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_INTEGRATION")
+TEST_INSTALL_INTEGRATION = IntegrationTesting(
+    bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_INTEGRATION"
+)
 
 
-TEST_INSTALL_FUNCTIONAL = FunctionalTesting(bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_FUNCTIONAL")
+TEST_INSTALL_FUNCTIONAL = FunctionalTesting(
+    bases=(TEST_INSTALL_FIXTURE,), name="TEST_INSTALL_FUNCTIONAL"
+)
 
 
 class ExamplePODTemplateLayer(DocumentgeneratorLayer):
@@ -118,13 +126,18 @@ class ExamplePODTemplateLayer(DocumentgeneratorLayer):
 
 POD_TEMPLATE_FIXTURE = ExamplePODTemplateLayer(name="POD_TEMPLATE_FIXTURE")
 
-POD_TEMPLATE_INTEGRATION = IntegrationTesting(bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_INTEGRATION")
+POD_TEMPLATE_INTEGRATION = IntegrationTesting(
+    bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_INTEGRATION"
+)
 
-POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_FUNCTIONAL")
+POD_TEMPLATE_FUNCTIONAL = FunctionalTesting(
+    bases=(POD_TEMPLATE_FIXTURE,), name="POD_TEMPLATE_FUNCTIONAL"
+)
 
 
 ACCEPTANCE = FunctionalTesting(
-    bases=(POD_TEMPLATE_FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE), name="ACCEPTANCE"
+    bases=(POD_TEMPLATE_FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name="ACCEPTANCE",
 )
 
 
@@ -225,7 +238,9 @@ class ArchetypesIntegrationTests(BaseTest):
         portal_types.Topic.global_allow = True
 
         # create our AT test object: a Topic
-        AT_topic = api.content.create(type="Topic", id="AT_topic", container=self.portal)
+        AT_topic = api.content.create(
+            type="Topic", id="AT_topic", container=self.portal
+        )
         self.AT_topic = AT_topic
 
         AT_doc = api.content.create(type="Document", id="AT_doc", container=self.portal)
@@ -249,7 +264,9 @@ class DexterityIntegrationTests(BaseTest):
         super(DexterityIntegrationTests, self).setUp()
 
         # create a test content type
-        self.content = api.content.create(container=self.portal, id="johndoe", type="member")
+        self.content = api.content.create(
+            container=self.portal, id="johndoe", type="member"
+        )
 
         doc = api.content.create(type="Document", id="doc", container=self.portal)
         self.doc = doc

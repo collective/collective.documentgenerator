@@ -109,14 +109,20 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.test_podtemplate.pod_template_to_use = reusable_template.UID()
 
         # template uses odt file from another
-        self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file, msg)
+        self.assertEqual(
+            self.test_podtemplate.get_file(), reusable_template.odt_file, msg
+        )
         # template uses odt file from another
         self.test_podtemplate.odt_file = None
-        self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file, msg)
+        self.assertEqual(
+            self.test_podtemplate.get_file(), reusable_template.odt_file, msg
+        )
         self.assertEqual(reusable_template.get_file(), reusable_template.odt_file, msg)
         # basic case without reuse
         self.test_podtemplate.pod_template_to_use = None
-        self.assertEqual(self.test_podtemplate.get_file(), self.test_podtemplate.odt_file, msg)
+        self.assertEqual(
+            self.test_podtemplate.get_file(), self.test_podtemplate.odt_file, msg
+        )
 
     def test_get_file_is_unrestricted(self):
         """When reusing another POD template odt_file, we will get
@@ -136,7 +142,9 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertEqual(self.test_podtemplate.get_file(), reusable_template.odt_file)
 
     def test_get_filename(self):
-        self.assertEqual(self.test_podtemplate.get_filename(), u"mod\xe8le_collection.odt")
+        self.assertEqual(
+            self.test_podtemplate.get_filename(), u"mod\xe8le_collection.odt"
+        )
         reusable_template = self.portal.podtemplates.get("test_template_reusable")
         self.assertEqual(reusable_template.get_filename(), u"modele_general.odt")
 
@@ -174,16 +182,22 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
         # Use a tal_condition, moreover test extra_expr_ctx
         # context/here is the element we generate the template from, here self.portal
-        self.test_podtemplate.tal_condition = "python: context.portal_type == 'Document'"
+        self.test_podtemplate.tal_condition = (
+            "python: context.portal_type == 'Document'"
+        )
         self.assertFalse(self.test_podtemplate.can_be_generated(self.portal))
-        self.test_podtemplate.tal_condition = "python: context.portal_type == 'Plone Site'"
+        self.test_podtemplate.tal_condition = (
+            "python: context.portal_type == 'Plone Site'"
+        )
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
         self.test_podtemplate.tal_condition = "python: here.portal_type == 'Plone Site'"
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
         # we have also 'template' as extra_expr_ctx
         self.test_podtemplate.tal_condition = "python: template.getId() == 'wrong_id'"
         self.assertFalse(self.test_podtemplate.can_be_generated(self.portal))
-        self.test_podtemplate.tal_condition = "python: template.getId() == 'test_template_bis'"
+        self.test_podtemplate.tal_condition = (
+            "python: template.getId() == 'test_template_bis'"
+        )
         self.assertTrue(self.test_podtemplate.can_be_generated(self.portal))
 
     def test_get_style_template(self):
@@ -212,10 +226,15 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertTrue(to_merge["hello"] == (pod_template, False))
 
     def test_get_available_formats(self):
-        self.assertEqual(self.test_podtemplate.get_available_formats(), self.test_podtemplate.pod_formats)
+        self.assertEqual(
+            self.test_podtemplate.get_available_formats(),
+            self.test_podtemplate.pod_formats,
+        )
 
     def test_get_context_variables(self):
-        self.assertDictEqual(self.test_podtemplate.get_context_variables(), {"details": "1"})
+        self.assertDictEqual(
+            self.test_podtemplate.get_context_variables(), {"details": "1"}
+        )
 
     def test_validate_context_variables(self):
         class Dummy(object):
@@ -232,7 +251,12 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         data = Dummy(context_variables=[{"name": u"uids", "value": u"1"}])
         self.assertRaises(Invalid, fct, data)
         # check duplicated name
-        data = Dummy(context_variables=[{"name": u"det", "value": u"1"}, {"name": u"det", "value": u"1"}])
+        data = Dummy(
+            context_variables=[
+                {"name": u"det", "value": u"1"},
+                {"name": u"det", "value": u"1"},
+            ]
+        )
         self.assertRaises(Invalid, fct, data)
         # no exception
         data = Dummy(context_variables=[{"name": u"det", "value": u"1"}])
@@ -244,7 +268,10 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertRaises(Invalid, fct, data)
         # check duplicated name
         data = Dummy(
-            merge_templates=[{"pod_context_name": u"det", "value": u"1"}, {"pod_context_name": u"det", "value": u"1"}]
+            merge_templates=[
+                {"pod_context_name": u"det", "value": u"1"},
+                {"pod_context_name": u"det", "value": u"1"},
+            ]
         )
         self.assertRaises(Invalid, fct, data)
         # no exception
@@ -270,12 +297,18 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
                 {"pod_context_name": u"same", "value": u"1"},
                 {"pod_context_name": u"same", "value": u"1"},
             ],
-            context_variables=[{"name": u"random1", "value": u"1"}, {"name": u"random2", "value": u"1"}],
+            context_variables=[
+                {"name": u"random1", "value": u"1"},
+                {"name": u"random2", "value": u"1"},
+            ],
         )
         self.assertRaises(Invalid, fct, data)
         # revert
         data = Dummy(
-            context_variables=[{"name": u"same", "value": u"1"}, {"name": u"same", "value": u"1"}],
+            context_variables=[
+                {"name": u"same", "value": u"1"},
+                {"name": u"same", "value": u"1"},
+            ],
             merge_templates=[
                 {"pod_context_name": u"random1", "value": u"1"},
                 {"pod_context_name": u"random2", "value": u"1"},
@@ -284,8 +317,14 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertRaises(Invalid, fct, data)
         # duplicate in both lists
         data = Dummy(
-            merge_templates=[{"pod_context_name": u"det", "value": u"1"}, {"pod_context_name": u"det", "value": u"1"}],
-            context_variables=[{"name": u"det", "value": u"1"}, {"name": u"det", "value": u"1"}],
+            merge_templates=[
+                {"pod_context_name": u"det", "value": u"1"},
+                {"pod_context_name": u"det", "value": u"1"},
+            ],
+            context_variables=[
+                {"name": u"det", "value": u"1"},
+                {"name": u"det", "value": u"1"},
+            ],
         )
         self.assertRaises(Invalid, fct, data)
         # duplicate 1 in each list
@@ -294,7 +333,10 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
                 {"pod_context_name": u"same", "value": u"1"},
                 {"pod_context_name": u"random1", "value": u"1"},
             ],
-            context_variables=[{"name": u"same", "value": u"1"}, {"name": u"random2", "value": u"1"}],
+            context_variables=[
+                {"name": u"same", "value": u"1"},
+                {"name": u"random2", "value": u"1"},
+            ],
         )
         self.assertRaises(Invalid, fct, data)
         # no exception
@@ -316,11 +358,16 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         self.assertRaises(Invalid, fct, Dummy())
         Dummy(odt_file=self.test_podtemplate.odt_file)
         Dummy(pod_template_to_use=self.test_podtemplate.pod_template_to_use)
-        Dummy(odt_file=self.test_podtemplate.odt_file, pod_template_to_use=self.test_podtemplate.pod_template_to_use)
+        Dummy(
+            odt_file=self.test_podtemplate.odt_file,
+            pod_template_to_use=self.test_podtemplate.pod_template_to_use,
+        )
 
     def test_validate_pod_template_to_use(self):
         class Dummy(object):
-            def __init__(self, odt_file=None, pod_template_to_use=None, is_reusable=None):
+            def __init__(
+                self, odt_file=None, pod_template_to_use=None, is_reusable=None
+            ):
                 self.odt_file = odt_file
                 self.pod_template_to_use = pod_template_to_use
                 self.is_reusable = is_reusable
@@ -333,13 +380,23 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
         Dummy(is_reusable=True)
         Dummy(is_reusable=False)
 
-        data = Dummy(odt_file=self.test_podtemplate.odt_file, pod_template_to_use="test")
+        data = Dummy(
+            odt_file=self.test_podtemplate.odt_file, pod_template_to_use="test"
+        )
         self.assertRaises(Invalid, fct, data)
 
-        data = Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=True, pod_template_to_use="test")
+        data = Dummy(
+            odt_file=self.test_podtemplate.odt_file,
+            is_reusable=True,
+            pod_template_to_use="test",
+        )
         self.assertRaises(Invalid, fct, data)
 
-        data = Dummy(odt_file=self.test_podtemplate.odt_file, is_reusable=False, pod_template_to_use="test")
+        data = Dummy(
+            odt_file=self.test_podtemplate.odt_file,
+            is_reusable=False,
+            pod_template_to_use="test",
+        )
         self.assertRaises(Invalid, fct, data)
 
         data = Dummy(is_reusable=True, pod_template_to_use="test")

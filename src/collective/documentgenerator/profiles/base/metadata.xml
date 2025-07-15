@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <metadata>
-   <dependencies>
+  <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-collective.z3cform.datagridfield:default</dependency>
-   </dependencies>
-   <version>15</version>
+  </dependencies>
+  <version>15</version>
 </metadata>

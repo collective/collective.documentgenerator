@@ -103,20 +103,31 @@ class TestVocabularies(BaseTest):
         view = pod_template.restrictedTraverse("@@view")
         view.update()
         # the title from the vocabulary is well rendered
-        self.assertIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
+        self.assertIn(
+            "Mailing loop template", view.widgets["mailing_loop_template"].render()
+        )
         # We deactivate the loop template, the missing value is managed
         loop_template = self.portal.podtemplates.get("loop_template")
         loop_template_uid = loop_template.UID()
         loop_template.enabled = False
-        voc_inst = queryUtility(IVocabularyFactory, "collective.documentgenerator.EnabledMailingLoopTemplates")
+        voc_inst = queryUtility(
+            IVocabularyFactory,
+            "collective.documentgenerator.EnabledMailingLoopTemplates",
+        )
         self.assertListEqual([], [t.value for t in voc_inst(pod_template)])
         view.updateWidgets()
-        self.assertIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
+        self.assertIn(
+            "Mailing loop template", view.widgets["mailing_loop_template"].render()
+        )
         # We remove the loop template, the missing value cannot be managed anymore
         api.content.delete(obj=loop_template)
         view.updateWidgets()
-        self.assertNotIn("Mailing loop template", view.widgets["mailing_loop_template"].render())
-        self.assertIn("Valeur manquante", view.widgets["mailing_loop_template"].render())
+        self.assertNotIn(
+            "Mailing loop template", view.widgets["mailing_loop_template"].render()
+        )
+        self.assertIn(
+            "Valeur manquante", view.widgets["mailing_loop_template"].render()
+        )
         self.assertIn(loop_template_uid, view.widgets["mailing_loop_template"].render())
 
     def test_existing_pod_template_vocabulary(self):
@@ -129,11 +140,15 @@ class TestVocabularies(BaseTest):
         test_podtemplate = self.portal.podtemplates.get("test_template_reusable")
         self.assertListEqual([test_podtemplate.UID()], [t.value for t in voc])
 
-        reusable_template_2 = self.portal.podtemplates.get("test_template_possibly_mailed")
+        reusable_template_2 = self.portal.podtemplates.get(
+            "test_template_possibly_mailed"
+        )
         reusable_template_2.is_reusable = True
 
         voc = vocabulary(self.portal)
-        self.assertListEqual([reusable_template_2.UID(), test_podtemplate.UID()], [t.value for t in voc])
+        self.assertListEqual(
+            [reusable_template_2.UID(), test_podtemplate.UID()], [t.value for t in voc]
+        )
 
     def test_all_pod_templates_vocabulary(self):
         """

@@ -44,13 +44,18 @@ def install_demo(context):
 
     default_oo_port_list = os.getenv("OO_PORT", DEFAULT_OO_PORT)
     api.portal.set_registry_record(
-        "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_port_list",
+        "collective.documentgenerator.browser.controlpanel."
+        "IDocumentGeneratorControlPanelSchema.oo_port_list",
         default_oo_port_list,
     )
 
     if not hasattr(portal, "podtemplates"):
         templates_folder = api.content.create(
-            type="Folder", title=_(u"POD Templates"), id="podtemplates", container=portal, exclude_from_nav=True
+            type="Folder",
+            title=_(u"POD Templates"),
+            id="podtemplates",
+            container=portal,
+            exclude_from_nav=True,
         )
         templates_folder.setTitle("POD Templates")
         templates_folder.reindexObject()
@@ -170,7 +175,9 @@ def install_demo(context):
             id="test_template_bis",
             title=_(u"Collection template"),
             odt_file=NamedBlobFile(
-                data=context.readDataFile(safe_unicode("templates/modèle_collection.odt")),
+                data=context.readDataFile(
+                    safe_unicode("templates/modèle_collection.odt")
+                ),
                 contentType="application/vnd.oasis.opendocument.text",
                 filename=u"modèle_collection.odt",
             ),

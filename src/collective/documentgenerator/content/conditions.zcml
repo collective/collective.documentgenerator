@@ -1,29 +1,30 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <adapter
+  <adapter
+      factory=".condition.PODTemplateCondition"
       for="collective.documentgenerator.content.pod_template.IPODTemplate
            zope.interface.Interface"
-      factory=".condition.PODTemplateCondition"
-    />
+      />
 
-    <adapter
+  <adapter
+      factory=".condition.SubTemplateCondition"
       for="collective.documentgenerator.content.pod_template.ISubTemplate
            zope.interface.Interface"
-      factory=".condition.SubTemplateCondition"
-    />
+      />
 
-    <adapter
+  <adapter
+      factory=".condition.PODTemplateCondition"
       for="collective.documentgenerator.content.pod_template.IMailingLoopTemplate
            zope.interface.Interface"
-      factory=".condition.PODTemplateCondition"
-    />
+      />
 
-    <adapter
+  <adapter
+      factory=".condition.ConfigurablePODTemplateCondition"
       for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
            zope.interface.Interface"
-      factory=".condition.ConfigurablePODTemplateCondition"
-    />
+      />
 
 </configure>

@@ -29,7 +29,9 @@ class IStyleTemplate(model.Schema):
     )
 
     form.omitted("initial_md5")
-    initial_md5 = schema.TextLine(description=u"Initially loaded file md5. Will be compared with os file md5.")
+    initial_md5 = schema.TextLine(
+        description=u"Initially loaded file md5. Will be compared with os file md5."
+    )
 
 
 @implementer(IStyleTemplate)

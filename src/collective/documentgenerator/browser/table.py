@@ -91,7 +91,9 @@ class TitleColumn(NoEscapeLinkColumn):
                 # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
                 contentIcon = "/".join(typeInfo.icon_expr.split("/")[1:])
                 icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % (
-                    safe_unicode(escape(translate(typeInfo.Title(), context=self.request))),
+                    safe_unicode(
+                        escape(translate(typeInfo.Title(), context=self.request))
+                    ),
                     purl,
                     contentIcon,
                 )
@@ -102,9 +104,13 @@ class TitleColumn(NoEscapeLinkColumn):
         return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))
 
     def getLinkContent(self, item):
-        return u'<span class="pretty_link_icons">%s</span>' u'<span class="pretty_link_content">%s</span>' % (
-            self._icons(item),
-            safe_unicode(escape(item.title)),
+        return (
+            u'<span class="pretty_link_icons">%s</span>'
+            u'<span class="pretty_link_content">%s</span>'
+            % (
+                self._icons(item),
+                safe_unicode(escape(item.title)),
+            )
         )
 
 
@@ -133,7 +139,9 @@ class PathColumn(LinkColumn):
                 context = context[part]
                 current_title = context.title
             self.table.paths[current_path] = (
-                parent_path and u"%s/%s" % (self.table.paths[parent_path], current_title) or current_title
+                parent_path
+                and u"%s/%s" % (self.table.paths[parent_path], current_title)
+                or current_title
             )
 
     def getLinkContent(self, item):
@@ -155,11 +163,18 @@ class EnabledColumn(Column):
         if not base_hasattr(item, "enabled"):
             return u"-"
         if item.enabled:
-            icon = ("++resource++collective.documentgenerator/ok.svg", translate(_("Enabled"), context=self.request))
+            icon = (
+                "++resource++collective.documentgenerator/ok.svg",
+                translate(_("Enabled"), context=self.request),
+            )
         else:
-            icon = ("++resource++collective.documentgenerator/nok.svg", translate(_("Disabled"), context=self.request))
+            icon = (
+                "++resource++collective.documentgenerator/nok.svg",
+                translate(_("Disabled"), context=self.request),
+            )
         return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-            safe_unicode(icon[1]).replace("'", "&#39;"), u"{0}/{1}".format(self.table.portal_url, icon[0])
+            safe_unicode(icon[1]).replace("'", "&#39;"),
+            u"{0}/{1}".format(self.table.portal_url, icon[0]),
         )
 
 
@@ -180,7 +195,10 @@ class OriginalColumn(Column):
     def renderCell(self, item):
         img = suffix = msg = info = u""
         real_template = item
-        if base_hasattr(item, "pod_template_to_use") and item.pod_template_to_use is not None:
+        if (
+            base_hasattr(item, "pod_template_to_use")
+            and item.pod_template_to_use is not None
+        ):
             real_template = item.get_pod_template_to_use()
             suffix = u"_use"
             if item.pod_template_to_use in self.templates_voc:
@@ -188,11 +206,17 @@ class OriginalColumn(Column):
                     u", from ${template}",
                     context=self.request,
                     domain="collective.documentgenerator",
-                    mapping={"template": escape(self.templates_voc.getTerm(item.pod_template_to_use).title)},
+                    mapping={
+                        "template": escape(
+                            self.templates_voc.getTerm(item.pod_template_to_use).title
+                        )
+                    },
                 )
         elif base_hasattr(item, "is_reusable") and item.is_reusable:
             suffix, info = u"_used", translate(
-                u", is reusable template", context=self.request, domain="collective.documentgenerator"
+                u", is reusable template",
+                context=self.request,
+                domain="collective.documentgenerator",
             )
         if real_template is None:
             img, msg = u"missing", u"Linked template deleted !"
@@ -202,10 +226,16 @@ class OriginalColumn(Column):
             img, msg = u"ok", u"Original"
         icon = (
             "++resource++collective.documentgenerator/{}{}.svg".format(img, suffix),
-            u"{}{}".format(translate(msg, context=self.request, domain="collective.documentgenerator"), info),
+            u"{}{}".format(
+                translate(
+                    msg, context=self.request, domain="collective.documentgenerator"
+                ),
+                info,
+            ),
         )
         return u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-            safe_unicode(icon[1]).replace("'", "&#39;"), u"{0}/{1}".format(self.table.portal_url, icon[0])
+            safe_unicode(icon[1]).replace("'", "&#39;"),
+            u"{0}/{1}".format(self.table.portal_url, icon[0]),
         )
 
 
@@ -223,7 +253,9 @@ class FormatsColumn(Column):
         for fmt in item.pod_formats or []:
             ret.append(
                 u"<img class='svg-icon' title='{0}' src='{1}' />".format(
-                    fmt, "%s/++resource++collective.documentgenerator/%s.svg" % (self.table.portal_url, fmt)
+                    fmt,
+                    "%s/++resource++collective.documentgenerator/%s.svg"
+                    % (self.table.portal_url, fmt),
                 )
             )
         return "\n".join(ret)
@@ -240,7 +272,9 @@ class ReviewStateColumn(Column):
     def renderCell(self, item):
         state = api.content.get_state(item)
         if state:
-            state_title = self.table.wtool.getTitleForStateOnType(state, item.portal_type)
+            state_title = self.table.wtool.getTitleForStateOnType(
+                state, item.portal_type
+            )
             return translate(PMF(state_title), context=self.request)
         return ""
 
@@ -290,11 +324,14 @@ class DownloadColumn(NoEscapeLinkColumn):
 
     def getLinkTitle(self, item):
         """Setup link title."""
-        return ' title="%s"' % escape(safe_unicode(translate(PMF("Download"), context=self.request)))
+        return ' title="%s"' % escape(
+            safe_unicode(translate(PMF("Download"), context=self.request))
+        )
 
     def getLinkContent(self, item):
         down_img = u"<img class='svg-icon' title='{0}' src='{1}' />".format(
             safe_unicode(translate(PMF("Download"), context=self.request)),
-            u"%s/++resource++collective.documentgenerator/download_icon.svg" % self.table.portal_url,
+            u"%s/++resource++collective.documentgenerator/download_icon.svg"
+            % self.table.portal_url,
         )
         return down_img

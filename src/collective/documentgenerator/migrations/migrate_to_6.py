@@ -16,7 +16,9 @@ class Migrate_To_6(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 6 ...")
-        self.runProfileSteps("collective.documentgenerator", steps=["typeinfo"], profile="install-base")
+        self.runProfileSteps(
+            "collective.documentgenerator", steps=["typeinfo"], profile="install-base"
+        )
         self.finish()
 
 

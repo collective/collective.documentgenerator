@@ -99,7 +99,9 @@ class IDocumentGeneratorControlPanelSchema(Interface):
         ),
         required=True,
         vocabulary="collective.documentgenerator.ConfigStream",
-        default=os.getenv("USE_STREAM", None) is None and "auto" or _string_to_boolean(os.getenv("USE_STREAM")),
+        default=os.getenv("USE_STREAM", None) is None
+        and "auto"
+        or _string_to_boolean(os.getenv("USE_STREAM")),
     )
 
     force_default_page_style_for_mailing = schema.Bool(
@@ -128,27 +130,34 @@ class DocumentGeneratorControlPanelEditForm(RegistryEditForm):
 
         self.applyChanges(data)
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
-        self.context.REQUEST.RESPONSE.redirect("@@collective.documentgenerator-controlpanel")
+        self.context.REQUEST.RESPONSE.redirect(
+            "@@collective.documentgenerator-controlpanel"
+        )
 
     @button.buttonAndHandler(_("Search & replace"), name="search_and_replace")
     def handleSearchAndReplace(self, action):
         self.request.response.redirect(
             "{context_url}/{view}".format(
-                context_url=self.context.absolute_url(), view="@@collective.documentgenerator-searchreplacepanel"
+                context_url=self.context.absolute_url(),
+                view="@@collective.documentgenerator-searchreplacepanel",
             )
         )
 
     @button.buttonAndHandler(_("Check Pod Templates"), name="checkPod")
     def handleCheckPod(self, action):
         self.request.response.redirect(
-            "{context_url}/{view}".format(context_url=self.context.absolute_url(), view="@@check-pod-templates")
+            "{context_url}/{view}".format(
+                context_url=self.context.absolute_url(), view="@@check-pod-templates"
+            )
         )
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
         IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), "info")
         self.request.response.redirect(
-            "{context_url}/{view}".format(context_url=self.context.absolute_url(), view="@@overview-controlpanel")
+            "{context_url}/{view}".format(
+                context_url=self.context.absolute_url(), view="@@overview-controlpanel"
+            )
         )
 
 
