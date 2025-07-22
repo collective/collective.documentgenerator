@@ -447,7 +447,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
             filename = persisted_doc.getFile().filename
         self._set_header_response(filename)
         response = self.request.response
-        return response.redirect(persisted_doc.absolute_url() + '/external_edit')
+        return response.redirect(persisted_doc.absolute_url() + '/@@collabora-edit')
 
     def mailing_related_generation_context(self, helper_view, gen_context):
         """
