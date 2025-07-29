@@ -20,6 +20,8 @@ Changelog
   [sgeulette]
 - Added uninstall profile.
   [chris-adam, sgeulette]
+- Switch content type icons to Bootstrap style ones.
+  [aduchene]
 
 3.43 (2024-04-10)
 -----------------

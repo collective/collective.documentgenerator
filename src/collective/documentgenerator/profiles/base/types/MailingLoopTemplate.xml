@@ -10,7 +10,7 @@
   <property name="description"
             i18n:translate=""
   />
-  <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/mailinglooptemplate.svg</property>
+  <property name="icon_expr">string:contenttype/mailinglooptemplate</property>
   <property name="factory">MailingLoopTemplate</property>
   <property name="add_view_expr">string:${folder_url}/++add++MailingLoopTemplate</property>
   <property name="link_target" />
@@ -46,24 +46,22 @@
   <action action_id="view"
           category="object"
           condition_expr=""
-          description=""
-          icon_expr=""
-          link_target=""
+          icon_expr="string:toolbar-action/view"
           title="View"
           url_expr="string:${object_url}"
           visible="True"
+          i18n:attributes="title"
   >
     <permission value="View" />
   </action>
   <action action_id="edit"
           category="object"
-          condition_expr=""
-          description=""
-          icon_expr=""
-          link_target=""
+          condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user|python:True"
+          icon_expr="string:toolbar-action/edit"
           title="Edit"
           url_expr="string:${object_url}/edit"
           visible="True"
+          i18n:attributes="title"
   >
     <permission value="Modify portal content" />
   </action>
