@@ -14,12 +14,20 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
     def setUp(self):
         super(TestTemplatesListingView, self).setUp()
         # by pass allowed types restriction
-        sub_folder = _createObjectByType("Folder", self.portal.podtemplates, "sub_folder", title="Subfolder")
+        sub_folder = _createObjectByType(
+            "Folder", self.portal.podtemplates, "sub_folder", title="Subfolder"
+        )
         self.sft = api.content.create(
-            type="ConfigurablePODTemplate", id="sub_folder_template", container=sub_folder, title="Sub folder template"
+            type="ConfigurablePODTemplate",
+            id="sub_folder_template",
+            container=sub_folder,
+            title="Sub folder template",
         )
         self.ot = api.content.create(
-            type="ConfigurablePODTemplate", id="other_template", container=self.portal, title="Other template"
+            type="ConfigurablePODTemplate",
+            id="other_template",
+            container=self.portal,
+            title="Other template",
         )
         self.view = self.portal.podtemplates.restrictedTraverse("dg-templates-listing")
         self.view.update()
@@ -85,16 +93,28 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         self.assertEqual(column.renderHeadCell(), u"Chemin relatif")
         # test rel_path_title
         column.rel_path_title("../other_template")
-        self.assertEqual(self.view.table.paths["../other_template"], u"../Other template")
+        self.assertEqual(
+            self.view.table.paths["../other_template"], u"../Other template"
+        )
         column.rel_path_title("..")
         self.assertEqual(self.view.table.paths[".."], u"..")
         column.rel_path_title("sub_folder/sub_folder_template")
-        self.assertEqual(self.view.table.paths["sub_folder/sub_folder_template"], u"Subfolder/Sub folder template")
+        self.assertEqual(
+            self.view.table.paths["sub_folder/sub_folder_template"],
+            u"Subfolder/Sub folder template",
+        )
         # test rendering
         item = self.test_podtemplate
-        self.assertEqual(column.renderCell(item), u'<a href="http://nohost/plone/podtemplates" target="_blank">-</a>')
-        self.assertEqual(column.renderCell(self.ot), u'<a href="http://nohost/plone" target="_blank">..</a>')
+        self.assertEqual(
+            column.renderCell(item),
+            u'<a href="http://nohost/plone/podtemplates" target="_blank">-</a>',
+        )
+        self.assertEqual(
+            column.renderCell(self.ot),
+            u'<a href="http://nohost/plone" target="_blank">..</a>',
+        )
         self.assertEqual(
             column.renderCell(self.sft),
-            u'<a href="http://nohost/plone/podtemplates/sub_folder" ' u'target="_blank">Subfolder</a>',
+            u'<a href="http://nohost/plone/podtemplates/sub_folder" '
+            u'target="_blank">Subfolder</a>',
         )

@@ -79,11 +79,16 @@ def update_templates(templates, profile="", force=False):
     return ret
 
 
-def update_dict_with_validation(original_dict, update_dict, error_message=_("Dict update collision on key")):
+def update_dict_with_validation(
+    original_dict, update_dict, error_message=_("Dict update collision on key")
+):
     for key in update_dict:
         if key in original_dict:
             raise Invalid(
-                _("${error_message} for key = '${key}'", mapping={"error_message": error_message, "key": key})
+                _(
+                    "${error_message} for key = '${key}'",
+                    mapping={"error_message": error_message, "key": key},
+                )
             )
 
         original_dict[key] = update_dict[key]
@@ -140,7 +145,9 @@ def ulocalized_time(
         for match in sorted(set(matches)):
             # function( int(date.strftime(format) )
             msgid = conf[match]["fct"](int(date.strftime(conf[match]["fmt"])))
-            repl = i18n.translate(msgid, domain, context=request, target_language=target_language)
+            repl = i18n.translate(
+                msgid, domain, context=request, target_language=target_language
+            )
             if conf[match]["low"]:
                 repl = repl.lower()
             custom_format = re.sub("%{}".format(match), repl, custom_format)
@@ -162,13 +169,19 @@ def remove_tmp_file(filename):
 def update_oo_config():
     """Update config following buildout var"""
     key_template = "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.{}"
-    var = {"oo_server": "OO_SERVER", "oo_port_list": "OO_PORT", "uno_path": "PYTHON_UNO"}
+    var = {
+        "oo_server": "OO_SERVER",
+        "oo_port_list": "OO_PORT",
+        "uno_path": "PYTHON_UNO",
+    }
     for key in var.keys():
         full_key = key_template.format(key)
         configured_oo_option = api.portal.get_registry_record(full_key)
         env_value = os.getenv(var.get(key, "NO_ONE"), None)
         if env_value:
-            new_oo_option = type(configured_oo_option)(os.getenv(var.get(key, "NO_ONE"), ""))
+            new_oo_option = type(configured_oo_option)(
+                os.getenv(var.get(key, "NO_ONE"), "")
+            )
             if new_oo_option and new_oo_option != configured_oo_option:
                 api.portal.set_registry_record(full_key, new_oo_option)
     logger.info("LibreOffice configuration updated for " + getSite().getId())
@@ -216,12 +229,16 @@ def clean_notes(pod_template):
             with open(tmp_file.name, "rb") as res_file:
                 # update template
                 result = NamedBlobFile(
-                    data=res_file.read(), contentType=odt_file.contentType, filename=pod_template.odt_file.filename
+                    data=res_file.read(),
+                    contentType=odt_file.contentType,
+                    filename=pod_template.odt_file.filename,
                 )
             pod_template.odt_file = result
             if not manually_modified:
                 pod_template.style_modification_md5 = pod_template.current_md5
-            extras = "pod_template={0} cleaned_parts={1}".format(repr(pod_template), cleaned)
+            extras = "pod_template={0} cleaned_parts={1}".format(
+                repr(pod_template), cleaned
+            )
             fplog("clean_notes", extras=extras)
         remove_tmp_file(tmp_file.name)
 

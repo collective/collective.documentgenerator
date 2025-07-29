@@ -23,8 +23,12 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         the DX implementation of DocumentGenerationHelperView."""
         from collective.documentgenerator.helper import DXDocumentGenerationHelperView
 
-        helper_view = self.content.unrestrictedTraverse("@@document_generation_helper_view")
-        msg = "The helper should have been an instance of DXDocumentGenerationHelperView"
+        helper_view = self.content.unrestrictedTraverse(
+            "@@document_generation_helper_view"
+        )
+        msg = (
+            "The helper should have been an instance of DXDocumentGenerationHelperView"
+        )
         self.assertTrue(isinstance(helper_view, DXDocumentGenerationHelperView), msg)
 
     def test_DX_proxy_object_registration(self):
@@ -32,7 +36,9 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         the DX implementation of DisplayProxyObject as context."""
         from collective.documentgenerator.helper import DXDisplayProxyObject
 
-        helper_view = self.content.unrestrictedTraverse("@@document_generation_helper_view")
+        helper_view = self.content.unrestrictedTraverse(
+            "@@document_generation_helper_view"
+        )
         proxy = helper_view.context
         msg = "The proxy object should have been an instance of DXDisplayProxyObject"
         self.assertTrue(isinstance(proxy, DXDisplayProxyObject), msg)
@@ -45,7 +51,9 @@ class TestDexterityHelperView(DexterityIntegrationTests):
         eg: proxy.title -> proxy.display(field_name='title', context=real_object)
             proxy.some_method() -> real_object.some_method()
         """
-        helper_view = self.content.unrestrictedTraverse("@@document_generation_helper_view")
+        helper_view = self.content.unrestrictedTraverse(
+            "@@document_generation_helper_view"
+        )
         proxy = helper_view.context
 
         proxy.display = lambda field_name: "foobar"
@@ -64,9 +72,17 @@ class TestDexterityHelperView(DexterityIntegrationTests):
 
         wrapped = helper_view.real_context
         msg = " __repr__ and __str__ should return the same result as the wrapped object: {} != {}"
-        self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
+        self.assertEqual(
+            str(proxy),
+            str(helper_view.real_context),
+            msg.format(str(proxy), str(wrapped)),
+        )
         msg = u" __unicode__ should return the same result as the wrapped object: {} != {}"
-        self.assertEqual(str(proxy), str(helper_view.real_context), msg.format(str(proxy), str(wrapped)))
+        self.assertEqual(
+            str(proxy),
+            str(helper_view.real_context),
+            msg.format(str(proxy), str(wrapped)),
+        )
 
 
 class TestDexterityHelperViewMethods(DexterityIntegrationTests):
@@ -75,8 +91,12 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
 
     def setUp(self):
         super(TestDexterityHelperViewMethods, self).setUp()
-        self.view = self.content.unrestrictedTraverse("@@document_generation_helper_view")
-        self.doc_view = self.doc.unrestrictedTraverse("@@document_generation_helper_view")
+        self.view = self.content.unrestrictedTraverse(
+            "@@document_generation_helper_view"
+        )
+        self.doc_view = self.doc.unrestrictedTraverse(
+            "@@document_generation_helper_view"
+        )
 
     def test_display_method_on_text_field(self):
         field_name = "fullname"
@@ -132,7 +152,9 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(self.view.display("amount", bypass_check_permission=True), 20)
         logout()
         self.assertTrue(api.user.is_anonymous())
-        self.assertEqual(self.view.display("amount", bypass_check_permission=False), u"")
+        self.assertEqual(
+            self.view.display("amount", bypass_check_permission=False), u""
+        )
         self.assertEqual(self.view.display("amount", bypass_check_permission=True), 20)
 
     def test_display_date_method(self):
@@ -147,40 +169,58 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(expected_date, result)
 
         expected_date = u"18/09/1986 10:00"
-        result = self.view.display_date(field_name=effective_field_name, long_format=True)
+        result = self.view.display_date(
+            field_name=effective_field_name, long_format=True
+        )
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
+        result = self.view.display_date(
+            date=self.content.birth_datetime, long_format=True
+        )
         self.assertEqual(expected_date, result)
 
         expected_date = u"10:00"
         result = self.view.display_date(field_name=effective_field_name, time_only=True)
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, time_only=True)
+        result = self.view.display_date(
+            date=self.content.birth_datetime, time_only=True
+        )
         self.assertEqual(expected_date, result)
 
         # custom_format
         expected_date = "18 yolo 09 yolo 1986"
-        result = self.view.display_date(field_name=effective_field_name, custom_format="%d yolo %m yolo %Y")
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format="%d yolo %m yolo %Y"
+        )
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, custom_format="%d yolo %m yolo %Y")
+        result = self.view.display_date(
+            date=self.content.birth_datetime, custom_format="%d yolo %m yolo %Y"
+        )
         self.assertEqual(expected_date, result)
 
         # translation format has changed in Plone5.1+
         expected_date = u"jeu. 18 sept. 1986"
         result = self.view.display_date(
-            field_name=effective_field_name, custom_format="%a %d %b %Y", target_language="fr"
+            field_name=effective_field_name,
+            custom_format="%a %d %b %Y",
+            target_language="fr",
         )
         self.assertEqual(expected_date, result)
 
         expected_date = u"jeudi 18 Septembre 1986"
         result = self.view.display_date(
-            field_name=effective_field_name, custom_format="%A %d %B %Y", target_language="fr", month_lc=False
+            field_name=effective_field_name,
+            custom_format="%A %d %B %Y",
+            target_language="fr",
+            month_lc=False,
         )
         self.assertEqual(expected_date, result)
 
         expected_date = u"%Jeudi 18 %B 1986"
         result = self.view.display_date(
-            field_name=effective_field_name, custom_format="%%%A %d %%B %Y", target_language="fr", day_lc=False
+            field_name=effective_field_name,
+            custom_format="%%%A %d %%B %Y",
+            target_language="fr",
+            day_lc=False,
         )
         self.assertEqual(expected_date, result)
 
@@ -193,22 +233,32 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(expected_date, result)
 
         expected_date = u"18/09/1986 00:00"
-        result = self.view.display_date(field_name=effective_field_name, long_format=True)
+        result = self.view.display_date(
+            field_name=effective_field_name, long_format=True
+        )
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, long_format=True)
+        result = self.view.display_date(
+            date=self.content.birth_datetime, long_format=True
+        )
         self.assertEqual(expected_date, result)
 
         expected_date = u"00:00"
         result = self.view.display_date(field_name=effective_field_name, time_only=True)
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, time_only=True)
+        result = self.view.display_date(
+            date=self.content.birth_datetime, time_only=True
+        )
         self.assertEqual(expected_date, result)
 
         # custom_format
         expected_date = "18 yolo 09 yolo 1986"
-        result = self.view.display_date(field_name=effective_field_name, custom_format="%d yolo %m yolo %Y")
+        result = self.view.display_date(
+            field_name=effective_field_name, custom_format="%d yolo %m yolo %Y"
+        )
         self.assertEqual(expected_date, result)
-        result = self.view.display_date(date=self.content.birth_datetime, custom_format="%d yolo %m yolo %Y")
+        result = self.view.display_date(
+            date=self.content.birth_datetime, custom_format="%d yolo %m yolo %Y"
+        )
         self.assertEqual(expected_date, result)
 
     def test_display_voc_method(self):
@@ -309,7 +359,9 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertFalse(self.view.check_permission("amount"))
 
         # manually set permission on a behavior's field
-        schema = getUtility(IBehavior, "plone.app.dexterity.behaviors.metadata.IBasic").interface
+        schema = getUtility(
+            IBehavior, "plone.app.dexterity.behaviors.metadata.IBasic"
+        ).interface
         schema.setTaggedValue(READ_PERMISSIONS_KEY, {"description": "cmf.ManagePortal"})
 
         self.assertFalse(self.view.check_permission("description"))
@@ -320,7 +372,9 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(self.view.get_value("id", obj=self.doc), "doc")
         # test unknown field name (a behavior field by example, that can be activated or not)
         self.assertEqual(self.view.get_value("unknown", strict=False), None)
-        self.assertEqual(self.view.get_value("unknown", default="aa", strict=False), "aa")
+        self.assertEqual(
+            self.view.get_value("unknown", default="aa", strict=False), "aa"
+        )
         self.assertRaises(AttributeError, self.view.get_value, "unknown")
         # test None value
         self.assertIsNone(self.content.amount)
@@ -332,7 +386,10 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.assertEqual(self.view.get_value("subscription", default="aa"), "aa")
         # check RichText
         self.content.biography = RichTextValue(
-            raw=safe_unicode("<h1>Hello</h1>"), mimeType="text/html", outputMimeType="text/html", encoding="utf-8"
+            raw=safe_unicode("<h1>Hello</h1>"),
+            mimeType="text/html",
+            outputMimeType="text/html",
+            encoding="utf-8",
         )
         self.assertEqual(self.view.get_value("biography"), "<h1>Hello</h1>")
         # check utf8

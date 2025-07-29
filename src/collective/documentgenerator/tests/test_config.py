@@ -56,7 +56,8 @@ class TestConfig(unittest.TestCase):
         unopath = config.get_uno_path()
         self.assertTrue(unopath != newvalue)
         api.portal.set_registry_record(
-            "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path", newvalue
+            "collective.documentgenerator.browser.controlpanel.IDocumentGeneratorControlPanelSchema.uno_path",
+            newvalue,
         )
         unopath = config.get_uno_path()
         self.assertTrue(unopath == newvalue)
@@ -78,7 +79,11 @@ class TestConfigView(PODTemplateFunctionalTest):
     """
 
     def _open_controlpanel(self):
-        self.browser.open("{}/@@collective.documentgenerator-controlpanel".format(self.portal.absolute_url()))
+        self.browser.open(
+            "{}/@@collective.documentgenerator-controlpanel".format(
+                self.portal.absolute_url()
+            )
+        )
 
     def setUp(self):
         super(TestConfigView, self).setUp()
@@ -89,8 +94,12 @@ class TestConfigView(PODTemplateFunctionalTest):
         pythonpath_input = self.form.getControl(name="form.widgets.uno_path")
         pythonpath_input.value = "yolo"
         self.form.submit(name="form.buttons.save")
-        msg = "python path validator should have raised an 'invalid python path' warning"
-        self.assertTrue("Le chemin python spécifié semble erroné" in self.browser.contents, msg)
+        msg = (
+            "python path validator should have raised an 'invalid python path' warning"
+        )
+        self.assertTrue(
+            "Le chemin python spécifié semble erroné" in self.browser.contents, msg
+        )
 
     def test_python_with_uno_validator(self):
         pythonpath_input = self.form.getControl(name="form.widgets.uno_path")
@@ -98,7 +107,9 @@ class TestConfigView(PODTemplateFunctionalTest):
         self.form.submit(name="form.buttons.save")
         msg = "python path validator should have raised an 'python do not have uno library' warning"
         self.assertTrue(
-            "L'importation de la librairie UNO dans votre environnement python a échoué" in self.browser.contents, msg
+            "L'importation de la librairie UNO dans votre environnement python a échoué"
+            in self.browser.contents,
+            msg,
         )
 
     def test_cancel_button(self):

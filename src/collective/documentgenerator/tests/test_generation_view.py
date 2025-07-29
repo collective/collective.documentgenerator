@@ -72,7 +72,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         pod_template = self.test_podtemplate
         template_uid = pod_template.UID()
         view = self.portal.podtemplates.restrictedTraverse("@@document-generation")
-        self.assertRaises(PODTemplateNotFoundError, view, template_uid=None, output_format=None)
+        self.assertRaises(
+            PODTemplateNotFoundError, view, template_uid=None, output_format=None
+        )
         # set parameters in REQUEST as it is default implementation of
         # 'get_pod_template_uid' and 'get_generation_format' methods
         view.request.set("template_uid", template_uid)
@@ -114,13 +116,18 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # an 'output_format' must be given or it raises an Exception
         with self.assertRaises(Exception) as cm:
             view(template_uid, output_format="")
-        self.assertEqual(str(cm.exception), "No 'output_format' found to generate this document")
+        self.assertEqual(
+            str(cm.exception), "No 'output_format' found to generate this document"
+        )
         # if 'output_format' is not in available pod_formats of template, it raises an Exception
         self.assertNotIn("pdf", pod_template.get_available_formats())
         self.assertRaises(Exception, view)
         with self.assertRaises(Exception) as cm:
             view(template_uid, "pdf")
-        self.assertEqual(str(cm.exception), "Asked output format 'pdf' is not available for template 'test_template'!")
+        self.assertEqual(
+            str(cm.exception),
+            "Asked output format 'pdf' is not available for template 'test_template'!",
+        )
 
         # right, ask available format
         self.assertIn("odt", pod_template.get_available_formats())
@@ -160,7 +167,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             id="test_folder",
             container=self.portal,
         )
-        generation_view = generation_context.restrictedTraverse("@@persistent-document-generation")
+        generation_view = generation_context.restrictedTraverse(
+            "@@persistent-document-generation"
+        )
         generation_view(template_uid, "odt")
         generated_id = "general-template"
         msg = "File {0} should have been created in folder.".format(generated_id)
@@ -170,7 +179,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generated_doc = persistent_doc.file
         filename = persistent_doc.file.filename
         content_type = persistent_doc.file.contentType
-        self.assertIn("application/vnd.oasis.opendocument.text", str(generated_doc.data))
+        self.assertIn(
+            "application/vnd.oasis.opendocument.text", str(generated_doc.data)
+        )
 
         self.assertEqual(filename, u"General template.odt")
         self.assertEqual(content_type, "application/vnd.oasis.opendocument.text")
@@ -178,7 +189,11 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         # customize the title
         custom_title = "my awesome title"
-        generation_view(template_uid=template_uid, output_format="odt", generated_doc_title=custom_title)
+        generation_view(
+            template_uid=template_uid,
+            output_format="odt",
+            generated_doc_title=custom_title,
+        )
         docgen_file = generation_context.objectValues()[1]
         self.assertEqual(docgen_file.Title(), custom_title)
 
@@ -191,8 +206,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
 
         pod_template = self.test_podtemplate
         template_uid = pod_template.UID()
-        non_folderish = api.content.create(type="Document", id="doc", container=self.portal)
-        generation_view = non_folderish.restrictedTraverse("@@persistent-document-generation")
+        non_folderish = api.content.create(
+            type="Document", id="doc", container=self.portal
+        )
+        generation_view = non_folderish.restrictedTraverse(
+            "@@persistent-document-generation"
+        )
 
         error_raised = False
         try:
@@ -211,7 +230,12 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # Check context variables
         self.assertDictEqual(
             view._get_generation_context(hpv, pod_template),
-            {"details": "1", "portal": self.portal, "context": hpv.context, "view": hpv},
+            {
+                "details": "1",
+                "portal": self.portal,
+                "context": hpv.context,
+                "view": hpv,
+            },
         )
         # Check configurable pod template
         self.assertDictEqual(
@@ -242,7 +266,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
     def test_raiseOnError_for_non_managers(self):
         # create a POD template that will fail in every case
         current_path = os.path.dirname(__file__)
-        failing_template_data = open(os.path.join(current_path, "failing_template.odt"), "rb").read()
+        failing_template_data = open(
+            os.path.join(current_path, "failing_template.odt"), "rb"
+        ).read()
         failing_template = api.content.create(
             type="ConfigurablePODTemplate",
             id="failing_template",
@@ -257,7 +283,13 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             exclude_from_nav=True,
         )
         # create a user that is not Manager
-        api.user.create(email="test@test.be", username="user", password="12345678910", roles=["Member"], properties={})
+        api.user.create(
+            email="test@test.be",
+            username="user",
+            password="12345678910",
+            roles=["Member"],
+            properties={},
+        )
 
         # disabled by default
         self.assertFalse(get_raiseOnError_for_non_managers())
@@ -267,13 +299,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # generated for 'Manager'
         self.assertTrue("Manager" in api.user.get_current().getRoles())
         self.assertTrue(
-            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+            b"mimetypeapplication/vnd.oasis.opendocument.text"
+            in view(template_uid=template_UID, output_format="odt")
         )
         # generated for non 'Manager'
         login(self.portal, "user")
         self.assertFalse("Manager" in api.user.get_current().getRoles())
         self.assertTrue(
-            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+            b"mimetypeapplication/vnd.oasis.opendocument.text"
+            in view(template_uid=template_UID, output_format="odt")
         )
 
         # enable raiseOnError_for_non_managers and test again
@@ -284,20 +318,28 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             True,
         )
         self.assertTrue(
-            b"mimetypeapplication/vnd.oasis.opendocument.text" in view(template_uid=template_UID, output_format="odt")
+            b"mimetypeapplication/vnd.oasis.opendocument.text"
+            in view(template_uid=template_UID, output_format="odt")
         )
         login(self.portal, "user")
         # raises an error instead generating the document
         with self.assertRaises(Exception) as cm:
             view(template_uid=template_UID, output_format="odt")
-        self.assertTrue('Error while evaluating expression "view.unknown_method()".' in str(cm.exception))
+        self.assertTrue(
+            'Error while evaluating expression "view.unknown_method()".'
+            in str(cm.exception)
+        )
 
     def test_mailing_loop_persistent_document_generation(self):
         pod_template = self.portal.podtemplates.get("test_template_possibly_mailed")
         template_uid = pod_template.UID()
-        folder = api.content.create(type="Folder", title=u"Folder", id="test_folder", container=self.portal)
+        folder = api.content.create(
+            type="Folder", title=u"Folder", id="test_folder", container=self.portal
+        )
         # Check dexterity values
-        orig_registry = api.portal.get_registry_record("collective.documentgenerator.mailing_list")
+        orig_registry = api.portal.get_registry_record(
+            "collective.documentgenerator.mailing_list"
+        )
 
         def get_content(blob_file):
             tmpdir = tempfile.mkdtemp()
@@ -307,7 +349,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
             return info
 
         # First we generate a persistent document with only one element in mailing list
-        api.portal.set_registry_record("collective.documentgenerator.mailing_list", orig_registry[0:1])
+        api.portal.set_registry_record(
+            "collective.documentgenerator.mailing_list", orig_registry[0:1]
+        )
         generation_view = folder.restrictedTraverse("@@persistent-document-generation")
         generation_view(template_uid, "odt")
         generated_id = "possibly-mailed-template"
@@ -326,7 +370,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertIn(b"test_template", info["content.xml"])
 
         # Secondly we generate a persistent document with multiple element in mailing list
-        api.portal.set_registry_record("collective.documentgenerator.mailing_list", orig_registry)
+        api.portal.set_registry_record(
+            "collective.documentgenerator.mailing_list", orig_registry
+        )
         generation_view = folder.restrictedTraverse("@@persistent-document-generation")
         generation_view(template_uid, "odt")
         generated_id = "possibly-mailed-template-1"
@@ -352,7 +398,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         self.assertEqual(gen_context["details"], "1")
 
         # the mailing loop view is called on the folder context !
-        generation_view = folder.restrictedTraverse("@@mailing-loop-persistent-document-generation")
+        generation_view = folder.restrictedTraverse(
+            "@@mailing-loop-persistent-document-generation"
+        )
         generation_view(document_uid=persistent_doc.UID())
         generation_view(document_url_path=persistent_doc.absolute_url_path())
         generated_id = "mailing-loop-template"
@@ -379,7 +427,8 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         # check that context variables from original template are also in mailing generation context
         self.assertTrue(isinstance(generation_view.pod_template, MailingLoopTemplate))
         gen_context = generation_view._get_generation_context(
-            generation_view.get_generation_context_helper(), generation_view.pod_template
+            generation_view.get_generation_context_helper(),
+            generation_view.pod_template,
         )
         self.assertIn("details", gen_context)
         self.assertEqual(gen_context["details"], "1")
@@ -419,7 +468,9 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         def assert_result(ocw_in_xml, dc_in_xml):
             generated_doc = generation_view(template_uid, "odt")
             content_xml = self.get_odt_content_xml(generated_doc)
-            self.assertEqual(ocw_in_xml, b"OCW" in content_xml, "OCW not in content_xml")
+            self.assertEqual(
+                ocw_in_xml, b"OCW" in content_xml, "OCW not in content_xml"
+            )
             self.assertEqual(dc_in_xml, b"DC" in content_xml, "DC not in content_xml")
 
         # By default : column_modifier disabled globally, CSS override enabled globally

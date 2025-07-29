@@ -3,204 +3,215 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <!-- Publish static files -->
-    <browser:resourceDirectory
-        name="collective.documentgenerator"
-        directory="static"
-        />
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="collective.documentgenerator"
+      directory="static"
+      />
 
-    <browser:resourceDirectory
-        name="collective.documentgenerator.css"
-        directory="resources/css"
-        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
-        />
+  <browser:resourceDirectory
+      name="collective.documentgenerator.css"
+      directory="resources/css"
+      layer="..interfaces.ICollectiveDocumentGeneratorLayer"
+      />
 
-    <!-- views -->
-    <browser:page
-        for="*"
-        name="document-generation"
-        class="collective.documentgenerator.browser.generation_view.DocumentGenerationView"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        for="*"
-        name="persistent-document-generation"
-        class="collective.documentgenerator.browser.generation_view.PersistentDocumentGenerationView"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        for="*"
-        name="mailing-loop-persistent-document-generation"
-        class="collective.documentgenerator.browser.generation_view.MailingLoopPersistentDocumentGenerationView"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        name="collective.documentgenerator-controlpanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class="collective.documentgenerator.browser.controlpanel.DocumentGeneratorSettings"
-        permission="cmf.ManagePortal"
-        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
-        />
-
-    <browser:page
-        for="collective.documentgenerator.content.pod_template.IPODTemplate"
-        name="dg-reset-md5"
-        class=".views.ResetMd5"
-        permission="cmf.ModifyPortalContent"
-        />
-
-    <configure package="plone.app.dexterity.browser">
-        <browser:page
-            for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
-            name="view"
-            class="collective.documentgenerator.browser.views.ViewConfigurablePodTemplate"
-            permission="zope2.View"
-            template="item.pt"
-            />
-    </configure>
-
-    <browser:page
-        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
-        name="edit"
-        class=".views.EditConfigurablePodTemplate"
-        permission="cmf.ModifyPortalContent"
-        />
-
-    <browser:page
-        for="*"
-        name="dg-templates-listing"
-        class=".views.TemplatesListing"
-        template="templates_listing.pt"
-        permission="zope2.View"
-        />
-
-    <!-- configure actionspanel -->
-    <configure zcml:condition="installed imio.actionspanel" package="imio.actionspanel">
-
-        <browser:page
-            for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
-            name="actions_panel"
-            class="collective.documentgenerator.browser.actionspanel.ConfigurablePODTemplateActionsPanelView"
-            layer="imio.actionspanel.interfaces.IActionsPanelLayer"
-            template="browser/actions_panel.pt"
-            permission="zope2.View" />
-
-    </configure>
-
-    <!-- z3c.table -->
-    <adapter
-        zcml:condition="installed collective.eeafaceted.batchactions"
-        name="select_row"
-        for="zope.interface.Interface
-             zope.publisher.interfaces.browser.IBrowserRequest
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.CheckBoxColumn"
-        />
-
-    <adapter
-        name="TitleColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.TitleColumn"
-        />
-
-    <adapter
-        name="PathColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.PathColumn"
-        />
-
-    <adapter
-        name="EnabledColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.EnabledColumn"
-        />
-
-    <adapter
-        name="OriginalColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.OriginalColumn"
-        />
-
-    <adapter
-        name="FormatsColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.FormatsColumn"
-        />
-
-    <adapter
-        name="ReviewStateColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.ReviewStateColumn"
-        />
-
-    <adapter
-        zcml:condition="installed imio.actionspanel"
-        name="ActionsColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.ActionsColumn"
-        />
-
-    <adapter
-        name="DownloadColumn"
-        for="zope.interface.Interface
-             zope.interface.Interface
-             .table.TemplatesTable"
-        provides="z3c.table.interfaces.IColumn"
-        factory=".table.DownloadColumn"
-        />
-
-    <!-- batchactions -->
-    <browser:viewlet
-        zcml:condition="installed collective.eeafaceted.batchactions"
-        name="collective.eeafaceted.batchactions"
-        for="collective.documentgenerator.interfaces.IBelowContentBodyBatchActionsMarker"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-        class="collective.documentgenerator.viewlets.batchactions.DGBatchActionsViewlet"
-        permission="zope2.View" />
-
-    <!-- Override the documentviewer for IConfigurablePODTemplate so it uses ViewConfigurablePodTemplate too -->
-    <configure package="collective.documentviewer.browser" zcml:condition="installed collective.documentviewer">
-        <browser:page
-          name="documentviewer"
-          for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
-          class="collective.documentgenerator.browser.overrides.DGDXDocumentViewerView"
-          template="templates/documentviewer.pt"
-          permission="zope2.View"
-          layer="..interfaces.ILayer" />
-    </configure>
-
-    <browser:page
+  <!-- views -->
+  <browser:page
+      name="document-generation"
       for="*"
+      class="collective.documentgenerator.browser.generation_view.DocumentGenerationView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="persistent-document-generation"
+      for="*"
+      class="collective.documentgenerator.browser.generation_view.PersistentDocumentGenerationView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="mailing-loop-persistent-document-generation"
+      for="*"
+      class="collective.documentgenerator.browser.generation_view.MailingLoopPersistentDocumentGenerationView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="collective.documentgenerator-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class="collective.documentgenerator.browser.controlpanel.DocumentGeneratorSettings"
+      permission="cmf.ManagePortal"
+      layer="..interfaces.ICollectiveDocumentGeneratorLayer"
+      />
+
+  <browser:page
+      name="dg-reset-md5"
+      for="collective.documentgenerator.content.pod_template.IPODTemplate"
+      class=".views.ResetMd5"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <configure package="plone.app.dexterity.browser">
+    <browser:page
+        name="view"
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+        class="collective.documentgenerator.browser.views.ViewConfigurablePodTemplate"
+        template="item.pt"
+        permission="zope2.View"
+        />
+  </configure>
+
+  <browser:page
+      name="edit"
+      for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+      class=".views.EditConfigurablePodTemplate"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="dg-templates-listing"
+      for="*"
+      class=".views.TemplatesListing"
+      template="templates_listing.pt"
+      permission="zope2.View"
+      />
+
+  <!-- configure actionspanel -->
+  <configure
+      package="imio.actionspanel"
+      zcml:condition="installed imio.actionspanel"
+      >
+
+    <browser:page
+        name="actions_panel"
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+        class="collective.documentgenerator.browser.actionspanel.ConfigurablePODTemplateActionsPanelView"
+        template="browser/actions_panel.pt"
+        permission="zope2.View"
+        layer="imio.actionspanel.interfaces.IActionsPanelLayer"
+        />
+
+  </configure>
+
+  <!-- z3c.table -->
+  <adapter
+      factory=".table.CheckBoxColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IBrowserRequest
+           .table.TemplatesTable"
+      name="select_row"
+      zcml:condition="installed collective.eeafaceted.batchactions"
+      />
+
+  <adapter
+      factory=".table.TitleColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="TitleColumn"
+      />
+
+  <adapter
+      factory=".table.PathColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="PathColumn"
+      />
+
+  <adapter
+      factory=".table.EnabledColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="EnabledColumn"
+      />
+
+  <adapter
+      factory=".table.OriginalColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="OriginalColumn"
+      />
+
+  <adapter
+      factory=".table.FormatsColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="FormatsColumn"
+      />
+
+  <adapter
+      factory=".table.ReviewStateColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="ReviewStateColumn"
+      />
+
+  <adapter
+      factory=".table.ActionsColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="ActionsColumn"
+      zcml:condition="installed imio.actionspanel"
+      />
+
+  <adapter
+      factory=".table.DownloadColumn"
+      provides="z3c.table.interfaces.IColumn"
+      for="zope.interface.Interface
+           zope.interface.Interface
+           .table.TemplatesTable"
+      name="DownloadColumn"
+      />
+
+  <!-- batchactions -->
+  <browser:viewlet
+      name="collective.eeafaceted.batchactions"
+      for="collective.documentgenerator.interfaces.IBelowContentBodyBatchActionsMarker"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      class="collective.documentgenerator.viewlets.batchactions.DGBatchActionsViewlet"
+      permission="zope2.View"
+      zcml:condition="installed collective.eeafaceted.batchactions"
+      />
+
+  <!-- Override the documentviewer for IConfigurablePODTemplate so it uses ViewConfigurablePodTemplate too -->
+  <configure
+      package="collective.documentviewer.browser"
+      zcml:condition="installed collective.documentviewer"
+      >
+    <browser:page
+        name="documentviewer"
+        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate"
+        class="collective.documentgenerator.browser.overrides.DGDXDocumentViewerView"
+        template="templates/documentviewer.pt"
+        permission="zope2.View"
+        layer="..interfaces.ILayer"
+        />
+  </configure>
+
+  <browser:page
       name="check-pod-templates"
-      template="check_pod_templates.pt"
+      for="*"
       class=".views.CheckPodTemplatesView"
-      permission="cmf.ManagePortal" />
+      template="check_pod_templates.pt"
+      permission="cmf.ManagePortal"
+      />
 
 </configure>

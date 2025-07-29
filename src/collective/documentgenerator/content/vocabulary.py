@@ -29,7 +29,12 @@ class FormatsVocabularyFactory(object):
     """
 
     def __call__(self, context):
-        vocabulary = SimpleVocabulary([SimpleTerm(pod_format, pod_format, label) for pod_format, label in POD_FORMATS])
+        vocabulary = SimpleVocabulary(
+            [
+                SimpleTerm(pod_format, pod_format, label)
+                for pod_format, label in POD_FORMATS
+            ]
+        )
         return vocabulary
 
 
@@ -56,7 +61,9 @@ class StyleTemplatesVocabularyFactory(object):
         voc_terms = [SimpleTerm("--NOVALUE--", "--NOVALUE--", _z3c_form("No value"))]
 
         for brain in style_template_brains:
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain))
+            )
 
         vocabulary = SimpleVocabulary(voc_terms)
 
@@ -87,7 +94,9 @@ class MergeTemplatesVocabularyFactory(object):
         voc_terms = [SimpleTerm("--NOVALUE--", "--NOVALUE--", _z3c_form("No value"))]
 
         for brain in pod_templates:
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._render_term_title(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._render_term_title(brain))
+            )
 
         vocabulary = SimpleVocabulary(voc_terms)
 
@@ -118,10 +127,14 @@ class PodColumnModifierVocabularyFactory(object):
     def __call__(self, context):
         # adapt first term value depending on global configuration value
         # get term from global value vocabulary
-        vocabulary = queryUtility(IVocabularyFactory, "collective.documentgenerator.ConfigColumnModifier")
+        vocabulary = queryUtility(
+            IVocabularyFactory, "collective.documentgenerator.ConfigColumnModifier"
+        )
         voc = vocabulary(context)
         global_value = _(voc.getTerm(get_column_modifier()).title)
-        global_value_term = _("Global value (${global_value})", mapping={"global_value": global_value})
+        global_value_term = _(
+            "Global value (${global_value})", mapping={"global_value": global_value}
+        )
 
         voc_terms = [
             SimpleTerm(-1, -1, global_value_term),
@@ -154,7 +167,9 @@ class MailingLoopTemplatesEnabledVocabularyFactory(object):
         voc_terms = []
 
         for brain in get_mailing_loop_templates(enabled_only=True):
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain))
+            )
         return SimpleVocabulary(voc_terms)
 
     def _renderTermTitle(self, brain):
@@ -170,7 +185,9 @@ class MailingLoopTemplatesAllVocabularyFactory(object):
         voc_terms = []
 
         for brain in get_mailing_loop_templates(enabled_only=False):
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain))
+            )
 
         return SimpleVocabulary(voc_terms)
 
@@ -187,7 +204,9 @@ class ExistingPODTemplateFactory(object):
         voc_terms = []
 
         for brain in self._get_existing_pod_templates(context, enabled_only=False):
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain))
+            )
 
         return SimpleVocabulary(voc_terms)
 
@@ -203,7 +222,9 @@ class ExistingPODTemplateFactory(object):
         return brains
 
     def _renderTermTitle(self, brain):
-        return u"{} -> {}".format(safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename))
+        return u"{} -> {}".format(
+            safe_unicode(brain.Title), safe_unicode(brain.getObject().odt_file.filename)
+        )
 
 
 class AllPODTemplateWithFileVocabularyFactory(object):
@@ -215,7 +236,9 @@ class AllPODTemplateWithFileVocabularyFactory(object):
         voc_terms = [SimpleTerm("all", "all", _("All POD templates"))]
 
         for brain in self._get_all_pod_templates_with_file():
-            voc_terms.append(SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain)))
+            voc_terms.append(
+                SimpleTerm(brain.UID, brain.UID, self._renderTermTitle(brain))
+            )
 
         return SimpleVocabulary(voc_terms)
 
@@ -230,7 +253,8 @@ class AllPODTemplateWithFileVocabularyFactory(object):
 
     def _renderTermTitle(self, brain):
         return u"{} ({})".format(
-            safe_unicode(get_site_root_relative_path(brain.getObject())), safe_unicode(brain.Title)
+            safe_unicode(get_site_root_relative_path(brain.getObject())),
+            safe_unicode(brain.Title),
         )
 
 
@@ -267,7 +291,9 @@ class MissingTerms(MissingTermsMixin):
             except LookupError:
                 pass
         if IContextAware.providedBy(self.widget) and not self.widget.ignoreContext:
-            curValue = getMultiAdapter((self.widget.context, self.field), IDataManager).query()
+            curValue = getMultiAdapter(
+                (self.widget.context, self.field), IDataManager
+            ).query()
             if curValue == value:
                 return self._makeMissingTerm(value)
         raise
@@ -281,7 +307,9 @@ class MissingTerms(MissingTermsMixin):
             except LookupError:
                 pass
         if IContextAware.providedBy(self.widget) and not self.widget.ignoreContext:
-            value = getMultiAdapter((self.widget.context, self.field), IDataManager).query()
+            value = getMultiAdapter(
+                (self.widget.context, self.field), IDataManager
+            ).query()
             term = self._makeMissingTerm(value)
             if term.token == token:
                 return term
@@ -293,7 +321,10 @@ class PTMCTV(MissingChoiceTermsVocabulary, MissingTerms):
 
     def complete_voc(self):
         if self.field.getName() == "mailing_loop_template":
-            return getUtility(IVocabularyFactory, "collective.documentgenerator.AllMailingLoopTemplates")(self.context)
+            return getUtility(
+                IVocabularyFactory,
+                "collective.documentgenerator.AllMailingLoopTemplates",
+            )(self.context)
         else:
             return SimpleVocabulary([])
 

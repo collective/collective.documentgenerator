@@ -27,11 +27,15 @@ class DocumentGenerationHelperView(object):
         self.context = self._get_proxy_object()
         self.appy_renderer = None
         self.plone = getMultiAdapter((context, request), name=u"plone")
-        self.plone_portal_state = getMultiAdapter((context, request), name=u"plone_portal_state")
+        self.plone_portal_state = getMultiAdapter(
+            (context, request), name=u"plone_portal_state"
+        )
         self.portal = self.plone_portal_state.portal()
 
     def _get_proxy_object(self):
-        proxy_obj = getMultiAdapter((self.real_context, self.display), IDisplayProxyObject)
+        proxy_obj = getMultiAdapter(
+            (self.real_context, self.display), IDisplayProxyObject
+        )
         proxy_obj.helper_view = self
         return proxy_obj
 
@@ -79,7 +83,15 @@ class DocumentGenerationHelperView(object):
         )
 
     @mutually_exclusive_parameters("field_name", "phone")
-    def display_phone(self, field_name=None, phone=None, country="BE", check=True, format="", pattern=""):
+    def display_phone(
+        self,
+        field_name=None,
+        phone=None,
+        country="BE",
+        check=True,
+        format="",
+        pattern="",
+    ):
         """
         Return a formatted localized phone number.
         country = 2 letters country code
@@ -131,11 +143,23 @@ class DocumentGenerationHelperView(object):
             return "".join(nbl[:-1])
 
         if format:
-            ret = format_with_pattern(phonenumbers.format_number(number, format == "int" and 1 or 2))
-        elif country in phonenumbers.data._COUNTRY_CODE_TO_REGION_CODE.get(number.country_code, []):
-            ret = format_with_pattern(phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.NATIONAL))
+            ret = format_with_pattern(
+                phonenumbers.format_number(number, format == "int" and 1 or 2)
+            )
+        elif country in phonenumbers.data._COUNTRY_CODE_TO_REGION_CODE.get(
+            number.country_code, []
+        ):
+            ret = format_with_pattern(
+                phonenumbers.format_number(
+                    number, phonenumbers.PhoneNumberFormat.NATIONAL
+                )
+            )
         else:
-            ret = format_with_pattern(phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.INTERNATIONAL))
+            ret = format_with_pattern(
+                phonenumbers.format_number(
+                    number, phonenumbers.PhoneNumberFormat.INTERNATIONAL
+                )
+            )
         return ret
 
     def display_voc(self, field_name, separator=","):  # pragma: no cover
@@ -146,13 +170,21 @@ class DocumentGenerationHelperView(object):
     def display_text_as_html(self, field_name=None, text=None):
         if field_name:
             text = self.get_value(field_name)
-        return self.portal.portal_transforms.convert("web_intelligent_plain_text_to_html", text).getData()
+        return self.portal.portal_transforms.convert(
+            "web_intelligent_plain_text_to_html", text
+        ).getData()
 
     @mutually_exclusive_parameters("field_name", "html")
     def display_html_as_text(self, field_name=None, html=None):
         if field_name:
             html = self.get_value(field_name)
-        return self.portal.portal_transforms.convert("html_to_web_intelligent_plain_text", html).getData().strip("\n ")
+        return (
+            self.portal.portal_transforms.convert(
+                "html_to_web_intelligent_plain_text", html
+            )
+            .getData()
+            .strip("\n ")
+        )
 
     def render_xhtml(self, field_name):
         if not self.appy_renderer:
@@ -173,22 +205,33 @@ class DocumentGenerationHelperView(object):
     def list(self, field_name):
         return self.get_value(field_name)
 
-    def list_voc(self, field_name, list_keys=False, list_values=True):  # pragma: no cover
+    def list_voc(
+        self, field_name, list_keys=False, list_values=True
+    ):  # pragma: no cover
         """See IDocumentGenerationHelper. To implements."""
         raise NotImplementedError()
 
     def _set_appy_renderer(self, appy_renderer):
         self.appy_renderer = appy_renderer
 
-    def translate(self, msgid, domain="plone", mapping={}, target_language=None, default=None):
+    def translate(
+        self, msgid, domain="plone", mapping={}, target_language=None, default=None
+    ):
         """Let's translate a given msgid in given domain."""
         return translate(
-            msgid, domain, mapping=mapping, context=self.request, target_language=target_language, default=default
+            msgid,
+            domain,
+            mapping=mapping,
+            context=self.request,
+            target_language=target_language,
+            default=default,
         )
 
     def getDGHV(self, obj):
         """get another object 'document_generation_helper_view' view"""
-        view = getMultiAdapter((obj, self.request), name=u"document_generation_helper_view")
+        view = getMultiAdapter(
+            (obj, self.request), name=u"document_generation_helper_view"
+        )
         view.appy_renderer = self.appy_renderer
         return view
 

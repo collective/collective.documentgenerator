@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
 
   <!-- Content types icons -->
@@ -33,8 +33,9 @@
     <value key="resource">++plone++bootstrap-icons/file-earmark-medical.svg</value>
   </record>
 
-  <records prefix="plone.bundles/collective.documentgenerator"
-            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/collective.documentgenerator"
+  >
     <value key="enabled">True</value>
     <value key="csscompilation">++resource++collective.documentgenerator.css/documentgenerator.css</value>
     <value key="last_compilation">2016-01-01 00:00:00</value>

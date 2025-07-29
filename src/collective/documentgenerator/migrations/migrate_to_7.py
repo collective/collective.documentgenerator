@@ -17,10 +17,14 @@ class Migrate_To_7(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 7 ...")
-        for brain in self.catalog(object_provides=IRenamePageStylesSchema.__identifier__):
+        for brain in self.catalog(
+            object_provides=IRenamePageStylesSchema.__identifier__
+        ):
             obj = brain.getObject()
             if obj.rename_page_styles is None:
-                logger.info("Setting rename_page_styles to false on %s" % brain.getPath())
+                logger.info(
+                    "Setting rename_page_styles to false on %s" % brain.getPath()
+                )
                 obj.rename_page_styles = False
         self.finish()
 

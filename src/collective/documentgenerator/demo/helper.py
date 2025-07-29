@@ -26,7 +26,9 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
         return ["id", "title"]
 
     def is_default_field(self, field_name):
-        if not self.is_rich_text_field(field_name) and not self.is_line_field(field_name):
+        if not self.is_rich_text_field(field_name) and not self.is_line_field(
+            field_name
+        ):
             return True
         return False
 
@@ -60,10 +62,15 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
         if self.is_default_field(field_name):
             code.append("%s : context.%s" % (_(u"input_field"), field_name))
         elif self.is_rich_text_field(field_name):
-            code.append("%s : do text from view.render_xhtml('%s')" % (_(u"comment"), field_name))
+            code.append(
+                "%s : do text from view.render_xhtml('%s')"
+                % (_(u"comment"), field_name)
+            )
         elif self.is_line_field(field_name):
             code.append("%s : line" % _(u"input_field"))
-            code.append("%s : do text for line in view.list('%s')" % (_(u"comment"), field_name))
+            code.append(
+                "%s : do text for line in view.list('%s')" % (_(u"comment"), field_name)
+            )
         return code
 
     def summary(self, obj):
@@ -80,13 +87,24 @@ class BaseDemoHelperView(DocumentGenerationHelperView):
 
     def _get_collection_CT_fields_filtered_fields(self):
         """ """
-        return ["id", "title", "text", "sort_on", "sort_reversed", "b_size", "limit", "customViewFields"]
+        return [
+            "id",
+            "title",
+            "text",
+            "sort_on",
+            "sort_reversed",
+            "b_size",
+            "limit",
+            "customViewFields",
+        ]
 
     def is_folderish(self):
         raise NotImplementedError
 
     def mailing_list(self, gen_context=None):
-        paths = api.portal.get_registry_record("collective.documentgenerator.mailing_list")
+        paths = api.portal.get_registry_record(
+            "collective.documentgenerator.mailing_list"
+        )
         ret = []
         for path in paths:
             obj = self.portal.unrestrictedTraverse(safe_encode(path))

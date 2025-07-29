@@ -1,10 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <adapter
-      for="collective.documentgenerator.content.pod_template.IPODTemplate"
+  <adapter
       factory=".merge_templates.TemplatesToMergeForPODTemplate"
-    />
+      for="collective.documentgenerator.content.pod_template.IPODTemplate"
+      />
 
 </configure>

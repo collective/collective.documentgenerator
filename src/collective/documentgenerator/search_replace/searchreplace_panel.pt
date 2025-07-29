@@ -1,22 +1,31 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
-      i18n:domain="collective.documentgenerator">
+      xml:lang="en"
+      i18n:domain="collective.documentgenerator"
+>
 
-<metal:block fill-slot="top_slot"
-             tal:define="dummy python:request.set('disable_border',1)"/>
+  <metal:block fill-slot="top_slot"
+               tal:define="
+                 dummy python:request.set('disable_border',1);
+               "
+  />
 
-<body>
-<div id="content" metal:fill-slot="prefs_configlet_content">
+  <body>
+    <div id="content"
+         metal:fill-slot="prefs_configlet_content"
+    >
 
-    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+      <h1 class="documentFirstHeading"
+          tal:content="view/label"
+      >View Title</h1>
 
-    <div id="layout-contents">
-        <span tal:replace="structure view/contents"/>
+      <div id="layout-contents">
+        <span tal:replace="structure view/contents"></span>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

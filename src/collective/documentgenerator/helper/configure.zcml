@@ -3,31 +3,32 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <!-- default proxy object for any content type -->
-    <adapter
-        for="zope.interface.Interface
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
-        factory="collective.documentgenerator.helper.DisplayProxyObject"
-        permission="zope2.View"
-     />
+  <!-- default proxy object for any content type -->
+  <adapter
+      factory="collective.documentgenerator.helper.DisplayProxyObject"
+      provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
+      for="zope.interface.Interface
+           zope.interface.Interface"
+      permission="zope2.View"
+      />
 
-    <!-- helper view and default proxy object for Dexterity -->
-    <browser:page
-        for="plone.dexterity.interfaces.IDexterityContent"
-        class="collective.documentgenerator.helper.DXDocumentGenerationHelperView"
-        permission="zope2.View"
-        name="document_generation_helper_view"
-        />
+  <!-- helper view and default proxy object for Dexterity -->
+  <browser:page
+      name="document_generation_helper_view"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      class="collective.documentgenerator.helper.DXDocumentGenerationHelperView"
+      permission="zope2.View"
+      />
 
-    <adapter
-        for="plone.dexterity.interfaces.IDexterityContent
-             zope.interface.Interface"
-        provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
-        factory="collective.documentgenerator.helper.dexterity.DXDisplayProxyObject"
-        permission="zope2.View"
-        />
+  <adapter
+      factory="collective.documentgenerator.helper.dexterity.DXDisplayProxyObject"
+      provides="collective.documentgenerator.interfaces.IDisplayProxyObject"
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.interface.Interface"
+      permission="zope2.View"
+      />
 
 </configure>

@@ -3,17 +3,19 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
 
-    <browser:page
-        name="collective.documentgenerator-searchreplacepanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class="collective.documentgenerator.search_replace.searchreplace_panel.DocumentGeneratorSearchReplace"
-        permission="cmf.ManagePortal"
-        layer="..interfaces.ICollectiveDocumentGeneratorLayer"
-        template="searchreplace_panel.pt" />
+  <browser:page
+      name="collective.documentgenerator-searchreplacepanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class="collective.documentgenerator.search_replace.searchreplace_panel.DocumentGeneratorSearchReplace"
+      template="searchreplace_panel.pt"
+      permission="cmf.ManagePortal"
+      layer="..interfaces.ICollectiveDocumentGeneratorLayer"
+      />
 
-    <adapter factory=".searchreplace_panel.DocumentGeneratorSearchReplacePanelAdapter" />
+  <adapter factory=".searchreplace_panel.DocumentGeneratorSearchReplacePanelAdapter" />
 
 </configure>

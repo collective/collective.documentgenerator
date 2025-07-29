@@ -1,16 +1,17 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
   <include file="configure.zcml" />
 
   <genericsetup:registerProfile
       name="testing"
       title="collective.documentgenerator tests"
-      directory="profiles/testing"
       description="Steps to ease tests of collective.documentgenerator"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/testing"
       />
 
 </configure>

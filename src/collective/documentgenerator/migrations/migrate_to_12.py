@@ -17,7 +17,11 @@ class Migrate_To_12(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 12 ...")
-        self.runProfileSteps("collective.documentgenerator", steps=["typeinfo", "controlpanel"], profile="install-base")
+        self.runProfileSteps(
+            "collective.documentgenerator",
+            steps=["typeinfo", "controlpanel"],
+            profile="install-base",
+        )
         for brain in self.catalog(portal_type=POD_TEMPLATE_TYPES.values()):
             brain.getObject().reindexObject(idxs=["getIcon"])
         self.finish()

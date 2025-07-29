@@ -1,28 +1,29 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <adapter
-        for="collective.documentgenerator.content.pod_template.IPODTemplate"
-        provides="zope.filerepresentation.interfaces.IRawReadFile"
-        factory=".file_representation.ReadFile"
-    />
+  <adapter
+      factory=".file_representation.ReadFile"
+      provides="zope.filerepresentation.interfaces.IRawReadFile"
+      for="collective.documentgenerator.content.pod_template.IPODTemplate"
+      />
 
-    <adapter
-        for="collective.documentgenerator.content.pod_template.IPODTemplate"
-        factory=".file_representation.WriteFile"
-    />
+  <adapter
+      factory=".file_representation.WriteFile"
+      for="collective.documentgenerator.content.pod_template.IPODTemplate"
+      />
 
-    <adapter
-        for="collective.documentgenerator.content.style_template.IStyleTemplate"
-        provides="zope.filerepresentation.interfaces.IRawReadFile"
-        factory=".file_representation.ReadFile"
-    />
+  <adapter
+      factory=".file_representation.ReadFile"
+      provides="zope.filerepresentation.interfaces.IRawReadFile"
+      for="collective.documentgenerator.content.style_template.IStyleTemplate"
+      />
 
-    <adapter
-        for="collective.documentgenerator.content.style_template.IStyleTemplate"
-        factory=".file_representation.WriteFile"
-    />
+  <adapter
+      factory=".file_representation.WriteFile"
+      for="collective.documentgenerator.content.style_template.IStyleTemplate"
+      />
 
 </configure>

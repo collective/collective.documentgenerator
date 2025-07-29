@@ -17,7 +17,9 @@ class Migrate_To_3(Migrator):  # pragma: no cover
 
     def run(self):
         logger.info("Migrating to collective.documentgenerator 3 ...")
-        for brain in self.catalog(object_provides=IConfigurablePODTemplate.__identifier__):
+        for brain in self.catalog(
+            object_provides=IConfigurablePODTemplate.__identifier__
+        ):
             obj = brain.getObject()
             if obj.merge_templates:
                 newvalue = []

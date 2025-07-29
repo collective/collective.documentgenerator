@@ -1,104 +1,105 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="collective.documentgenerator">
+    i18n_domain="collective.documentgenerator"
+    >
 
-    <!-- Formats Vocabulary -->
-    <utility
-        factory=".vocabulary.FormatsVocabularyFactory"
-        name="collective.documentgenerator.Formats"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- Formats Vocabulary -->
+  <utility
+      factory=".vocabulary.FormatsVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.Formats"
+      />
 
-    <!-- Portal Types Vocabulary -->
-    <utility
-        factory=".vocabulary.PortalTypesVocabularyFactory"
-        name="collective.documentgenerator.PortalTypes"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- Portal Types Vocabulary -->
+  <utility
+      factory=".vocabulary.PortalTypesVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.PortalTypes"
+      />
 
-    <!-- Styles Vocabulary -->
-    <utility
-        factory=".vocabulary.StyleTemplatesVocabularyFactory"
-        name="collective.documentgenerator.StyleTemplates"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- Styles Vocabulary -->
+  <utility
+      factory=".vocabulary.StyleTemplatesVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.StyleTemplates"
+      />
 
-    <!-- Merge templates Vocabulary -->
-    <utility
-        factory=".vocabulary.MergeTemplatesVocabularyFactory"
-        name="collective.documentgenerator.MergeTemplates"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- Merge templates Vocabulary -->
+  <utility
+      factory=".vocabulary.MergeTemplatesVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.MergeTemplates"
+      />
 
-    <!-- MailingLoop Vocabulary -->
-    <utility
-        factory=".vocabulary.MailingLoopTemplatesEnabledVocabularyFactory"
-        name="collective.documentgenerator.EnabledMailingLoopTemplates"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- MailingLoop Vocabulary -->
+  <utility
+      factory=".vocabulary.MailingLoopTemplatesEnabledVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.EnabledMailingLoopTemplates"
+      />
 
-    <!-- Existing POD Template Vocabulary -->
-    <utility
-        factory=".vocabulary.ExistingPODTemplateFactory"
-        name="collective.documentgenerator.ExistingPODTemplate"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- Existing POD Template Vocabulary -->
+  <utility
+      factory=".vocabulary.ExistingPODTemplateFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.ExistingPODTemplate"
+      />
 
-    <!-- All POD Template Vocabulary -->
-    <utility
-        factory=".vocabulary.AllPODTemplateWithFileVocabularyFactory"
-        name="collective.documentgenerator.AllPODTemplateWithFile"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- All POD Template Vocabulary -->
+  <utility
+      factory=".vocabulary.AllPODTemplateWithFileVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.AllPODTemplateWithFile"
+      />
 
-    <!-- columnModifier Vocabulary -->
-    <utility
-        factory=".vocabulary.PodColumnModifierVocabularyFactory"
-        name="collective.documentgenerator.PodColumnModifier"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
-    <utility
-        factory=".vocabulary.ConfigColumnModifierVocabularyFactory"
-        name="collective.documentgenerator.ConfigColumnModifier"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- columnModifier Vocabulary -->
+  <utility
+      factory=".vocabulary.PodColumnModifierVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.PodColumnModifier"
+      />
+  <utility
+      factory=".vocabulary.ConfigColumnModifierVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.ConfigColumnModifier"
+      />
 
-    <utility
-        factory=".vocabulary.MailingLoopTemplatesAllVocabularyFactory"
-        name="collective.documentgenerator.AllMailingLoopTemplates"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <utility
+      factory=".vocabulary.MailingLoopTemplatesAllVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.AllMailingLoopTemplates"
+      />
 
-    <utility
-        factory=".vocabulary.ConfigStreamVocabularyFactory"
-        name="collective.documentgenerator.ConfigStream"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <utility
+      factory=".vocabulary.ConfigStreamVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.ConfigStream"
+      />
 
-    <!-- MISSING VOCABULARIES -->
-    <!-- type, layer, view, field, vocabulary, widget -->
-    <adapter
-        for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
-             z3c.form.interfaces.IFormLayer
-             zope.interface.Interface
-             zope.schema.interfaces.IChoice
-             zope.schema.interfaces.IBaseVocabulary
-             z3c.form.interfaces.ISelectWidget"
-        factory=".vocabulary.PTMCTV"
-    />
+  <!-- MISSING VOCABULARIES -->
+  <!-- type, layer, view, field, vocabulary, widget -->
+  <adapter
+      factory=".vocabulary.PTMCTV"
+      for="collective.documentgenerator.content.pod_template.IConfigurablePODTemplate
+           z3c.form.interfaces.IFormLayer
+           zope.interface.Interface
+           zope.schema.interfaces.IChoice
+           zope.schema.interfaces.IBaseVocabulary
+           z3c.form.interfaces.ISelectWidget"
+      />
 
-    <!-- CSV field delimiter Vocabulary -->
-    <utility
-        factory=".vocabulary.CSVFieldDelimiterFactory"
-        name="collective.documentgenerator.CSVFieldDelimiter"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- CSV field delimiter Vocabulary -->
+  <utility
+      factory=".vocabulary.CSVFieldDelimiterFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.CSVFieldDelimiter"
+      />
 
-    <!-- CSV string delimiter Vocabulary -->
-    <utility
-        factory=".vocabulary.CSVStringDelimiterFactory"
-        name="collective.documentgenerator.CSVStringDelimiter"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+  <!-- CSV string delimiter Vocabulary -->
+  <utility
+      factory=".vocabulary.CSVStringDelimiterFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="collective.documentgenerator.CSVStringDelimiter"
+      />
 
 </configure>

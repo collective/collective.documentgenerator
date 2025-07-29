@@ -1,8 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer
-    name="collective.documentgenerator"
-    interface="collective.documentgenerator.interfaces.ICollectiveDocumentGeneratorLayer"
-    remove="True"
+  <layer interface="collective.documentgenerator.interfaces.ICollectiveDocumentGeneratorLayer"
+         name="collective.documentgenerator"
+         remove="True"
   />
 </layers>

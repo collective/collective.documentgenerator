@@ -42,29 +42,41 @@ class TestUtils(PODTemplateIntegrationTest):
         # check current md5 is no more initial_md5 after style update
         self.assertNotEqual(test_template.initial_md5, test_template.current_md5)
         # check style_modification_md5 is equal to current md5 after style update only
-        self.assertEqual(test_template.style_modification_md5, test_template.current_md5)
+        self.assertEqual(
+            test_template.style_modification_md5, test_template.current_md5
+        )
         self.assertFalse(test_template.has_been_modified())
         modif_date = test_template.modification_date
 
         # bad plone obj path => no change
-        ret = update_templates([("/podtemplates/test_template_bad", path("modele_general.odt"))])
+        ret = update_templates(
+            [("/podtemplates/test_template_bad", path("modele_general.odt"))]
+        )
         self.assertEqual(ret[0][2], "plone path error")
 
         # bad file path => no change
-        ret = update_templates([("/podtemplates/test_template_multiple", path("modele_general.bad"))])
+        ret = update_templates(
+            [("/podtemplates/test_template_multiple", path("modele_general.bad"))]
+        )
         self.assertEqual(modif_date, test_template.modification_date)
         self.assertEqual(ret[0][2], "os path error")
 
         # same os file => unchanged status
-        ret = update_templates([("/podtemplates/test_template_multiple", path("modele_general.odt"))])
+        ret = update_templates(
+            [("/podtemplates/test_template_multiple", path("modele_general.odt"))]
+        )
         self.assertEqual(modif_date, test_template.modification_date)
         self.assertEqual(ret[0][2], "unchanged")
 
         # replace file when not same os file and template not modified
-        ret = update_templates([("/podtemplates/test_template_multiple", path("modèle_collection.odt"))])
+        ret = update_templates(
+            [("/podtemplates/test_template_multiple", path("modèle_collection.odt"))]
+        )
         self.assertEqual(test_template.initial_md5, mcodt_md5)
         self.assertNotEqual(test_template.initial_md5, test_template.current_md5)
-        self.assertEqual(test_template.style_modification_md5, test_template.current_md5)
+        self.assertEqual(
+            test_template.style_modification_md5, test_template.current_md5
+        )
         self.assertFalse(test_template.has_been_modified())
         self.assertEqual(ret[0][2], "replaced")
         self.assertNotEqual(modif_date, test_template.modification_date)
@@ -75,14 +87,21 @@ class TestUtils(PODTemplateIntegrationTest):
         test_template.odt_file.data = mgodt
         modified(test_template, Attributes(Interface, "odt_file"))
         self.assertEqual(test_template.initial_md5, mcodt_md5)
-        self.assertNotEqual(test_template.style_modification_md5, test_template.current_md5)
+        self.assertNotEqual(
+            test_template.style_modification_md5, test_template.current_md5
+        )
         self.assertTrue(test_template.has_been_modified())
         modif_date = test_template.modification_date
-        ret = update_templates([("/podtemplates/test_template_multiple", path("modele_general.odt"))])
+        ret = update_templates(
+            [("/podtemplates/test_template_multiple", path("modele_general.odt"))]
+        )
         self.assertEqual(ret[0][2], "kept")
         self.assertEqual(modif_date, test_template.modification_date)
         # we force replacement
-        ret = update_templates([("/podtemplates/test_template_multiple", path("modele_general.odt"))], force=True)
+        ret = update_templates(
+            [("/podtemplates/test_template_multiple", path("modele_general.odt"))],
+            force=True,
+        )
         self.assertEqual(ret[0][2], "replaced")
         self.assertNotEqual(modif_date, test_template.modification_date)
 
@@ -95,10 +114,24 @@ class TestUtils(PODTemplateIntegrationTest):
         self._update_dict_with_validation_helper({"test": 1}, {"test1": 2, "test2": 2})
 
         # if dict have at least 1 common keys, Invalid is raised
-        self.assertRaises(Invalid, update_dict_with_validation, {"test": 1, "test2": 2}, {"test": 2})
-        self.assertRaises(Invalid, update_dict_with_validation, {"test1": 1, "test_1": 1}, {"test1": 1, "test2": 1})
-        self.assertRaises(Invalid, update_dict_with_validation, {"test": 1}, {"test": 2, "test1": 1, "test2": 1})
-        self.assertRaises(Invalid, update_dict_with_validation, {"test": 1}, {"test": 2})
+        self.assertRaises(
+            Invalid, update_dict_with_validation, {"test": 1, "test2": 2}, {"test": 2}
+        )
+        self.assertRaises(
+            Invalid,
+            update_dict_with_validation,
+            {"test1": 1, "test_1": 1},
+            {"test1": 1, "test2": 1},
+        )
+        self.assertRaises(
+            Invalid,
+            update_dict_with_validation,
+            {"test": 1},
+            {"test": 2, "test1": 1, "test2": 1},
+        )
+        self.assertRaises(
+            Invalid, update_dict_with_validation, {"test": 1}, {"test": 2}
+        )
 
     def _update_dict_with_validation_helper(self, original_dict, update_dict):
         res = copy.deepcopy(original_dict)
@@ -124,7 +157,9 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertFalse(os.path.exists(tmp_dir))
         os.environ["CUSTOM_TMP"] = tmp_dir
         self.assertRegex(temporary_file_name(), tmp_dir + r"/tmp.{8}")
-        self.assertRegex(temporary_file_name("foobarbar"), tmp_dir + r"/tmp.{8}foobarbar")
+        self.assertRegex(
+            temporary_file_name("foobarbar"), tmp_dir + r"/tmp.{8}foobarbar"
+        )
         # tear down
         if initial_custom_tmp:
             os.environ["CUSTOM_TMP"] = initial_custom_tmp
@@ -147,15 +182,18 @@ class TestUtils(PODTemplateIntegrationTest):
         update_oo_config()
 
         oo_server = get_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_server"
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.oo_server"
         )
         self.assertEqual(oo_server, lo)
         oo_port_list = get_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.oo_port_list"
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.oo_port_list"
         )
         self.assertEqual(oo_port_list, port)
         uno_path = get_registry_record(
-            "collective.documentgenerator.browser.controlpanel." "IDocumentGeneratorControlPanelSchema.uno_path"
+            "collective.documentgenerator.browser.controlpanel."
+            "IDocumentGeneratorControlPanelSchema.uno_path"
         )
         self.assertEqual(uno_path, uno)
 

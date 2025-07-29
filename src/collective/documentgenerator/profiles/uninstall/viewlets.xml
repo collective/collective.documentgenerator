@@ -1,6 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object>
-   <hidden manager="plone.belowcontenttitle" skinname="*">
-      <viewlet name="document-generation-link" />
-   </hidden>
+  <hidden manager="plone.belowcontenttitle"
+          skinname="*"
+  >
+    <viewlet name="document-generation-link" />
+  </hidden>
 </object>

@@ -57,10 +57,14 @@ class IPODTemplate(model.Schema):
     )
 
     form.omitted("initial_md5")
-    initial_md5 = schema.TextLine(description=u"Initially loaded file md5. Will be compared with os file md5.")
+    initial_md5 = schema.TextLine(
+        description=u"Initially loaded file md5. Will be compared with os file md5."
+    )
 
     form.omitted("style_modification_md5")
-    style_modification_md5 = schema.TextLine(description=u"Working md5, stored when styles only update.")
+    style_modification_md5 = schema.TextLine(
+        description=u"Working md5, stored when styles only update."
+    )
 
     form.widget("enabled", RadioFieldWidget)
     enabled = schema.Bool(
@@ -212,7 +216,10 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
             if element[0] == "odt_file":
                 current_filename = safe_unicode(element[1].filename)
         if current_filename:
-            FORMATS_DICT = {"ods": ODS_FORMATS + NEUTRAL_FORMATS, "odt": ODT_FORMATS + NEUTRAL_FORMATS}
+            FORMATS_DICT = {
+                "ods": ODS_FORMATS + NEUTRAL_FORMATS,
+                "odt": ODT_FORMATS + NEUTRAL_FORMATS,
+            }
             extension = current_filename.split(".")[-1]
             if extension not in FORMATS_DICT.keys():
                 extension = "odt"
@@ -226,7 +233,11 @@ class PodFormatsValidator(validator.SimpleFieldValidator):
                     error_message = _(
                         u"element_not_valid",
                         default=u'Element ${elem} is not valid for .${extension} template : "${template}"',
-                        mapping={u"elem": elem, u"extension": extension, u"template": current_filename},
+                        mapping={
+                            u"elem": elem,
+                            u"extension": extension,
+                            u"template": current_filename,
+                        },
                     )
                     raise Invalid(error_message)
 
@@ -250,7 +261,9 @@ class IConfigurablePODTemplate(IPODTemplate):
     form.widget("is_reusable", RadioFieldWidget)
     is_reusable = schema.Bool(
         title=_(u"Reusable"),
-        description=_(u"Check if this POD Template can be reused by other POD Template"),
+        description=_(
+            u"Check if this POD Template can be reused by other POD Template"
+        ),
         required=False,
         default=False,
     )
@@ -276,14 +289,18 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     csv_field_delimiter = schema.Choice(
         title=_(u"Field Delimiter for CSV format"),
-        description=_(u"Select the character to be used to separate fields into CSV files"),
+        description=_(
+            u"Select the character to be used to separate fields into CSV files"
+        ),
         vocabulary="collective.documentgenerator.CSVFieldDelimiter",
         required=True,
         default=u",",
     )
     csv_string_delimiter = schema.Choice(
         title=_(u"String Delimiter for CSV format"),
-        description=_(u"Select the character to be used to wrap around string values in CSV files"),
+        description=_(
+            u"Select the character to be used to wrap around string values in CSV files"
+        ),
         vocabulary="collective.documentgenerator.CSVStringDelimiter",
         required=True,
         default=u'"',
@@ -292,7 +309,9 @@ class IConfigurablePODTemplate(IPODTemplate):
     form.widget("pod_portal_types", CheckBoxFieldWidget, multiple="multiple", size=15)
     pod_portal_types = schema.List(
         title=_(u"Allowed portal types"),
-        description=_(u"Select for which content types the template will be available."),
+        description=_(
+            u"Select for which content types the template will be available."
+        ),
         value_type=schema.Choice(source="collective.documentgenerator.PortalTypes"),
         required=False,
     )
@@ -336,20 +355,34 @@ class IConfigurablePODTemplate(IPODTemplate):
         to_check.extend(copy.deepcopy(data.merge_templates or []))
 
         for line in to_check:
-            value = ("name" in line and line["name"]) or ("pod_context_name" in line and line["pod_context_name"])
+            value = ("name" in line and line["name"]) or (
+                "pod_context_name" in line and line["pod_context_name"]
+            )
 
             if value in forbidden:
-                raise Invalid(_("You can't use one of these words: ${list}", mapping={"list": ", ".join(forbidden)}))
+                raise Invalid(
+                    _(
+                        "You can't use one of these words: ${list}",
+                        mapping={"list": ", ".join(forbidden)},
+                    )
+                )
 
             if value in keys:
-                raise Invalid(_("You have twice used the same name '${name}'", mapping={"name": value}))
+                raise Invalid(
+                    _(
+                        "You have twice used the same name '${name}'",
+                        mapping={"name": value},
+                    )
+                )
             else:
                 keys.append(value)
 
     @invariant
     def validate_pod_file(data):
         if not (data.odt_file or data.pod_template_to_use):
-            raise Invalid(_("You must select an odt file or an existing pod template"), schema)
+            raise Invalid(
+                _("You must select an odt file or an existing pod template"), schema
+            )
 
     @invariant
     def validate_pod_template_to_use(data):
@@ -364,7 +397,9 @@ class IConfigurablePODTemplate(IPODTemplate):
 
 
 # Set conditions for which fields the validator class applies
-validator.WidgetValidatorDiscriminators(PodFormatsValidator, field=IConfigurablePODTemplate["pod_formats"])
+validator.WidgetValidatorDiscriminators(
+    PodFormatsValidator, field=IConfigurablePODTemplate["pod_formats"]
+)
 
 # Register the validator so it will be looked up by z3c.form machinery
 provideAdapter(PodFormatsValidator)
@@ -408,7 +443,10 @@ class ConfigurablePODTemplate(PODTemplate):
 
     def __setattr__(self, key, value):
         if key == "pod_template_to_use":
-            if hasattr(self, "pod_template_to_use") and self.pod_template_to_use != value:
+            if (
+                hasattr(self, "pod_template_to_use")
+                and self.pod_template_to_use != value
+            ):
                 if self.pod_template_to_use:
                     self.del_parent_pod_annotation()
             super(ConfigurablePODTemplate, self).__setattr__(key, value)
@@ -419,9 +457,15 @@ class ConfigurablePODTemplate(PODTemplate):
     def has_linked_template(self):
         return self.pod_template_to_use is not None
 
-    def set_merge_templates(self, pod_template, pod_context_name, do_rendering=True, position=-1):
+    def set_merge_templates(
+        self, pod_template, pod_context_name, do_rendering=True, position=-1
+    ):
         old_value = list(self.merge_templates)
-        newline = {"template": pod_template.UID(), "pod_context_name": pod_context_name, "do_rendering": do_rendering}
+        newline = {
+            "template": pod_template.UID(),
+            "pod_context_name": pod_context_name,
+            "do_rendering": do_rendering,
+        }
         if position >= 0:
             old_value.insert(position, newline)
         else:
@@ -439,7 +483,10 @@ class ConfigurablePODTemplate(PODTemplate):
         if self.merge_templates:
             for line in self.merge_templates:
                 pod_template = catalog(UID=line["template"])[0].getObject()
-                pod_context[line["pod_context_name"]] = (pod_template, line["do_rendering"])
+                pod_context[line["pod_context_name"]] = (
+                    pod_template,
+                    line["do_rendering"],
+                )
 
         return pod_context
 
@@ -473,7 +520,9 @@ class ConfigurablePODTemplate(PODTemplate):
         if self.pod_template_to_use:
             try:
                 add_to_annotation(
-                    ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_template_to_use
+                    ConfigurablePODTemplate.parent_pod_annotation_key,
+                    self.UID(),
+                    uid=self.pod_template_to_use,
                 )
             except TypeError:
                 pass
@@ -483,7 +532,9 @@ class ConfigurablePODTemplate(PODTemplate):
     def del_parent_pod_annotation(self):
         if hasattr(self, "pod_template_to_use") and self.pod_template_to_use:
             del_from_annotation(
-                ConfigurablePODTemplate.parent_pod_annotation_key, self.UID(), uid=self.pod_template_to_use
+                ConfigurablePODTemplate.parent_pod_annotation_key,
+                self.UID(),
+                uid=self.pod_template_to_use,
             )
 
     def get_children_pod_template(self):
@@ -497,7 +548,9 @@ class ConfigurablePODTemplate(PODTemplate):
         """
         res = set()
         to_delete = set()
-        annotated = get_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, self)
+        annotated = get_from_annotation(
+            ConfigurablePODTemplate.parent_pod_annotation_key, self
+        )
         if annotated:
             for uid in annotated:
                 child = api.content.get(UID=uid)
@@ -507,7 +560,9 @@ class ConfigurablePODTemplate(PODTemplate):
                     # child doesn't exist anymore. api.content.get returned None
                     to_delete.add(uid)
         for uid in to_delete:
-            del_from_annotation(ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self)
+            del_from_annotation(
+                ConfigurablePODTemplate.parent_pod_annotation_key, uid, obj=self
+            )
         return res
 
 
