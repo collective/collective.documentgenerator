@@ -7,6 +7,7 @@ from imio.helpers.adapters import NoEscapeLinkColumn
 from plone import api
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import normalizeString
 from Products.CMFPlone.utils import safe_unicode
 from z3c.table.column import Column
 from z3c.table.column import LinkColumn
@@ -78,37 +79,25 @@ class TitleColumn(NoEscapeLinkColumn):
     header = PMF("Title")
     weight = 10
     cssClasses = {"td": "title-column"}
-    i_cache = {}
 
-    def _icons(self, item):
+    def __init__(self, context, request, table):
+        self.icons = context.restrictedTraverse('@@iconresolver')
+        super().__init__(context, request, table)
+
+    def _icon(self, item):
         """See docstring in interfaces.py."""
-        if item.portal_type not in self.i_cache:
-            icon_link = ""
-            purl = api.portal.get_tool("portal_url")()
-            typeInfo = api.portal.get_tool("portal_types")[item.portal_type]
-            if typeInfo.icon_expr:
-                # we assume that stored icon_expr is like string:${portal_url}/myContentIcon.svg
-                # or like string:${portal_url}/++resource++imio.dashboard/dashboardpodtemplate.svg
-                contentIcon = "/".join(typeInfo.icon_expr.split("/")[1:])
-                icon_link = u'<img class="svg-icon" title="%s" src="%s/%s" />' % (
-                    safe_unicode(
-                        escape(translate(typeInfo.Title(), context=self.request))
-                    ),
-                    purl,
-                    contentIcon,
-                )
-            self.i_cache[item.portal_type] = icon_link
-        return self.i_cache[item.portal_type]
+        item_type_class = "contenttype/" + normalizeString(item.portal_type)
+        return self.icons.tag(item_type_class).decode("utf-8")
 
     def getLinkCSS(self, item):
         return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))
 
     def getLinkContent(self, item):
         return (
-            u'<span class="pretty_link_icons">%s</span>'
+            u'<span class="pretty_link_icons pe-1">%s</span>'
             u'<span class="pretty_link_content">%s</span>'
             % (
-                self._icons(item),
+                self._icon(item),
                 safe_unicode(escape(item.title)),
             )
         )

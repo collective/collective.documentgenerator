@@ -79,14 +79,14 @@ class TestTemplatesListingView(PODTemplateIntegrationTest):
         column = TitleColumn(self.view.context, self.view.request, self.view.table)
         item = self.test_podtemplate
         self.assertEqual(column.renderHeadCell(), u"Titre")
-        self.assertEqual(
-            column.renderCell(item),
-            u'<a href="http://nohost/plone/podtemplates/test_template" class="pretty_link state-private">'
-            u'<span class="pretty_link_icons"><img class="svg-icon" '
-            u'title="Modèle de document POD restreint" '
-            u'src="http://nohost/plone/++resource++collective.documentgenerator/podtemplate.svg" />'
-            u'</span><span class="pretty_link_content">General template</span></a>',
+        rendered = column.renderCell(item)
+        self.assertIn(
+            u'<a href="http://nohost/plone/podtemplates/test_template" class="pretty_link state-private">',
+            rendered
         )
+        self.assertIn(u'<span class="pretty_link_icons', rendered)
+        self.assertIn(u'<svg xmlns="http://www.w3.org/2000/svg"', rendered)
+        self.assertIn(u'<span class="pretty_link_content">General template</span>', rendered)
 
     def test_PathColumn(self):
         column = PathColumn(self.view.context, self.view.request, self.view.table)
