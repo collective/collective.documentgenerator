@@ -3,7 +3,7 @@
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">ConfigurablePODTemplate</property>
  <property name="description" i18n:translate="">A document to generate on a content.</property>
- <property name="icon_expr">string:${portal_url}/++resource++collective.documentgenerator/configurable.svg</property>
+ <property name="icon_expr">string:contenttype/configurablepodtemplate</property>
  <property name="factory">ConfigurablePODTemplate</property>
  <property
     name="add_view_expr">string:${folder_url}/++add++ConfigurablePODTemplate</property>

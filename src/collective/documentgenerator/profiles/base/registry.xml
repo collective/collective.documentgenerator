@@ -1,6 +1,38 @@
 <?xml version="1.0"?>
 <registry>
 
+  <!-- Content types icons -->
+  <record name="plone.icon.contenttype/configurablepodtemplate">
+    <field type="plone.registry.field.TextLine">
+      <title>ConfigurablePODTemplate</title>
+    </field>
+    <value key="resource">++plone++bootstrap-icons/file-earmark-font.svg</value>
+  </record>
+  <record name="plone.icon.contenttype/mailinglooptemplate">
+    <field type="plone.registry.field.TextLine">
+      <title>MailingLoopTemplate</title>
+    </field>
+    <value key="resource">++plone++bootstrap-icons/file-post.svg</value>
+  </record>
+  <record name="plone.icon.contenttype/podtemplate">
+    <field type="plone.registry.field.TextLine">
+      <title>PODTemplate</title>
+    </field>
+    <value key="resource">++plone++bootstrap-icons/file-earmark-font.svg</value>
+  </record>
+  <record name="plone.icon.contenttype/styletemplate">
+    <field type="plone.registry.field.TextLine">
+      <title>StyleTemplate</title>
+    </field>
+    <value key="resource">++plone++bootstrap-icons/file-richtext.svg</value>
+  </record>
+  <record name="plone.icon.contenttype/subtemplate">
+    <field type="plone.registry.field.TextLine">
+      <title>SubTemplate</title>
+    </field>
+    <value key="resource">++plone++bootstrap-icons/file-earmark-medical.svg</value>
+  </record>
+
   <records prefix="plone.bundles/collective.documentgenerator"
             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="enabled">True</value>
