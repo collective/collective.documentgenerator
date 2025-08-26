@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0 (unreleased)
+4.0 (2025-08-26)
 ----------------
 
 - Python 3, Plone 6.0 and 6.1 compatible.
