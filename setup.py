@@ -12,7 +12,7 @@ long_description = (
 
 setup(
     name="collective.documentgenerator",
-    version="4.0",
+    version="4.1.dev0",
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework "
     "(https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
