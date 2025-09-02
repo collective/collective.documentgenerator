@@ -30,7 +30,7 @@ def convert_odt_to_pdf(context, **kwargs):
         StringIO(dummy_template.get_file().data),
         context.aq_parent,
         "dummy.pdf",
-        **kwargs,
+        **kwargs
     )
 
     temp_file = create_temporary_file(context.file, '.odt')
@@ -47,8 +47,13 @@ class DocumentConvertView(BrowserView):
     """A view to convert document from odt to pdf and download it"""
 
     def __call__(self):
+        output_name = self.request.get('output_name', None)
+        if not output_name and isinstance(self.context.file, NamedBlobFile):
+            output_name = self.context.file.filename.replace('.odt', '.pdf')
         converted_filename, converted_file = convert_odt_to_pdf(self.context)
-        
+        if output_name:
+            converted_filename = output_name
+
         # Set headers
         response = self.request.RESPONSE
         mimetype = mimetypes.guess_type(converted_filename)[0]
@@ -65,8 +70,15 @@ class PersistentDocumentConvertView(BrowserView):
     """A view to convert document from odt to pdf and save it on the parent"""
 
     def __call__(self):
+        output_name = self.request.get('output_name', None)
+        if not output_name and isinstance(self.context.file, NamedBlobFile):
+            output_name = self.context.file.filename.replace('.odt', '.pdf')
         _, converted_file = convert_odt_to_pdf(self.context)
-        file_object = NamedBlobFile(converted_file, filename=self.context.file.filename.replace('.odt', '.pdf'))
-        createContentInContainer(self.context.aq_parent, self.context.portal_type, title=self.context.title.replace('.odt', '.pdf'), file=file_object)
+        file_object = NamedBlobFile(converted_file, filename=output_name)
+        createContentInContainer(
+            self.context.aq_parent,
+            self.context.portal_type,
+            title=self.context.title.replace('.odt', '.pdf'),
+            file=file_object)
 
         self.request.response.redirect(self.context.aq_parent.absolute_url())
