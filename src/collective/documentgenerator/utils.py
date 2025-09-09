@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from appy.bin.odfclean import Cleaner
+from appy.pod.lo_pool import LoPool
+from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
+from collective.documentgenerator import config
 from imio.helpers.security import fplog
 from plone import api
 from plone.namedfile.file import NamedBlobFile
@@ -214,3 +217,36 @@ def clean_notes(pod_template):
         remove_tmp_file(tmp_file.name)
 
     return bool(cleaned)
+
+
+def convert_odt(context, format='pdf', **kwargs):
+    """
+    Convert an odt file to another format using appy.pod
+    kwargs are passed to the renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    """
+    lo_pool = LoPool.get(
+        python=config.get_uno_path(),
+        server=config.get_oo_server(),
+        port=config.get_oo_port_list(),
+    )
+    if not lo_pool:
+        raise Exception("Could not find LibreOffice, check your configuration")
+
+    temp_file = create_temporary_file(context, '.odt')
+
+    try:
+        renderer = Renderer(
+            temp_file.name,
+            context,
+            "dummy.{}".format(format),
+            **kwargs
+        )
+
+        lo_pool(renderer, temp_file.name, format)
+        converted_filename = temp_file.name.replace('.odt', '.{}'.format(format))
+        converted_file = open(converted_filename, 'rb').read()
+    finally:
+        remove_tmp_file(temp_file.name)
+        remove_tmp_file(converted_filename)
+
+    return converted_filename, str(converted_file)
