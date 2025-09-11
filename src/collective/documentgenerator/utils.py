@@ -219,10 +219,13 @@ def clean_notes(pod_template):
     return bool(cleaned)
 
 
-def convert_odt(context, format='pdf', **kwargs):
+def convert_odt(afile, fmt='pdf', **kwargs):
     """
-    Convert an odt file to another format using appy.pod
-    kwargs are passed to the renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    Convert an odt file to another format using appy.pod.
+
+    :param afile: file field content like NamedBlobFile
+    :param fmt: output format, default to 'pdf'
+    :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
     """
     lo_pool = LoPool.get(
         python=config.get_uno_path(),
@@ -232,21 +235,23 @@ def convert_odt(context, format='pdf', **kwargs):
     if not lo_pool:
         raise Exception("Could not find LibreOffice, check your configuration")
 
-    temp_file = create_temporary_file(context, '.odt')
+    temp_file = create_temporary_file(afile, '.odt')
+    converted_filename = None
 
     try:
         renderer = Renderer(
             temp_file.name,
-            context,
-            "dummy.{}".format(format),
+            afile,
+            "dummy.{}".format(fmt),
             **kwargs
         )
 
-        lo_pool(renderer, temp_file.name, format)
-        converted_filename = temp_file.name.replace('.odt', '.{}'.format(format))
+        lo_pool(renderer, temp_file.name, fmt)
+        converted_filename = temp_file.name.replace('.odt', '.{}'.format(fmt))
         converted_file = open(converted_filename, 'rb').read()
     finally:
         remove_tmp_file(temp_file.name)
-        remove_tmp_file(converted_filename)
+        if converted_filename:
+            remove_tmp_file(converted_filename)
 
-    return converted_filename, str(converted_file)
+    return os.path.basename(converted_filename), converted_file

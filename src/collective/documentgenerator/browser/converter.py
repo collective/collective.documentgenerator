@@ -16,7 +16,7 @@ class DocumentConvertView(BrowserView):
         output_name = self.request.get('output_name', None)
         if not output_name and isinstance(self.context.file, NamedBlobFile):
             output_name = self.context.file.filename.replace('.odt', '.{}'.format(format))
-        converted_filename, converted_file = convert_odt(self.context.file, format=format)
+        converted_filename, converted_file = convert_odt(self.context.file, fmt=format)
         if output_name:
             converted_filename = output_name
 
