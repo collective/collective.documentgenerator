@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from appy.bin.odfclean import Cleaner
+from appy.pod.lo_pool import LoPool
+from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
+from collective.documentgenerator import config
 from imio.helpers.security import fplog
 from plone import api
+from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -214,3 +218,69 @@ def clean_notes(pod_template):
         remove_tmp_file(tmp_file.name)
 
     return bool(cleaned)
+
+
+def convert_odt(afile, output_name, fmt='pdf', **kwargs):
+    """
+    Convert an odt file to another format using appy.pod.
+
+    :param afile: file field content like NamedBlobFile
+    :param output_name: output name
+    :param fmt: output format, default to 'pdf'
+    :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    """
+    lo_pool = LoPool.get(
+        python=config.get_uno_path(),
+        server=config.get_oo_server(),
+        port=config.get_oo_port_list(),
+    )
+    if not lo_pool:
+        raise Exception("Could not find LibreOffice, check your configuration")
+
+    temp_file = create_temporary_file(afile, '.odt')
+    converted_filename = None
+    try:
+        renderer = Renderer(
+            temp_file.name,
+            afile,
+            "dummy.{}".format(fmt),
+            **kwargs
+        )
+
+        lo_pool(renderer, temp_file.name, fmt)
+        converted_filename = temp_file.name.replace('.odt', '.{}'.format(fmt))
+        if not os.path.exists(converted_filename):
+            api.portal.show_message(
+                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name))),
+                request=getSite().REQUEST,
+                type="error",
+            )
+            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+        with open(converted_filename, 'rb') as f:
+            converted_file = f.read()
+    finally:
+        remove_tmp_file(temp_file.name)
+        if converted_filename:
+            remove_tmp_file(converted_filename)
+
+    return output_name, converted_file
+
+
+def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', **kwargs):
+    """
+    Convert an odt file to another format using appy.pod and save it in a NamedBlobFile.
+
+    :param afile: file field content like NamedBlobFile
+    :param container: container object to create new file
+    :param portal_type: portal type
+    :param output_name: output name
+    :param fmt: output format, default to 'pdf'
+    :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    """
+    converted_filename, converted_file = convert_odt(afile, output_name, fmt=fmt, **kwargs)
+    file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
+    return createContentInContainer(
+        container,
+        portal_type,
+        title=converted_filename,
+        file=file_object)
