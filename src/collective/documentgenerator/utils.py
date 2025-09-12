@@ -249,7 +249,15 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
 
         lo_pool(renderer, temp_file.name, fmt)
         converted_filename = temp_file.name.replace('.odt', '.{}'.format(fmt))
-        converted_file = open(converted_filename, 'rb').read()
+        if not os.path.exists(converted_filename):
+            api.portal.show_message(
+                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name))),
+                request=getSite().REQUEST,
+                type="error",
+            )
+            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+        with open(converted_filename, 'rb') as f:
+            converted_file = f.read()
     finally:
         remove_tmp_file(temp_file.name)
         if converted_filename:
