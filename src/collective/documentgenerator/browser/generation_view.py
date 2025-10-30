@@ -315,6 +315,9 @@ class DocumentGenerationView(BrowserView):
             stream=config.get_use_stream(),
             csvOptions=csvOptions,
             # deleteTempFolder=False,
+            # disabled by default, can be set to True to manage image rotation
+            # based on exif data but this happens very rarely...
+            # rotateImages=True,
             **kwargs
         )
 
