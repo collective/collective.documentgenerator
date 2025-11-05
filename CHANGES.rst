@@ -7,7 +7,6 @@ Changelog
 - Added views to convert an odt file to PDF.
   [chris-adam, sgeulette]
 
-
 3.45 (2025-06-25)
 -----------------
 

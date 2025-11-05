@@ -243,7 +243,7 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
         renderer = Renderer(
             temp_file.name,
             afile,
-            "dummy.{}".format(fmt),
+            temporary_file_name(suffix=".{extension}".format(extension=fmt)),
             **kwargs
         )
 
