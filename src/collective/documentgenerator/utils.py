@@ -266,7 +266,7 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
     return output_name, converted_file
 
 
-def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', **kwargs):
+def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', attributes=None, **kwargs):
     """
     Convert an odt file to another format using appy.pod and save it in a NamedBlobFile.
 
@@ -275,12 +275,16 @@ def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', 
     :param portal_type: portal type
     :param output_name: output name
     :param fmt: output format, default to 'pdf'
+    :param attributes: dict of other attributes to set on created content
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
     """
     converted_filename, converted_file = convert_odt(afile, output_name, fmt=fmt, **kwargs)
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
+    if attributes is None:
+        attributes = {}
     return createContentInContainer(
         container,
         portal_type,
         title=converted_filename,
-        file=file_object)
+        file=file_object,
+        **attributes)
