@@ -11,6 +11,7 @@ from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope import i18n
+from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from zope.component.hooks import setSite
@@ -266,7 +267,8 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
     return output_name, converted_file
 
 
-def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', attributes=None, **kwargs):
+def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None,
+                         **kwargs):
     """
     Convert an odt file to another format using appy.pod and save it in a NamedBlobFile.
 
@@ -275,6 +277,7 @@ def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', 
     :param portal_type: portal type
     :param output_name: output name
     :param fmt: output format, default to 'pdf'
+    :param from_uid: uid from original file object
     :param attributes: dict of other attributes to set on created content
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
     """
@@ -282,9 +285,13 @@ def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', 
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
     if attributes is None:
         attributes = {}
-    return createContentInContainer(
+    new_file = createContentInContainer(
         container,
         portal_type,
         title=converted_filename,
         file=file_object,
         **attributes)
+    if from_uid:
+        annot = IAnnotations(new_file)
+        annot["documentgenerator"] = {"conv_from_uid": from_uid}
+    return new_file
