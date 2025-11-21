@@ -4,9 +4,9 @@ from appy.pod.lo_pool import LoPool
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
 from collective.documentgenerator import config
+from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
 from plone import api
-from plone.app.uuid.utils import uuidToObject
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
 from Products.CMFCore.utils import getToolByName
@@ -301,7 +301,7 @@ def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', 
 @api.env.mutually_exclusive_parameters("document", "document_uid")
 def need_mailing_value(document=None, document_uid=None):
     if not document:
-        document = uuidToObject(document_uid)
+        document = uuidToObject(document_uid, unrestricted=True)
     annot = IAnnotations(document)
     if "documentgenerator" in annot and annot["documentgenerator"].get("need_mailing", False):
         return True
