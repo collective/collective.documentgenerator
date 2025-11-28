@@ -4,8 +4,8 @@ Changelog
 4.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Removed `.` at the end of field title `Templates to merge` and field title `Context variables`.
+  [gbastien]
 
 4.0 (2025-08-26)
 ----------------

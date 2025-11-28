@@ -100,7 +100,7 @@ msgid "ConfigurablePODTemplate"
 msgstr ""
 
 #: ../content/pod_template.py:310
-msgid "Context variables."
+msgid "Context variables"
 msgstr ""
 
 #: ../browser/views.py:357
@@ -461,7 +461,7 @@ msgid "Template"
 msgstr ""
 
 #: ../content/pod_template.py:299
-msgid "Templates to merge."
+msgid "Templates to merge"
 msgstr ""
 
 #: ../browser/controlpanel.py:107

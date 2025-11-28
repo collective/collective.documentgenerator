@@ -105,8 +105,8 @@ msgid "ConfigurablePODTemplate"
 msgstr "Plantilla de documento POD"
 
 #: ../content/pod_template.py:310
-msgid "Context variables."
-msgstr "Variables de contexto."
+msgid "Context variables"
+msgstr "Variables de contexto"
 
 #: ../browser/views.py:357
 msgid "Could not check"
@@ -468,8 +468,8 @@ msgid "Template"
 msgstr "Plantilla"
 
 #: ../content/pod_template.py:299
-msgid "Templates to merge."
-msgstr "Plantillas a fusionar."
+msgid "Templates to merge"
+msgstr "Plantillas a fusionar"
 
 #: ../browser/controlpanel.py:107
 msgid "The Document Generator settings control panel"

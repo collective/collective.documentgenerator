@@ -318,7 +318,7 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     form.widget("merge_templates", DataGridFieldFactory)
     merge_templates = schema.List(
-        title=_(u"Templates to merge."),
+        title=_(u"Templates to merge"),
         required=False,
         value_type=DictRow(schema=IMergeTemplatesRowSchema, required=False),
         default=[],
@@ -326,7 +326,7 @@ class IConfigurablePODTemplate(IPODTemplate):
 
     form.widget("context_variables", DataGridFieldFactory)
     context_variables = schema.List(
-        title=_(u"Context variables."),
+        title=_(u"Context variables"),
         description=_("These context variables are added to the odt_file context."),
         required=False,
         value_type=DictRow(schema=IContextVariablesRowSchema, required=False),
