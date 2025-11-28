@@ -468,8 +468,8 @@ msgid "Template"
 msgstr "Plantilla"
 
 #: ../content/pod_template.py:299
-msgid "Templates to merge."
-msgstr "Plantillas a fusionar."
+msgid "Templates to merge"
+msgstr "Plantillas a fusionar"
 
 #: ../browser/controlpanel.py:107
 msgid "The Document Generator settings control panel"

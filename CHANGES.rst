@@ -4,8 +4,8 @@ Changelog
 3.46 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Removed `.` at the end of field title `Templates to merge`.
+  [gbastien]
 
 3.45 (2025-06-25)
 -----------------
