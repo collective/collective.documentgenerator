@@ -286,6 +286,7 @@ def convert_and_save_odt(afile, container, portal_type, output_name, fmt='pdf', 
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
     if attributes is None:
         attributes = {}
+    attributes["conv_from_uid"] = from_uid
     new_file = createContentInContainer(
         container,
         portal_type,
