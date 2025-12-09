@@ -4,6 +4,10 @@ Changelog
 3.46 (unreleased)
 -----------------
 
+- Added views to convert an odt file to PDF.
+  [chris-adam, sgeulette]
+- Added `utils.need_mailing_value`
+  [sgeulette]
 - Removed `.` at the end of field title `Templates to merge`.
   [gbastien]
 

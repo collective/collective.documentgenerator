@@ -9,14 +9,16 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    # Be careful when editing the ubuntu version or the libreoffice image version
+    # The Python version should the same in both environments
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         PLONE_VERSION: [ 4.3, 5.1, 5.2 ]
     services:
       libreoffice:
-        image: harbor.imio.be/library/libreoffice:7.3
+        image: harbor.imio.be/library/libreoffice:25.2
         ports:
           - 2002:2002
         volumes:
@@ -34,7 +36,7 @@ jobs:
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: 2.7.18
           versions: 3.8.16
@@ -62,14 +64,14 @@ jobs:
           docker ps -a
           bin/test --test=\!"robot"
   coverage:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         PLONE_VERSION: [5.2]
     services:
       libreoffice:
-        image: imiobe/libreoffice:7.3
+        image: harbor.imio.be/library/libreoffice:25.2
         ports:
           - 2002:2002
         volumes:
@@ -87,7 +89,7 @@ jobs:
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: 2.7.18
           versions: 3.8.16

@@ -40,6 +40,20 @@
         />
 
     <browser:page
+        for="*"
+        name="document-conversion"
+        class="collective.documentgenerator.browser.converter.DocumentConvertView"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        for="*"
+        name="persistent-document-conversion"
+        class="collective.documentgenerator.browser.converter.PersistentDocumentConvertView"
+        permission="zope2.View"
+        />
+
+    <browser:page
         name="collective.documentgenerator-controlpanel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class="collective.documentgenerator.browser.controlpanel.DocumentGeneratorSettings"
