@@ -462,8 +462,8 @@ msgid "Template"
 msgstr "Modèle"
 
 #: ../content/pod_template.py:299
-msgid "Templates to merge."
-msgstr "Modèles à fusionner."
+msgid "Templates to merge"
+msgstr "Modèles à fusionner"
 
 #: ../browser/controlpanel.py:107
 msgid "The Document Generator settings control panel"

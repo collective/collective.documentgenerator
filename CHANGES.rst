@@ -8,6 +8,8 @@ Changelog
   [chris-adam, sgeulette]
 - Added `utils.need_mailing_value`
   [sgeulette]
+- Removed `.` at the end of field title `Templates to merge`.
+  [gbastien]
 
 3.45 (2025-06-25)
 -----------------

@@ -461,7 +461,7 @@ msgid "Template"
 msgstr ""
 
 #: ../content/pod_template.py:299
-msgid "Templates to merge."
+msgid "Templates to merge"
 msgstr ""
 
 #: ../browser/controlpanel.py:107
