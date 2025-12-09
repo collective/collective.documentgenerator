@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Removed `.` at the end of field title `Templates to merge`.
   [gbastien]
+- Made subtemplate icon grey.
+  [chris-adam]
 
 3.45 (2025-06-25)
 -----------------
