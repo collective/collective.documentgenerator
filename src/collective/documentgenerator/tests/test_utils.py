@@ -200,7 +200,7 @@ class TestUtils(PODTemplateIntegrationTest):
         # convert to txt
         output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt")
         self.assertEqual(output_name, filename.replace(".odt", ".txt"))
-        self.assertEqual(content, "\xef\xbb\xbfPage 1\nPage 2\n")
+        self.assertEqual(content, "Page 1\nPage 2\n")
 
         # convert to html
         output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".html"), fmt="html")
