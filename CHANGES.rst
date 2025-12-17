@@ -12,6 +12,8 @@ Changelog
   [gbastien]
 - Made subtemplate icon grey.
   [chris-adam]
+- Added odfsplit utils.
+  [chris-adam]
 
 3.45 (2025-06-25)
 -----------------

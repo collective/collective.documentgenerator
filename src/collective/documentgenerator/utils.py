@@ -6,6 +6,7 @@ from collective.documentgenerator import _
 from collective.documentgenerator import config
 from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
+from imio.pyutils.system import runCommand
 from plone import api
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
@@ -307,3 +308,37 @@ def need_mailing_value(document=None, document_uid=None):
     if "documentgenerator" in annot and annot["documentgenerator"].get("need_mailing", False):
         return True
     return False
+
+
+def odfsplit(content):
+    """Splits an ODT document into a series of sub-documents. The split is based on
+    page breaks."""
+
+    def get_subfiles(temp_file, nb_files):
+        if nb_files == 1:
+            with open(temp_file, "rb") as f:
+                yield f.read()
+            remove_tmp_file(temp_file)
+            return
+        for i in range(1, nb_files + 1):
+            subfile = temp_file.replace(".odt", ".{}.odt".format(i))
+            with open(subfile, "rb") as sf:
+                yield sf.read()
+            remove_tmp_file(subfile)
+        remove_tmp_file(temp_file)
+
+    temp_file = temporary_file_name(suffix=".odt")
+    with open(temp_file, "wb") as f:
+        f.write(content)
+    pwd = os.getenv("PWD")
+    command = "{pwd}/bin/odfsplit {temp_file}".format(temp_file=temp_file, pwd=pwd)
+    out, err, code = runCommand(command)
+    if out and code == 0:
+        nb_files = out[0].split(" ")[0]
+        if nb_files.isdigit():
+            value = get_subfiles(temp_file, int(nb_files))
+        else:
+            value = get_subfiles(temp_file, 1)
+    else:
+        value = "".join(err)
+    return code, value
