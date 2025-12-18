@@ -3,6 +3,7 @@ from appy.bin.odfclean import Cleaner
 from appy.pod.lo_pool import LoPool
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
+from collective.documentgenerator import BLDT_DIR
 from collective.documentgenerator import config
 from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
@@ -311,8 +312,12 @@ def need_mailing_value(document=None, document_uid=None):
 
 
 def odfsplit(content):
-    """Splits an ODT document into a series of sub-documents. The split is based on
-    page breaks."""
+    """Splits an ODT document into a series of sub-documents. The split is based on page breaks.
+
+    :param content: The binary content of the ODT file to be split.
+    :return: A tuple containing the exit code, a generator yielding the binary content of each subfile and
+             the number of files
+    """
 
     def get_subfiles(temp_file, nb_files):
         if nb_files == 1:
@@ -330,15 +335,17 @@ def odfsplit(content):
     temp_file = temporary_file_name(suffix=".odt")
     with open(temp_file, "wb") as f:
         f.write(content)
-    pwd = os.getenv("PWD")
-    command = "{pwd}/bin/odfsplit {temp_file}".format(temp_file=temp_file, pwd=pwd)
+    command = "{pwd}/bin/odfsplit {temp_file}".format(temp_file=temp_file, pwd=BLDT_DIR)
     out, err, code = runCommand(command)
+    nb_files = 0
     if out and code == 0:
-        nb_files = out[0].split(" ")[0]
-        if nb_files.isdigit():
-            value = get_subfiles(temp_file, int(nb_files))
+        part0 = out[0].split(" ")[0]  # Ex: "2 files were generated."
+        if part0.isdigit():
+            nb_files = int(part0)
+            value = get_subfiles(temp_file, nb_files)
         else:
+            nb_files = 1
             value = get_subfiles(temp_file, 1)
     else:
         value = "".join(err)
-    return code, value
+    return code, value, nb_files

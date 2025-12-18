@@ -216,8 +216,9 @@ class TestUtils(PODTemplateIntegrationTest):
         filename = u"test_mailing.odt"
         current_path = os.path.dirname(__file__)
         content = open(os.path.join(current_path, filename), "rb").read()
-        code, result = odfsplit(content)
+        code, result, nb = odfsplit(content)
         self.assertEqual(code, 0)
+        self.assertEqual(nb, 2)
         results = list(result)
         self.assertEqual(len(results), 2)
         self.assertEqual(len(results[0]), 32531)
@@ -226,8 +227,9 @@ class TestUtils(PODTemplateIntegrationTest):
         filename = u"test_file.odt"
         current_path = os.path.dirname(__file__)
         content = open(os.path.join(current_path, filename), "rb").read()
-        code, result = odfsplit(content)
+        code, result, nb = odfsplit(content)
         self.assertEqual(code, 0)
+        self.assertEqual(nb, 1)
         results = list(result)
         self.assertEqual(len(results), 1)
         self.assertEqual(len(results[0]), 9729)
@@ -235,6 +237,7 @@ class TestUtils(PODTemplateIntegrationTest):
         filename = u"test_utils.py"
         current_path = os.path.dirname(__file__)
         content = open(os.path.join(current_path, filename), "rb").read()
-        code, result = odfsplit(content)
+        code, result, nb = odfsplit(content)
         self.assertEqual(code, 1)
+        self.assertEqual(nb, 0)
         self.assertTrue(result.strip().endswith("zipfile.BadZipfile: File is not a zip file"))
