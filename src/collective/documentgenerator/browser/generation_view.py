@@ -492,13 +492,18 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         persisted_doc = self.generate_persistent_doc(self.pod_template, self.output_format)
         self.redirects(persisted_doc)
 
+    def add_mailing_infos(self, doc, gen_context):
+        """ store mailing informations on generated doc """
+        annot = IAnnotations(doc)
+        annot['documentgenerator'] = {"need_mailing": False, "template_uid": self.pod_template.UID(), "mailed": True}
+
     def _get_base_args(self, template_uid, output_format):
         annot = IAnnotations(self.document).get('documentgenerator', '')
         if not annot or 'template_uid' not in annot:
             raise Exception("Cannot find 'template_uid' on document '{0}'".format(self.document.absolute_url()))
         self.orig_template = self.get_pod_template(annot['template_uid'])
-        if (not base_hasattr(self.orig_template, 'mailing_loop_template') or
-                not self.orig_template.mailing_loop_template):
+        if (not base_hasattr(self.orig_template, 'mailing_loop_template')
+                or not self.orig_template.mailing_loop_template):
             raise Exception("Cannot find 'mailing_loop_template' on template '{0}'".format(
                 self.orig_template.absolute_url()))
         loop_template = self.get_pod_template(self.orig_template.mailing_loop_template)

@@ -66,5 +66,7 @@ setup(
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
+    [console_scripts]
+    odfsplit = appy.bin.odfsplit:main
     """,
 )

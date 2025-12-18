@@ -3,9 +3,11 @@ from appy.bin.odfclean import Cleaner
 from appy.pod.lo_pool import LoPool
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
+from collective.documentgenerator import BLDT_DIR
 from collective.documentgenerator import config
 from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
+from imio.pyutils.system import runCommand
 from plone import api
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
@@ -307,3 +309,43 @@ def need_mailing_value(document=None, document_uid=None):
     if "documentgenerator" in annot and annot["documentgenerator"].get("need_mailing", False):
         return True
     return False
+
+
+def odfsplit(content):
+    """Splits an ODT document into a series of sub-documents. The split is based on page breaks.
+
+    :param content: The binary content of the ODT file to be split.
+    :return: A tuple containing the exit code, a generator yielding the binary content of each subfile and
+             the number of files
+    """
+
+    def get_subfiles(temp_file, nb_files):
+        if nb_files == 1:
+            with open(temp_file, "rb") as f:
+                yield f.read()
+            remove_tmp_file(temp_file)
+            return
+        for i in range(1, nb_files + 1):
+            subfile = temp_file.replace(".odt", ".{}.odt".format(i))
+            with open(subfile, "rb") as sf:
+                yield sf.read()
+            remove_tmp_file(subfile)
+        remove_tmp_file(temp_file)
+
+    temp_file = temporary_file_name(suffix=".odt")
+    with open(temp_file, "wb") as f:
+        f.write(content)
+    command = "{pwd}/bin/odfsplit {temp_file}".format(temp_file=temp_file, pwd=BLDT_DIR)
+    out, err, code = runCommand(command)
+    nb_files = 0
+    if out and code == 0:
+        part0 = out[0].split(" ")[0]  # Ex: "2 files were generated."
+        if part0.isdigit():
+            nb_files = int(part0)
+            value = get_subfiles(temp_file, nb_files)
+        else:
+            nb_files = 1
+            value = get_subfiles(temp_file, 1)
+    else:
+        value = "".join(err)
+    return code, value, nb_files

@@ -2,6 +2,7 @@
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
 from collective.documentgenerator.utils import convert_odt
+from collective.documentgenerator.utils import odfsplit
 from collective.documentgenerator.utils import temporary_file_name
 from collective.documentgenerator.utils import update_dict_with_validation
 from collective.documentgenerator.utils import update_oo_config
@@ -210,3 +211,33 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertIn("<body", content)
         self.assertIn("Page 1", content)
         self.assertIn("Page 2", content)
+
+    def test_odfsplit(self):
+        filename = u"test_mailing.odt"
+        current_path = os.path.dirname(__file__)
+        content = open(os.path.join(current_path, filename), "rb").read()
+        code, result, nb = odfsplit(content)
+        self.assertEqual(code, 0)
+        self.assertEqual(nb, 2)
+        results = list(result)
+        self.assertEqual(len(results), 2)
+        self.assertEqual(len(results[0]), 32531)
+        self.assertEqual(len(results[1]), 32352)
+
+        filename = u"test_file.odt"
+        current_path = os.path.dirname(__file__)
+        content = open(os.path.join(current_path, filename), "rb").read()
+        code, result, nb = odfsplit(content)
+        self.assertEqual(code, 0)
+        self.assertEqual(nb, 1)
+        results = list(result)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(len(results[0]), 9729)
+
+        filename = u"test_utils.py"
+        current_path = os.path.dirname(__file__)
+        content = open(os.path.join(current_path, filename), "rb").read()
+        code, result, nb = odfsplit(content)
+        self.assertEqual(code, 1)
+        self.assertEqual(nb, 0)
+        self.assertTrue(result.strip().endswith("zipfile.BadZipfile: File is not a zip file"))
