@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from collective.documentgenerator.utils import convert_and_save_odt
-from collective.documentgenerator.utils import convert_odt
+from collective.documentgenerator.utils import convert_and_save_file
+from collective.documentgenerator.utils import convert_file
 from plone.namedfile.file import NamedBlobFile
 from Products.Five import BrowserView
 
@@ -19,7 +19,7 @@ class DocumentConvertView(BrowserView):
 
     def __call__(self):
         output_name, fmt = self.get_params()
-        converted_filename, converted_file = convert_odt(self.context.file, output_name, fmt=fmt)
+        converted_filename, converted_file = convert_file(self.context.file, output_name, fmt=fmt)
 
         # Set headers
         response = self.request.RESPONSE
@@ -38,6 +38,6 @@ class PersistentDocumentConvertView(DocumentConvertView):
 
     def __call__(self):
         output_name, fmt = self.get_params()
-        convert_and_save_odt(self.context.file, self.context.aq_parent, self.context.portal_type, output_name, fmt=fmt)
+        convert_and_save_file(self.context.file, self.context.aq_parent, self.context.portal_type, output_name, fmt=fmt)
 
         self.request.response.redirect(self.context.aq_parent.absolute_url())
