@@ -2,6 +2,7 @@
 from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from collective.documentgenerator import BLDT_DIR
+from collective.documentgenerator.config import DEFAULT_PYTHON_UNO
 from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
 from imio.pyutils.system import runCommand
@@ -236,7 +237,7 @@ def convert_file(afile, output_name, fmt='pdf'):
     converted_filename = temp_file.name.replace('.{}'.format(file_ext), '.{}'.format(fmt))
     converted_file = ''
     try:
-        command = "python3 {converter_path} {temp_file} {fmt}".format(converter_path=converter_path, temp_file=temp_file.name, fmt=fmt)
+        command = "{python_uno_path} {converter_path} {temp_file} {fmt}".format(python_uno_path=DEFAULT_PYTHON_UNO, converter_path=converter_path, temp_file=temp_file.name, fmt=fmt)
         out, err, code = runCommand(command)
         # This command has no output on success
         if code != 0 or err or not os.path.exists(converted_filename):
