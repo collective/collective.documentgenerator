@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
-from collective.documentgenerator.utils import convert_odt
+from collective.documentgenerator.utils import convert_file
 from collective.documentgenerator.utils import odfsplit
 from collective.documentgenerator.utils import temporary_file_name
 from collective.documentgenerator.utils import update_dict_with_validation
@@ -166,7 +166,7 @@ class TestUtils(PODTemplateIntegrationTest):
         if original_uno:
             os.environ['PYTHON_UNO'] = original_uno
 
-    def test_convert_odt(self):
+    def test_convert_file(self):
         filename = u"test_file.odt"
         current_path = os.path.dirname(__file__)
         odt_file = open(os.path.join(current_path, filename), "r").read()
@@ -177,35 +177,35 @@ class TestUtils(PODTemplateIntegrationTest):
         )
 
         # convert to pdf
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf")
-        self.assertEqual(output_name, filename.replace(".odt", ".pdf"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf")
+        self.assertEqual(output_name, u"test_file.pdf")
         self.assertTrue(content.startswith("%PDF-"))
 
         # convert to odt
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt")
-        self.assertEqual(output_name, filename.replace(".odt", ".odt"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt")
+        self.assertEqual(output_name, u"test_file.odt")
         self.assertTrue(content.startswith("PK"))
         self.assertIn("mimetype", content)  # ODT files contain 'mimetype' in the zip
 
         # convert to docx
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx")
-        self.assertEqual(output_name, filename.replace(".odt", ".docx"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx")
+        self.assertEqual(output_name, u"test_file.docx")
         self.assertTrue(content.startswith("PK"))
         self.assertIn("[Content_Types].xml", content)  # DOCX files contain this file
 
         # convert to rtf
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf")
-        self.assertEqual(output_name, filename.replace(".odt", ".rtf"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf")
+        self.assertEqual(output_name, u"test_file.rtf")
         self.assertTrue(content.startswith("{\\rtf1"))
 
         # convert to txt
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt")
-        self.assertEqual(output_name, filename.replace(".odt", ".txt"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt")
+        self.assertEqual(output_name, u"test_file.txt")
         self.assertEqual(content, "Page 1\nPage 2\n")
 
         # convert to html
-        output_name, content = convert_odt(odt_blob_file, filename.replace(".odt", ".html"), fmt="html")
-        self.assertEqual(output_name, filename.replace(".odt", ".html"))
+        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".html"), fmt="html")
+        self.assertEqual(output_name, u"test_file.html")
         self.assertTrue(content.startswith("<!DOCTYPE html>"))
         self.assertIn("<html>", content)
         self.assertIn("<body", content)
