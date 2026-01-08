@@ -2,7 +2,10 @@
 from appy.bin.odfclean import Cleaner
 from collective.documentgenerator import _
 from collective.documentgenerator import BLDT_DIR
-from collective.documentgenerator.config import DEFAULT_PYTHON_UNO
+from collective.documentgenerator.config import DEFAULT_OO_PORT
+from collective.documentgenerator.config import get_oo_port_list
+from collective.documentgenerator.config import get_oo_server
+from collective.documentgenerator.config import get_uno_path
 from imio.helpers.content import uuidToObject
 from imio.helpers.security import fplog
 from imio.pyutils.system import runCommand
@@ -222,22 +225,26 @@ def clean_notes(pod_template):
     return bool(cleaned)
 
 
-def convert_file(afile, output_name, fmt='pdf'):
+def convert_file(afile, output_name, fmt="pdf"):
     """
     Convert a file to another libreoffice readable format using appy.pod
 
     :param afile: file field content like NamedBlobFile
     :param output_name: output name
-    :param fmt: output format, default to 'pdf'
+    :param fmt: output format, default to "pdf"
     """
     from appy.pod import converter
-    converter_path = converter.__file__.endswith('.pyc') and converter.__file__[:-1] or converter.__file__
+    converter_path = converter.__file__.endswith(".pyc") and converter.__file__[:-1] or converter.__file__
     file_ext = afile.filename.split('.')[-1].lower()
-    temp_file = create_temporary_file(afile, base_name='.{}'.format(file_ext))
-    converted_filename = temp_file.name.replace('.{}'.format(file_ext), '.{}'.format(fmt))
-    converted_file = ''
+    temp_file = create_temporary_file(afile, base_name=".{}".format(file_ext))
+    converted_filename = temp_file.name.replace(".{}".format(file_ext), ".{}".format(fmt))
+    converted_file = ""
     try:
-        command = "{python_uno_path} {converter_path} {temp_file} {fmt}".format(python_uno_path=DEFAULT_PYTHON_UNO, converter_path=converter_path, temp_file=temp_file.name, fmt=fmt)
+        ports = get_oo_port_list()
+        port = ports[0] if ports else DEFAULT_OO_PORT
+        command = "{python_uno_path} {converter_path} {temp_file} {fmt} -p {port} -e {server}".format(
+            python_uno_path=get_uno_path(), converter_path=converter_path, temp_file=temp_file.name, fmt=fmt,
+            port=port, server=get_oo_server())
         out, err, code = runCommand(command)
         # This command has no output on success
         if code != 0 or err or not os.path.exists(converted_filename):
