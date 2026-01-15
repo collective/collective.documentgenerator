@@ -1,10 +1,10 @@
 Changelog
 =========
 
-3.46 (unreleased)
+3.46 (2026-01-15)
 -----------------
 
-- Added views to convert an odt file to PDF.
+- Added views and utils methods to convert a file to PDF.
   [chris-adam, sgeulette]
 - Added `utils.need_mailing_value`
   [sgeulette]
