@@ -176,41 +176,42 @@ class TestUtils(PODTemplateIntegrationTest):
             filename=filename,
         )
 
-        # convert to pdf
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf")
-        self.assertEqual(output_name, u"test_file.pdf")
-        self.assertTrue(content.startswith("%PDF-"))
+        for renderer in (False, True):
+            # convert to pdf
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.pdf")
+            self.assertTrue(content.startswith("%PDF-"))
 
-        # convert to odt
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt")
-        self.assertEqual(output_name, u"test_file.odt")
-        self.assertTrue(content.startswith("PK"))
-        self.assertIn("mimetype", content)  # ODT files contain 'mimetype' in the zip
+            # convert to odt
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.odt")
+            self.assertTrue(content.startswith("PK"))
+            self.assertIn("mimetype", content)  # ODT files contain 'mimetype' in the zip
 
-        # convert to docx
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx")
-        self.assertEqual(output_name, u"test_file.docx")
-        self.assertTrue(content.startswith("PK"))
-        self.assertIn("[Content_Types].xml", content)  # DOCX files contain this file
+            # convert to docx
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.docx")
+            self.assertTrue(content.startswith("PK"))
+            self.assertIn("[Content_Types].xml", content)  # DOCX files contain this file
 
-        # convert to rtf
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf")
-        self.assertEqual(output_name, u"test_file.rtf")
-        self.assertTrue(content.startswith("{\\rtf1"))
+            # convert to rtf
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.rtf")
+            self.assertTrue(content.startswith("{\\rtf1"))
 
-        # convert to txt
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt")
-        self.assertEqual(output_name, u"test_file.txt")
-        self.assertEqual(content, "Page 1\nPage 2\n")
+            # convert to txt
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.txt")
+            self.assertEqual(content, "Page 1\nPage 2\n")
 
-        # convert to html
-        output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".html"), fmt="html")
-        self.assertEqual(output_name, u"test_file.html")
-        self.assertTrue(content.startswith("<!DOCTYPE html>"))
-        self.assertIn("<html>", content)
-        self.assertIn("<body", content)
-        self.assertIn("Page 1", content)
-        self.assertIn("Page 2", content)
+            # convert to html
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".html"), fmt="html", renderer=renderer)
+            self.assertEqual(output_name, u"test_file.html")
+            self.assertTrue(content.startswith("<!DOCTYPE html>"))
+            self.assertIn("<html>", content)
+            self.assertIn("<body", content)
+            self.assertIn("Page 1", content)
+            self.assertIn("Page 2", content)
 
     def test_odfsplit(self):
         filename = u"test_mailing.odt"
