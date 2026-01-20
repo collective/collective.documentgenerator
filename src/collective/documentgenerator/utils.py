@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from appy.bin.odfclean import Cleaner
-from appy.pod.lo_pool import LoPool
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
 from collective.documentgenerator import BLDT_DIR
@@ -238,26 +237,24 @@ def convert_odt(afile, output_name, fmt='pdf', gen_context=None, **kwargs):
     :param gen_context: generation context dict passed to renderer
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
     """
-    lo_pool = LoPool.get(
-        python=config.get_uno_path(),
-        server=config.get_oo_server(),
-        port=config.get_oo_port_list(),
-    )
-    if not lo_pool:
-        raise Exception("Could not find LibreOffice, check your configuration")
-
     temp_file = create_temporary_file(afile, '.odt')
-    converted_filename = None
+    converted_filename = temporary_file_name(suffix=".{extension}".format(extension=fmt))
     try:
         renderer = Renderer(
-            temp_file.name,
+            temp_file.name,  # could be StringIO(afile.data)
             gen_context or {},
-            temporary_file_name(suffix=".{extension}".format(extension=fmt)),
+            converted_filename,
+            pythonWithUnoPath=config.get_uno_path(),
+            ooServer=config.get_oo_server(),
+            ooPort=config.get_oo_port_list(),
+            raiseOnError=True,
+            forceOoCall=True,
             **kwargs
         )
+        if "view" in gen_context:
+            gen_context["view"]._set_appy_renderer(renderer)
 
-        lo_pool(renderer, temp_file.name, fmt)
-        converted_filename = temp_file.name.replace('.odt', '.{}'.format(fmt))
+        renderer.run()
         if not os.path.exists(converted_filename):
             api.portal.show_message(
                 message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name))),
@@ -333,8 +330,6 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
     """
-    if gen_context is None:
-        gen_context = {}
     converted_filename, converted_file = convert_file(afile, output_name, fmt=fmt, gen_context=gen_context,
                                                       renderer=renderer)
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
