@@ -228,13 +228,14 @@ def clean_notes(pod_template):
     return bool(cleaned)
 
 
-def convert_odt(afile, output_name, fmt='pdf', **kwargs):
+def convert_odt(afile, output_name, fmt='pdf', gen_context=None, **kwargs):
     """
     Convert an odt file to another format using appy.pod.
 
     :param afile: file field content like NamedBlobFile
     :param output_name: output name
     :param fmt: output format, default to 'pdf'
+    :param gen_context: generation context dict passed to renderer
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
     """
     lo_pool = LoPool.get(
@@ -250,7 +251,7 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
     try:
         renderer = Renderer(
             temp_file.name,
-            afile,
+            gen_context or {},
             temporary_file_name(suffix=".{extension}".format(extension=fmt)),
             **kwargs
         )
@@ -274,7 +275,7 @@ def convert_odt(afile, output_name, fmt='pdf', **kwargs):
     return output_name, converted_file
 
 
-def convert_file(afile, output_name, fmt="pdf", renderer=False):
+def convert_file(afile, output_name, fmt="pdf", renderer=False, gen_context=None):
     """
     Convert a file to another libreoffice readable format using appy.pod
 
@@ -282,12 +283,13 @@ def convert_file(afile, output_name, fmt="pdf", renderer=False):
     :param output_name: output name
     :param fmt: output format, default to "pdf"
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
+    :param gen_context: generation context dict passed to renderer
     """
     if renderer:
         if not afile.filename.endswith('.odt'):
             message = _(u"Conversion with renderer only works from odt files.")
             raise Invalid(message)
-        return convert_odt(afile, output_name, fmt=fmt)
+        return convert_odt(afile, output_name, fmt=fmt, gen_context=gen_context)
     from appy.pod import converter
     converter_path = converter.__file__.endswith(".pyc") and converter.__file__[:-1] or converter.__file__
     file_ext = afile.filename.split('.')[-1].lower()
@@ -316,7 +318,8 @@ def convert_file(afile, output_name, fmt="pdf", renderer=False):
     return output_name, converted_file
 
 
-def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None, renderer=False):
+def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None,
+                          renderer=False, gen_context=None):
     """
     Convert a file to another libreoffice readable format using appy.pod and save it in a NamedBlobFile.
 
@@ -328,8 +331,12 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     :param from_uid: uid from original file object
     :param attributes: dict of other attributes to set on created content
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
+    :param gen_context: generation context dict passed to renderer
     """
-    converted_filename, converted_file = convert_file(afile, output_name, fmt=fmt, renderer=renderer)
+    if gen_context is None:
+        gen_context = {}
+    converted_filename, converted_file = convert_file(afile, output_name, fmt=fmt, gen_context=gen_context,
+                                                      renderer=renderer)
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
     if attributes is None:
         attributes = {}
