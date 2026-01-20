@@ -239,10 +239,12 @@ def convert_odt(afile, output_name, fmt='pdf', gen_context=None, **kwargs):
     """
     temp_file = create_temporary_file(afile, '.odt')
     converted_filename = temporary_file_name(suffix=".{extension}".format(extension=fmt))
+    if not gen_context:
+        gen_context = {}
     try:
         renderer = Renderer(
             temp_file.name,  # could be StringIO(afile.data)
-            gen_context or {},
+            gen_context,
             converted_filename,
             pythonWithUnoPath=config.get_uno_path(),
             ooServer=config.get_oo_server(),
