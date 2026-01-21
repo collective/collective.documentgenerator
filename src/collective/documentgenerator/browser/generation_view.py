@@ -401,7 +401,7 @@ class PersistentDocumentGenerationView(DocumentGenerationView):
     def add_mailing_infos(self, doc, gen_context):
         """ store mailing informations on generated doc """
         annot = IAnnotations(doc)
-        if 'mailed_data' in gen_context or 'mailing_list' in gen_context:
+        if 'mailed_data' in gen_context or 'mailing_list' in gen_context:  # direct or mailed document
             annot['documentgenerator'] = {'need_mailing': False, 'template_uid': self.pod_template.UID()}
         else:
             annot['documentgenerator'] = {'need_mailing': True, 'template_uid': self.pod_template.UID(),
@@ -493,9 +493,10 @@ class MailingLoopPersistentDocumentGenerationView(PersistentDocumentGenerationVi
         self.redirects(persisted_doc)
 
     def add_mailing_infos(self, doc, gen_context):
-        """ store mailing informations on generated doc """
+        """Store mailing information on generated doc"""
         annot = IAnnotations(doc)
-        annot['documentgenerator'] = {"need_mailing": False, "template_uid": self.pod_template.UID(), "mailed": True}
+        annot['documentgenerator'] = {"need_mailing": False, "template_uid": self.pod_template.UID(), "mailed": True,
+                                      "from_doc_uid": self.document.UID()}
 
     def _get_base_args(self, template_uid, output_format):
         annot = IAnnotations(self.document).get('documentgenerator', '')

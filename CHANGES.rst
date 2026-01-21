@@ -4,8 +4,12 @@ Changelog
 3.47 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Used renderer.run in `utils.convert_odt` and added gen_context as param.
+  [sgeulette]
+- Added "from_doc_uid" in generated doc annotation after MailingLoopPersistentDocumentGenerationView call.
+  [sgeulette]
+- Added `utils.get_original_template` to get the original pod template, even after a mailing loop generation,
+  [sgeulette]
 
 3.46 (2026-01-15)
 -----------------

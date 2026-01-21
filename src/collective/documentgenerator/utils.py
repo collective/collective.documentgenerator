@@ -350,6 +350,30 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     return new_file
 
 
+def get_original_template(obj):
+    """
+    Get the original template used to generate a document.
+
+    :param obj: generated document
+    :return: template object or None
+    """
+    obj_annot = IAnnotations(obj).get("documentgenerator", {})
+    if not obj_annot:
+        return None
+    template_uid = None
+    if obj_annot.get("mailed", False):  # mailed documents, template_uid is mailing template uid
+        if "from_doc_uid" not in obj_annot:
+            return None
+        doc = uuidToObject(obj_annot["from_doc_uid"], unrestricted=True)
+        doc_annot = IAnnotations(doc).get("documentgenerator", {})
+        template_uid = doc_annot.get("template_uid", None)
+    else:
+        template_uid = obj_annot.get("template_uid", None)
+    if template_uid:
+        return uuidToObject(template_uid, unrestricted=True)
+    return None
+
+
 @api.env.mutually_exclusive_parameters("document", "document_uid")
 def need_mailing_value(document=None, document_uid=None):
     if not document:

@@ -2,6 +2,7 @@
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from collective.documentgenerator.utils import compute_md5
 from collective.documentgenerator.utils import convert_file
+from collective.documentgenerator.utils import get_original_template
 from collective.documentgenerator.utils import odfsplit
 from collective.documentgenerator.utils import temporary_file_name
 from collective.documentgenerator.utils import update_dict_with_validation
@@ -9,8 +10,10 @@ from collective.documentgenerator.utils import update_oo_config
 from collective.documentgenerator.utils import update_templates
 from os import getenv
 from os import rmdir
+from plone import api
 from plone.api.portal import get_registry_record
 from plone.namedfile import NamedBlobFile
+from zope.annotation import IAnnotations
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.lifecycleevent import Attributes
@@ -178,34 +181,40 @@ class TestUtils(PODTemplateIntegrationTest):
 
         for renderer in (False, True):
             # convert to pdf
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".pdf"), fmt="pdf",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.pdf")
             self.assertTrue(content.startswith("%PDF-"))
 
             # convert to odt
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".odt"), fmt="odt",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.odt")
             self.assertTrue(content.startswith("PK"))
             self.assertIn("mimetype", content)  # ODT files contain 'mimetype' in the zip
 
             # convert to docx
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".docx"), fmt="docx",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.docx")
             self.assertTrue(content.startswith("PK"))
             self.assertIn("[Content_Types].xml", content)  # DOCX files contain this file
 
             # convert to rtf
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".rtf"), fmt="rtf",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.rtf")
             self.assertTrue(content.startswith("{\\rtf1"))
 
             # convert to txt
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".txt"), fmt="txt",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.txt")
-            self.assertEqual(content, "Page 1\nPage 2\n")
+            self.assertIn("Page 1\nPage 2\n", content)
 
             # convert to html
-            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".html"), fmt="html", renderer=renderer)
+            output_name, content = convert_file(odt_blob_file, filename.replace(".odt", ".html"), fmt="html",
+                                                renderer=renderer)
             self.assertEqual(output_name, u"test_file.html")
             self.assertTrue(content.startswith("<!DOCTYPE html>"))
             self.assertIn("<html>", content)
@@ -242,3 +251,32 @@ class TestUtils(PODTemplateIntegrationTest):
         self.assertEqual(code, 1)
         self.assertEqual(nb, 0)
         self.assertTrue(result.strip().endswith("zipfile.BadZipfile: File is not a zip file"))
+
+    def test_get_original_template(self):
+        # No annotation
+        doc = api.content.create(container=self.portal, type='Document', id='doc1')
+        self.assertIsNone(get_original_template(doc))
+
+        # With template_uid annotation
+        template = self.portal.podtemplates.get('test_template_multiple')
+        annot = IAnnotations(doc)
+        annot["documentgenerator"] = {"template_uid": template.UID()}
+        self.assertEqual(get_original_template(doc), template)
+
+        # Mailed document with from_doc_uid
+        doc2 = api.content.create(container=self.portal, type='Document', id='doc2')
+        annot2 = IAnnotations(doc2)
+        annot2["documentgenerator"] = {"mailed": True, "from_doc_uid": doc.UID()}
+        self.assertEqual(get_original_template(doc2), template)
+
+        # Mailed document without from_doc_uid
+        doc3 = api.content.create(container=self.portal, type='Document', id='doc3')
+        annot3 = IAnnotations(doc3)
+        annot3["documentgenerator"] = {"mailed": True}
+        self.assertIsNone(get_original_template(doc3))
+
+        # With invalid template_uid
+        doc4 = api.content.create(container=self.portal, type='Document', id='doc4')
+        annot4 = IAnnotations(doc4)
+        annot4["documentgenerator"] = {"template_uid": "invalid-uid"}
+        self.assertIsNone(get_original_template(doc4))
