@@ -10,6 +10,8 @@ Changelog
   [sgeulette]
 - Added `utils.get_original_template` to get the original pod template, even after a mailing loop generation,
   [sgeulette]
+- Simplified `utils.convert_odt` and `utils.convert_file` parameters and returned value.
+  [sgeulette]
 
 3.46 (2026-01-15)
 -----------------

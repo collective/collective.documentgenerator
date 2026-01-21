@@ -2,6 +2,7 @@
 from collective.documentgenerator.utils import convert_and_save_file
 from collective.documentgenerator.utils import convert_file
 from plone.namedfile.file import NamedBlobFile
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 
 import mimetypes
@@ -19,15 +20,15 @@ class DocumentConvertView(BrowserView):
 
     def __call__(self):
         output_name, fmt = self.get_params()
-        converted_filename, converted_file = convert_file(self.context.file, output_name, fmt=fmt)
+        converted_file = convert_file(self.context.file, output_name, fmt=fmt)
 
         # Set headers
         response = self.request.RESPONSE
-        mimetype = mimetypes.guess_type(converted_filename)[0]
+        mimetype = mimetypes.guess_type(output_name)[0]
         response.setHeader('Content-type', mimetype)
         response.setHeader(
             'Content-disposition',
-            u'inline;filename="{}"'.format(converted_filename).encode('utf-8')
+            u'inline;filename="{}"'.format(safe_unicode(output_name))
         )
 
         return converted_file

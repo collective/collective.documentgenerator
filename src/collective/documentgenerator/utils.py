@@ -227,15 +227,16 @@ def clean_notes(pod_template):
     return bool(cleaned)
 
 
-def convert_odt(afile, output_name, fmt='pdf', gen_context=None, **kwargs):
+def convert_odt(afile, fmt='pdf', gen_context=None, delete_temp_files=True, **kwargs):
     """
     Convert an odt file to another format using appy.pod.
 
     :param afile: file field content like NamedBlobFile
-    :param output_name: output name
     :param fmt: output format, default to 'pdf'
     :param gen_context: generation context dict passed to renderer
+    :param delete_temp_files: deletes input and output temporary files
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    :return: converted file content
     """
     temp_file = create_temporary_file(afile, '.odt')
     converted_filename = temporary_file_name(suffix=".{extension}".format(extension=fmt))
@@ -259,36 +260,37 @@ def convert_odt(afile, output_name, fmt='pdf', gen_context=None, **kwargs):
         renderer.run()
         if not os.path.exists(converted_filename):
             api.portal.show_message(
-                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name))),
+                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename))),
                 request=getSite().REQUEST,
                 type="error",
             )
-            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename)))
         with open(converted_filename, 'rb') as f:
             converted_file = f.read()
     finally:
-        remove_tmp_file(temp_file.name)
-        if converted_filename:
-            remove_tmp_file(converted_filename)
+        if delete_temp_files:
+            remove_tmp_file(temp_file.name)
+            if converted_filename:
+                remove_tmp_file(converted_filename)
 
-    return output_name, converted_file
+    return converted_file
 
 
-def convert_file(afile, output_name, fmt="pdf", renderer=False, gen_context=None):
+def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp_files=True):
     """
     Convert a file to another libreoffice readable format using appy.pod
 
     :param afile: file field content like NamedBlobFile
-    :param output_name: output name
     :param fmt: output format, default to "pdf"
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
+    :param delete_temp_files:
     """
     if renderer:
         if not afile.filename.endswith('.odt'):
             message = _(u"Conversion with renderer only works from odt files.")
             raise Invalid(message)
-        return convert_odt(afile, output_name, fmt=fmt, gen_context=gen_context)
+        return convert_odt(afile, fmt=fmt, gen_context=gen_context, delete_temp_files=delete_temp_files)
     from appy.pod import converter
     converter_path = converter.__file__.endswith(".pyc") and converter.__file__[:-1] or converter.__file__
     file_ext = afile.filename.split('.')[-1].lower()
@@ -304,17 +306,18 @@ def convert_file(afile, output_name, fmt="pdf", renderer=False, gen_context=None
         out, err, code = runCommand(command)
         # This command has no output on success
         if code != 0 or err or not os.path.exists(converted_filename):
-            message = _(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+            message = _(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename)))
             raise Invalid(message)
         with open(converted_filename, 'rb') as f:
             converted_file = f.read()
     except Exception as e:
         api.portal.show_message(message=str(e), request=getSite().REQUEST, type="error")
     finally:
-        remove_tmp_file(temp_file.name)
-        if os.path.exists(converted_filename):
-            remove_tmp_file(converted_filename)
-    return output_name, converted_file
+        if delete_temp_files:
+            remove_tmp_file(temp_file.name)
+            if os.path.exists(converted_filename):
+                remove_tmp_file(converted_filename)
+    return converted_file
 
 
 def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None,
@@ -332,16 +335,15 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
     """
-    converted_filename, converted_file = convert_file(afile, output_name, fmt=fmt, gen_context=gen_context,
-                                                      renderer=renderer)
-    file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
+    converted_file = convert_file(afile, output_name, fmt=fmt, gen_context=gen_context, renderer=renderer)
+    file_object = NamedBlobFile(converted_file, filename=safe_unicode(output_name))
     if attributes is None:
         attributes = {}
     attributes["conv_from_uid"] = from_uid
     new_file = createContentInContainer(
         container,
         portal_type,
-        title=converted_filename,
+        title=safe_unicode(output_name),
         file=file_object,
         **attributes)
     if from_uid:
