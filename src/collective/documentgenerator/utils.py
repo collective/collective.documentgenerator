@@ -335,7 +335,7 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
     """
-    converted_file = convert_file(afile, output_name, fmt=fmt, gen_context=gen_context, renderer=renderer)
+    converted_file = convert_file(afile, fmt=fmt, gen_context=gen_context, renderer=renderer)
     file_object = NamedBlobFile(converted_file, filename=safe_unicode(output_name))
     if attributes is None:
         attributes = {}
