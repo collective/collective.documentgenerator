@@ -20,7 +20,7 @@ class DocumentConvertView(BrowserView):
 
     def __call__(self):
         output_name, fmt = self.get_params()
-        converted_file = convert_file(self.context.file, output_name, fmt=fmt)
+        converted_file = convert_file(self.context.file, fmt=fmt)
 
         # Set headers
         response = self.request.RESPONSE
