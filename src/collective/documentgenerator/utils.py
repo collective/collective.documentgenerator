@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from appy.bin.odfclean import Cleaner
-from appy.pod.lo_pool import LoPool
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
 from collective.documentgenerator import BLDT_DIR
@@ -228,66 +227,70 @@ def clean_notes(pod_template):
     return bool(cleaned)
 
 
-def convert_odt(afile, output_name, fmt='pdf', **kwargs):
+def convert_odt(afile, fmt='pdf', gen_context=None, delete_temp_files=True, **kwargs):
     """
     Convert an odt file to another format using appy.pod.
 
     :param afile: file field content like NamedBlobFile
-    :param output_name: output name
     :param fmt: output format, default to 'pdf'
+    :param gen_context: generation context dict passed to renderer
+    :param delete_temp_files: deletes input and output temporary files
     :param kwargs: other parameters passed to Renderer, i.e pdfOptions='ExportNotes=True;SelectPdfVersion=1'
+    :return: converted file content
     """
-    lo_pool = LoPool.get(
-        python=config.get_uno_path(),
-        server=config.get_oo_server(),
-        port=config.get_oo_port_list(),
-    )
-    if not lo_pool:
-        raise Exception("Could not find LibreOffice, check your configuration")
-
     temp_file = create_temporary_file(afile, '.odt')
-    converted_filename = None
+    converted_filename = temporary_file_name(suffix=".{extension}".format(extension=fmt))
+    if not gen_context:
+        gen_context = {}
     try:
         renderer = Renderer(
-            temp_file.name,
-            afile,
-            temporary_file_name(suffix=".{extension}".format(extension=fmt)),
+            temp_file.name,  # could be StringIO(afile.data)
+            gen_context,
+            converted_filename,
+            pythonWithUnoPath=config.get_uno_path(),
+            ooServer=config.get_oo_server(),
+            ooPort=config.get_oo_port_list(),
+            raiseOnError=True,
+            forceOoCall=True,
             **kwargs
         )
+        if "view" in gen_context:
+            gen_context["view"]._set_appy_renderer(renderer)
 
-        lo_pool(renderer, temp_file.name, fmt)
-        converted_filename = temp_file.name.replace('.odt', '.{}'.format(fmt))
+        renderer.run()
         if not os.path.exists(converted_filename):
             api.portal.show_message(
-                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name))),
+                message=_(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename))),
                 request=getSite().REQUEST,
                 type="error",
             )
-            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+            raise Invalid(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename)))
         with open(converted_filename, 'rb') as f:
             converted_file = f.read()
     finally:
-        remove_tmp_file(temp_file.name)
-        if converted_filename:
-            remove_tmp_file(converted_filename)
+        if delete_temp_files:
+            remove_tmp_file(temp_file.name)
+            if converted_filename:
+                remove_tmp_file(converted_filename)
 
-    return output_name, converted_file
+    return converted_file
 
 
-def convert_file(afile, output_name, fmt="pdf", renderer=False):
+def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp_files=True):
     """
     Convert a file to another libreoffice readable format using appy.pod
 
     :param afile: file field content like NamedBlobFile
-    :param output_name: output name
     :param fmt: output format, default to "pdf"
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
+    :param gen_context: generation context dict passed to renderer
+    :param delete_temp_files:
     """
     if renderer:
         if not afile.filename.endswith('.odt'):
             message = _(u"Conversion with renderer only works from odt files.")
             raise Invalid(message)
-        return convert_odt(afile, output_name, fmt=fmt)
+        return convert_odt(afile, fmt=fmt, gen_context=gen_context, delete_temp_files=delete_temp_files)
     from appy.pod import converter
     converter_path = converter.__file__.endswith(".pyc") and converter.__file__[:-1] or converter.__file__
     file_ext = afile.filename.split('.')[-1].lower()
@@ -303,20 +306,22 @@ def convert_file(afile, output_name, fmt="pdf", renderer=False):
         out, err, code = runCommand(command)
         # This command has no output on success
         if code != 0 or err or not os.path.exists(converted_filename):
-            message = _(u"Conversion failed, no converted file '{}'".format(safe_unicode(output_name)))
+            message = _(u"Conversion failed, no converted file '{}'".format(safe_unicode(converted_filename)))
             raise Invalid(message)
         with open(converted_filename, 'rb') as f:
             converted_file = f.read()
     except Exception as e:
         api.portal.show_message(message=str(e), request=getSite().REQUEST, type="error")
     finally:
-        remove_tmp_file(temp_file.name)
-        if os.path.exists(converted_filename):
-            remove_tmp_file(converted_filename)
-    return output_name, converted_file
+        if delete_temp_files:
+            remove_tmp_file(temp_file.name)
+            if os.path.exists(converted_filename):
+                remove_tmp_file(converted_filename)
+    return converted_file
 
 
-def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None, renderer=False):
+def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf', from_uid=None, attributes=None,
+                          renderer=False, gen_context=None):
     """
     Convert a file to another libreoffice readable format using appy.pod and save it in a NamedBlobFile.
 
@@ -328,22 +333,47 @@ def convert_and_save_file(afile, container, portal_type, output_name, fmt='pdf',
     :param from_uid: uid from original file object
     :param attributes: dict of other attributes to set on created content
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
+    :param gen_context: generation context dict passed to renderer
     """
-    converted_filename, converted_file = convert_file(afile, output_name, fmt=fmt, renderer=renderer)
-    file_object = NamedBlobFile(converted_file, filename=safe_unicode(converted_filename))
+    converted_file = convert_file(afile, fmt=fmt, gen_context=gen_context, renderer=renderer)
+    file_object = NamedBlobFile(converted_file, filename=safe_unicode(output_name))
     if attributes is None:
         attributes = {}
     attributes["conv_from_uid"] = from_uid
     new_file = createContentInContainer(
         container,
         portal_type,
-        title=converted_filename,
+        title=safe_unicode(output_name),
         file=file_object,
         **attributes)
     if from_uid:
         annot = IAnnotations(new_file)
         annot["documentgenerator"] = {"conv_from_uid": from_uid}
     return new_file
+
+
+def get_original_template(obj):
+    """
+    Get the original template used to generate a document.
+
+    :param obj: generated document
+    :return: template object or None
+    """
+    obj_annot = IAnnotations(obj).get("documentgenerator", {})
+    if not obj_annot:
+        return None
+    template_uid = None
+    if obj_annot.get("mailed", False):  # mailed documents, template_uid is mailing template uid
+        if "from_doc_uid" not in obj_annot:
+            return None
+        doc = uuidToObject(obj_annot["from_doc_uid"], unrestricted=True)
+        doc_annot = IAnnotations(doc).get("documentgenerator", {})
+        template_uid = doc_annot.get("template_uid", None)
+    else:
+        template_uid = obj_annot.get("template_uid", None)
+    if template_uid:
+        return uuidToObject(template_uid, unrestricted=True)
+    return None
 
 
 @api.env.mutually_exclusive_parameters("document", "document_uid")
