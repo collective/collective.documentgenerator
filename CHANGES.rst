@@ -12,6 +12,8 @@ Changelog
   [sgeulette]
 - Simplified `utils.convert_odt` and `utils.convert_file` parameters and returned value.
   [sgeulette]
+- Added utils `append_pdf`.
+  [chris-adam]
 
 3.46 (2026-01-15)
 -----------------

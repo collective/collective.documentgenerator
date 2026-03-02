@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.utils import append_pdf
 from collective.documentgenerator.utils import compute_md5
 from collective.documentgenerator.utils import convert_file
 from collective.documentgenerator.utils import get_original_template
@@ -22,6 +23,8 @@ from zope.lifecycleevent import modified
 import collective.documentgenerator as cdg
 import copy
 import os
+import subprocess
+import tempfile
 
 
 class TestUtils(PODTemplateIntegrationTest):
@@ -268,3 +271,38 @@ class TestUtils(PODTemplateIntegrationTest):
         annot4 = IAnnotations(doc4)
         annot4["documentgenerator"] = {"template_uid": "invalid-uid"}
         self.assertIsNone(get_original_template(doc4))
+
+    def _pdf_page_count(self, pdf_data):
+        """Return the number of pages in pdf_data using PyPDF2."""
+        from cStringIO import StringIO
+        from PyPDF2 import PdfFileReader
+        return PdfFileReader(StringIO(pdf_data)).getNumPages()
+
+    def test_append_pdf(self):
+        """append_pdf merges two PDFs and cleans up temp files."""
+        filename = u"test_file.odt"
+        current_path = os.path.dirname(__file__)
+        odt_data = open(os.path.join(current_path, filename), "r").read()
+        odt_blob = NamedBlobFile(
+            data=odt_data,
+            contentType="application/vnd.oasis.opendocument.text",
+            filename=filename,
+        )
+        pdf_data = convert_file(odt_blob, fmt="pdf")
+
+        # merging two PDFs produces a result with combined page count
+        result = append_pdf(pdf_data, pdf_data)
+        self.assertEqual(self._pdf_page_count(result), 4)
+
+        # temp files cleaned up on success
+        tmpdir = tempfile.gettempdir()
+        before = set(os.listdir(tmpdir))
+        append_pdf(pdf_data, pdf_data)
+        after = set(os.listdir(tmpdir))
+        self.assertEqual([f for f in (after - before) if f.endswith(".pdf")], [])
+
+        # temp files cleaned up on failure; CalledProcessError raised for invalid input
+        before = set(os.listdir(tmpdir))
+        self.assertRaises(subprocess.CalledProcessError, append_pdf, b"not a pdf", b"not a pdf")
+        after = set(os.listdir(tmpdir))
+        self.assertEqual([f for f in (after - before) if f.endswith(".pdf")], [])

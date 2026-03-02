@@ -30,6 +30,7 @@ import hashlib
 import logging
 import os
 import re
+import subprocess
 import tempfile
 
 
@@ -424,3 +425,40 @@ def odfsplit(content):
     else:
         value = "".join(err)
     return code, value, nb_files
+
+
+def append_pdf(main_pdf_data, sub_pdf_data):
+    """Append sub_pdf_data pages to main_pdf_data using ghostscript.
+
+    :param main_pdf_data: bytes of the main PDF
+    :param sub_pdf_data: bytes of the PDF to append
+    :return: merged PDF bytes
+    """
+    paths = []
+    try:
+        for data in (main_pdf_data, sub_pdf_data):
+            fd, path = tempfile.mkstemp(suffix=".pdf")
+            paths.append(path)
+            os.write(fd, data)
+            os.close(fd)
+        fd, out_path = tempfile.mkstemp(suffix=".pdf")
+        os.close(fd)
+        paths.append(out_path)
+        subprocess.check_call(
+            [
+                "gs",
+                "-dBATCH",
+                "-dNOPAUSE",
+                "-q",
+                "-sDEVICE=pdfwrite",
+                "-sOutputFile={}".format(out_path),
+                paths[0],
+                paths[1],
+            ]
+        )
+        with open(out_path, "rb") as f:
+            return f.read()
+    finally:
+        for path in paths:
+            if os.path.exists(path):
+                os.remove(path)
