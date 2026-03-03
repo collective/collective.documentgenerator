@@ -12,14 +12,11 @@ from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
 from zope.i18n import translate
 
-import appy.pod
 import logging
 import os
 
 
 logger = logging.getLogger('collective.documentgenerator: styles update')
-
-CONVSCRIPT = '{}/converter.py'.format(os.path.dirname(appy.pod.__file__))
 
 
 def update_styles_of_all_PODtemplate(style_template, event):
@@ -83,7 +80,7 @@ def _update_template_styles(pod_template, style_template_filename):
     cmd = '{path} {script} {tmp_file} {extension} -e ' \
           '{libreoffice_host} -p {port} ' \
           '-t {style_template} -v -a {stream}'.format(path=config.get_uno_path(),
-                                                      script=CONVSCRIPT,
+                                                      script=config.CONVSCRIPT,
                                                       tmp_file=temp_file.name,
                                                       extension='odt',
                                                       libreoffice_host=config.get_oo_server(),

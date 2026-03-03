@@ -4,6 +4,7 @@ from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
 from collective.documentgenerator import BLDT_DIR
 from collective.documentgenerator import config
+from collective.documentgenerator.config import CONVSCRIPT
 from collective.documentgenerator.config import DEFAULT_OO_PORT
 from collective.documentgenerator.config import get_oo_port_list
 from collective.documentgenerator.config import get_oo_server
@@ -291,8 +292,7 @@ def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp
             message = _(u"Conversion with renderer only works from odt files.")
             raise Invalid(message)
         return convert_odt(afile, fmt=fmt, gen_context=gen_context, delete_temp_files=delete_temp_files)
-    from appy.pod import converter
-    converter_path = converter.__file__.endswith(".pyc") and converter.__file__[:-1] or converter.__file__
+
     file_ext = afile.filename.split('.')[-1].lower()
     temp_file = create_temporary_file(afile, base_name=".{}".format(file_ext))
     converted_filename = temp_file.name.replace(".{}".format(file_ext), ".{}".format(fmt))
@@ -301,7 +301,7 @@ def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp
         ports = get_oo_port_list()
         port = ports[0] if ports else DEFAULT_OO_PORT
         command = "{python_uno_path} {converter_path} {temp_file} {fmt} -p {port} -e {server}".format(
-            python_uno_path=get_uno_path(), converter_path=converter_path, temp_file=temp_file.name, fmt=fmt,
+            python_uno_path=get_uno_path(), converter_path=CONVSCRIPT, temp_file=temp_file.name, fmt=fmt,
             port=port, server=get_oo_server())
         out, err, code = runCommand(command)
         # This command has no output on success

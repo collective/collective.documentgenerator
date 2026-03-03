@@ -68,5 +68,7 @@ setup(
     target = plone
     [console_scripts]
     odfsplit = appy.bin.odfsplit:main
+    # converter script to be used once the project runs python 3
+    # converter = appy.pod.converter:main
     """,
 )
