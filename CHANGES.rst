@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.47 (unreleased)
+3.47 (2026-03-03)
 -----------------
 
 - Used renderer.run in `utils.convert_odt` and added gen_context as param.
