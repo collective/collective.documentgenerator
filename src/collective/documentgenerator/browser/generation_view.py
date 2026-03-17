@@ -4,6 +4,7 @@ from .. import _
 from AccessControl import Unauthorized
 from appy.pod.renderer import CsvOptions
 from appy.pod.renderer import Renderer
+from appy.pod.evaluator import Compromiser
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
@@ -283,6 +284,7 @@ class DocumentGenerationView(BrowserView):
             html=True,
             optimalColumnWidths=optimalColumnWidths,
             distributeColumns=distributeColumns,
+            evaluator=Compromiser(),
             stylesMapping=stylesMapping,
             stream=config.get_use_stream(),
             csvOptions=csvOptions,

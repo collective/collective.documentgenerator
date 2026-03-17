@@ -4,8 +4,8 @@ Changelog
 3.48 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Use `Compromiser` evaluator.
+  [gbastien]
 
 3.47 (2026-03-03)
 -----------------
