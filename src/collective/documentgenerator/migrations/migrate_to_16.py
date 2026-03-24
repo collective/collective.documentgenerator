@@ -14,7 +14,7 @@ import logging
 logger = logging.getLogger('collective.documentgenerator')
 
 
-class Migrate_To_14(Migrator):
+class Migrate_To_16(Migrator):
 
     def __init__(self, context):
         Migrator.__init__(self, context)
@@ -27,12 +27,14 @@ class Migrate_To_14(Migrator):
         for brain in self.catalog(object_provides=IPODTemplate.__identifier__):
             pod_template = brain.getObject()
             with SearchAndReplacePODTemplates([pod_template]) as search_replace:
-                res = search_replace.replace('_banned_', '++REPLACED++', is_regex=False)
-                if res:
-                    results.append(res)
                 res = search_replace.replace('_underscored_', '++REPLACED++', is_regex=False)
                 if res:
                     results.append(res)
+            with SearchAndReplacePODTemplates([pod_template]) as search_replace:
+                res = search_replace.replace('_banned_', '++REPLACED++', is_regex=False)
+                if res:
+                    results.append(res)
+        import ipdb; ipdb.set_trace()
         # format results and dump it in the Zope log
         # as clean as possible so it can be used to know what changed
         data = {}
@@ -79,7 +81,7 @@ class Migrate_To_14(Migrator):
         logger.info('Done.')
 
     def run(self):
-        logger.info('Migrating to collective.documentgenerator 14...')
+        logger.info('Migrating to collective.documentgenerator 16...')
         self._clean_expr()
         self.finish()
 
@@ -87,4 +89,4 @@ class Migrate_To_14(Migrator):
 def migrate(context):
     '''
     '''
-    Migrate_To_14(context).run()
+    Migrate_To_16(context).run()
