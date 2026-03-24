@@ -35,6 +35,7 @@ jobs:
           sudo apt-get install -qq -y libreoffice libreoffice-script-provider-python libjpeg62 libjpeg62-dev libbz2-dev
           mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements.txt
+          soffice --version
       - name: Set up pyenv and Python
         uses: "gabrielfalcao/pyenv-action@v18"
         with:
