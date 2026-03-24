@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from appy.pod.evaluator import Compromiser
 from collections import OrderedDict
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.search_replace.pod_template import SearchAndReplacePODTemplates
@@ -27,13 +28,14 @@ class Migrate_To_16(Migrator):
         for brain in self.catalog(object_provides=IPODTemplate.__identifier__):
             pod_template = brain.getObject()
             with SearchAndReplacePODTemplates([pod_template]) as search_replace:
-                res = search_replace.replace('_underscored_', '++REPLACED++', is_regex=False)
-                if res:
-                    results.append(res)
-            with SearchAndReplacePODTemplates([pod_template]) as search_replace:
-                res = search_replace.replace('_banned_', '++REPLACED++', is_regex=False)
-                if res:
-                    results.append(res)
+                for banned_expr in Compromiser.banned:
+                    res = search_replace.replace(banned_expr, '++REPLACED++', is_regex=False)
+                    if res:
+                        results.append(res)
+                for underscored_regex in Compromiser.underscored:
+                    res = search_replace.replace(underscored_regex.pattern, '++REPLACED++', is_regex=True)
+                    if res:
+                        results.append(res)
         # format results and dump it in the Zope log
         # as clean as possible so it can be used to know what changed
         data = {}
@@ -49,6 +51,7 @@ class Migrate_To_16(Migrator):
             for info in infos:
                 # collective.documentgenerator < 3.30 from which we use appy.pod S&R
                 # XXX to be removed when using collective.documentgenerator >= 3.30
+                import ipdb; ipdb.set_trace()
                 if hasattr(info, 'pod_expr'):
                     data[pt_path_and_title].append("---- " + info.pod_expr)
                     data[pt_path_and_title].append("++++ " + info.new_pod_expr)
