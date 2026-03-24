@@ -51,7 +51,6 @@ class Migrate_To_16(Migrator):
             for info in infos:
                 # collective.documentgenerator < 3.30 from which we use appy.pod S&R
                 # XXX to be removed when using collective.documentgenerator >= 3.30
-                import ipdb; ipdb.set_trace()
                 if hasattr(info, 'pod_expr'):
                     data[pt_path_and_title].append("---- " + info.pod_expr)
                     data[pt_path_and_title].append("++++ " + info.new_pod_expr)
