@@ -34,7 +34,6 @@ class Migrate_To_16(Migrator):
                 res = search_replace.replace('_banned_', '++REPLACED++', is_regex=False)
                 if res:
                     results.append(res)
-        import ipdb; ipdb.set_trace()
         # format results and dump it in the Zope log
         # as clean as possible so it can be used to know what changed
         data = {}
