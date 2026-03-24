@@ -180,6 +180,17 @@
             import_steps="plone.app.registry" />
     </genericsetup:upgradeSteps>
 
+
+    <genericsetup:upgradeSteps
+        source="15"
+        destination="16"
+        profile="collective.documentgenerator:default">
+        <genericsetup:upgradeStep
+            title="collective.documentgenerator: upgrade to 16"
+            description="Clean expressions (using Comprimser) of every existing POD templates"
+            handler="collective.documentgenerator.migrations.migrate_to_16.migrate" />
+    </genericsetup:upgradeSteps>
+
   <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
   <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 

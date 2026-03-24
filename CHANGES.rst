@@ -6,6 +6,12 @@ Changelog
 
 - Use `Compromiser` evaluator.
   [gbastien]
+- Added migration to `16` that will make sure existing POD templates are safe.
+  [gbastien]
+- Added parameter `prepend_pod_title=True` to `DocumentGenerationView._get_filename`
+  so it is especially possible to not preprend pod template title to generated
+  file filename.
+  [gbastien]
 
 3.47 (2026-03-03)
 -----------------

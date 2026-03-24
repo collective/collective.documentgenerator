@@ -128,13 +128,21 @@ class DocumentGenerationView(BrowserView):
         filename = self._get_filename()
         return rendered, filename, gen_context
 
-    def _get_filename(self):
-        """ """
-        # we limit filename to 120 characters
-        first_part = u'{0} {1}'.format(self.pod_template.title, safe_unicode(self.context.Title()))
+    def _get_filename(self, prepend_pod_title=True):
+        """
+        Return generated file filename.
+
+        :param prepend_pod_title: will preprend the POD template title before
+        context title for the generated file filename
+        title then pod template title
+        """
+        first_part = safe_unicode(self.context.Title())
+        if prepend_pod_title:
+            first_part = u'{0} {1}'.format(self.pod_template.title, first_part)
         # replace unicode special characters with ascii equivalent value
         first_part = unicodedata.normalize('NFKD', first_part).encode('ascii', 'ignore')
         util = queryUtility(IFileNameNormalizer)
+        # we limit filename to 120 characters
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'
         # moreover avoid more than one blank space at a time
