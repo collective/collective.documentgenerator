@@ -28,14 +28,15 @@ class Migrate_To_16(Migrator):
         for brain in self.catalog(object_provides=IPODTemplate.__identifier__):
             pod_template = brain.getObject()
             with SearchAndReplacePODTemplates([pod_template]) as search_replace:
+                # banned
                 for banned_expr in Compromiser.banned:
-                    res = search_replace.replace(banned_expr, '++REPLACED++', is_regex=False)
+                    res = search_replace.replace(Compromiser.getBannedRex().pattern, '++REPLACED++', is_regex=True)
                     if res:
                         results.append(res)
-                for underscored_regex in Compromiser.underscored:
-                    res = search_replace.replace(underscored_regex.pattern, '++REPLACED++', is_regex=True)
-                    if res:
-                        results.append(res)
+                # underscored
+                res = search_replace.replace(Compromiser.underscored.pattern, '++REPLACED++', is_regex=True)
+                if res:
+                    results.append(res)
         # format results and dump it in the Zope log
         # as clean as possible so it can be used to know what changed
         data = {}
@@ -49,15 +50,9 @@ class Migrate_To_16(Migrator):
                 self.warnings.append('Replacements were done in POD template at %s'
                                      % pt_path_and_title)
             for info in infos:
-                # collective.documentgenerator < 3.30 from which we use appy.pod S&R
-                # XXX to be removed when using collective.documentgenerator >= 3.30
-                if hasattr(info, 'pod_expr'):
-                    data[pt_path_and_title].append("---- " + info.pod_expr)
-                    data[pt_path_and_title].append("++++ " + info.new_pod_expr)
-                else:
-                    line = repr(info).replace('  These changes were done:', '>>>'). \
-                        replace('\n\n', '\n').rstrip('\n')
-                    data[pt_path_and_title].append(line)
+                line = repr(info).replace('  These changes were done:', '>>>'). \
+                    replace('\n\n', '\n').rstrip('\n')
+                data[pt_path_and_title].append(line)
         logger.info("REPLACEMENTS IN POD TEMPLATES")
         if not data:
             logger.info("=============================")
@@ -67,12 +62,10 @@ class Migrate_To_16(Migrator):
             ordered_data = OrderedDict(sorted(data.items()))
             output = ["============================="]
             for pt_path_and_title, infos in ordered_data.items():
-                output.append('\n')
                 output.append("POD template " + pt_path_and_title)
                 output.append('-' * len("POD template " + pt_path_and_title))
                 for info in infos:
                     output.append(info)
-                output.append('\n')
             # make sure we do not mix unicode and utf-8
             fixed_output = []
             for line in output:
