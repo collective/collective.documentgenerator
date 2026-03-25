@@ -11,14 +11,14 @@ jobs:
   test:
     # Be careful when editing the ubuntu version or the libreoffice image version
     # The Python version should the same in both environments
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         PLONE_VERSION: [ 4.3, 5.1, 5.2 ]
     services:
       libreoffice:
-        image: harbor.imio.be/library/libreoffice:25.2
+        image: harbor.imio.be/library/libreoffice:25.8
         ports:
           - 2002:2002
         volumes:
@@ -64,14 +64,14 @@ jobs:
           docker ps -a
           bin/test --test=\!"robot"
   coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         PLONE_VERSION: [5.2]
     services:
       libreoffice:
-        image: harbor.imio.be/library/libreoffice:25.2
+        image: harbor.imio.be/library/libreoffice:25.8
         ports:
           - 2002:2002
         volumes:
