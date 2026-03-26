@@ -1,11 +1,11 @@
 Changelog
 =========
 
-3.48 (unreleased)
------------------
+3.47.1 (2026-03-26)
+-------------------
 
-- Nothing changed yet.
-
+- Moved CONVSCRIPT to config.py
+  [chris-adam]
 
 3.47 (2026-03-03)
 -----------------
