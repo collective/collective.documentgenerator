@@ -12,6 +12,9 @@ Changelog
   so it is especially possible to not preprend pod template title to generated
   file filename.
   [gbastien]
+- Close tag `<label>` correctly in `children_pod_template.pt` or the full template
+  is rendered with fields in the `<label>` leading to every values being `bold`.
+  [gbastien]
 
 3.47 (2026-03-03)
 -----------------
