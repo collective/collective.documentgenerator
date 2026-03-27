@@ -279,6 +279,10 @@ class DocumentGenerationView(BrowserView):
         if output_format == "csv":
             csvOptions = CsvOptions(fieldSeparator=pod_template.csv_field_delimiter,
                                     textDelimiter=pod_template.csv_string_delimiter)
+        evaluator = None
+        if os.getenv('DOCUMENTGENERATOR_USE_COMPROMISER', True):
+            evaluator = Compromiser()
+
         renderer = Renderer(
             StringIO(document_template.data),
             generation_context,
@@ -292,7 +296,7 @@ class DocumentGenerationView(BrowserView):
             html=True,
             optimalColumnWidths=optimalColumnWidths,
             distributeColumns=distributeColumns,
-            evaluator=Compromiser(),
+            evaluator=evaluator,
             stylesMapping=stylesMapping,
             stream=config.get_use_stream(),
             csvOptions=csvOptions,
