@@ -187,7 +187,7 @@
         profile="collective.documentgenerator:default">
         <genericsetup:upgradeStep
             title="collective.documentgenerator: upgrade to 16"
-            description="Clean expressions (using Comprimser) of every existing POD templates"
+            description="Clean expressions (using Compromiser) of every existing POD templates"
             handler="collective.documentgenerator.migrations.migrate_to_16.migrate" />
     </genericsetup:upgradeSteps>
 
