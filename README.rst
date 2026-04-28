@@ -135,6 +135,19 @@ Documentation about the search and replace feature is here :
 `docs/search_replace.rst <https://github.com/collective/collective.documentgenerator/tree/master/docs/search_replace.rst>`_
 
 
+**Security: Compromiser evaluator**
+------------------------------------
+
+By default, document generation uses the ``Compromiser`` evaluator from `appy` to block dangerous Python expressions inside POD templates.
+This prevents code injection through template expressions.
+
+To disable the ``Compromiser``, set the environment variable:
+
+    DOCUMENTGENERATOR_USE_COMPROMISER=0
+
+It is enabled by default.
+
+
 **Logging & Debugging**
 -----------------------
 
