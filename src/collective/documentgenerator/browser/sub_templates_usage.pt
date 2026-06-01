@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="collective.documentgenerator">
+<body>
+
+<metal:main fill-slot="main">
+
+  <h1 class="documentFirstHeading" i18n:translate="sub_templates_usage_title">Sub-templates usages</h1>
+
+  <div id="content-core">
+    <table class="listing" tal:define="entries view/sub_templates_usage">
+      <thead>
+        <tr>
+          <th i18n:translate="sub_template_usage_sub_template">Sub-template</th>
+          <th i18n:translate="sub_template_usage_path">Path</th>
+          <th i18n:translate="sub_template_usage_templates">Using templates</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tal:entry repeat="entry entries">
+          <tr tal:condition="not:entry/groups">
+            <td>
+              <a tal:attributes="href entry/sub_template/getURL"
+                 tal:content="entry/sub_template/Title">Sub-template</a>
+            </td>
+            <td colspan="2"><em i18n:translate="sub_template_usage_not_used">not used</em></td>
+          </tr>
+          <tr tal:repeat="group entry/groups">
+            <td tal:condition="repeat/group/start"
+                tal:attributes="rowspan python:len(entry['groups'])">
+              <a tal:attributes="href entry/sub_template/getURL"
+                 tal:content="entry/sub_template/Title">Sub-template</a>
+            </td>
+            <td tal:content="group/title_path">Folder / Sub folder</td>
+            <td>
+              <ul>
+                <li tal:repeat="template group/templates">
+                  <a tal:attributes="href template/absolute_url"
+                     tal:content="template/Title">Template title</a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tal:entry>
+      </tbody>
+    </table>
+  </div>
+
+</metal:main>
+
+</body>
+</html>

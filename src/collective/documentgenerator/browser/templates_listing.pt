@@ -10,6 +10,9 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
+    <a target="_blank" tal:attributes="href string:${context/absolute_url}/@@sub-templates-usage"
+       i18n:translate="sub_templates_usage_link">Sub-templates usage</a>
+
     <tal:block define="results view/table/values;" tal:condition="results">
       <div id="dg-batch"><tal:batch replace="structure view/table/renderBatch" /></div>
       <tal:listing replace="structure view/table/render" />

@@ -7,6 +7,8 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
+from collective.documentgenerator.utils import get_pod_templates_using
+from collective.documentgenerator.utils import group_templates_by_path
 from collective.documentgenerator.utils import translate as _
 from OFS.interfaces import IOrderedContainer
 from plone import api
@@ -92,6 +94,22 @@ class TemplatesListing(BrowserView):
             self.local_search = "local_search" in self.request or self.local_search
         self.update()
         return self.index()
+
+
+class SubTemplatesUsage(BrowserView):
+    """Overview listing, for each sub-template, the POD templates that use
+       it in their 'merge_templates' field, grouped by the path they live in."""
+
+    def sub_templates_usage(self):
+        """Return a list of {'sub_template': brain, 'groups': [...]} entries, one
+           per sub-template (including unused ones), ordered by title. 'groups' is
+           the per-path grouping produced for the dedicated viewlet."""
+        catalog = api.portal.get_tool("portal_catalog")
+        result = []
+        for brain in catalog(portal_type="SubTemplate", sort_on="sortable_title"):
+            templates = get_pod_templates_using(brain.getObject())
+            result.append({"sub_template": brain, "groups": group_templates_by_path(templates)})
+        return result
 
 
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):
