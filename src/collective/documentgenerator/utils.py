@@ -286,6 +286,7 @@ def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
     :param delete_temp_files:
+    :return: converted file content
     """
     if renderer:
         if not afile.filename.endswith('.odt'):

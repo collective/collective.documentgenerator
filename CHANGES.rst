@@ -4,8 +4,8 @@ Changelog
 3.47.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Added viewlet on SubTemplate to show its use in merge_templates field.
+  [sgeulette]
 
 3.47.1 (2026-03-26)
 -------------------
