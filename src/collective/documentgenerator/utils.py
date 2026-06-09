@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from appy.bin.odfclean import Cleaner
 from appy.pod.renderer import Renderer
 from collective.documentgenerator import _
@@ -184,6 +186,83 @@ def get_site_root_relative_path(obj):
     )
 
 
+def title_path(obj):
+    """Return a breadcrumb-like path made of the Title of each level between the
+       site root (excluded) and ``obj`` (included)."""
+    portal_path = '/'.join(api.portal.get().getPhysicalPath())
+    titles = []
+    current = aq_inner(obj)
+    while current is not None:
+        current_path = '/'.join(current.getPhysicalPath())
+        if current_path == portal_path or not current_path.startswith(portal_path):
+            break
+        titles.append(safe_unicode(current.Title()))
+        current = aq_parent(aq_inner(current))
+    return u' / '.join(reversed(titles))
+
+
+def get_path_segments(obj):
+    """Return the list of (id, title) segments between the site root (excluded)
+       and ``obj`` (included), ordered from the root to ``obj``."""
+    portal_path = '/'.join(api.portal.get().getPhysicalPath())
+    segments = []
+    current = aq_inner(obj)
+    while current is not None:
+        current_path = '/'.join(current.getPhysicalPath())
+        if current_path == portal_path or not current_path.startswith(portal_path):
+            break
+        segments.append((current.getId(), safe_unicode(current.Title())))
+        current = aq_parent(aq_inner(current))
+    return list(reversed(segments))
+
+
+def common_prefix_length(sequences):
+    """Return the length of the longest prefix shared by all ``sequences``."""
+    sequences = [seq for seq in sequences]
+    if not sequences:
+        return 0
+    length = 0
+    for items in zip(*sequences):
+        if len(set(items)) != 1:
+            break
+        length += 1
+    return length
+
+
+def get_pod_templates_using(sub_template):
+    """Return the list of templates referencing ``sub_template`` in their
+       'merge_templates' field."""
+    from collective.documentgenerator.content.pod_template import IConfigurablePODTemplate
+    catalog = getToolByName(sub_template, 'portal_catalog')
+    uid = sub_template.UID()
+    templates = []
+    for brain in catalog(object_provides=IConfigurablePODTemplate.__identifier__):
+        template = brain.getObject()
+        for line in getattr(template, 'merge_templates', None) or []:
+            if line.get('template') == uid:
+                templates.append(template)
+                break
+    return templates
+
+
+def group_templates_by_path(templates):
+    """Group ``templates`` by their container, returning a list of
+       {'path', 'title_path', 'templates'} dicts sorted by path then by title."""
+    grouped = {}
+    for template in templates:
+        parent = aq_parent(aq_inner(template))
+        path = get_site_root_relative_path(parent)
+        grouped.setdefault(path, {'title_path': title_path(parent), 'templates': []})
+        grouped[path]['templates'].append(template)
+    result = []
+    for path in sorted(grouped):
+        group = grouped[path]
+        group['templates'].sort(key=lambda t: safe_unicode(t.Title()).lower())
+        result.append({'path': path, 'title_path': group['title_path'],
+                       'templates': group['templates']})
+    return result
+
+
 def temporary_file_name(suffix=''):
     tmp_dir = os.getenv('CUSTOM_TMP', None)
     if tmp_dir and not os.path.exists(tmp_dir):
@@ -286,6 +365,7 @@ def convert_file(afile, fmt="pdf", renderer=False, gen_context=None, delete_temp
     :param renderer: whether to use appy.pod Renderer or converter script. Default to False.
     :param gen_context: generation context dict passed to renderer
     :param delete_temp_files:
+    :return: converted file content
     """
     if renderer:
         if not afile.filename.endswith('.odt'):

@@ -4,8 +4,10 @@ Changelog
 3.47.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Added viewlet on SubTemplate to show its use in merge_templates field.
+  [sgeulette]
+- Added `sub-templates-usage` view listing every sub-template usage.
+  [sgeulette]
 
 3.47.1 (2026-03-26)
 -------------------

@@ -13,4 +13,13 @@
         permission="zope2.View"
         />
 
+    <browser:viewlet
+        for="collective.documentgenerator.content.pod_template.ISubTemplate"
+        name="sub-template-usage"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class="collective.documentgenerator.viewlets.sub_template_usage.SubTemplateUsageViewlet"
+        template="sub_template_usage.pt"
+        permission="zope2.View"
+        />
+
 </configure>

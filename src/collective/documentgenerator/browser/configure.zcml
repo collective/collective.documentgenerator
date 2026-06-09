@@ -45,7 +45,7 @@
         class="collective.documentgenerator.browser.converter.DocumentConvertView"
         permission="zope2.View"
         />
-    
+
     <browser:page
         for="*"
         name="persistent-document-conversion"
@@ -90,6 +90,14 @@
         name="dg-templates-listing"
         class=".views.TemplatesListing"
         template="templates_listing.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="sub-templates-usage"
+        class=".views.SubTemplatesUsage"
+        template="sub_templates_usage.pt"
         permission="zope2.View"
         />
 
