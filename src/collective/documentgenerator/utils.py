@@ -201,6 +201,34 @@ def title_path(obj):
     return u' / '.join(reversed(titles))
 
 
+def get_path_segments(obj):
+    """Return the list of (id, title) segments between the site root (excluded)
+       and ``obj`` (included), ordered from the root to ``obj``."""
+    portal_path = '/'.join(api.portal.get().getPhysicalPath())
+    segments = []
+    current = aq_inner(obj)
+    while current is not None:
+        current_path = '/'.join(current.getPhysicalPath())
+        if current_path == portal_path or not current_path.startswith(portal_path):
+            break
+        segments.append((current.getId(), safe_unicode(current.Title())))
+        current = aq_parent(aq_inner(current))
+    return list(reversed(segments))
+
+
+def common_prefix_length(sequences):
+    """Return the length of the longest prefix shared by all ``sequences``."""
+    sequences = [seq for seq in sequences]
+    if not sequences:
+        return 0
+    length = 0
+    for items in zip(*sequences):
+        if len(set(items)) != 1:
+            break
+        length += 1
+    return length
+
+
 def get_pod_templates_using(sub_template):
     """Return the list of templates referencing ``sub_template`` in their
        'merge_templates' field."""

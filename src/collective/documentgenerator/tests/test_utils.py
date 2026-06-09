@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
+from collective.documentgenerator.utils import common_prefix_length
 from collective.documentgenerator.utils import compute_md5
 from collective.documentgenerator.utils import convert_file
 from collective.documentgenerator.utils import get_original_template
+from collective.documentgenerator.utils import get_path_segments
 from collective.documentgenerator.utils import odfsplit
 from collective.documentgenerator.utils import temporary_file_name
 from collective.documentgenerator.utils import update_dict_with_validation
@@ -268,3 +270,37 @@ class TestUtils(PODTemplateIntegrationTest):
         annot4 = IAnnotations(doc4)
         annot4["documentgenerator"] = {"template_uid": "invalid-uid"}
         self.assertIsNone(get_original_template(doc4))
+
+    def test_common_prefix_length(self):
+        # no sequences at all
+        self.assertEqual(common_prefix_length([]), 0)
+        # a single sequence is entirely its own prefix
+        self.assertEqual(common_prefix_length([['a', 'b', 'c']]), 3)
+        # full common prefix
+        self.assertEqual(common_prefix_length([['a', 'b'], ['a', 'b']]), 2)
+        # partial common prefix
+        self.assertEqual(common_prefix_length([['a', 'b', 'c'], ['a', 'b', 'd']]), 2)
+        self.assertEqual(common_prefix_length([['a', 'b'], ['a', 'b', 'c'], ['a', 'x']]), 1)
+        # no common prefix
+        self.assertEqual(common_prefix_length([['a'], ['b']]), 0)
+        # an empty sequence forces a zero-length prefix
+        self.assertEqual(common_prefix_length([['a', 'b'], []]), 0)
+        # works on tuples / strings as sequences too
+        self.assertEqual(common_prefix_length(['abc', 'abd']), 2)
+
+    def test_get_path_segments(self):
+        portal = self.portal
+        sub_folder = api.content.create(container=portal, type='Folder', id='lvl1', title=u'Niveau 1')
+        leaf = api.content.create(container=sub_folder, type='Document', id='lvl2', title=u'Niveau 2')
+
+        # the portal root itself yields no segment
+        self.assertEqual(get_path_segments(portal), [])
+
+        # a direct child of the root yields a single segment
+        self.assertEqual(get_path_segments(sub_folder), [('lvl1', u'Niveau 1')])
+
+        # segments are ordered from the root (excluded) down to the object (included)
+        self.assertEqual(
+            get_path_segments(leaf),
+            [('lvl1', u'Niveau 1'), ('lvl2', u'Niveau 2')],
+        )

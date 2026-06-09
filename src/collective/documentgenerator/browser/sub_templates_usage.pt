@@ -24,6 +24,8 @@
         <tal:entry repeat="entry entries">
           <tr tal:condition="not:entry/groups">
             <td>
+              <span tal:condition="entry/rel_path"
+                    tal:content="entry/rel_path">Folder / Sub folder</span> /
               <a tal:attributes="href entry/sub_template/getURL"
                  tal:content="entry/sub_template/Title">Sub-template</a>
             </td>
@@ -32,6 +34,8 @@
           <tr tal:repeat="group entry/groups">
             <td tal:condition="repeat/group/start"
                 tal:attributes="rowspan python:len(entry['groups'])">
+              <span tal:condition="entry/rel_path"
+                    tal:content="entry/rel_path">Folder / Sub folder</span> /
               <a tal:attributes="href entry/sub_template/getURL"
                  tal:content="entry/sub_template/Title">Sub-template</a>
             </td>
