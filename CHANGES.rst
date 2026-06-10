@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.48 (unreleased)
+3.48 (2026-06-10)
 -----------------
 
 - Added viewlet on SubTemplate to show its use in merge_templates field.
