@@ -2,9 +2,9 @@
 
 from .. import _
 from AccessControl import Unauthorized
+from appy.pod.evaluator import Compromiser
 from appy.pod.renderer import CsvOptions
 from appy.pod.renderer import Renderer
-from appy.pod.evaluator import Compromiser
 from appy.pod.styles_manager import TableProperties
 from collective.documentgenerator import config
 from collective.documentgenerator import utils
