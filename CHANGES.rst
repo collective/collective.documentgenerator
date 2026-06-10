@@ -1,13 +1,24 @@
 Changelog
 =========
 
-3.47.2 (unreleased)
--------------------
+3.48 (unreleased)
+-----------------
 
 - Added viewlet on SubTemplate to show its use in merge_templates field.
   [sgeulette]
 - Added `sub-templates-usage` view listing every sub-template usage.
   [sgeulette]
+- Use `Compromiser` evaluator.
+  [gbastien]
+- Added migration to `16` that will make sure existing POD templates are safe.
+  [gbastien]
+- Added parameter `prepend_pod_title=True` to `DocumentGenerationView._get_filename`
+  so it is especially possible to not preprend pod template title to generated
+  file filename.
+  [gbastien]
+- Close tag `<label>` correctly in `children_pod_template.pt` or the full template
+  is rendered with fields in the `<label>` leading to every values being `bold`.
+  [gbastien]
 
 3.47.1 (2026-03-26)
 -------------------
