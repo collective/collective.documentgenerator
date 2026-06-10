@@ -180,7 +180,6 @@
             import_steps="plone.app.registry" />
     </genericsetup:upgradeSteps>
 
-
     <genericsetup:upgradeSteps
         source="15"
         destination="16"
@@ -191,7 +190,7 @@
             handler="collective.documentgenerator.migrations.migrate_to_16.migrate" />
     </genericsetup:upgradeSteps>
 
-  <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
-  <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
+    <utility factory=".setuphandlers.HiddenProfiles" name="collective.documentgenerator" />
+    <utility factory=".setuphandlers.HiddenProducts" name="collective.documentgenerator" />
 
 </configure>
