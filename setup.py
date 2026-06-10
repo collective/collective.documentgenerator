@@ -11,7 +11,7 @@ long_description = (
 
 setup(
     name='collective.documentgenerator',
-    version='3.48.dev0',
+    version='3.47.2.dev0',
     description="Desktop document generation (.odt, .pdf, .doc, ...) based on appy framework (https://appyframe.work/tool/public) and OpenOffice/LibreOffice",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
@@ -68,5 +68,7 @@ setup(
     target = plone
     [console_scripts]
     odfsplit = appy.bin.odfsplit:main
+    # converter script to be used once the project runs python 3
+    # converter = appy.pod.converter:main
     """,
 )

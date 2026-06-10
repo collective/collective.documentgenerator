@@ -7,12 +7,17 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
 from collective.documentgenerator.content.style_template import IStyleTemplate
+from collective.documentgenerator.utils import common_prefix_length
+from collective.documentgenerator.utils import get_path_segments
+from collective.documentgenerator.utils import get_pod_templates_using
+from collective.documentgenerator.utils import group_templates_by_path
 from collective.documentgenerator.utils import translate as _
 from OFS.interfaces import IOrderedContainer
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.dexterity.browser.edit import DefaultEditForm
 from plone.dexterity.browser.view import DefaultView
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
@@ -92,6 +97,35 @@ class TemplatesListing(BrowserView):
             self.local_search = "local_search" in self.request or self.local_search
         self.update()
         return self.index()
+
+
+class SubTemplatesUsage(BrowserView):
+    """Overview listing, for each sub-template, the POD templates that use
+       it in their 'merge_templates' field, grouped by the path they live in."""
+
+    def sub_templates_usage(self):
+        """Return a list of {'sub_template': brain, 'rel_path': unicode, 'groups': [...]}
+           entries, one per sub-template (including unused ones), ordered by the
+           first-column path then by title. 'rel_path' is the breadcrumb path leading
+           to the sub-template, with the part common to every sub-template removed.
+           'groups' is the per-path grouping produced for the dedicated viewlet."""
+        catalog = api.portal.get_tool("portal_catalog")
+        result = []
+        all_segments = []
+        for brain in catalog(portal_type="SubTemplate", sort_on="sortable_title"):
+            sub_template = brain.getObject()
+            segments = get_path_segments(aq_parent(aq_inner(sub_template)))
+            all_segments.append(segments)
+            templates = get_pod_templates_using(sub_template)
+            result.append({"sub_template": brain, "segments": segments,
+                           "groups": group_templates_by_path(templates)})
+        common = common_prefix_length([[seg[0] for seg in segs] for segs in all_segments])
+        for entry in result:
+            tail = entry.pop("segments")[common:]
+            entry["rel_path"] = u" / ".join(title for _id, title in tail)
+        result.sort(key=lambda e: (e["rel_path"].lower(),
+                                   safe_unicode(e["sub_template"].Title).lower()))
+        return result
 
 
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):

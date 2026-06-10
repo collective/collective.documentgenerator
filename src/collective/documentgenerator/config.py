@@ -4,6 +4,7 @@ from imio.helpers import HAS_PLONE_5_2
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 
+import appy.pod
 import os
 import re
 
@@ -35,10 +36,13 @@ DEFAULT_CSV_FIELD_DELIMITERS = {
     u'Comma': u',', u'Semicolon': u';', u'Colon': u':', u'Space': u' ', u'Tabulation': u'\t'}
 DEFAULT_CSV_STRING_DELIMITERS = {u"Double Quote": u'"', u"Single Quote": u"'"}
 
+CONVSCRIPT = '{}/converter.py'.format(os.path.dirname(appy.pod.__file__))
+
 
 if HAS_PLONE_5_2:
-    import sys
     from zope.deprecation import deprecation
+
+    import sys
     sys.modules['collective.documentgenerator.demo.helper.ATDemoHelperView'] = \
         deprecation.deprecated(deprecation, 'Archetypes was removed from Plone 5.2.')
 

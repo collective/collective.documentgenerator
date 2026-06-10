@@ -4,6 +4,10 @@ Changelog
 3.48 (unreleased)
 -----------------
 
+- Added viewlet on SubTemplate to show its use in merge_templates field.
+  [sgeulette]
+- Added `sub-templates-usage` view listing every sub-template usage.
+  [sgeulette]
 - Use `Compromiser` evaluator.
   [gbastien]
 - Added migration to `16` that will make sure existing POD templates are safe.
@@ -15,6 +19,12 @@ Changelog
 - Close tag `<label>` correctly in `children_pod_template.pt` or the full template
   is rendered with fields in the `<label>` leading to every values being `bold`.
   [gbastien]
+
+3.47.1 (2026-03-26)
+-------------------
+
+- Moved CONVSCRIPT to config.py
+  [chris-adam]
 
 3.47 (2026-03-03)
 -----------------

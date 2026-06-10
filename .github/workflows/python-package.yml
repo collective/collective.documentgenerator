@@ -11,7 +11,7 @@ jobs:
   test:
     # Be careful when editing the ubuntu version or the libreoffice image version
     # The Python version should the same in both environments
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -65,7 +65,7 @@ jobs:
           docker ps -a
           bin/test --test=\!"robot"
   coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:

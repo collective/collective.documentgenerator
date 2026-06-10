@@ -1,0 +1,32 @@
+<div id="sub-template-usage"
+     class="portalMessage info"
+     tal:condition="view/available"
+     i18n:domain="collective.documentgenerator">
+
+  <strong i18n:translate="sub_template_used_by">
+    Templates using this sub-template:
+  </strong>
+  <table class="listing sub-template-usage"
+         tal:define="grouped view/get_using_templates_by_path">
+    <thead>
+      <tr>
+        <th i18n:translate="sub_template_usage_path">Path</th>
+        <th i18n:translate="sub_template_usage_templates">Templates</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="group grouped">
+        <td class="sub-template-usage-path" tal:content="group/title_path">Folder / Sub folder</td>
+        <td>
+          <ul>
+            <li tal:repeat="template group/templates">
+              <a tal:attributes="href template/absolute_url"
+                 tal:content="template/Title">Template title</a>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
