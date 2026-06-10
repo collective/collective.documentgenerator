@@ -44,6 +44,10 @@ class TemplatesListing(BrowserView):
 
     def __init__(self, context, request):
         super(TemplatesListing, self).__init__(context, request)
+        self.catalog = api.portal.get_tool("portal_catalog")
+
+    def has_sub_templates(self):
+        return bool(self.catalog.unrestrictedSearchResults(portal_type="SubTemplate"))
 
     def query_dict(self):
         crit = {"object_provides": self.provides}
@@ -60,8 +64,7 @@ class TemplatesListing(BrowserView):
     def update(self):
         self.table = self.__table__(self.context, self.request)
         self.table.__name__ = u"dg-templates-listing"
-        catalog = api.portal.get_tool("portal_catalog")
-        brains = catalog.searchResults(**self.query_dict())
+        brains = self.catalog.searchResults(**self.query_dict())
         res = [
             (brain.getObject(), os.path.dirname(brain.getPath())) for brain in brains
         ]

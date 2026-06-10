@@ -10,7 +10,7 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-    <a target="_blank" tal:attributes="href string:${context/absolute_url}/@@sub-templates-usage"
+    <a tal:condition="view/has_sub_templates" target="_blank" tal:attributes="href string:${context/absolute_url}/@@sub-templates-usage"
        i18n:translate="sub_templates_usage_link">Sub-templates usage</a>
 
     <tal:block define="results view/table/values;" tal:condition="results">
