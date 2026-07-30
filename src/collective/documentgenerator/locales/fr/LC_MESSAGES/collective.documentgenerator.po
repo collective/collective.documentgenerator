@@ -484,8 +484,17 @@ msgid "The replacements that will be made."
 msgstr "Les remplacements qui vont être effectués."
 
 #: ../content/pod_template.py:314
-msgid "These context variables are added to the odt_file context."
-msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."
+msgid ""
+"These context variables are added to the odt_file context. A value that is a "
+"valid python literal (True, False, None, 1, [1, 2], (1, 2), {'a': 1}) is "
+"converted to it, any other value is kept as a string. Surround a value with "
+"double quotes to keep it as a string."
+msgstr ""
+"Ces variables sont ajoutées au contexte passé au modèle odt. Une valeur qui "
+"est un littéral python valide (True, False, None, 1, [1, 2], (1, 2), {'a': "
+"1}) est convertie en celui-ci, toute autre valeur est conservée comme chaîne "
+"de caractères. Entourez une valeur de guillemets doubles pour la conserver "
+"comme chaîne de caractères."
 
 #: ../browser/check_pod_templates.pt:30
 msgid "Used object"

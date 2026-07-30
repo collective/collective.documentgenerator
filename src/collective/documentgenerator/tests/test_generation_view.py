@@ -225,7 +225,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         hpv = view.get_generation_context_helper()
         # Check context variables
         self.assertDictEqual(view._get_generation_context(hpv, pod_template),
-                             {'details': '1',
+                             {'details': 1,
                               'portal': self.portal,
                               'context': hpv.context,
                               'view': hpv})
@@ -375,7 +375,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         gen_context = generation_view._get_generation_context(generation_view.get_generation_context_helper(),
                                                               pod_template)
         self.assertIn('details', gen_context)
-        self.assertEqual(gen_context['details'], '1')
+        self.assertEqual(gen_context['details'], 1)
 
         # the mailing loop view is called on the folder context !
         generation_view = folder.restrictedTraverse('@@mailing-loop-persistent-document-generation')
@@ -410,7 +410,7 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         gen_context = generation_view._get_generation_context(generation_view.get_generation_context_helper(),
                                                               generation_view.pod_template)
         self.assertIn('details', gen_context)
-        self.assertEqual(gen_context['details'], '1')
+        self.assertEqual(gen_context['details'], 1)
 
     def test_table_column_modifier(self):
         """ """

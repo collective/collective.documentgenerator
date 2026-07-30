@@ -4,7 +4,9 @@ Changelog
 3.49 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Improved POD context variables to handle Python structures (list, tuple, dict).
+  (MOD-1077)
+  [chris-adam]
 
 
 3.48 (2026-06-10)

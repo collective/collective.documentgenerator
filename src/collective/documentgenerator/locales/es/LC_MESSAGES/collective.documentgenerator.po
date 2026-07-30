@@ -490,8 +490,17 @@ msgid "The replacements that will be made."
 msgstr ""
 
 #: ../content/pod_template.py:314
-msgid "These context variables are added to the odt_file context."
-msgstr "Esas variables de contexto son añadidas al contexto del odt_file o plantilla Open Document."
+msgid ""
+"These context variables are added to the odt_file context. A value that is a "
+"valid python literal (True, False, None, 1, [1, 2], (1, 2), {'a': 1}) is "
+"converted to it, any other value is kept as a string. Surround a value with "
+"double quotes to keep it as a string."
+msgstr ""
+"Esas variables de contexto son añadidas al contexto del odt_file o plantilla "
+"Open Document. Un valor que es un literal de python válido (True, False, "
+"None, 1, [1, 2], (1, 2), {'a': 1}) se convierte en este, cualquier otro "
+"valor se conserva como cadena de texto. Rodee un valor con comillas dobles "
+"para conservarlo como cadena de texto."
 
 #: ../browser/check_pod_templates.pt:30
 msgid "Used object"
