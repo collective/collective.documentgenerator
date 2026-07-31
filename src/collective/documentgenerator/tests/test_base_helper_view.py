@@ -70,7 +70,7 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
         generation_context = view._get_generation_context(helper_view, pod_template=pod_template)
         renderer = appy.pod.renderer.Renderer(StringIO(document_template.data), generation_context, 'dummy.odt')
         helper_view._set_appy_renderer(renderer)
-        self.assertEqual(helper_view.context_var('dexter', 'undefined'), u'1')
+        self.assertEqual(helper_view.context_var('dexter', 'undefined'), 1)
 
     def test_display_phone(self):
         # belgian phone numbers

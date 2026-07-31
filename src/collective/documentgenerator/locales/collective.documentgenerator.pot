@@ -483,7 +483,11 @@ msgid "The replacements that will be made."
 msgstr ""
 
 #: ../content/pod_template.py:314
-msgid "These context variables are added to the odt_file context."
+msgid ""
+"These context variables are added to the odt_file context. A value that is a "
+"valid python literal (True, False, None, 1, [1, 2], (1, 2), {'a': 1}) is "
+"converted to it, any other value is kept as a string. Surround a value with "
+"double quotes to keep it as a string."
 msgstr ""
 
 #: ../browser/check_pod_templates.pt:30
