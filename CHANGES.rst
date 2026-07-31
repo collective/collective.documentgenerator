@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.49 (unreleased)
+3.49 (2026-07-31)
 -----------------
 
 - Improved POD context variables to handle Python structures (list, tuple, dict).
