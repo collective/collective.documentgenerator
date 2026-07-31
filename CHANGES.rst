@@ -6,6 +6,13 @@ Changelog
 
 - Removed `.` at the end of field title `Templates to merge` and field title `Context variables`.
   [gbastien]
+- Improved POD context variables to handle Python structures (list, tuple, dict, set).
+  BREAKING CHANGE: A context variable `1` is given to the template as the
+  integer `1` and no longer as the string `'1'` (same for `1.5` giving a float and `None`
+  giving `None`). Surround such a value with double quotes (`"1"`) to keep it a string.
+  Invalid Python literal values (plain text, `2026-01-01`, ...) are still kept as a string.
+  (MOD-1077)
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------

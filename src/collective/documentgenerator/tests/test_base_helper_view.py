@@ -81,7 +81,8 @@ class TestBaseHelperViewMethods(DexterityIntegrationTests):
             template_data, generation_context, "dummy.odt"
         )
         helper_view._set_appy_renderer(renderer)
-        self.assertEqual(helper_view.context_var("dexter", "undefined"), u"1")
+        # "1" is converted to an int
+        self.assertEqual(helper_view.context_var("dexter", "undefined"), 1)
 
     def test_display_phone(self):
         # belgian phone numbers
