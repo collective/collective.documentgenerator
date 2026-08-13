@@ -33,7 +33,16 @@ import hashlib
 import logging
 import os
 import re
+import six
 import tempfile
+
+
+try:  # python 3
+    from html import unescape as unescape_html
+except ImportError:  # python 2
+    from HTMLParser import HTMLParser
+
+    unescape_html = HTMLParser().unescape
 
 
 logger = logging.getLogger('collective.documentgenerator')
@@ -504,3 +513,13 @@ def odfsplit(content):
     else:
         value = "".join(err)
     return code, value, nb_files
+
+
+def unescape_vocabulary_title(value):
+    """Revert the HTML escaping applied to a vocabulary term title."""
+    if not isinstance(value, six.string_types):
+        return value
+    unescaped = unescape_html(safe_unicode(value))
+    if isinstance(value, six.binary_type):
+        return unescaped.encode('utf-8')
+    return unescaped

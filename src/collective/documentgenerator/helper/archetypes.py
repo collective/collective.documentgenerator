@@ -3,6 +3,7 @@
 from collective.documentgenerator.helper.base import DisplayProxyObject
 from collective.documentgenerator.helper.base import DocumentGenerationHelperView
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
+from collective.documentgenerator.utils import unescape_vocabulary_title
 from zope.component import getMultiAdapter
 
 
@@ -49,7 +50,7 @@ class ATDocumentGenerationHelperView(DocumentGenerationHelperView):
         values = [display_value(voc, val) for val in raw_values]
         display = separator.join(values)
 
-        return display
+        return unescape_vocabulary_title(display)
 
     def get_file_binary(self, file_obj):
         """ """
