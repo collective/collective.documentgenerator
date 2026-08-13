@@ -7,6 +7,7 @@ from collective.documentgenerator.utils import get_original_template
 from collective.documentgenerator.utils import get_path_segments
 from collective.documentgenerator.utils import odfsplit
 from collective.documentgenerator.utils import temporary_file_name
+from collective.documentgenerator.utils import unescape_vocabulary_title
 from collective.documentgenerator.utils import update_dict_with_validation
 from collective.documentgenerator.utils import update_oo_config
 from collective.documentgenerator.utils import update_templates
@@ -304,3 +305,17 @@ class TestUtils(PODTemplateIntegrationTest):
             get_path_segments(leaf),
             [('lvl1', u'Niveau 1'), ('lvl2', u'Niveau 2')],
         )
+
+    def test_unescape_vocabulary_title(self):
+        # entities escaped for an HTML widget are reverted
+        self.assertEqual(unescape_vocabulary_title(u'TOTO D&#x27;HEYG'), u"TOTO D'HEYG")
+        self.assertEqual(unescape_vocabulary_title(u'TOTO D&#39;HEYG'), u"TOTO D'HEYG")
+        self.assertEqual(unescape_vocabulary_title(u'A &amp; B'), u'A & B')
+        # a title in which the user really typed '&amp;' round trips
+        self.assertEqual(unescape_vocabulary_title(u'A &amp;amp; B'), u'A &amp; B')
+        # the input type is kept
+        self.assertEqual(unescape_vocabulary_title('A &amp; B'), 'A & B')
+        # empty and non string values are returned untouched
+        self.assertIsNone(unescape_vocabulary_title(None))
+        self.assertEqual(unescape_vocabulary_title(u''), u'')
+        self.assertEqual(unescape_vocabulary_title(5), 5)

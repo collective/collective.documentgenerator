@@ -100,6 +100,12 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         result = self.view.display(field_name)
         self._test_display(field_name, expected, result)
 
+    def _escaped_vocabulary(self, field):
+        """The field vocabulary, with the 'Title' term title escaped for an HTML widget."""
+        vocabulary = field.Vocabulary(self.AT_topic)
+        vocabulary.add('Title', u'TOTO D&#x27;HEYG')
+        return lambda context: vocabulary
+
     def test_display_method_on_unauthorized_field(self):
         field_name = 'description'
         to_set = 'Yolo!'
@@ -121,6 +127,18 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         to_set = ['Title', 'Description', 'EffectiveDate']
         expected_text = 'Titre, Description, Date de publication'
         self._test_display_method(field_name, expected_text, to_set)
+
+    def test_display_method_on_escaped_vocabulary_title(self):
+        """A vocabulary may escape its term titles so that they can be rendered in an HTML
+           widget. appy escapes the '&' again, the entity has to be reverted here."""
+        field_name = 'customViewFields'
+        field = self.AT_topic.getField(field_name)
+        original_vocabulary = field.Vocabulary
+        try:
+            field.Vocabulary = self._escaped_vocabulary(field)
+            self._test_display_method(field_name, u"TOTO D'HEYG", ['Title'])
+        finally:
+            field.Vocabulary = original_vocabulary
 
     def test_display_method_on_datefield(self):
         field_name = 'effectiveDate'
@@ -192,6 +210,16 @@ class TestArchetypesHelperViewMethods(ArchetypesIntegrationTests):
         result = self.view.display_voc(field_name, separator=' swag ')
 
         self._test_display(field_name, expected_text, result)
+
+        # an escaped term title is unescaped as in display()
+        original_vocabulary = field.Vocabulary
+        try:
+            field.Vocabulary = self._escaped_vocabulary(field)
+            field.set(self.AT_topic, ['Title'])
+            result = self.view.display_voc(field_name)
+            self._test_display(field_name, u"TOTO D'HEYG", result)
+        finally:
+            field.Vocabulary = original_vocabulary
 
     def test_display_list_method(self):
         field_name = 'customViewFields'
