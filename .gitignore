@@ -54,3 +54,9 @@ CACHEDIR.TAG
 temp_auto_push.bat
 temp_interactive_push.bat
 .gitignore
+
+# Buildout / pyenv
+.plone-version
+.plone.versioncheck.tracked.json
+.python-version
+checkversion*.html
