@@ -87,6 +87,14 @@
         factory=".vocabulary.PTMCTV"
     />
 
+    <!-- 'No value' option of a select widget on a list field -->
+    <adapter
+        factory=".vocabulary.NoValueCollectionDataConverter"
+        for="zope.schema.interfaces.IList
+             z3c.form.interfaces.ISelectWidget"
+        provides="z3c.form.interfaces.IDataConverter"
+    />
+
     <!-- CSV field delimiter Vocabulary -->
     <utility
         factory=".vocabulary.CSVFieldDelimiterFactory"

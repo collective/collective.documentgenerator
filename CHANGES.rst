@@ -4,7 +4,8 @@ Changelog
 3.50 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Removed the duplicated "no value" option of the `style_template` field. (MOD-1080)
+  [chris-adam]
 
 
 3.49 (2026-07-31)
