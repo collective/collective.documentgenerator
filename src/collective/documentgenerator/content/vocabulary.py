@@ -10,7 +10,6 @@ from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.utils import get_site_root_relative_path
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
-from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.i18n import MessageFactory as _z3c_form
 from z3c.form.interfaces import IContextAware
 from z3c.form.interfaces import IDataManager
@@ -59,7 +58,7 @@ class StyleTemplatesVocabularyFactory(object):
     def __call__(self, context):
         catalog = api.portal.get_tool("portal_catalog")
         style_template_brains = catalog(portal_type="StyleTemplate")
-        voc_terms = []
+        voc_terms = [SimpleTerm("--NOVALUE--", "--NOVALUE--", _z3c_form("No value"))]
 
         for brain in style_template_brains:
             voc_terms.append(
@@ -343,12 +342,3 @@ class ConfigStreamVocabularyFactory(object):
         ]
 
         return SimpleVocabulary(voc_terms)
-
-
-class NoValueCollectionDataConverter(CollectionSequenceDataConverter):
-    """Empties a collection field when the widget 'no value' option is submitted."""
-
-    def toFieldValue(self, value):
-        if not value or value[0] == self.widget.noValueToken:
-            return self.field.missing_value
-        return super(NoValueCollectionDataConverter, self).toFieldValue(value)

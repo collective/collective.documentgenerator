@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.config import POD_FORMATS
-from collective.documentgenerator.content.vocabulary import NoValueCollectionDataConverter
 from collective.documentgenerator.testing import BaseTest
 from collective.documentgenerator.testing import POD_TEMPLATE_INTEGRATION
 from plone import api
-from z3c.form.interfaces import IDataConverter
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -46,8 +44,6 @@ class TestVocabularies(BaseTest):
         style_voc = vocabulary(self.portal)
         style_template = self.portal.podtemplates.test_style_template
         self.assertTrue(style_template.UID() in style_voc)
-        # the select widget renders its own 'no value' option, the vocabulary must not add one
-        self.assertNotIn("--NOVALUE--", style_voc)
 
     def test_merge_templates_vocabulary_factory_registration(self):
         """
@@ -171,20 +167,3 @@ class TestVocabularies(BaseTest):
         vocabulary = queryUtility(IVocabularyFactory, voc_name)
         voc = vocabulary(self.portal)
         self.assertIn("all", voc)
-
-    def test_NoValueCollectionDataConverter(self):
-        """
-        Test the 'no value' option of a select widget empties a list field.
-        """
-        pod_template = self.portal.podtemplates.get("test_template_multiple")
-        style_template_uid = self.portal.podtemplates.test_style_template.UID()
-        self.assertListEqual(pod_template.style_template, [style_template_uid])
-        form = pod_template.restrictedTraverse("@@edit")
-        form.update()
-        converter = IDataConverter(form.widgets["style_template"])
-        self.assertIsInstance(converter, NoValueCollectionDataConverter)
-        self.assertIsNone(converter.toFieldValue(["--NOVALUE--"]))
-        self.assertIsNone(converter.toFieldValue([]))
-        self.assertListEqual(
-            converter.toFieldValue([style_template_uid]), [style_template_uid]
-        )

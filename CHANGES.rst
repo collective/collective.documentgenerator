@@ -6,8 +6,6 @@ Changelog
 
 - Removed `.` at the end of field title `Templates to merge` and field title `Context variables`.
   [gbastien]
-- Removed the duplicated "no value" option of the `style_template` field.
-  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
