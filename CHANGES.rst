@@ -15,6 +15,8 @@ Changelog
 - Fixed styles update, silently doing nothing since appy moved its converter
   command line from `appy/pod/converter.py` to `appy/bin/convert.py`.
   [chris-adam]
+- Prevented deleting a `StyleTemplate` still used by a POD template (MOD-1081).
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
