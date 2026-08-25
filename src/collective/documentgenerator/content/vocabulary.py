@@ -58,7 +58,7 @@ class StyleTemplatesVocabularyFactory(object):
     def __call__(self, context):
         catalog = api.portal.get_tool("portal_catalog")
         style_template_brains = catalog(portal_type="StyleTemplate")
-        voc_terms = [SimpleTerm("--NOVALUE--", "--NOVALUE--", _z3c_form("No value"))]
+        voc_terms = []
 
         for brain in style_template_brains:
             voc_terms.append(

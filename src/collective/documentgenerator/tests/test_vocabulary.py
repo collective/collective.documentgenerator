@@ -44,6 +44,8 @@ class TestVocabularies(BaseTest):
         style_voc = vocabulary(self.portal)
         style_template = self.portal.podtemplates.test_style_template
         self.assertTrue(style_template.UID() in style_voc)
+        # the select widget renders its own 'no value' option, the vocabulary must not add one
+        self.assertNotIn("--NOVALUE--", style_voc)
 
     def test_merge_templates_vocabulary_factory_registration(self):
         """

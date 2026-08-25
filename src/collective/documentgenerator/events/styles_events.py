@@ -12,14 +12,14 @@ from Products.CMFPlone.utils import safe_unicode
 from zExceptions import Redirect
 from zope.i18n import translate
 
-import appy.pod
+import appy.bin
 import logging
 import os
 
 
 logger = logging.getLogger("collective.documentgenerator: styles update")
 
-CONVSCRIPT = "{}/converter.py".format(os.path.dirname(appy.pod.__file__))
+CONVSCRIPT = "{}/convert.py".format(os.path.dirname(appy.bin.__file__))
 
 
 def update_styles_of_all_PODtemplate(style_template, event):
