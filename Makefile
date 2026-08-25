@@ -6,6 +6,7 @@
 SHELL=/bin/bash
 plones=6.1
 lo_version=25.8
+uno_python=/usr/bin/python3
 b_o=
 old_plone=$(shell [ -e .plone-version ] && cat .plone-version)
 
@@ -50,8 +51,11 @@ bin/buildout: .python-version  ## Setups environment
 setup: oneof-plone backup cleanall bin/buildout restore  ## Setups environment for the given plone= version
 
 .PHONY: buildout
-buildout: oneof-plone bin/buildout  ## Runs setup and buildout
+buildout: oneof-plone bin/buildout uno-libs  ## Runs setup and buildout
 	bin/buildout -t 5 -c test-$(plone).cfg ${b_o}
+
+uno-libs:  ## Installs, for the uno python, the deps appy needs to convert documents
+	$(uno_python) -m pip install -q --target uno-libs persistent
 
 .PHONY: run
 run: buildout  ## Starts the instance in foreground
@@ -60,7 +64,7 @@ run: buildout  ## Starts the instance in foreground
 	bin/instance fg
 
 .PHONY: test
-test: oneof-plone bin/buildout  ## Runs the tests without robot
+test: oneof-plone bin/buildout uno-libs  ## Runs the tests without robot
 	# can be run by example with: make test opt='-t "settings"'
 	$(MAKE) startlibreoffice
 	rm -fr htmlcov
@@ -70,7 +74,7 @@ test: oneof-plone bin/buildout  ## Runs the tests without robot
 
 .PHONY: cleanall
 cleanall:  ## Cleans all installed buildout files
-	rm -fr bin include lib local share develop-eggs downloads eggs parts htmlcov .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
+	rm -fr bin include lib local share develop-eggs downloads eggs parts htmlcov uno-libs .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
 
 .PHONY: backup
 backup:  ## Backups db files

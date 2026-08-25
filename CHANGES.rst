@@ -12,6 +12,9 @@ Changelog
   [chris-adam]
 - Reorganized the buildout configuration files and Makefile.
   [chris-adam]
+- Fixed styles update, silently doing nothing since appy moved its converter
+  command line from `appy/pod/converter.py` to `appy/bin/convert.py`.
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------

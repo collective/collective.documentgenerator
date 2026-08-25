@@ -60,3 +60,6 @@ temp_interactive_push.bat
 .plone.versioncheck.tracked.json
 .python-version
 checkversion*.html
+
+# appy deps for the uno python
+uno-libs/
