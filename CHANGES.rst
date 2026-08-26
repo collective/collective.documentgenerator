@@ -6,6 +6,17 @@ Changelog
 
 - Removed `.` at the end of field title `Templates to merge` and field title `Context variables`.
   [gbastien]
+- Removed the duplicated "no value" option of the `style_template` field.
+  [chris-adam]
+- Dropped Plone 6.0 support: only Plone 6.1 / Python 3.13 is supported.
+  [chris-adam]
+- Reorganized the buildout configuration files and Makefile.
+  [chris-adam]
+- Fixed styles update, silently doing nothing since appy moved its converter
+  command line from `appy/pod/converter.py` to `appy/bin/convert.py`.
+  [chris-adam]
+- Prevented deleting a `StyleTemplate` still used by a POD template (MOD-1081).
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------

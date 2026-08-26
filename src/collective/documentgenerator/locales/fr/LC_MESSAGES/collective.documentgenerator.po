@@ -473,6 +473,14 @@ msgstr ""
 msgid "The replacements that will be made."
 msgstr "Les remplacements qui vont être effectués."
 
+#: ../events/styles_events.py:68
+msgid ""
+"The style template '${style}' can not be deleted because it is used by the "
+"following POD templates: ${templates}"
+msgstr ""
+"Le template de style « ${style} » ne peut pas être supprimé car il est utilisé "
+"par les templates POD suivants : ${templates}"
+
 #: ../content/pod_template.py:311
 msgid "These context variables are added to the odt_file context."
 msgstr "Ces variables sont ajoutées au contexte passé au modèle odt."

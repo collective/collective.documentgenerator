@@ -30,6 +30,12 @@
       />
 
   <subscriber
+      for="..content.style_template.IStyleTemplate
+           OFS.interfaces.IObjectWillBeRemovedEvent"
+      handler=".styles_events.styletemplate_will_be_removed"
+      />
+
+  <subscriber
       for="..content.pod_template.IPODTemplate
            zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".pod_templates_events.podtemplate_modified"

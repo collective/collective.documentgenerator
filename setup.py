@@ -20,13 +20,10 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 6.0",
         "Framework :: Plone :: 6.1",
         "Framework :: Plone :: Addon",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.13",
     ],
     keywords="plone document generation generator odt word pdf libreoffice template",
