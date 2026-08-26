@@ -48,6 +48,35 @@ def update_styles_of_all_PODtemplate(style_template, event):
     remove_tmp_file(style_template_file.name)
 
 
+def styletemplate_will_be_removed(style_template, event):
+    """
+    Prevent removing a style template still used by a POD template.
+    POD templates removed along with it are ignored.
+    """
+    removed_path = "/".join(event.object.getPhysicalPath()) + "/"
+    uid = style_template.UID()
+    catalog = api.portal.get_tool("portal_catalog")
+    used_by = [
+        brain.Title
+        for brain in catalog(object_provides=IPODTemplate.__identifier__)
+        if uid in (getattr(brain.getObject(), "style_template", None) or [])
+        and not brain.getPath().startswith(removed_path)
+    ]
+    if used_by:
+        api.portal.show_message(
+            message=_(
+                u"The style template '${style}' can not be deleted because it is "
+                u"used by the following POD templates: ${templates}",
+                mapping={
+                    "style": style_template.Title(),
+                    "templates": u", ".join(used_by),
+                },
+            ),
+            type="error",
+        )
+        raise Redirect(event.object.absolute_url())
+
+
 def styletemplate_created(style_template, event):
     """
     Set the md5 of the initial style template in 'initial_md5' field.

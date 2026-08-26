@@ -5,6 +5,7 @@ from collective.documentgenerator.events.styles_events import update_styles_of_a
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
 from plone import api
 from plone.namedfile.file import NamedBlobFile
+from Products.statusmessages.interfaces import IStatusMessage
 from zExceptions import Redirect
 from zope.event import notify
 from zope.interface import Interface
@@ -80,6 +81,35 @@ class TestEvents(PODTemplateIntegrationTest):
         self.assertEqual(
             reusable_template.get_children_pod_template(), {template_reuse}
         )
+
+    def test_styletemplate_will_be_removed(self):
+        """A style template used by a POD template can not be deleted."""
+        pod_folder = self.portal.podtemplates
+        used = pod_folder.get("test_style_template")
+        unused = pod_folder.get("test_style_template_2")
+
+        with self.assertRaises(Redirect):
+            api.content.delete(used)
+        self.assertIn("test_style_template", pod_folder)
+        # the reason is displayed in the status messages viewlet
+        messages = IStatusMessage(self.portal.REQUEST).show()
+        self.assertEqual(messages[0].type, "error")
+        self.assertIn(pod_folder.sub_template.Title(), messages[0].message)
+
+        # not used anywhere: removable
+        api.content.delete(unused)
+        self.assertNotIn("test_style_template_2", pod_folder)
+
+        # a POD template living outside the removed container still blocks it
+        api.content.move(pod_folder.sub_template, self.portal)
+        with self.assertRaises(Redirect):
+            api.content.delete(pod_folder)
+        self.assertIn("podtemplates", self.portal)
+
+        # POD templates removed along with the container do not block it
+        api.content.delete(self.portal.sub_template)
+        api.content.delete(pod_folder)
+        self.assertNotIn("podtemplates", self.portal)
 
     def test_clean_notes(self):
         """When PODTemplate created or modified, the "odt_file" note are cleaned."""
