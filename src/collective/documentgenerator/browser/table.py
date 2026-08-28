@@ -275,3 +275,106 @@ class DownloadColumn(NoEscapeLinkColumn):
             safe_unicode(translate(PMF('Download'), context=self.request)),
             u'%s/++resource++collective.documentgenerator/download_icon.svg' % self.table.portal_url)
         return down_img
+
+
+class SubTemplatesUsageTable(Table):
+    """Table that displays sub-templates and the templates using them."""
+
+    cssClassEven = u'even'
+    cssClassOdd = u'odd'
+    cssClasses = {'table': 'listing nosort sub-templates-usage'}
+
+    batchSize = 200
+    startBatchingAt = 200
+    sortOn = None
+    results = []
+
+    @CachedProperty
+    def values(self):
+        return self.results
+
+    def getCSSHighlightClass(self, column, item, cssClass):
+        """Flag the sub-template cell when its using templates disagree on the variable name."""
+        if isinstance(column, SubTemplateColumn) and len(column.get_pod_context_names(item)) > 1:
+            return u'{0} conflicting-variables'.format(cssClass or u'').strip()
+        return cssClass
+
+
+class SubTemplateUsageTable(SubTemplatesUsageTable):
+    """Usage table variant for the viewlet, where the sub-template is the context."""
+
+    hidden_columns = ('SubTemplateColumn', )
+
+    def setUpColumns(self):
+        columns = super(SubTemplateUsageTable, self).setUpColumns()
+        return [col for col in columns if col.__name__ not in self.hidden_columns]
+
+
+class SubTemplateColumn(Column):
+    """Column that displays the sub-template and the variable it is merged under."""
+
+    header = _(u'sub_template_usage_sub_template', default=u'Sub-template')
+    weight = 10
+    cssClasses = {'td': 'sub-template-column'}
+
+    def get_pod_context_names(self, item):
+        """Return the distinct variable names the sub-template of `item` is merged under.
+
+        More than one name means the using templates disagree on the variable name.
+        """
+        names = []
+        for group in item['groups'] or []:
+            for template in group['templates']:
+                for line in getattr(template, 'merge_templates', None) or []:
+                    if line.get('template') != item['sub_template_uid']:
+                        continue
+                    name = line.get('pod_context_name') or u''
+                    if name and name not in names:
+                        names.append(name)
+        return names
+
+    def render_sub_template(self, item):
+        """Return the cell content for the sub-template of `item`, without its variable."""
+        brain = item['sub_template']
+        link = u'<a href="{0}">{1}</a>'.format(brain.getURL(), escape(safe_unicode(brain.Title)))
+        if item['rel_path']:
+            return u'<span>{0}</span> / {1}'.format(escape(item['rel_path']), link)
+        return link
+
+    def renderCell(self, item):
+        if not item['first']:
+            return u''
+        cell = self.render_sub_template(item)
+        names = self.get_pod_context_names(item)
+        if names:
+            cell += u'<div class="pod-context-name">{0}</div>'.format(escape(u', '.join(names)))
+        return cell
+
+
+class SubTemplateUsagePathColumn(Column):
+    """Column that displays the path of the templates using the sub-template."""
+
+    header = _(u'sub_template_usage_path', default=u'Path')
+    weight = 20
+    cssClasses = {'td': 'usage-path-column'}
+
+    def renderCell(self, item):
+        if item['group'] is None:
+            return u'-'
+        return escape(safe_unicode(item['group']['title_path']))
+
+
+class SubTemplateUsageTemplatesColumn(Column):
+    """Column that displays the templates using the sub-template."""
+
+    header = _(u'sub_template_usage_templates', default=u'Using templates')
+    weight = 30
+    cssClasses = {'td': 'using-templates-column'}
+
+    def renderCell(self, item):
+        if item['group'] is None:
+            return u'<em>{0}</em>'.format(translate(
+                _(u'sub_template_usage_not_used', default=u'not used'), context=self.request))
+        return u'<ul>{0}</ul>'.format(u''.join(
+            u'<li><a href="{0}">{1}</a></li>'.format(tmpl.absolute_url(), escape(safe_unicode(tmpl.Title())))
+            for tmpl in item['group']['templates']))
