@@ -198,6 +198,33 @@
         factory=".table.DownloadColumn"
         />
 
+    <adapter
+        name="SubTemplateColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.SubTemplatesUsageTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.SubTemplateColumn"
+        />
+
+    <adapter
+        name="SubTemplateUsagePathColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.SubTemplatesUsageTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.SubTemplateUsagePathColumn"
+        />
+
+    <adapter
+        name="SubTemplateUsageTemplatesColumn"
+        for="zope.interface.Interface
+             zope.interface.Interface
+             .table.SubTemplatesUsageTable"
+        provides="z3c.table.interfaces.IColumn"
+        factory=".table.SubTemplateUsageTemplatesColumn"
+        />
+
     <!-- batchactions -->
     <browser:viewlet
         zcml:condition="installed collective.eeafaceted.batchactions"

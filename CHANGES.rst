@@ -6,6 +6,8 @@ Changelog
 
 - Removed the duplicated "no value" option of the `style_template` field. (MOD-1080)
   [chris-adam]
+- Converted sub-templates usage view and viewlet to z3c.table and displayed the merge variable name. (PARAF-512)
+  [chris-adam]
 
 
 3.49 (2026-07-31)

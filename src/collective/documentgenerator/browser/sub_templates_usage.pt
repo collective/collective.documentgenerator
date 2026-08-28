@@ -12,48 +12,11 @@
   <h1 class="documentFirstHeading" i18n:translate="sub_templates_usage_title">Sub-templates usages</h1>
 
   <div id="content-core">
-    <table class="listing" tal:define="entries view/sub_templates_usage">
-      <thead>
-        <tr>
-          <th i18n:translate="sub_template_usage_sub_template">Sub-template</th>
-          <th i18n:translate="sub_template_usage_path">Path</th>
-          <th i18n:translate="sub_template_usage_templates">Using templates</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tal:entry repeat="entry entries">
-          <tr tal:condition="not:entry/groups">
-            <td>
-              <tal:path condition="entry/rel_path">
-                <span tal:content="entry/rel_path">Folder / Sub folder</span> /
-              </tal:path>
-              <a tal:attributes="href entry/sub_template/getURL"
-                 tal:content="entry/sub_template/Title">Sub-template</a>
-            </td>
-            <td colspan="2"><em i18n:translate="sub_template_usage_not_used">not used</em></td>
-          </tr>
-          <tr tal:repeat="group entry/groups">
-            <td tal:condition="repeat/group/start"
-                tal:attributes="rowspan python:len(entry['groups'])">
-              <tal:path condition="entry/rel_path">
-                <span tal:content="entry/rel_path">Folder / Sub folder</span> /
-              </tal:path>
-              <a tal:attributes="href entry/sub_template/getURL"
-                 tal:content="entry/sub_template/Title">Sub-template</a>
-            </td>
-            <td tal:content="group/title_path">Folder / Sub folder</td>
-            <td>
-              <ul>
-                <li tal:repeat="template group/templates">
-                  <a tal:attributes="href template/absolute_url"
-                     tal:content="template/Title">Template title</a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tal:entry>
-      </tbody>
-    </table>
+    <tal:block define="results view/table/values" tal:condition="results">
+      <div id="dg-batch"><tal:batch replace="structure view/table/renderBatch" /></div>
+      <tal:listing replace="structure view/table/render" />
+      <div id="dg-batch"><tal:batch replace="structure view/table/renderBatch" /></div>
+    </tal:block>
   </div>
 
 </metal:main>
