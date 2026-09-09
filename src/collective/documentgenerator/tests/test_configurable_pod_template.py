@@ -233,7 +233,56 @@ class TestConfigurablePODTemplateIntegration(ConfigurablePODTemplateIntegrationT
 
     def test_get_context_variables(self):
         self.assertDictEqual(
-            self.test_podtemplate.get_context_variables(), {"details": "1"}
+            self.test_podtemplate.get_context_variables(), {"details": 1}
+        )
+        # every valid python literal is converted to it, sets included on python 3
+        self.test_podtemplate.context_variables = [
+            {"name": u"a_true", "value": u"True"},
+            {"name": u"a_false", "value": u"False"},
+            {"name": u"a_none", "value": u"None"},
+            {"name": u"an_int", "value": u"1"},
+            {"name": u"a_float", "value": u"1.5"},
+            {"name": u"a_list", "value": u"['a', 'b']"},
+            {"name": u"a_tuple", "value": u"('a', 'b')"},
+            {"name": u"a_dict", "value": u"{'a': 1}"},
+            {"name": u"a_set", "value": u"{1, 2}"},
+            {"name": u"empty_set", "value": u"set()"},
+        ]
+        self.assertDictEqual(
+            self.test_podtemplate.get_context_variables(),
+            {
+                u"a_true": True,
+                u"a_false": False,
+                u"a_none": None,
+                u"an_int": 1,
+                u"a_float": 1.5,
+                u"a_list": ["a", "b"],
+                u"a_tuple": ("a", "b"),
+                u"a_dict": {"a": 1},
+                u"a_set": {1, 2},
+                u"empty_set": set(),
+            },
+        )
+        # anything that is not a python literal is kept as a string,
+        # extra double quotes force a literal looking value to stay a string
+        self.test_podtemplate.context_variables = [
+            {"name": u"text", "value": u"hello"},
+            {"name": u"date", "value": u"2026-01-01"},
+            {"name": u"expr", "value": u"1+1"},
+            {"name": u"quoted_int", "value": u'"1"'},
+            {"name": u"empty", "value": u""},
+            {"name": u"nothing", "value": None},
+        ]
+        self.assertDictEqual(
+            self.test_podtemplate.get_context_variables(),
+            {
+                u"text": u"hello",
+                u"date": u"2026-01-01",
+                u"expr": u"1+1",
+                u"quoted_int": u"1",
+                u"empty": u"",
+                u"nothing": None,
+            },
         )
 
     def test_validate_context_variables(self):

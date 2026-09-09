@@ -37,6 +37,7 @@ from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
 
+import ast
 import copy
 import logging
 
@@ -327,7 +328,12 @@ class IConfigurablePODTemplate(IPODTemplate):
     form.widget("context_variables", DataGridFieldFactory)
     context_variables = schema.List(
         title=_(u"Context variables"),
-        description=_("These context variables are added to the odt_file context."),
+        description=_(
+            "These context variables are added to the odt_file context. A value that is a valid "
+            "python literal (True, False, None, 1, [1, 2], (1, 2), {'a': 1}, {1, 2}) is converted "
+            "to it, any other value is kept as a string. Surround a value with double quotes to "
+            "keep it as a string."
+        ),
         required=False,
         value_type=DictRow(schema=IContextVariablesRowSchema, required=False),
     )
@@ -498,18 +504,19 @@ class ConfigurablePODTemplate(PODTemplate):
 
     def get_context_variables(self):
         """
-        Returns context_variables as dict
+        Returns context_variables as dict.
+        A value that is a valid python literal (True, False, None, 1, 1.5, [1, 2], (1, 2), {"a": 1}, {1, 2})
+        is converted to it, any other value is kept as a string.
+        Surrounding a value with double quotes keeps it as a string ('"1"' gives "1").
         """
         ret = {}
         for line in self.context_variables or []:
-            # Simple boolean conversion actually implemented
-            # May be improved with ZPublisher.Converters, managing boolean, int, date, string, text, ...
-            # Those last values in a list box with string as default value
             val = line["value"]
-            if val == "True":
-                val = True
-            elif val == "False":
-                val = False
+            if val:
+                try:
+                    val = ast.literal_eval(val)
+                except (SyntaxError, TypeError, ValueError):
+                    pass  # not a python literal, keep the original string
             ret[line["name"]] = val
         return ret
 
