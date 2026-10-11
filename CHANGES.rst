@@ -13,6 +13,8 @@ Changelog
   Invalid Python literal values (plain text, `2026-01-01`, ...) are still kept as a string.
   (MOD-1077)
   [chris-adam]
+- Fixed generated file names prefixed with `b` on Python 3 (`_get_filename` normalized bytes).
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
