@@ -15,6 +15,8 @@ Changelog
   [chris-adam]
 - Fixed generated file names prefixed with `b` on Python 3 (`_get_filename` normalized bytes).
   [chris-adam]
+- Fixed the templates listing crash on Plone 6.2, where `@@iconresolver.tag` returns `str`.
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
