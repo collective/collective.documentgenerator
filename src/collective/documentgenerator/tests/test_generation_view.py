@@ -134,6 +134,15 @@ class TestGenerationViewMethods(PODTemplateIntegrationTest):
         generated_doc = view(template_uid, "odt")
         self.assertIn("application/vnd.oasis.opendocument.text", str(generated_doc))
 
+    def test__get_filename(self):
+        folder = api.content.create(
+            type="Folder", id="folder", title=u"Modèle de base", container=self.portal
+        )
+        view = folder.restrictedTraverse("@@document-generation")
+        view.pod_template = self.test_podtemplate
+        view.output_format = "odt"
+        self.assertEqual(view._get_filename(), "General template Modele de base.odt")
+
     def test_unauthorized_generation(self):
         """
         If a template generation condition is not matched, an Unauthorized

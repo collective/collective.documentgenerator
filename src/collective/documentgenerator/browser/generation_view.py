@@ -140,7 +140,7 @@ class DocumentGenerationView(BrowserView):
             self.pod_template.title, safe_unicode(self.context.Title())
         )
         # replace unicode special characters with ascii equivalent value
-        first_part = unicodedata.normalize("NFKD", first_part).encode("ascii", "ignore")
+        first_part = unicodedata.normalize("NFKD", first_part).encode("ascii", "ignore").decode("ascii")
         util = queryUtility(IFileNameNormalizer)
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'
