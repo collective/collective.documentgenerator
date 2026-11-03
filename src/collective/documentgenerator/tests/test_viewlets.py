@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.browser.table import get_sub_template_usage_rows
 from collective.documentgenerator.testing import PODTemplateIntegrationTest
-from collective.documentgenerator.viewlets.sub_template_usage import _sub_template_usage_groups_to_rows
 from collective.documentgenerator.viewlets.sub_template_usage import SubTemplateUsageViewlet
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -50,18 +50,18 @@ class TestSubTemplateUsageViewlet(PODTemplateIntegrationTest):
         self.assertNotIn(u'sub-template-column', rendered)
         self.assertNotIn(u'pod-context-name', rendered)
 
-    def test_sub_template_usage_groups_to_rows(self):
+    def test_get_sub_template_usage_rows(self):
         entries = [{'sub_template': 'brain1', 'rel_path': u'A', 'sub_template_uid': 'uid1',
-                    'groups': [{'title_path': u'p1'}, {'title_path': u'p2'}]},
+                    'groups': [{'title_path': u'p1', 'templates': []}, {'title_path': u'p2', 'templates': []}]},
                    {'sub_template': 'brain2', 'rel_path': u'', 'sub_template_uid': 'uid2',
                     'groups': []}]
-        rows = _sub_template_usage_groups_to_rows(entries)
+        rows = get_sub_template_usage_rows(entries)
 
         # one row per group, 'first' only on the first one; a sub-template used by no
         # template still gets a row, marked by a None group
         self.assertEqual([(r['sub_template_uid'], r['first'], r['group']) for r in rows],
-                         [('uid1', True, {'title_path': u'p1'}),
-                          ('uid1', False, {'title_path': u'p2'}),
+                         [('uid1', True, {'title_path': u'p1', 'templates': []}),
+                          ('uid1', False, {'title_path': u'p2', 'templates': []}),
                           ('uid2', True, None)])
 
         # the sub-template column data is carried on every row of the group

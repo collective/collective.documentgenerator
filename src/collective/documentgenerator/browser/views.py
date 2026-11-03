@@ -2,12 +2,12 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from collections import OrderedDict
+from collective.documentgenerator.browser.table import get_sub_template_usage_rows
 from collective.documentgenerator.browser.table import SubTemplatesUsageTable
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
 from collective.documentgenerator.content.pod_template import SubTemplate
-from collective.documentgenerator.viewlets.sub_template_usage import _sub_template_usage_groups_to_rows
 from collective.documentgenerator.content.style_template import IStyleTemplate
 from collective.documentgenerator.utils import common_prefix_length
 from collective.documentgenerator.utils import get_path_segments
@@ -137,7 +137,7 @@ class SubTemplatesUsage(BrowserView):
     def update(self):
         self.table = self.__table__(self.context, self.request)
         self.table.__name__ = u"sub-templates-usage"
-        self.table.results = _sub_template_usage_groups_to_rows(self.sub_templates_usage())
+        self.table.results = get_sub_template_usage_rows(self.sub_templates_usage())
         self.table.update()
 
     def __call__(self):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.documentgenerator.browser.table import get_pod_context_names
 from collective.documentgenerator.browser.table import SubTemplateColumn
 from collective.documentgenerator.browser.table import SubTemplateUsagePathColumn
 from collective.documentgenerator.browser.table import SubTemplateUsageTemplatesColumn
@@ -111,23 +112,26 @@ class TestSubTemplatesUsageView(PODTemplateIntegrationTest):
                          u'<a href="http://nohost/plone/podtemplates/folder_z/st_z">In Zeta</a>')
         # a single variable name, shared by every using template, is displayed once
         self.portal.podtemplates.folder_z.in_zeta.merge_templates[0]["pod_context_name"] = u"header"
-        self.assertIn(u'<div class="pod-context-name">header</div>', column.renderCell(rows[0]))
+        self.view.update()  # names are computed when the rows are built
+        self.assertIn(u'<div class="pod-context-name">header</div>',
+                      column.renderCell(self.view.table.results[0]))
 
     def test_get_pod_context_names(self):
         rows = self._rows()
         pod = self.portal.podtemplates
-        column = SubTemplateColumn(self.view.context, self.view.request, self.view.table)
-        self.assertEqual(column.get_pod_context_names(rows[0]), [u"header", u"zeta_var"])
+        uid = pod.sub_template.UID()
+        self.assertEqual(get_pod_context_names(uid, rows[0]["groups"]), [u"header", u"zeta_var"])
+        # computed once per sub-template: every row of the sub-template carries them
+        self.assertEqual(rows[1]["pod_context_names"], [u"header", u"zeta_var"])
         # nothing to collect for a sub-template used by no template
-        self.assertEqual(column.get_pod_context_names(rows[2]), [])
+        self.assertEqual(rows[2]["pod_context_names"], [])
+        self.assertEqual(get_pod_context_names(uid, None), [])
         # templates not merging the sub-template, without the field at all or with an
         # empty variable name are all skipped
-        item = {"sub_template_uid": pod.sub_template.UID(),
-                "groups": [{"templates": [pod.test_template, pod.test_style_template]}]}
-        self.assertEqual(column.get_pod_context_names(item), [])
+        self.assertEqual(get_pod_context_names(uid, [{"templates": [pod.test_template, pod.test_style_template]}]),
+                         [])
         pod.test_template_multiple.merge_templates[0]["pod_context_name"] = u""
-        item["groups"] = [{"templates": [pod.test_template_multiple]}]
-        self.assertEqual(column.get_pod_context_names(item), [])
+        self.assertEqual(get_pod_context_names(uid, [{"templates": [pod.test_template_multiple]}]), [])
 
     def test_conflicting_variables_cell(self):
         self._rows()

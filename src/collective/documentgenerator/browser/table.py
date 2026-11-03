@@ -295,7 +295,7 @@ class SubTemplatesUsageTable(Table):
 
     def getCSSHighlightClass(self, column, item, cssClass):
         """Flag the sub-template cell when its using templates disagree on the variable name."""
-        if isinstance(column, SubTemplateColumn) and len(column.get_pod_context_names(item)) > 1:
+        if isinstance(column, SubTemplateColumn) and len(item['pod_context_names']) > 1:
             return u'{0} conflicting-variables'.format(cssClass or u'').strip()
         return cssClass
 
@@ -317,22 +317,6 @@ class SubTemplateColumn(Column):
     weight = 10
     cssClasses = {'td': 'sub-template-column'}
 
-    def get_pod_context_names(self, item):
-        """Return the distinct variable names the sub-template of `item` is merged under.
-
-        More than one name means the using templates disagree on the variable name.
-        """
-        names = []
-        for group in item['groups'] or []:
-            for template in group['templates']:
-                for line in getattr(template, 'merge_templates', None) or []:
-                    if line.get('template') != item['sub_template_uid']:
-                        continue
-                    name = line.get('pod_context_name') or u''
-                    if name and name not in names:
-                        names.append(name)
-        return names
-
     def render_sub_template(self, item):
         """Return the cell content for the sub-template of `item`, without its variable."""
         brain = item['sub_template']
@@ -345,7 +329,7 @@ class SubTemplateColumn(Column):
         if not item['first']:
             return u''
         cell = self.render_sub_template(item)
-        names = self.get_pod_context_names(item)
+        names = item['pod_context_names']
         if names:
             cell += u'<div class="pod-context-name">{0}</div>'.format(escape(u', '.join(names)))
         return cell
@@ -378,3 +362,39 @@ class SubTemplateUsageTemplatesColumn(Column):
         return u'<ul>{0}</ul>'.format(u''.join(
             u'<li><a href="{0}">{1}</a></li>'.format(tmpl.absolute_url(), escape(safe_unicode(tmpl.Title())))
             for tmpl in item['group']['templates']))
+
+
+def get_pod_context_names(sub_template_uid, groups):
+    """Return the distinct variable names the sub-template is merged under by the templates of `groups`.
+
+    More than one name means the using templates disagree on the variable name.
+    """
+    names = []
+    for group in groups or []:
+        for template in group['templates']:
+            for line in getattr(template, 'merge_templates', None) or []:
+                if line.get('template') != sub_template_uid:
+                    continue
+                name = line.get('pod_context_name') or u''
+                if name and name not in names:
+                    names.append(name)
+    return names
+
+
+def get_sub_template_usage_rows(entries):
+    """Return the usage table rows for `entries`, one per (sub-template, path group).
+
+    A row carries the entry keys plus 'group' (None when the sub-template is used by no
+    template) and 'first' (False on a group continuation row, where the sub-template cell
+    stays empty since z3c.table has no rowspan). 'groups' is kept on every row so that a
+    cell can look at the whole sub-template, not only at its own group. 'pod_context_names'
+    is computed once per sub-template and shared by its rows.
+    """
+    rows = []
+    for entry in entries:
+        names = get_pod_context_names(entry['sub_template_uid'], entry['groups'])
+        for i, group in enumerate(entry['groups'] or [None]):
+            rows.append({'sub_template': entry['sub_template'], 'rel_path': entry['rel_path'],
+                         'sub_template_uid': entry['sub_template_uid'], 'group': group,
+                         'groups': entry['groups'], 'first': i == 0, 'pod_context_names': names})
+    return rows
