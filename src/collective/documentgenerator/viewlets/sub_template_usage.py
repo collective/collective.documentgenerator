@@ -38,4 +38,3 @@ class SubTemplateUsageViewlet(ViewletBase):
            templates referencing the current sub-template, grouped by their
            container and sorted by path then by title."""
         return group_templates_by_path(self.get_using_templates())
-
