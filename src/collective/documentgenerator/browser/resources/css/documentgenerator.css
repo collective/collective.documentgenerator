@@ -20,16 +20,16 @@ div#doc-generation-view {
     line-height: 1.1em !important;
 }
 
-.template-dg-templates-listing #dg-batch {
+.template-dg-templates-listing .dg-batch {
     padding-bottom: 0.15em;
 }
 
-.template-dg-templates-listing #dg-batch a {
+.template-dg-templates-listing .dg-batch a {
     border: 1px solid #CCCCCC !important;
     padding: 0.15em;
 }
 
-.template-dg-templates-listing #dg-batch a.current{
+.template-dg-templates-listing .dg-batch a.current{
     border: 0px !important;
 }
 
@@ -130,4 +130,21 @@ span.template-link-after-title::before {
 span.template-link-before-link img {
     margin:3px;
     vertical-align: middle;
+}
+
+/* sub-templates usage: the merge variable, below the sub-template name */
+.sub-templates-usage .pod-context-name {
+    color: #8d8d8d;
+    font-size: 90%;
+}
+
+/* the using templates disagree on the variable name */
+.sub-templates-usage td.conflicting-variables {
+    background-color: #B3004B;
+}
+
+.sub-templates-usage td.conflicting-variables,
+.sub-templates-usage td.conflicting-variables a,
+.sub-templates-usage td.conflicting-variables .pod-context-name {
+    color: #fff;
 }

@@ -2,6 +2,8 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from collections import OrderedDict
+from collective.documentgenerator.browser.table import get_sub_template_usage_rows
+from collective.documentgenerator.browser.table import SubTemplatesUsageTable
 from collective.documentgenerator.browser.table import TemplatesTable
 from collective.documentgenerator.content.pod_template import IPODTemplate
 from collective.documentgenerator.content.pod_template import MailingLoopTemplate
@@ -106,6 +108,8 @@ class SubTemplatesUsage(BrowserView):
     """Overview listing, for each sub-template, the POD templates that use
        it in their 'merge_templates' field, grouped by the path they live in."""
 
+    __table__ = SubTemplatesUsageTable
+
     def sub_templates_usage(self):
         """Return a list of {'sub_template': brain, 'rel_path': unicode, 'groups': [...]}
            entries, one per sub-template (including unused ones), ordered by the
@@ -120,8 +124,8 @@ class SubTemplatesUsage(BrowserView):
             segments = get_path_segments(aq_parent(aq_inner(sub_template)))
             all_segments.append(segments)
             templates = get_pod_templates_using(sub_template)
-            result.append({"sub_template": brain, "segments": segments,
-                           "groups": group_templates_by_path(templates)})
+            result.append({"sub_template": brain, "sub_template_uid": brain.UID,
+                           "segments": segments, "groups": group_templates_by_path(templates)})
         common = common_prefix_length([[seg[0] for seg in segs] for segs in all_segments])
         for entry in result:
             tail = entry.pop("segments")[common:]
@@ -129,6 +133,16 @@ class SubTemplatesUsage(BrowserView):
         result.sort(key=lambda e: (e["rel_path"].lower(),
                                    safe_unicode(e["sub_template"].Title).lower()))
         return result
+
+    def update(self):
+        self.table = self.__table__(self.context, self.request)
+        self.table.__name__ = u"sub-templates-usage"
+        self.table.results = get_sub_template_usage_rows(self.sub_templates_usage())
+        self.table.update()
+
+    def __call__(self):
+        self.update()
+        return self.index()
 
 
 class DisplayChildrenPodTemplateProvider(ContentProviderBase):
