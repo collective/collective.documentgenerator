@@ -10,6 +10,7 @@ exclude .installed.cfg
 exclude .mr.developer.cfg
 exclude buildout.d
 exclude requirements.txt
+exclude src/collective/documentgenerator/locales/rebuild_i18n.log
 recursive-exclude buildout.d *.cfg
 recursive-include docs *.GPL
 recursive-include docs *.png

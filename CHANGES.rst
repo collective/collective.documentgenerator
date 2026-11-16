@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.50 (unreleased)
+3.50 (2026-11-16)
 -----------------
 
 - Removed the duplicated "no value" option of the `style_template` field. (MOD-1080)
