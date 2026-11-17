@@ -17,6 +17,8 @@ Changelog
   [chris-adam]
 - Fixed the templates listing crash on Plone 6.2, where `@@iconresolver.tag` returns `str`.
   [chris-adam]
+- Checked the optional packages with `importlib.metadata`, `pkg_resources` is gone with setuptools 82+.
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
