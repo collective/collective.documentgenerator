@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Installer for the collective.documentgenerator package."""
 
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 from setuptools import setup
 
 
@@ -34,8 +34,7 @@ setup(
     author_email="simon.delcourt@imio.be",
     url="https://pypi.org/project/collective.documentgenerator",
     license="GPL",
-    packages=find_packages("src", exclude=["ez_setup"]),
-    namespace_packages=["collective"],
+    packages=find_namespace_packages("src", include=["collective.*"]),
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,

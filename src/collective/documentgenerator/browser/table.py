@@ -87,7 +87,7 @@ class TitleColumn(NoEscapeLinkColumn):
     def _icon(self, item):
         """See docstring in interfaces.py."""
         item_type_class = "contenttype/" + normalizeString(item.portal_type)
-        return self.icons.tag(item_type_class).decode("utf-8")
+        return safe_unicode(self.icons.tag(item_type_class))
 
     def getLinkCSS(self, item):
         return ' class="pretty_link state-%s"' % (api.content.get_state(obj=item))

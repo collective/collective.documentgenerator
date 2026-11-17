@@ -1,3 +1,6 @@
 -c https://dist.plone.org/release/6.1-latest/requirements.txt
+# collective.behavior.talcondition and collective.excelexport (master checkouts in
+# development.cfg) still declare pkg_resources namespaces that hide this package
+horse-with-no-namespace
 setuptools
 zc.buildout

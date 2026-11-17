@@ -13,6 +13,8 @@ from collective.documentgenerator.interfaces import IDocumentFactory
 from collective.documentgenerator.interfaces import PODTemplateNotFoundError
 from collective.documentgenerator.utils import remove_tmp_file
 from collective.documentgenerator.utils import temporary_file_name
+from importlib.metadata import distribution
+from importlib.metadata import PackageNotFoundError
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.i18n.normalizer.interfaces import IFileNameNormalizer
@@ -27,15 +29,14 @@ from zope.component import queryUtility
 import io
 import mimetypes
 import os
-import pkg_resources
 import unicodedata
 
 
 HAS_FINGERPOINTING = None
 
 try:
-    pkg_resources.get_distribution("collective.fingerpointing")
-except pkg_resources.DistributionNotFound:
+    distribution("collective.fingerpointing")
+except PackageNotFoundError:
     HAS_FINGERPOINTING = False
 else:
     HAS_FINGERPOINTING = True
@@ -140,7 +141,7 @@ class DocumentGenerationView(BrowserView):
             self.pod_template.title, safe_unicode(self.context.Title())
         )
         # replace unicode special characters with ascii equivalent value
-        first_part = unicodedata.normalize("NFKD", first_part).encode("ascii", "ignore")
+        first_part = unicodedata.normalize("NFKD", first_part).encode("ascii", "ignore").decode("ascii")
         util = queryUtility(IFileNameNormalizer)
         # remove '-' from first_part because it is handled by cropName that manages max_length
         # and it behaves weirdly if it encounters '-'

@@ -13,6 +13,14 @@ Changelog
   Invalid Python literal values (plain text, `2026-01-01`, ...) are still kept as a string.
   (MOD-1077)
   [chris-adam]
+- Fixed generated file names prefixed with `b` on Python 3 (`_get_filename` normalized bytes).
+  [chris-adam]
+- Fixed the templates listing crash on Plone 6.2, where `@@iconresolver.tag` returns `str`.
+  [chris-adam]
+- Checked the optional packages with `importlib.metadata`, `pkg_resources` is gone with setuptools 82+.
+  [chris-adam]
+- Switched to a PEP 420 namespace package (no `collective/__init__.py`), so the other packages of the namespace are not hidden.
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
