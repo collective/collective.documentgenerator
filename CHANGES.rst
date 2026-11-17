@@ -19,6 +19,8 @@ Changelog
   [chris-adam]
 - Checked the optional packages with `importlib.metadata`, `pkg_resources` is gone with setuptools 82+.
   [chris-adam]
+- Switched to a PEP 420 namespace package (no `collective/__init__.py`), so the other packages of the namespace are not hidden.
+  [chris-adam]
 
 4.0 (2025-08-26)
 ----------------
