@@ -2,11 +2,21 @@
 """Adapters for dexterity fields rendering."""
 
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
+from collective.documentgenerator.utils import unescape_vocabulary_title
 from collective.excelexport.interfaces import IExportable
 from zope.component import getMultiAdapter
 from zope.interface import implementer
+from zope.schema.interfaces import IChoice
+from zope.schema.interfaces import ICollection
 
 import datetime
+
+
+def renders_vocabulary_titles(field):
+    """Is the value rendered for this field a vocabulary term title ?"""
+    if IChoice.providedBy(field):
+        return True
+    return ICollection.providedBy(field) and IChoice.providedBy(field.value_type)
 
 
 @implementer(IFieldRendererForDocument)
@@ -23,7 +33,10 @@ class DexterityExportableAdapter(object):
 
     def render_value(self):
         """Just delegate the rendering to the exportable."""
-        return self.exportable.render_value(self.context)
+        value = self.exportable.render_value(self.context)
+        if renders_vocabulary_titles(self.field):
+            value = unescape_vocabulary_title(value)
+        return value
 
 
 @implementer(IFieldRendererForDocument)

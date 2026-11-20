@@ -4,7 +4,8 @@ Changelog
 3.51 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Unescaped HTML `display` and `display_voc` (Archetypes and Dexterity) (MOD-1084).
+  [chris-adam]
 
 
 3.50 (2026-11-16)

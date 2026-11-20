@@ -12,6 +12,7 @@ from plone.behavior.interfaces import IBehavior
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.interfaces import NO_VALUE
 from zope.component import getUtility
+from zope.schema.vocabulary import SimpleVocabulary
 
 import datetime
 
@@ -98,6 +99,24 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.content.languages = to_set
         result = self.view.display(field_name)
         self.assertEqual(expected, result)
+
+    def test_display_method_on_escaped_vocabulary_title(self):
+        """A vocabulary may escape its term titles so that they can be rendered in an HTML
+           widget. appy escapes the '&' again, the entity has to be reverted here."""
+        field = self.view.get_field('subscription')
+        original_vocabulary = field.vocabulary
+        field.vocabulary = SimpleVocabulary([
+            SimpleVocabulary.createTerm('gold', 'gold', u'TOTO D&#x27;HEYG'),
+        ])
+        self.content.subscription = 'gold'
+        try:
+            self.assertEqual(self.view.display('subscription'), u"TOTO D'HEYG")
+        finally:
+            field.vocabulary = original_vocabulary
+
+        # a value that is not a vocabulary term title keeps its entities
+        self.content.fullname = u'John &amp; Doe'
+        self.assertEqual(self.view.display('fullname'), u'John &amp; Doe')
 
     def test_display_method_on_datefield(self):
         field_name = 'birth_date'
@@ -236,6 +255,18 @@ class TestDexterityHelperViewMethods(DexterityIntegrationTests):
         self.content.languages = to_set
         result = self.view.display_voc(field_name, separator=u'|')
         self.assertEqual(expected, result)
+
+        # an escaped term title is unescaped as in display() (MOD-1084)
+        field = self.view.get_field('subscription')
+        original_vocabulary = field.vocabulary
+        field.vocabulary = SimpleVocabulary([
+            SimpleVocabulary.createTerm('gold', 'gold', u'TOTO D&#x27;HEYG'),
+        ])
+        self.content.subscription = 'gold'
+        try:
+            self.assertEqual(self.view.display_voc('subscription'), u"TOTO D'HEYG")
+        finally:
+            field.vocabulary = original_vocabulary
 
     def test_display_list_method(self):
         field_name = 'languages'

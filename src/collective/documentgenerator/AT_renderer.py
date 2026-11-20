@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.documentgenerator.interfaces import IFieldRendererForDocument
+from collective.documentgenerator.utils import unescape_vocabulary_title
 from zope.interface import implementer
 
 
@@ -49,7 +50,7 @@ class VocabularyATFieldRenderer(DefaultATFieldRenderer):
         values = [display_value(voc, val) for val in raw_values]
         display = ', '.join(values)
 
-        return display
+        return unescape_vocabulary_title(display)
 
 
 class DateATFieldRenderer(DefaultATFieldRenderer):
